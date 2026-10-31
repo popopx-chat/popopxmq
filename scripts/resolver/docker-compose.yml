@@ -141,6 +141,10 @@ services:
       # starting before reth has finished snapshot replay just yields a few
       # 502s until the chain is queryable. The upstream reth image doesn't
       # ship a HEALTHCHECK, so we can't gate on healthy.
+      # The startup read of the name policies is the exception: until reth
+      # answers, the resolver exits and restarts, and a TLD whose name policy
+      # reth has not yet reached answers 502 until the resolver restarts
+      # (README, "Configuring addresses").
       reth:
         condition: service_started
     environment:
@@ -154,7 +158,7 @@ services:
       # Registrar and controller, same cascade. Without the registrar `status`
       # is "unknown"; without the controller a reserved name is "unregistered".
       # SNRC_REGISTRAR_TESTING: 0x...
-      # SNRC_REGISTRAR_POPOPX: 0x...
+      # SNRC_REGISTRAR_SIMPLEX: 0x...
       # SNRC_CONTROLLER_TESTING: 0x...
       # SNRC_CONTROLLER_POPOPX: 0x...
       # Set in .env (see .env.example); unset or empty means the resolver's default.

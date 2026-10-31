@@ -4372,7 +4372,7 @@ testSMPServerConnectionTest (t, msType) newQueueBasicAuth srv =
 testServerInformation :: ServerPublicInfo
 testServerInformation =
   ServerPublicInfo
-    { sourceCode = "https://github.com/simplex-chat/popopxmq",
+    { sourceCode = "https://github.com/popopx-chat/popopxmq",
       usageConditions = Nothing,
       operator = Nothing,
       website = Nothing,

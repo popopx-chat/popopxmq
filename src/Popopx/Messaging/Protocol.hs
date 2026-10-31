@@ -31,16 +31,16 @@
 
 -- |
 -- Module      : Popopx.Messaging.ProtocolEncoding
--- Copyright   : (c) simplex.chat, popopx.xyz
+-- Copyright   : (c) simplex.chat
 -- License     : AGPL-3
 --
--- Maintainer  : chat@popopx.xyz
+-- Maintainer  : chat@simplex.chat
 -- Stability   : experimental
 -- Portability : non-portable
 --
 -- Types, parsers, serializers and functions to send and receive SMP protocol commands and responses.
 --
--- See https://github.com/popopx/popopxmq/blob/master/protocol/popopx-messaging.md
+-- See https://github.com/popopx-chat/popopxmq/blob/master/protocol/popopx-messaging.md
 module Popopx.Messaging.Protocol
   ( -- * SMP protocol parameters
     supportedSMPClientVRange,
@@ -617,7 +617,7 @@ data Command (p :: Party) where
   -- - entity ID: empty
   -- - corrId: unique correlation ID between proxy and relay, also used as a nonce to encrypt forwarded transmission
   RFWD :: EncFwdTransmission -> Command ProxyService -- use CorrId as CbNonce, proxy to relay
-  -- Resolve Popopx name.
+  -- Resolve POPOPX name.
   RSLV :: NameQuery -> Command Resolver
 
 deriving instance Show (Command p)
@@ -759,7 +759,7 @@ data BrokerMsg where
   OK :: BrokerMsg
   ERR :: ErrorType -> BrokerMsg
   PONG :: BrokerMsg
-  -- What the router knows about a Popopx name.
+  -- What the router knows about a POPOPX name.
   RNAME :: NameResponse -> BrokerMsg
   deriving (Eq, Show)
 

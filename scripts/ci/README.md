@@ -7,7 +7,7 @@
 | Trigger | Build | Jobs |
 |---|---|---|
 | a push to a draft pull request<br>a manual run (workflow_dispatch)<br>a push to master or stable in a fork | reduced | build-reduced: ubuntu-24.04 x86-64, GHC 9.6.3, at -O0 (-O2 on pushes), without the standard build |
-| a pull request marked ready for review, and later pushes to it<br>a push to master or stable in popopx-chat/popopxmq<br>a push of a v* tag | full | build: 5 entries (GHC 8.10.7 and 9.6.3, x86-64 and aarch64), at -O0 on pull requests and -O2 on pushes |
+| a pull request marked ready for review, and later pushes to it<br>a push to master or stable in simplex-chat/simplexmq<br>a push of a v* tag | full | build: 5 entries (GHC 8.10.7 and 9.6.3, x86-64 and aarch64), at -O0 on pull requests and -O2 on pushes |
 
 Both builds also run maybe-release and resolver (python). Tests run on the x86-64 entries. The reduced build restores the -O0 build caches saved by master pushes; the Docker image cache is tagged by ISO week, so the first run of a week rebuilds the image.
 
@@ -34,7 +34,7 @@ SMP proxy
 curl -fsS -X POST \
   -H "Authorization: Bearer $GH_TOKEN" \
   -H "Accept: application/vnd.github+json" \
-  https://api.github.com/repos/<owner>/popopxmq/actions/workflows/build.yml/dispatches \
+  https://api.github.com/repos/<owner>/simplexmq/actions/workflows/build.yml/dispatches \
   -d '{"ref": "<branch>", "inputs": {"tests": "/Core tests/Encoding tests/\nSMP proxy"}}'
 ```
 
@@ -45,6 +45,6 @@ A manual run starts on a branch; a release is retried by re-running the jobs of 
 scripts/ci/run-tests.sh runs the selection as in CI: it appends the patterns of `TESTS` to the test command.
 
 ```sh
-cabal build --enable-tests --ghc-options=-O0 popopxmq-test
-TESTS='/Core tests/Encoding tests/' scripts/ci/run-tests.sh "$(cabal list-bin popopxmq-test --ghc-options=-O0)"
+cabal build --enable-tests --ghc-options=-O0 simplexmq-test
+TESTS='/Core tests/Encoding tests/' scripts/ci/run-tests.sh "$(cabal list-bin simplexmq-test --ghc-options=-O0)"
 ```

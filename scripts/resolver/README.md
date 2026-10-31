@@ -1,6 +1,6 @@
 # Self-hosted SNRC stack
 
-One `docker compose up` runs the self-hosted Popopx Namespace (SNRC) backend
+One `docker compose up` runs the self-hosted SimpleX Namespace (SNRC) backend
 against **Ethereum mainnet** (where the `.testing` contracts live):
 
 | # | Component | What it does |
@@ -46,7 +46,8 @@ docker compose logs --tail=20 reth
 ```
 
 This is the long pole (~1 day on mainnet). Until reth is synced the resolver
-returns `502`.
+returns `502`. A TLD whose controller has a name policy then still answers `502`
+until `docker compose restart resolver` (see Configuring addresses).
 
 ## Verify
 
@@ -73,7 +74,7 @@ is that stale. `null` means the node could not be reached.
 **3. resolver resolves a live name** (`foobar.testing` is a populated test name):
 ```sh
 curl -s http://127.0.0.1:8000/resolve/foobar.testing | jq
-# → {"name":"foobar.testing","nickname":"Foo","popopxContact":["https://smp16.popopx.im/a#…"], … }
+# → {"name":"foobar.testing","nickname":"Foo","popupContact":["https://smp16.popopx.im/a#…"], … }
 ```
 
 **4. the route your router will call** (check 3 passes on an older resolver too):
@@ -149,7 +150,7 @@ is the registration below, plus `lastBlockTs`, the timestamp of the block it was
 at: a node that lags answers with names it has not seen registered yet.
 Its `type` is `registered`, `available` or `reserved`, and the fields each one
 carries are specified once, in the **Name response** section of
-[`protocol/popopx-messaging.md`](../../protocol/popopx-messaging.md). It is
+[`protocol/simplex-messaging.md`](../../protocol/simplex-messaging.md). It is
 the wire format, so it is documented with the wire.
 
 Two things follow from that and are worth stating here. Expiry and grace belong
@@ -186,8 +187,8 @@ alongside its fields.
 {
   "name": "foobar.testing",
   "nickname": "Foo", "website": "https://foo.bar", "location": "",
-  "popopxContact": ["https://smp16.popopx.im/a#…", "https://smp11…"],  // primary first, fallbacks after
-  "popopxChannel": [],
+  "popupContact": ["https://smp16.popopx.im/a#…", "https://smp11…"],  // primary first, fallbacks after
+  "simplexChannel": [],
   "eth": null, "btc": "bc1q…", "xmr": "4ANz…", "dot": "139G…",
   "owner": "0xd83b…", "resolver": "0x80fa…",
   "status": "registered",      // registered | grace | expired | unregistered | unknown
@@ -198,7 +199,7 @@ alongside its fields.
 }
 ```
 
-`popopxContact`/`popopxChannel` are arrays (a name can advertise multiple SMP
+`popupContact`/`simplexChannel` are arrays (a name can advertise multiple SMP
 servers; clients try them in order). On-chain they're a single `;`-separated
 text record; the resolver splits/trims/drops-empties. Address encodings are
 canonical per chain (EIP-55 / bech32 / SS58 / Monero-base58). Subnames work
@@ -321,7 +322,7 @@ operator who logged the query can match it to the name afterwards.
 ### What a name costs
 
 The controller's `prices()` names the price oracle, so no extra configuration is
-needed beyond `SNRC_CONTROLLER_<TLD>`. A `PopopxPriceOracle` exposes its curve
+needed beyond `SNRC_CONTROLLER_<TLD>`. A `SimplexPriceOracle` exposes its curve
 through `prices()`, in US cents per year, which is the unit this API carries.
 
 An ENS-shaped oracle exposes only `price1Letter()`..`price6Letter()`, in attoUSD
@@ -346,18 +347,19 @@ language.
 
 | `reasonCode` | Meaning |
 |---|---|
-| `internal` | reserved for Popopx |
+| `internal` | reserved for SimpleX |
 | `trademark` | reserved to protect a trademark |
 | `community` | reserved for the community |
 | `unknown` | a reason added to the contract after this resolver; still reserved |
 
-These are `PopopxController.Reason`, where 0 means not reserved. A controller
+These are `SimplexController.Reason`, where 0 means not reserved. A controller
 from before the enum stores a boolean, whose `true` decodes as 1, which is why
 1 reads as `internal`, so nothing needs migrating.
 
 ### Configuring addresses
 
-The resolver reads three contracts, each configured per TLD.
+The resolver reads three contracts, each configured per TLD, and the name
+policy a controller names.
 
 The **registry** answers who owns a node, and `/resolve` reads the records from
 it. The **registrar** (ERC-721) holds `nameExpires` and `GRACE_PERIOD`, which
@@ -372,12 +374,25 @@ held-back name reads as not reserved, and no name can be priced.
 All three default to the mainnet `.testing` deployment. `.popopx` is unset
 until it is deployed.
 
-The controller default is the **proxy**, not `PopopxControllerImpl`. Storage
+Newer contracts, which `.popopx` will run, keep `reservedNames` in a **name
+policy** (`SimplexNamePolicy`), with the same `Reason`, and their controller
+answers no `reservedNames` call. The resolver reads each controller's
+`namePolicy()` once at startup, before its workers start, and reads reservations
+from the policy it names. `.testing`'s controller is from before name policies,
+so the read reverts. A read that reverts, answers nothing, names no policy or
+fails with an RPC error is logged as `no_name_policy`, and reservations are read
+from the controller. For a controller that has a name policy, every lookup under
+its TLD then answers 502 until a restart: after an RPC error, or when the node
+has not yet reached the controller or its `setNamePolicy`. A node that
+does not answer stops the resolver, and the container restarts. After the
+controller's owner calls `setNamePolicy`, restart the resolver.
+
+The controller default is the **proxy**, not `SimplexControllerImpl`. Storage
 lives in the proxy, so the implementation address answers nothing. The two
 deployment files use different names for that proxy:
 `deployments.mainnet.testing.json` records it under the ENS role name
 `ETHRegistrarController`, and `verification.mainnet.testing.json` calls it
-`PopopxControllerProxy`. Both are the same address, and it is the one used
+`SimplexControllerProxy`. Both are the same address, and it is the one used
 here.
 
 To override any of them, set `SNRC_REGISTRY_<TLD>`, `SNRC_REGISTRAR_<TLD>` or
@@ -418,13 +433,15 @@ Each event is one line: UTC time, level, event name, then `key=value` fields.
 
 | Event | Level | Meaning |
 |---|---|---|
-| `listening` | info | started: address, workers, RPC endpoint, registries, trusted proxies |
+| `listening` | info | started: address, workers, RPC endpoint, registries, name policies, trusted proxies |
 | `request` | info | one answered request; `/health` only at debug |
 | `upstream_error` | warn | a read from the node failed; the caller got 502 |
+| `no_name_policy` | warn | at startup, a controller's `namePolicy()` named no policy (see Configuring addresses); its reservations are read from the controller |
 | `multicall_unavailable` | warn | Multicall3 did not answer; rounds are sent as plain batches |
 | `client_gone` | warn | the caller hung up before the answer, usually an smp-server past its timeout |
 | `http_error` | warn | a malformed request; idle keep-alive timeouts only at debug |
 | `request_failed` | error | a request failed unexpectedly, with its traceback |
+| `startup_failed` | error | the node did not answer the startup read of the name policies; the container restarts |
 | `worker_exited`, `worker_failed` | error | a worker stopped; the others stop too, so the container restarts |
 | `stopping` | info | stopped by a signal |
 

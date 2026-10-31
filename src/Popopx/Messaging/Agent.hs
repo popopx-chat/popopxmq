@@ -484,7 +484,7 @@ getConnShortLink :: AgentClient -> NetworkRequestMode -> UserId -> ConnShortLink
 getConnShortLink c = withAgentEnv c .:. getConnShortLink' c
 {-# INLINE getConnShortLink #-}
 
--- | Resolve a SimpleX name (PFWD RSLV). The agent owns server selection: it
+-- | Resolve a POPOPX name (PFWD RSLV). The agent owns server selection: it
 -- picks a names-capable server (ServerRoles.names) from the user's nameSrvs, so
 -- chat clients just pass the parsed domain.
 resolvePopopxName :: AgentClient -> NetworkRequestMode -> UserId -> PopopxDomain -> AE NameResponse
@@ -1815,7 +1815,7 @@ prepareReply c userId Invitation {invitationId, connReq, serviceRequest, created
       pure (cData, sq)
 
 serviceReqBinding :: CR.Ratchet a -> ByteString
-serviceReqBinding CR.Ratchet {rcAD = Str ad} = C.sha3_256 $ "PopopxService" <> ad
+serviceReqBinding CR.Ratchet {rcAD = Str ad} = C.sha3_256 $ "POPOPXService" <> ad
 
 signServiceReq :: Maybe C.PrivateKeyEd25519 -> ByteString -> MsgBody -> Maybe RequestSignature
 signServiceReq signKey_ binding payload =

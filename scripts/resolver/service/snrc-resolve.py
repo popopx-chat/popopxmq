@@ -5,18 +5,18 @@
 #   "eth-hash[pycryptodome]>=0.7",
 # ]
 # ///
-"""Popopx Namespace (SNRC) resolver — REST API.
+"""SimpleX Namespace (SNRC) resolver — REST API.
 
 Resolves names like `alice.testing` / `bob.popopx` against the SNRC
 deployment on Ethereum mainnet (or any compatible ENS-shaped registry)
 and returns a flat JSON document with these fields:
 
   name, nickname, website, location,
-  popopxContact, popopxChannel,    -- list[str], primary first
+  popupContact, simplexChannel,    -- list[str], primary first
   eth, btc, xmr, dot,
   owner, resolver
 
-`popopxContact` and `popopxChannel` are arrays so a name can advertise
+`popupContact` and `simplexChannel` are arrays so a name can advertise
 multiple SMP servers for redundancy. Clients SHOULD try the URLs in the
 order returned. The on-chain text record stores them as a single
 `LINK_SEPARATOR` (`;`)-joined string; this resolver splits and trims into a list.
@@ -41,7 +41,8 @@ Environment:
                          (default: empty — TLD not yet deployed)
   SNRC_REGISTRAR_<TLD>   BaseRegistrar (ERC-721) for the TLD; expiry and status
                          (default: mainnet for .testing, empty for .popopx)
-  SNRC_CONTROLLER_<TLD>  PopopxController (proxy) for the TLD; reservations,
+  SNRC_CONTROLLER_<TLD>  SimplexController (proxy) for the TLD; reservations,
+                         read from the policy its `namePolicy()` names, if any,
                          and through its `prices()` oracle what registering costs
                          (default: mainnet for .testing, empty for .popopx)
   SNRC_PORT              Listen port (default: 8000)
@@ -129,22 +130,26 @@ REGISTRIES = {
 REGISTRARS = {
     "testing": os.environ.get("SNRC_REGISTRAR_TESTING", "")
     or "0xef47eb4384b46c89e4482a677c2cbcbd2a6fd85a",  # mainnet .testing
-    "popopx": os.environ.get("SNRC_REGISTRAR_POPOPX", ""),  # not deployed yet
+    "popopx": os.environ.get("SNRC_REGISTRAR_SIMPLEX", ""),  # not deployed yet
 }
 
 CONTROLLERS = {
     "testing": os.environ.get("SNRC_CONTROLLER_TESTING", "")
-    # Proxy address, not PopopxControllerImpl: storage is held by the proxy.
+    # Proxy address, not SimplexControllerImpl: storage is held by the proxy.
     # Recorded in deployments.json as ETHRegistrarController.
     or "0xeeb9b6bf5fb68fb726005f7ba549c2f4b32f2dad",  # mainnet .testing
     "popopx": os.environ.get("SNRC_CONTROLLER_POPOPX", ""),  # not deployed yet
 }
 
-# `reservedNames` holds a PopopxController.Reason; 0 means not reserved. A
+# The name policy each TLD's controller names, which holds its reservations in
+# place of the controller; set at startup from `name_policies()`.
+NAME_POLICIES = {}
+
+# `reservedNames` holds a SimplexController.Reason; 0 means not reserved. A
 # controller from before the enum stores a bool, whose `true` decodes as 1,
 # which is why 1 reads as "internal".
 RESERVED_REASONS = {
-    1: ("internal", "reserved for Popopx"),
+    1: ("internal", "reserved for SimpleX"),
     2: ("trademark", "reserved to protect a trademark"),
     3: ("community", "reserved for the community"),
 }
@@ -516,11 +521,31 @@ def expiry_status(expires: int, grace: int, now: int) -> str:
 
 
 def reservation_reason(tld: str, token: int) -> int:
-    """The PopopxController.Reason held for the name, 0 when not reserved."""
+    """The SimplexController.Reason held for the name, 0 when not reserved."""
     controller = CONTROLLERS.get(tld)
     if not controller:
         return 0
-    return decode_uint(eth_call(*reserved_call(controller, token)))
+    return decode_uint(eth_call(*reserved_call(NAME_POLICIES.get(tld, controller), token)))
+
+
+def name_policies() -> dict:
+    """The name policy of each configured controller that names one. A controller
+    that reverts, answers nothing or names no policy is logged, and its reservations
+    are read from it; an RPC error is taken as a revert. Raises when the node does
+    not answer."""
+    policies = {}
+    for tld, controller in CONTROLLERS.items():
+        if not controller:
+            continue
+        try:
+            policy = decode_address(eth_call(*name_policy_call(controller)))
+            if policy == ZERO_ADDR:
+                raise RuntimeError("namePolicy() is unset")
+        except RuntimeError as e:
+            log_event(logging.WARNING, "no_name_policy", tld=tld, controller=controller, message=str(e), reservations="controller")
+            continue
+        policies[tld] = policy
+    return policies
 
 
 def pricing_params(tld: str):
@@ -548,7 +573,7 @@ ATTO_PER_CENT = 10**16
 
 
 def read_oracle_prices(controller: str, oracle: str):
-    """PopopxPriceOracle keeps the curve in US cents per year, the unit the SMP
+    """SimplexPriceOracle keeps the curve in US cents per year, the unit the SMP
     protocol carries. An ENS-shaped oracle prices in attoUSD per second and
     charges a premium on lapsed names that it does not expose, so a quote from
     it is only safe for a name that was never registered."""
@@ -786,8 +811,12 @@ def label_call(registrar: str, token: int):
     return registrar, selector("labelOf(uint256)") + encode_uint(token)
 
 
-def reserved_call(controller: str, token: int):
-    return controller, selector("reservedNames(bytes32)") + encode_uint(token)
+def reserved_call(contract: str, token: int):
+    return contract, selector("reservedNames(bytes32)") + encode_uint(token)
+
+
+def name_policy_call(controller: str):
+    return controller, selector("namePolicy()")
 
 
 def prices_call(contract: str):
@@ -830,7 +859,7 @@ def lookup_reads(name: str):
         if len(labels) == 2 and is_encoded_labelhash(labels[0]):
             reads.append(eth_call_read(*label_call(registrar, token)))
         if CONTROLLERS.get(tld):
-            reads.append(eth_call_read(*reserved_call(CONTROLLERS[tld], token)))
+            reads.append(eth_call_read(*reserved_call(NAME_POLICIES.get(tld, CONTROLLERS[tld]), token)))
     registry = REGISTRIES.get(tld)
     if registry:
         node = node_of(name)
@@ -1021,14 +1050,14 @@ TEXT_KEYS = [
     "description",
     "url",
     "location",
-    "popopx.contact",
-    "popopx.channel",
+    "simplex.contact",
+    "simplex.channel",
 ]
 
 
-# Separator that joins the SMP-server URL list inside a popopx.contact /
-# popopx.channel text record. MUST match POPOPX_LINK_SEPARATOR in the dApp
-# (ens-app-v3 src/constants/popopx.ts) — the two sides decode the same record.
+# Separator that joins the SMP-server URL list inside a simplex.contact /
+# simplex.channel text record. MUST match SIMPLEX_LINK_SEPARATOR in the dApp
+# (ens-app-v3 src/constants/simplex.ts) — the two sides decode the same record.
 LINK_SEPARATOR = ";"
 
 
@@ -1038,7 +1067,7 @@ def split_links(value: str) -> list:
     Trims whitespace around each element and drops empties so trailing
     separators, doubled separators, and all-whitespace inputs all yield clean
     output. Single-value records yield a 1-element list; empty inputs
-    yield `[]`. Used for `popopx.contact` / `popopx.channel`, which
+    yield `[]`. Used for `simplex.contact` / `simplex.channel`, which
     store one-or-more SMP-server URLs as a single `LINK_SEPARATOR`-joined string.
     """
     return [item.strip() for item in value.split(LINK_SEPARATOR) if item.strip()]
@@ -1067,8 +1096,8 @@ def name_record(name: str):
         "nickname": "",
         "website": "",
         "location": "",
-        "popopxContact": [],
-        "popopxChannel": [],
+        "popupContact": [],
+        "simplexChannel": [],
         "eth": None,
         "btc": None,
         "xmr": None,
@@ -1092,8 +1121,8 @@ def name_record(name: str):
             "nickname": texts.get("nickname") or texts.get("name") or texts.get("description") or "",
             "website": texts.get("url", ""),
             "location": texts.get("location", ""),
-            "popopxContact": split_links(texts.get("popopx.contact", "")),
-            "popopxChannel": split_links(texts.get("popopx.channel", "")),
+            "popupContact": split_links(texts.get("simplex.contact", "")),
+            "simplexChannel": split_links(texts.get("simplex.channel", "")),
             "eth": addr_multicoin(resolver_addr, node, COIN_ETH),
             "btc": addr_multicoin(resolver_addr, node, COIN_BTC),
             "xmr": addr_multicoin(resolver_addr, node, COIN_XMR),
@@ -1206,8 +1235,8 @@ def resolve(name: str):
             "nickname": "",
             "website": "",
             "location": "",
-            "popopxContact": [],
-            "popopxChannel": [],
+            "popupContact": [],
+            "simplexChannel": [],
             "eth": None,
             "btc": None,
             "xmr": None,
@@ -1236,15 +1265,15 @@ def resolve(name: str):
     # Keys chosen to be valid Haskell record-field identifiers (lowercase
     # initial, no dots) so consumers can derive aeson FromJSON instances
     # without a key-rewriting layer. On-chain text-record names still
-    # use the ENSIP-5 dot convention (e.g. "popopx.contact") — only the
+    # use the ENSIP-5 dot convention (e.g. "simplex.contact") — only the
     # resolver's JSON surface camelCases them.
     return 200, {
         "name": canonical_name(name) or name,
         "nickname": nickname,
         "website": texts.get("url", ""),
         "location": texts.get("location", ""),
-        "popopxContact": split_links(texts.get("popopx.contact", "")),
-        "popopxChannel": split_links(texts.get("popopx.channel", "")),
+        "popupContact": split_links(texts.get("simplex.contact", "")),
+        "simplexChannel": split_links(texts.get("simplex.channel", "")),
         "eth": addr_multicoin(resolver_addr, node, COIN_ETH),
         "btc": addr_multicoin(resolver_addr, node, COIN_BTC),
         "xmr": addr_multicoin(resolver_addr, node, COIN_XMR),
@@ -1464,6 +1493,9 @@ def supervise(workers: int):
         stop()
         stop_on(signum, frame)
 
+    # each worker opens its own connections: one shared would mix their replies
+    while not _rpc_pool.empty():
+        _rpc_pool.get_nowait().close()
     # before forking, so a signal during startup cannot orphan the workers
     signal.signal(signal.SIGTERM, stop_and_exit)
     signal.signal(signal.SIGINT, stop_and_exit)
@@ -1488,6 +1520,11 @@ def supervise(workers: int):
 
 def main():
     setup_logging()
+    try:
+        NAME_POLICIES.update(name_policies())
+    except Exception:
+        log_event(logging.ERROR, "startup_failed", exc_info=True)
+        sys.exit(1)
     log_event(
         logging.INFO,
         "listening",
@@ -1496,6 +1533,7 @@ def main():
         workers=WORKERS,
         rpc=public_endpoint(RPC),
         registries=",".join(f"{tld}={addr or '-'}" for tld, addr in REGISTRIES.items()),
+        name_policies=",".join(f"{tld}={NAME_POLICIES.get(tld, '-')}" for tld in CONTROLLERS),
         trusted_proxies=",".join(map(str, TRUSTED_PROXIES)) or None,
     )
     if WORKERS > 1:
