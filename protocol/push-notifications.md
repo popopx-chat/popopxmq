@@ -102,7 +102,7 @@ Protocol commands have this syntax:
 
 ```abnf
 ntfRouterTransmission = authorization corrId entityId ntfRouterCmd
-  ; same transmission structure as SMP, see simplex-messaging.md
+  ; same transmission structure as SMP, see popopx-messaging.md
 ntfRouterCmd = newTokenCmd / verifyTokenCmd / checkTokenCmd /
                replaceTokenCmd / deleteTokenCmd / cronCmd /
                newSubCmd / checkSubCmd / deleteSubCmd / pingCmd

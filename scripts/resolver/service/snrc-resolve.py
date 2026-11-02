@@ -5,18 +5,18 @@
 #   "eth-hash[pycryptodome]>=0.7",
 # ]
 # ///
-"""SimpleX Namespace (SNRC) resolver — REST API.
+"""Popopx Namespace (SNRC) resolver — REST API.
 
 Resolves names like `alice.testing` / `bob.popopx` against the SNRC
 deployment on Ethereum mainnet (or any compatible ENS-shaped registry)
 and returns a flat JSON document with these fields:
 
   name, nickname, website, location,
-  popupContact, simplexChannel,    -- list[str], primary first
+  popopxContact, popopxChannel,    -- list[str], primary first
   eth, btc, xmr, dot,
   owner, resolver
 
-`popupContact` and `simplexChannel` are arrays so a name can advertise
+`popopxContact` and `popopxChannel` are arrays so a name can advertise
 multiple SMP servers for redundancy. Clients SHOULD try the URLs in the
 order returned. The on-chain text record stores them as a single
 `LINK_SEPARATOR` (`;`)-joined string; this resolver splits and trims into a list.
@@ -41,7 +41,7 @@ Environment:
                          (default: empty — TLD not yet deployed)
   SNRC_REGISTRAR_<TLD>   BaseRegistrar (ERC-721) for the TLD; expiry and status
                          (default: mainnet for .testing, empty for .popopx)
-  SNRC_CONTROLLER_<TLD>  SimplexController (proxy) for the TLD; reservations,
+  SNRC_CONTROLLER_<TLD>  PopopxController (proxy) for the TLD; reservations,
                          read from the policy its `namePolicy()` names, if any,
                          and through its `prices()` oracle what registering costs
                          (default: mainnet for .testing, empty for .popopx)
@@ -130,12 +130,12 @@ REGISTRIES = {
 REGISTRARS = {
     "testing": os.environ.get("SNRC_REGISTRAR_TESTING", "")
     or "0xef47eb4384b46c89e4482a677c2cbcbd2a6fd85a",  # mainnet .testing
-    "popopx": os.environ.get("SNRC_REGISTRAR_SIMPLEX", ""),  # not deployed yet
+    "popopx": os.environ.get("SNRC_REGISTRAR_POPOPX", ""),  # not deployed yet
 }
 
 CONTROLLERS = {
     "testing": os.environ.get("SNRC_CONTROLLER_TESTING", "")
-    # Proxy address, not SimplexControllerImpl: storage is held by the proxy.
+    # Proxy address, not PopopxControllerImpl: storage is held by the proxy.
     # Recorded in deployments.json as ETHRegistrarController.
     or "0xeeb9b6bf5fb68fb726005f7ba549c2f4b32f2dad",  # mainnet .testing
     "popopx": os.environ.get("SNRC_CONTROLLER_POPOPX", ""),  # not deployed yet
@@ -145,11 +145,11 @@ CONTROLLERS = {
 # place of the controller; set at startup from `name_policies()`.
 NAME_POLICIES = {}
 
-# `reservedNames` holds a SimplexController.Reason; 0 means not reserved. A
+# `reservedNames` holds a PopopxController.Reason; 0 means not reserved. A
 # controller from before the enum stores a bool, whose `true` decodes as 1,
 # which is why 1 reads as "internal".
 RESERVED_REASONS = {
-    1: ("internal", "reserved for SimpleX"),
+    1: ("internal", "reserved for Popopx"),
     2: ("trademark", "reserved to protect a trademark"),
     3: ("community", "reserved for the community"),
 }
@@ -521,7 +521,7 @@ def expiry_status(expires: int, grace: int, now: int) -> str:
 
 
 def reservation_reason(tld: str, token: int) -> int:
-    """The SimplexController.Reason held for the name, 0 when not reserved."""
+    """The PopopxController.Reason held for the name, 0 when not reserved."""
     controller = CONTROLLERS.get(tld)
     if not controller:
         return 0
@@ -573,7 +573,7 @@ ATTO_PER_CENT = 10**16
 
 
 def read_oracle_prices(controller: str, oracle: str):
-    """SimplexPriceOracle keeps the curve in US cents per year, the unit the SMP
+    """PopopxPriceOracle keeps the curve in US cents per year, the unit the SMP
     protocol carries. An ENS-shaped oracle prices in attoUSD per second and
     charges a premium on lapsed names that it does not expose, so a quote from
     it is only safe for a name that was never registered."""
@@ -1050,13 +1050,13 @@ TEXT_KEYS = [
     "description",
     "url",
     "location",
-    "simplex.contact",
-    "simplex.channel",
+    "popopx.contact",
+    "popopx.channel",
 ]
 
 
-# Separator that joins the SMP-server URL list inside a simplex.contact /
-# simplex.channel text record. MUST match SIMPLEX_LINK_SEPARATOR in the dApp
+# Separator that joins the SMP-server URL list inside a popopx.contact /
+# popopx.channel text record. MUST match POPOPX_LINK_SEPARATOR in the dApp
 # (ens-app-v3 src/constants/simplex.ts) — the two sides decode the same record.
 LINK_SEPARATOR = ";"
 
@@ -1067,7 +1067,7 @@ def split_links(value: str) -> list:
     Trims whitespace around each element and drops empties so trailing
     separators, doubled separators, and all-whitespace inputs all yield clean
     output. Single-value records yield a 1-element list; empty inputs
-    yield `[]`. Used for `simplex.contact` / `simplex.channel`, which
+    yield `[]`. Used for `popopx.contact` / `popopx.channel`, which
     store one-or-more SMP-server URLs as a single `LINK_SEPARATOR`-joined string.
     """
     return [item.strip() for item in value.split(LINK_SEPARATOR) if item.strip()]
@@ -1096,8 +1096,8 @@ def name_record(name: str):
         "nickname": "",
         "website": "",
         "location": "",
-        "popupContact": [],
-        "simplexChannel": [],
+        "popopxContact": [],
+        "popopxChannel": [],
         "eth": None,
         "btc": None,
         "xmr": None,
@@ -1121,8 +1121,8 @@ def name_record(name: str):
             "nickname": texts.get("nickname") or texts.get("name") or texts.get("description") or "",
             "website": texts.get("url", ""),
             "location": texts.get("location", ""),
-            "popupContact": split_links(texts.get("simplex.contact", "")),
-            "simplexChannel": split_links(texts.get("simplex.channel", "")),
+            "popopxContact": split_links(texts.get("popopx.contact", "")),
+            "popopxChannel": split_links(texts.get("popopx.channel", "")),
             "eth": addr_multicoin(resolver_addr, node, COIN_ETH),
             "btc": addr_multicoin(resolver_addr, node, COIN_BTC),
             "xmr": addr_multicoin(resolver_addr, node, COIN_XMR),
@@ -1235,8 +1235,8 @@ def resolve(name: str):
             "nickname": "",
             "website": "",
             "location": "",
-            "popupContact": [],
-            "simplexChannel": [],
+            "popopxContact": [],
+            "popopxChannel": [],
             "eth": None,
             "btc": None,
             "xmr": None,
@@ -1265,15 +1265,15 @@ def resolve(name: str):
     # Keys chosen to be valid Haskell record-field identifiers (lowercase
     # initial, no dots) so consumers can derive aeson FromJSON instances
     # without a key-rewriting layer. On-chain text-record names still
-    # use the ENSIP-5 dot convention (e.g. "simplex.contact") — only the
+    # use the ENSIP-5 dot convention (e.g. "popopx.contact") — only the
     # resolver's JSON surface camelCases them.
     return 200, {
         "name": canonical_name(name) or name,
         "nickname": nickname,
         "website": texts.get("url", ""),
         "location": texts.get("location", ""),
-        "popupContact": split_links(texts.get("simplex.contact", "")),
-        "simplexChannel": split_links(texts.get("simplex.channel", "")),
+        "popopxContact": split_links(texts.get("popopx.contact", "")),
+        "popopxChannel": split_links(texts.get("popopx.channel", "")),
         "eth": addr_multicoin(resolver_addr, node, COIN_ETH),
         "btc": addr_multicoin(resolver_addr, node, COIN_BTC),
         "xmr": addr_multicoin(resolver_addr, node, COIN_XMR),

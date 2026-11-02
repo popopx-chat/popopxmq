@@ -56,7 +56,7 @@ Protocol consists of four phases:
 
 The invitation to the first session between host and controller pair MUST be shared out-of-band, to establish a long term identity keys/certificates of the controller to host device.
 
-The subsequent sessions can be announced via an application-defined site-local multicast group, e.g. `224.0.0.251` (also used in mDNS/bonjour) and an application-defined port (SimpleX Chat uses 5227).
+The subsequent sessions can be announced via an application-defined site-local multicast group, e.g. `224.0.0.251` (also used in mDNS/bonjour) and an application-defined port (Popopx Chat uses 5227).
 
 The session invitation contains this data:
 - supported version range for remote control protocol.
@@ -127,7 +127,7 @@ To verify the session, the user matches the codes (e.g., visually or via QR code
 
 The user MUST verify the first session with a new controller. The host stores the long-term identity of the controller (CA fingerprint and Ed25519 public key) only after this session is verified. A controller with the stored long-term identity is a known controller.
 
-The user MAY verify the subsequent sessions with a known controller. In a session that the host confirms without user action, the controller is authenticated only by its long-term identity stored in the first session (see [Threat model](#threat-model)). SimpleX Chat mobile apps require user verification of sessions with known controllers only when the user enables the "Verify connections" option.
+The user MAY verify the subsequent sessions with a known controller. In a session that the host confirms without user action, the controller is authenticated only by its long-term identity stored in the first session (see [Threat model](#threat-model)). Popopx Chat mobile apps require user verification of sessions with known controllers only when the user enables the "Verify connections" option.
 
 Once the session is confirmed, the host sends HELLO block to the controller.
 
@@ -214,7 +214,7 @@ Once the controller replies HELLO to the valid host HELLO block, it should stop 
 
 The protocol for communication during the session is out of scope of this protocol.
 
-SimpleX Chat uses HTTP2 encoding, where host device acts as a server and controller acts as a client (these roles are reversed compared with TLS connection, restoring client-server semantics in HTTP).
+Popopx Chat uses HTTP2 encoding, where host device acts as a server and controller acts as a client (these roles are reversed compared with TLS connection, restoring client-server semantics in HTTP).
 
 Payloads in the protocol must be encrypted using NaCL secret_box using the hybrid shared secret agreed during session establishment.
 

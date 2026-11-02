@@ -26,7 +26,7 @@ Version 1, 2024-06-22
 
 It is a reasonable assumption that "record-now-decrypt-later" attacks are ongoing, so the users want to use cryptographic schemes for end-to-end encryption that are augmented with some post-quantum algorithm that is believed to be resistant to quantum computers.
 
-SimpleX Chat uses [double-ratchet with header encryption](https://signal.org/docs/specifications/doubleratchet/#double-ratchet-with-header-encryption) to provide end-to-end encryption to messages and files. This document describes augmented algorithm with post-quantum key encapsulation mechanism (KEM) making it resistant to quantum computers.
+Popopx Chat uses [double-ratchet with header encryption](https://signal.org/docs/specifications/doubleratchet/#double-ratchet-with-header-encryption) to provide end-to-end encryption to messages and files. This document describes augmented algorithm with post-quantum key encapsulation mechanism (KEM) making it resistant to quantum computers.
 
 Double-ratchet algorithm is a state of the art solution for end to end encryption offering a set of qualities that is not present in any other algorithm:
 
@@ -276,7 +276,7 @@ The transition from Proposed to Accepted happens when a party receives a message
 
 As Popopx Messaging Protocol pads messages to a fixed size, using 16kb transport blocks, the size increase introduced by this scheme can be compensated for by using ZSTD encryption of JSON bodies and image previews encoded as base64. While there may be some rare cases of random texts that would fail to compress, in all real scenarios it would not cause the message size reduction.
 
-Sharing the initial keys in case of SimpleX Chat it is equivalent to sharing the invitation link. As encapsulation key is large, it may be inconvenient to share it in the link in some contexts, e.g. when QR codes are used.
+Sharing the initial keys in case of Popopx Chat it is equivalent to sharing the invitation link. As encapsulation key is large, it may be inconvenient to share it in the link in some contexts, e.g. when QR codes are used.
 
 It is possible to postpone sharing the encapsulation key until the first message from the joining party (confirmation message in SMP protocol). The upside here is that the invitation link size would not increase. The downside is that the user profile shared in this confirmation will not be encrypted with PQ-resistant algorithm.
 

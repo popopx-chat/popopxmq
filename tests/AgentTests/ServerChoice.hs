@@ -32,10 +32,10 @@ operator2 :: Maybe OperatorId
 operator2 = Just 2
 
 testOp1Srv1 :: ProtoServerWithAuth 'PSMP
-testOp1Srv1 = "smp://LcJU@test1.simplex.im"
+testOp1Srv1 = "smp://LcJU@test1.popopx.im"
 
 testOp1Srv2 :: ProtoServerWithAuth 'PSMP
-testOp1Srv2 = "smp://LcJU@test2.simplex.im"
+testOp1Srv2 = "smp://LcJU@test2.popopx.im"
 
 testOp2Srv1 :: ProtoServerWithAuth 'PSMP
 testOp2Srv1 = "smp://LcJU@srv1.example.com"

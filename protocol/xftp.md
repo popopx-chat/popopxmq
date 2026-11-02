@@ -262,7 +262,7 @@ XFTP stands for POPOPX File Transfer Protocol. Its design is based on the same i
 
 Clients must cryptographically authorize XFTP commands, see [Command authentication](#command-authentication).
 
-To authorize/verify transmissions clients and routers MUST use either signature algorithm Ed25519 algorithm defined in RFC8709 or using deniable authentication scheme based on NaCL crypto_box (see Simplex Messaging Protocol).
+To authorize/verify transmissions clients and routers MUST use either signature algorithm Ed25519 algorithm defined in RFC8709 or using deniable authentication scheme based on NaCL crypto_box (see Popopx Messaging Protocol).
 
 To encrypt/decrypt data packet bodies delivered to the recipients, routers/clients MUST use NaCL crypto_box.
 

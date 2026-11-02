@@ -42,8 +42,8 @@ def registration(name):
 
 
 class SplitLinksTests(unittest.TestCase):
-    """`split_links` decodes the multi-URL convention for simplex.contact /
-    simplex.channel text records. Reuses the same rule the dApp's
+    """`split_links` decodes the multi-URL convention for popopx.contact /
+    popopx.channel text records. Reuses the same rule the dApp's
     `parseSimplexUrls` uses (separator `;`), so the two sides round-trip
     cleanly."""
 
@@ -490,7 +490,7 @@ class ReservedReasonTests(unittest.TestCase):
         snrc.eth_call = self._reserved_as(1)
         reg = snrc.name_status("acme.testing")
         self.assertEqual(reg["reasonCode"], "internal")
-        self.assertEqual(reg["reason"], "reserved for SimpleX")
+        self.assertEqual(reg["reason"], "reserved for Popopx")
 
     def test_an_enum_value_this_resolver_predates_is_not_dropped(self):
         """A new Reason still reserves the name, and says it is unknown rather
@@ -505,7 +505,7 @@ class ReservedReasonTests(unittest.TestCase):
         status, body = snrc.resolve("acme.testing")
         self.assertEqual(status, 404)
         self.assertEqual(body["status"], "unregistered")
-        self.assertEqual(body["reason"], "reserved for SimpleX")
+        self.assertEqual(body["reason"], "reserved for Popopx")
 
     def test_the_message_does_not_claim_a_trademark(self):
         snrc.eth_call = self._chain(0, True)
@@ -531,7 +531,7 @@ class ReservedReasonTests(unittest.TestCase):
         # keccak-256("acme")
         hashed = "[e29dae06ef4c3e336b7538b6d4f52ca1ecec009b1df6fb501320e11b223aeeaf]"
         _, body = snrc.resolve(hashed + ".testing")
-        self.assertEqual(body["reason"], "reserved for SimpleX")
+        self.assertEqual(body["reason"], "reserved for Popopx")
 
 
 class PricingTests(unittest.TestCase):
@@ -799,7 +799,7 @@ class ErrorCodeTests(unittest.TestCase):
         self.assertEqual(status, 200)
         self.assertEqual(body["status"], "registered")
         self.assertEqual(body["resolver"], snrc.ZERO_ADDR)
-        self.assertEqual(body["popupContact"], [])
+        self.assertEqual(body["popopxContact"], [])
 
     def test_every_error_body_carries_both_fields(self):
         snrc.eth_call = self._chain(0)
@@ -1146,7 +1146,7 @@ class FakeChain:
     OWNER = "0xd83bd7e0e6b8a4c1f2593a7b0c4e8d1a6f9b2c37"
     RESOLVER = "0x80fa2b1c3d4e5f60718293a4b5c6d7e8f9012345"
     GRACE = 90 * 86400
-    TEXTS = {"nickname": "Acme", "url": "https://acme.example", "simplex.channel": "https://a.example/c#1;https://b.example/c#2"}
+    TEXTS = {"nickname": "Acme", "url": "https://acme.example", "popopx.channel": "https://a.example/c#1;https://b.example/c#2"}
 
     def __init__(self):
         self.now = int(time.time())
@@ -1384,7 +1384,7 @@ class BatchedReadsTests(FakeNodeTestCase):
         status, body = self.assert_same_answer(snrc.registration, "acme.testing", 2)
         record = body["registration"]["nameRecord"]
         self.assertEqual(record["nickname"], "Acme")
-        self.assertEqual(record["simplexChannel"], ["https://a.example/c#1", "https://b.example/c#2"])
+        self.assertEqual(record["popopxChannel"], ["https://a.example/c#1", "https://b.example/c#2"])
         self.assertIsNone(record["btc"])
 
     def test_a_hashed_query_is_named_from_the_same_round_trip(self):

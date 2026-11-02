@@ -1,6 +1,6 @@
 # Self-hosted SNRC stack
 
-One `docker compose up` runs the self-hosted SimpleX Namespace (SNRC) backend
+One `docker compose up` runs the self-hosted Popopx Namespace (SNRC) backend
 against **Ethereum mainnet** (where the `.testing` contracts live):
 
 | # | Component | What it does |
@@ -74,7 +74,7 @@ is that stale. `null` means the node could not be reached.
 **3. resolver resolves a live name** (`foobar.testing` is a populated test name):
 ```sh
 curl -s http://127.0.0.1:8000/resolve/foobar.testing | jq
-# → {"name":"foobar.testing","nickname":"Foo","popupContact":["https://smp16.popopx.im/a#…"], … }
+# → {"name":"foobar.testing","nickname":"Foo","popopxContact":["https://smp16.popopx.im/a#…"], … }
 ```
 
 **4. the route your router will call** (check 3 passes on an older resolver too):
@@ -187,8 +187,8 @@ alongside its fields.
 {
   "name": "foobar.testing",
   "nickname": "Foo", "website": "https://foo.bar", "location": "",
-  "popupContact": ["https://smp16.popopx.im/a#…", "https://smp11…"],  // primary first, fallbacks after
-  "simplexChannel": [],
+  "popopxContact": ["https://smp16.popopx.im/a#…", "https://smp11…"],  // primary first, fallbacks after
+  "popopxChannel": [],
   "eth": null, "btc": "bc1q…", "xmr": "4ANz…", "dot": "139G…",
   "owner": "0xd83b…", "resolver": "0x80fa…",
   "status": "registered",      // registered | grace | expired | unregistered | unknown
@@ -199,7 +199,7 @@ alongside its fields.
 }
 ```
 
-`popupContact`/`simplexChannel` are arrays (a name can advertise multiple SMP
+`popopxContact`/`popopxChannel` are arrays (a name can advertise multiple SMP
 servers; clients try them in order). On-chain they're a single `;`-separated
 text record; the resolver splits/trims/drops-empties. Address encodings are
 canonical per chain (EIP-55 / bech32 / SS58 / Monero-base58). Subnames work
@@ -322,7 +322,7 @@ operator who logged the query can match it to the name afterwards.
 ### What a name costs
 
 The controller's `prices()` names the price oracle, so no extra configuration is
-needed beyond `SNRC_CONTROLLER_<TLD>`. A `SimplexPriceOracle` exposes its curve
+needed beyond `SNRC_CONTROLLER_<TLD>`. A `PopopxPriceOracle` exposes its curve
 through `prices()`, in US cents per year, which is the unit this API carries.
 
 An ENS-shaped oracle exposes only `price1Letter()`..`price6Letter()`, in attoUSD
@@ -347,12 +347,12 @@ language.
 
 | `reasonCode` | Meaning |
 |---|---|
-| `internal` | reserved for SimpleX |
+| `internal` | reserved for Popopx |
 | `trademark` | reserved to protect a trademark |
 | `community` | reserved for the community |
 | `unknown` | a reason added to the contract after this resolver; still reserved |
 
-These are `SimplexController.Reason`, where 0 means not reserved. A controller
+These are `PopopxController.Reason`, where 0 means not reserved. A controller
 from before the enum stores a boolean, whose `true` decodes as 1, which is why
 1 reads as `internal`, so nothing needs migrating.
 
@@ -387,12 +387,12 @@ has not yet reached the controller or its `setNamePolicy`. A node that
 does not answer stops the resolver, and the container restarts. After the
 controller's owner calls `setNamePolicy`, restart the resolver.
 
-The controller default is the **proxy**, not `SimplexControllerImpl`. Storage
+The controller default is the **proxy**, not `PopopxControllerImpl`. Storage
 lives in the proxy, so the implementation address answers nothing. The two
 deployment files use different names for that proxy:
 `deployments.mainnet.testing.json` records it under the ENS role name
 `ETHRegistrarController`, and `verification.mainnet.testing.json` calls it
-`SimplexControllerProxy`. Both are the same address, and it is the one used
+`PopopxControllerProxy`. Both are the same address, and it is the one used
 here.
 
 To override any of them, set `SNRC_REGISTRY_<TLD>`, `SNRC_REGISTRAR_<TLD>` or
