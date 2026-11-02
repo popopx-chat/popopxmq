@@ -81,16 +81,17 @@ import Data.Time.Clock (getCurrentTime)
 createDBStore :: DBOpts -> [Migration] -> MigrationConfig -> IO (Either MigrationError DBStore)
 createDBStore opts@DBOpts {dbFilePath} migrations migrationConfig = do
   let logFile = "/tmp/popopx_debug.log"
+      logMsg msg = catch (appendFile logFile msg) (\(_ :: IOException) -> pure ())
   timestamp <- T.pack . show <$> getCurrentTime
-  appendFile logFile (T.unpack timestamp ++ " [createDBStore] Starting\n")
+  logMsg (T.unpack timestamp ++ " [createDBStore] Starting\n")
   let dbDir = takeDirectory dbFilePath
   createDirectoryIfMissing True dbDir
   st <- connectSQLiteStore opts
   timestamp2 <- T.pack . show <$> getCurrentTime
-  appendFile logFile (T.unpack timestamp2 ++ " [createDBStore] connectSQLiteStore completed\n")
+  logMsg (T.unpack timestamp2 ++ " [createDBStore] connectSQLiteStore completed\n")
   r <- migrateDBSchema st opts Nothing migrations migrationConfig `onException` closeDBStore st
   timestamp3 <- T.pack . show <$> getCurrentTime
-  appendFile logFile (T.unpack timestamp3 ++ " [createDBStore] migrateDBSchema completed\n")
+  logMsg (T.unpack timestamp3 ++ " [createDBStore] migrateDBSchema completed\n")
   case r of
     Right () -> pure $ Right st
     Left e -> closeDBStore st $> Left e
