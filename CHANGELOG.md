@@ -3,13 +3,6 @@
 This is the POPOPX fork of simplexmq, focused on privacy-preserving messaging
 with custom branding and platform-specific enhancements.
 
-## v7.1.0.16 (2026-11-03)
-
-Changes since v7.1.0.15:
-- Fixed debug logging error handling to prevent iOS permission errors
-- Removed duplicate protocol/simplex-messaging.md file
-- Build system: verified compilation with PostgreSQL support for all servers (smp-server, ntf-server, xftp-server)
-
 ## v7.1.0.12 (2026-10-18)
 
 Synced with upstream simplexmq v7.1.0.12:
