@@ -77,7 +77,7 @@ import Popopx.Messaging.Server.MsgStore.Types (SQSType (..), SMSType (..))
 import Popopx.Messaging.Server.Names (NamesConfig (..), RpcAuth (..))
 import Popopx.Messaging.Transport (supportedProxyClientSMPRelayVRange, alpnSupportedSMPHandshakes, supportedServerSMPRelayVRange)
 import Popopx.Messaging.Transport.Client (TransportHost (..), defaultSocksProxy)
-import Popopx.Messaging.Transport.HTTP2 (httpALPN)
+import Popopx.Messaging.Transport.HTTP2 (httpALPN11)
 import Popopx.Messaging.Transport.Server (ServerCredentials (..), mkTransportServerConfig)
 import Popopx.Messaging.Util (eitherToMaybe, safeDecodeUtf8)
 import System.Directory (createDirectoryIfMissing, doesDirectoryExist, doesFileExist)
@@ -504,7 +504,7 @@ smpServerCLI_ generateSite serveStaticFiles attachStaticFiles cfgPath logPath =
               transportConfig =
                 mkTransportServerConfig
                   (fromMaybe False $ iniOnOff "TRANSPORT" "log_tls_errors" ini)
-                  (Just $ alpnSupportedSMPHandshakes <> httpALPN)
+                  (Just $ alpnSupportedSMPHandshakes <> [httpALPN11])
                   True,
               controlPort = eitherToMaybe $ T.unpack <$> lookupValue "TRANSPORT" "control_port" ini,
               smpAgentCfg =
@@ -672,7 +672,7 @@ getServerSourceCode =
     _ -> putStrLn "Invalid source code. URI should start from http:// or https://" >> getServerSourceCode
 
 popopxmqSource :: String
-popopxmqSource = "https://github.com/popopx/popopxmq"
+popopxmqSource = "https://github.com/popopx-chat/popopxmq"
 
 serverPublicInfo :: Ini -> Maybe ServerPublicInfo
 serverPublicInfo ini = serverInfo <$!> infoValue "source_code"

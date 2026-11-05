@@ -28,6 +28,7 @@ module Popopx.Messaging.Transport.Server
     loadFingerprint,
     loadFileFingerprint,
     smpServerHandshake,
+    validateClientCertificate,
   )
 where
 

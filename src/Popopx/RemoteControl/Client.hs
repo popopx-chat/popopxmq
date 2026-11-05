@@ -67,6 +67,7 @@ import Popopx.Messaging.Transport (TSbChainKeys (..), TLS (..), TransportPeer (.
 import Popopx.Messaging.Transport.Buffer (peekBuffered)
 import Popopx.Messaging.Transport.Client (TransportClientConfig (..), TransportHost (..), defaultTransportClientConfig, runTransportClient)
 import Popopx.Messaging.Transport.Credentials (genCredentials, tlsCredentials)
+import Popopx.Messaging.Transport.Server (validateClientCertificate)
 import Popopx.Messaging.Util
 import Popopx.Messaging.Version
 import Popopx.RemoteControl.Discovery (getLocalAddress, recvAnnounce, startTLSServer, withListener, withSender)
@@ -158,13 +159,16 @@ connectRCHost drg pairing@RCHostPairing {caKey, caCert, idPrivKey, knownHost} ct
     tlsHooks r knownHost_ hostCAHash =
       def
         { TLS.onNewHandshake = \_ -> atomically $ isNothing <$> tryReadTMVar r,
-          TLS.onClientCertificate = \(X.CertificateChain chain) ->
+          TLS.onClientCertificate = \cc@(X.CertificateChain chain) ->
             case chain of
               [_leaf, ca] -> do
                 let kh = certFingerprint ca
                     accept = maybe True (\h -> hostFingerprint h == kh) knownHost_
                 if accept
-                  then atomically (putTMVar hostCAHash kh) $> TLS.CertificateUsageAccept
+                  then
+                    validateClientCertificate cc >>= \case
+                      Nothing -> atomically (putTMVar hostCAHash kh) $> TLS.CertificateUsageAccept
+                      Just reason -> pure $ TLS.CertificateUsageReject reason
                   else pure $ TLS.CertificateUsageReject TLS.CertificateRejectUnknownCA
               _ ->
                 pure $ TLS.CertificateUsageReject TLS.CertificateRejectUnknownCA
