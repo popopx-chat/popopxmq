@@ -13,4 +13,4 @@ Change controller: Evgeny Poberezkin <ep@simplex.chat>
 
 References:
 The syntax for server URIs in the provisional specification for POPOPX File Transfer Protocol:
-https://github.com/popopx/popopxmq/blob/master/rfcs/2022-12-26-popopx-file-transfer.md#server-address-syntax
+https://github.com/popopx-chat/popopxmq/blob/master/rfcs/2022-12-26-popopx-file-transfer.md#server-address-syntax

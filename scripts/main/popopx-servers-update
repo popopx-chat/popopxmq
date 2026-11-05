@@ -146,7 +146,7 @@ check_versions() {
       ;;
     *)
       # Check if this version really exist
-      ver_check="https://github.com/popopx/popopxmq/releases/tag/${VER}"
+      ver_check="https://github.com/popopx-chat/popopxmq/releases/tag/${VER}"
       
       if curl -o /dev/null --proto '=https' --tlsv1.2 -sf -L "${ver_check}"; then
         remote_version="${VER}"
@@ -164,7 +164,7 @@ check_versions() {
   esac
 
   # Links to scripts/configs
-  bin_url="https://github.com/popopx/popopxmq/releases/download/${remote_version}"
+  bin_url="https://github.com/popopx-chat/popopxmq/releases/download/${remote_version}"
   scripts_url="https://raw.githubusercontent.com/popopx/popopxmq/refs/tags/${remote_version}/scripts/main"
   scripts_url_systemd_smp="$scripts_url/smp-server.service"
   scripts_url_systemd_xftp="$scripts_url/xftp-server.service"
@@ -219,7 +219,7 @@ check_distro() {
   case "$VERSION_ID" in
     20.04|22.04) : ;;
     24.04) VERSION_ID='22.04' ;;
-    *) printf "${RED}Unsupported Ubuntu version!${NC}\nPlease file Github issue with request to support Ubuntu %s: https://github.com/popopx/popopxmq/issues/new\n" "$VERSION_ID" && exit 1 ;;
+    *) printf "${RED}Unsupported Ubuntu version!${NC}\nPlease file Github issue with request to support Ubuntu %s: https://github.com/popopx-chat/popopxmq/issues/new\n" "$VERSION_ID" && exit 1 ;;
   esac
 
   version="$(printf '%s' "$VERSION_ID" | tr '.' '_')"
@@ -227,7 +227,7 @@ check_distro() {
 
   case "$arch" in
     x86_64) arch="$(printf '%s' "$arch" | tr '_' '-')" ;;
-    *)  printf "${RED}Unsupported architecture!${NC}\nPlease file Github issue with request to support %s architecture: https://github.com/popopx/popopxmq/issues/new" "$arch" && exit 1 ;;
+    *)  printf "${RED}Unsupported architecture!${NC}\nPlease file Github issue with request to support %s architecture: https://github.com/popopx-chat/popopxmq/issues/new" "$arch" && exit 1 ;;
   esac
 
   bin_url_smp="$bin_url/smp-server-ubuntu-${version}-${arch}"

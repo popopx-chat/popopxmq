@@ -13,7 +13,7 @@ tempdir="$(mktemp -d)"
 init_dir="$PWD"
 
 repo_name="popopxmq"
-repo="https://github.com/popopx/${repo_name}"
+repo="https://github.com/popopx-chat/${repo_name}"
 export DOCKER_BUILDKIT=1
 
 cleanup() {

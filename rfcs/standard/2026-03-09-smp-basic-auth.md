@@ -2,7 +2,7 @@
 Proposed: 2022-11-11
 Implemented: 2022-11-12
 Standardized: 2026-03-09
-Protocol: simplex-messaging v5
+Protocol: popopx-messaging v5
 ---
 
 # SMP Basic Auth

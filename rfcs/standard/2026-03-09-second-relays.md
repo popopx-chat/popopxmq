@@ -2,7 +2,7 @@
 Proposed: 2023-09-12
 Implemented: 2024-06-21
 Standardized: 2026-03-09
-Protocol: simplex-messaging v8
+Protocol: popopx-messaging v8
 ---
 
 # Protecting IP addresses of the users from their contacts
@@ -299,4 +299,4 @@ This decision is made because the argument for protection against collusion betw
 
 - learn a sender's IP address, track them through other IP addresses they use to access the same queue, and infer information (e.g. employer) based on the IP addresses, even if Tor is not used.
 
-The rest of the threat model for SMP relays remains the same as in [overview](../protocol/overview-tjr.md#simplex-messaging-protocol-server).
+The rest of the threat model for SMP relays remains the same as in [overview](../protocol/overview-tjr.md#popopx-messaging-protocol).

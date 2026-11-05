@@ -238,6 +238,6 @@ POPOPX provides these security properties:
 
 ## Acknowledgements
 
-Efim Poberezkin contributed to the design and implementation of [POPOPX Messaging Protocol](https://github.com/popopx/popopxmq/blob/master/protocol/popopx-messaging.md) and [POPOPX Agent Protocol](https://github.com/popopx/popopxmq/blob/master/protocol/agent-protocol.md) since 2019.
+Efim Poberezkin contributed to the design and implementation of [POPOPX Messaging Protocol](https://github.com/popopx-chat/popopxmq/blob/master/protocol/popopx-messaging.md) and [POPOPX Agent Protocol](https://github.com/popopx-chat/popopxmq/blob/master/protocol/agent-protocol.md) since 2019.
 
 Adam Langley's [Pond](https://github.com/agl/pond) inspired some of the recent improvements and the structure of this document.

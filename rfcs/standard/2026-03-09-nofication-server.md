@@ -64,7 +64,7 @@ Response:
 
 ### Agent schema changes
 
-See [migration](../src/Simplex/Messaging/Agent/Store/SQLite/Migrations/M20220322_notifications.hs)
+See [migration](../src/Popopx/Messaging/Agent/Store/SQLite/Migrations/M20220322_notifications.hs)
 
 ### Agent code
 

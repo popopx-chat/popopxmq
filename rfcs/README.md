@@ -92,7 +92,7 @@ Every RFC in `standard/` carries a history header:
 Proposed: YYYY-MM-DD
 Implemented: YYYY-MM-DD
 Standardized: YYYY-MM-DD
-Protocol: simplex-messaging v9 (or whichever protocol this amends)
+Protocol: popopx-messaging v9 (or whichever protocol this amends)
 ---
 ```
 

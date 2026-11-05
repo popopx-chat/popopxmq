@@ -84,11 +84,11 @@ set_version() {
 
   case "$ver" in 
     latest)
-      bin="https://github.com/popopx/popopxmq/releases/latest/download"
+      bin="https://github.com/popopx-chat/popopxmq/releases/latest/download"
       remote_version="$(curl --proto '=https' --tlsv1.2 -sSf -L https://api.github.com/repos/popopx/popopxmq/releases/latest | grep -i "tag_name" | awk -F \" '{print $4}')"
       ;;
     *)
-      bin="https://github.com/popopx/popopxmq/releases/download/${ver}"
+      bin="https://github.com/popopx-chat/popopxmq/releases/download/${ver}"
       remote_version="${ver}"
       ;;
   esac
@@ -100,7 +100,7 @@ os_test() {
  case "$VERSION_ID" in
   20.04|22.04) : ;;
   24.04) VERSION_ID='22.04' ;;
-  *) printf "${RED}Unsupported Ubuntu version!${NC}\nPlease file Github issue with request to support Ubuntu %s: https://github.com/popopx/popopxmq/issues/new\n" "$VERSION_ID" && exit 1 ;;
+  *) printf "${RED}Unsupported Ubuntu version!${NC}\nPlease file Github issue with request to support Ubuntu %s: https://github.com/popopx-chat/popopxmq/issues/new\n" "$VERSION_ID" && exit 1 ;;
  esac
 
  version="$(printf '%s' "$VERSION_ID" | tr '.' '_')"
@@ -108,7 +108,7 @@ os_test() {
 
  case "$arch" in
   x86_64) arch="$(printf '%s' "$arch" | tr '_' '-')" ;;
-  *)  printf "${RED}Unsupported architecture!${NC}\nPlease file Github issue with request to support %s architecture: https://github.com/popopx/popopxmq/issues/new" "$arch" && exit 1 ;;
+  *)  printf "${RED}Unsupported architecture!${NC}\nPlease file Github issue with request to support %s architecture: https://github.com/popopx-chat/popopxmq/issues/new" "$arch" && exit 1 ;;
  esac
 
  bin_smp="$bin/smp-server-ubuntu-${version}-${arch}"

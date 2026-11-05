@@ -35,7 +35,7 @@
 --
 -- Types, parsers, serializers and functions to send and receive SMP agent protocol commands and responses.
 --
--- See https://github.com/popopx/popopxmq/blob/master/protocol/agent-protocol.md
+-- See https://github.com/popopx-chat/popopxmq/blob/master/protocol/agent-protocol.md
 module Popopx.Messaging.Agent.Protocol
   ( -- * Protocol parameters
     VersionSMPA,
@@ -1096,7 +1096,7 @@ instance Encoding AMsgType where
 
 -- | Messages sent between SMP agents once SMP queue is secured.
 --
--- https://github.com/popopx/popopxmq/blob/master/protocol/agent-protocol.md#messages-between-smp-agents
+-- https://github.com/popopx-chat/popopxmq/blob/master/protocol/agent-protocol.md#messages-between-smp-agents
 data AMessage
   = -- | the first message in the queue to validate it is secured
     HELLO
@@ -1463,7 +1463,7 @@ instance VersionRangeI SMPClientVersion SMPQueueUri where
 
 -- | SMP queue information sent out-of-band.
 --
--- https://github.com/popopx/popopxmq/blob/master/protocol/popopx-messaging.md#out-of-band-messages
+-- https://github.com/popopx-chat/popopxmq/blob/master/protocol/popopx-messaging.md#out-of-band-messages
 data SMPQueueUri = SMPQueueUri {clientVRange :: VersionRangeSMPC, queueAddress :: SMPQueueAddress}
   deriving (Eq, Show)
 

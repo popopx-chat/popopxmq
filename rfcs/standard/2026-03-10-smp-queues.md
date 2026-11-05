@@ -2,7 +2,7 @@
 Proposed: 2025-03-16
 Implemented: ~2025 (SMP v15)
 Standardized: 2026-03-10
-Protocol: simplex-messaging + agent-protocol
+Protocol: popopx-messaging + agent-protocol
 ---
 
 > **Implementation note:** This RFC was promoted from done/ to standard/ based on verification that the described feature exists in the codebase. The RFC text reflects the original proposal and may not match the actual implementation in all details. The consolidated protocol specifications in `protocol/` are the authoritative reference for current behavior.

@@ -1,7 +1,7 @@
 # POPOPXMQ
 
-[![GitHub build](https://github.com/popopx/popopxmq/actions/workflows/build.yml/badge.svg)](https://github.com/popopx/popopxmq/actions/workflows/build.yml)
-[![GitHub release](https://img.shields.io/github/v/release/popopx/popopxmq)](https://github.com/popopx/popopxmq/releases)
+[![GitHub build](https://github.com/popopx-chat/popopxmq/actions/workflows/build.yml/badge.svg)](https://github.com/popopx-chat/popopxmq/actions/workflows/build.yml)
+[![GitHub release](https://img.shields.io/github/v/release/popopx/popopxmq)](https://github.com/popopx-chat/popopxmq/releases)
 [![License: AGPL v3](https://img.shields.io/badge/License-AGPL%20v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
 
 POPOPXMQ is a message broker for managing unidirectional (simplex) message queues, providing secure and private message transmission over public networks.
@@ -124,7 +124,7 @@ ghcup set ghc 9.6.6
 sudo apt-get install -y libgmp-dev libssl-dev
 
 # Clone repository
-git clone https://github.com/popopx/popopxmq.git
+git clone https://github.com/popopx-chat/popopxmq.git
 cd popopxmq
 
 # Update dependencies and build
@@ -217,8 +217,8 @@ This project is based on [simplexmq](https://github.com/simplex-chat/simplexmq) 
 
 - **Official Website**: https://popopx.xyz
 - **Documentation**: https://popopx.xyz/docs
-- **GitHub**: https://github.com/popopx/popopxmq
-- **Issue Tracker**: https://github.com/popopx/popopxmq/issues
+- **GitHub**: https://github.com/popopx-chat/popopxmq
+- **Issue Tracker**: https://github.com/popopx-chat/popopxmq/issues
 
 ## License
 
@@ -230,7 +230,7 @@ In compliance with the GNU Affero General Public License v3 (AGPL v3) Section 13
 
 You may obtain the source code by:
 
-- **Downloading from GitHub**: https://github.com/popopx/popopxmq
+- **Downloading from GitHub**: https://github.com/popopx-chat/popopxmq
 - **Building from source**: See the [Installation](#method-2-building-from-source) section above
 - **Requesting source code**: Contact the POPOPX Team at <chat@popopx.xyz>
 

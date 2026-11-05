@@ -60,7 +60,7 @@ echo 'root hard nofile unlimited' >> /etc/security/limits.conf
 bin_dir="/opt/popopx/bin"
 binary="$bin_dir/smp-server"
 mkdir -p $bin_dir
-curl -L -o $binary https://github.com/popopx/popopxmq/releases/latest/download/smp-server-ubuntu-20_04-x86-64
+curl -L -o $binary https://github.com/popopx-chat/popopxmq/releases/latest/download/smp-server-ubuntu-20_04-x86-64
 chmod +x $binary
 
 # / Add to PATH

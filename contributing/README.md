@@ -1,4 +1,4 @@
-# Contributing to SimpleX repositories
+# Contributing to Popopx repositories
 
 ## Focus on user problems
 
@@ -10,9 +10,9 @@ Please discuss the problem you want to solve and your detailed implementation pl
 
 ## Follow project structure, coding style and approaches
 
-./PROJECT.md has information about the structure of this `simplexmq` repository.
+./PROJECT.md has information about the structure of this `popopxmq` repository.
 
-./CODE.md has details about general requirements common for `simplexmq` and `simplex-chat` repositories.
+./CODE.md has details about general requirements common for `popopxmq` and `popopx-chat` repositories.
 
 CLAUDE.md in the repository root imports these files, this guide and ../scripts/ci/README.md for Claude Code.
 

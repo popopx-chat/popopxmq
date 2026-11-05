@@ -12,4 +12,4 @@ Change controller: Evgeny Poberezkin <ep@simplex.chat>
 
 References:
 The syntax for server URIs in the provisional specification for POPOPX File Transfer Protocol:
-https://github.com/popopx/popopxmq/blob/master/rfcs/2023-10-25-remote-control.md#session-invitation
+https://github.com/popopx-chat/popopxmq/blob/master/rfcs/2023-10-25-remote-control.md#session-invitation
