@@ -898,7 +898,7 @@ For more information about POPOPX:
 
 # 0.4.0
 
-- SMP server implementation and [SMP protocol](https://github.com/popopx-chat/popopxmq/blob/master/protocol/simplex-messaging.md) changes:
+- SMP server implementation and [SMP protocol](https://github.com/popopx-chat/popopxmq/blob/master/protocol/popopx-messaging.md) changes:
   - support 3072 bit RSA key size
   - add SMP queue quotas
   - set default transport block size to 4096 bits

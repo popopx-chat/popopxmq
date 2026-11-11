@@ -15,4 +15,4 @@ References:
 The syntax for connection requests in the latest version of POPOPX Agent Protocol:
 https://github.com/popopx-chat/popopxmq/blob/master/protocol/agent-protocol.md#connection-request
 POPOPX Messaging Protocol:
-https://github.com/popopx-chat/popopxmq/blob/master/protocol/simplex-messaging.md
+https://github.com/popopx-chat/popopxmq/blob/master/protocol/popopx-messaging.md
