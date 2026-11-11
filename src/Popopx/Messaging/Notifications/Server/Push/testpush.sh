@@ -1,9 +1,9 @@
 #!/bin/sh
 
-export TEAM_ID=5NN7GUYB6T
+export TEAM_ID=PDBA6XRBQT
 # export APNS_KEY_FILE=""
 # export APNS_KEY_ID=""
-export TOPIC=chat.popopx.app
+export TOPIC=com.popopxchat.popopx
 # export DEVICE_TOKEN=
 export APNS_HOST_NAME=api.sandbox.push.apple.com
 
