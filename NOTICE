@@ -58,8 +58,8 @@ this repository records every modification; the material steps are:
   listed in section 2.
 - 2026-11-12 - 23 links into this repository's own renamed documents repaired;
   application identifiers updated (apple-app-site-association appID, assetlinks
-  package name, APNs topic and team defaults, Play Store links); the xftp web
-  bundle rebuilt from source; this notice added.
+  package name, APNs topic and team defaults, Play Store links, App Store
+  record ID); the xftp web bundle rebuilt from source; this notice added.
 
 Modifications that change behaviour or interoperability, not just names:
 
