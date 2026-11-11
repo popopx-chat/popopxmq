@@ -1,4 +1,4 @@
-name: SimpleX Chat - smp-server
+name: POPOPX Chat - smp-server
 
 services:
   oneshot:
@@ -42,7 +42,7 @@ services:
       retries: 60
 
   smp-server:
-    image: ${SIMPLEX_IMAGE:-simplexchat/smp-server:latest}
+    image: ${POPOPX_IMAGE:-popopxchat/smp-server:latest}
     depends_on:
       caddy:
         condition: service_healthy
@@ -50,8 +50,8 @@ services:
       ADDR: ${ADDR?"Please specify the domain."}
       PASS: ${PASS:-}
     volumes:
-      - ./smp_configs:/etc/opt/simplex
-      - ./smp_state:/var/opt/simplex
+      - ./smp_configs:/etc/opt/popopx
+      - ./smp_state:/var/opt/popopx
       - type: volume
         source: caddy_data
         target: /certificates

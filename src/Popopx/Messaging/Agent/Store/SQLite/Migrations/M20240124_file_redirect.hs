@@ -1,6 +1,6 @@
 {-# LANGUAGE QuasiQuotes #-}
 
-module Simplex.Messaging.Agent.Store.SQLite.Migrations.M20240124_file_redirect where
+module Popopx.Messaging.Agent.Store.SQLite.Migrations.M20240124_file_redirect where
 
 import Database.SQLite.Simple (Query)
 import Database.SQLite.Simple.QQ (sql)

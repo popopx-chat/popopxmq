@@ -1,6 +1,6 @@
 {-# LANGUAGE QuasiQuotes #-}
 
-module Simplex.Messaging.Agent.Store.SQLite.Migrations.M20260823_snd_files_entitlement where
+module Popopx.Messaging.Agent.Store.SQLite.Migrations.M20260823_snd_files_entitlement where
 
 import Database.SQLite.Simple (Query)
 import Database.SQLite.Simple.QQ (sql)

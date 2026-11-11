@@ -5,7 +5,7 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE TupleSections #-}
 
-module Simplex.Messaging.Agent.Store.Postgres.Common
+module Popopx.Messaging.Agent.Store.Postgres.Common
   ( DBStore (..),
     DBStorePool (..),
     DBOpts (..),
@@ -28,8 +28,8 @@ import Data.ByteString (ByteString)
 import Data.Functor (($>))
 import qualified Database.PostgreSQL.Simple as PSQL
 import Numeric.Natural (Natural)
-import Simplex.Messaging.Agent.Store.Postgres.Options
-import Simplex.Messaging.Util (ifM)
+import Popopx.Messaging.Agent.Store.Postgres.Options
+import Popopx.Messaging.Util (ifM)
 
 -- TODO [postgres] use log_min_duration_statement instead of custom slow queries (SQLite's Connection type)
 data DBStore = DBStore

@@ -1,7 +1,7 @@
 {-# LANGUAGE NamedFieldPuns #-}
 {-# LANGUAGE OverloadedStrings #-}
 
-module Simplex.Messaging.Transport.HTTP2
+module Popopx.Messaging.Transport.HTTP2
   ( HTTP2Body (..),
     HTTP2BodyChunk (..),
     defaultHTTP2BufferSize,
@@ -25,8 +25,8 @@ import qualified Network.HTTP2.Server as HS
 import Network.Socket (SockAddr (..))
 import qualified Network.TLS as T
 import qualified Network.TLS.Extra as TE
-import Simplex.Messaging.Transport (ALPN, TLS, Transport (cGet, cPut))
-import Simplex.Messaging.Transport.Buffer
+import Popopx.Messaging.Transport (ALPN, TLS, Transport (cGet, cPut))
+import Popopx.Messaging.Transport.Buffer
 import qualified System.TimeManager as TI
 
 defaultHTTP2BufferSize :: BufferSize

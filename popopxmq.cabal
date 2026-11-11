@@ -1,18 +1,18 @@
 cabal-version: 3.0
 
-name:           simplexmq
+name:           popopxmq
 version:        7.1.0.17
-synopsis:       SimpleXMQ message broker
-description:    This package includes <./docs/Simplex-Messaging-Server.html server>,
-                <./docs/Simplex-Messaging-Client.html client> and
-                <./docs/Simplex-Messaging-Agent.html agent> for SMP protocols:
+synopsis:       POPOPXMQ message broker
+description:    This package includes <./docs/Popopx-Messaging-Server.html server>,
+                <./docs/Popopx-Messaging-Client.html client> and
+                <./docs/Popopx-Messaging-Agent.html agent> for SMP protocols:
                 .
-                * <https://github.com/simplex-chat/simplexmq/blob/master/protocol/simplex-messaging.md SMP protocol>
-                * <https://github.com/simplex-chat/simplexmq/blob/master/protocol/agent-protocol.md SMP agent protocol>
+                * <https://github.com/popopx-chat/popopxmq/blob/master/protocol/simplex-messaging.md SMP protocol>
+                * <https://github.com/popopx-chat/popopxmq/blob/master/protocol/agent-protocol.md SMP agent protocol>
                 .
-                See <https://github.com/simplex-chat/simplex-chat terminal chat prototype> built with SimpleXMQ broker.
+                See <https://github.com/simplex-chat/simplex-chat terminal chat prototype> built with POPOPXMQ broker.
 category:       Chat, Network, Web, System, Cryptography
-homepage:       https://github.com/simplex-chat/simplexmq#readme
+homepage:       https://github.com/popopx-chat/popopxmq#readme
 author:         simplex.chat
 maintainer:     chat@simplex.chat
 copyright:      2020-2022 simplex.chat
@@ -96,231 +96,231 @@ flag commoncrypto
 
 library
   exposed-modules:
-      Simplex.FileTransfer.Agent
-      Simplex.FileTransfer.Chunks
-      Simplex.FileTransfer.Client
-      Simplex.FileTransfer.Client.Agent
-      Simplex.FileTransfer.Client.Presets
-      Simplex.FileTransfer.Crypto
-      Simplex.FileTransfer.Description
-      Simplex.FileTransfer.Protocol
-      Simplex.FileTransfer.Transport
-      Simplex.FileTransfer.Types
-      Simplex.FileTransfer.Util
-      Simplex.Messaging.Agent
-      Simplex.Messaging.Agent.Client
-      Simplex.Messaging.Agent.Env.SQLite
-      Simplex.Messaging.Agent.Lock
-      Simplex.Messaging.Agent.NtfSubSupervisor
-      Simplex.Messaging.Agent.Protocol
-      Simplex.Messaging.Agent.QueryString
-      Simplex.Messaging.Agent.RetryInterval
-      Simplex.Messaging.Agent.Stats
-      Simplex.Messaging.Agent.Store
-      Simplex.Messaging.Agent.Store.AgentStore
-      Simplex.Messaging.Agent.Store.Common
-      Simplex.Messaging.Agent.Store.DB
-      Simplex.Messaging.Agent.Store.Entity
-      Simplex.Messaging.Agent.Store.Interface
-      Simplex.Messaging.Agent.Store.Migrations
-      Simplex.Messaging.Agent.Store.Migrations.App
-      Simplex.Messaging.Agent.Store.Postgres.Options
-      Simplex.Messaging.Agent.Store.Shared
-      Simplex.Messaging.Agent.TSessionSubs
-      Simplex.Messaging.Client
-      Simplex.Messaging.Client.Agent
-      Simplex.Messaging.Compression
-      Simplex.Messaging.Crypto
-      Simplex.Messaging.Crypto.File
-      Simplex.Messaging.Crypto.Lazy
-      Simplex.Messaging.Crypto.Ratchet
-      Simplex.Messaging.Crypto.BBS
-      Simplex.Messaging.Crypto.Entitlement
-      Simplex.Messaging.Crypto.SNTRUP761
-      Simplex.Messaging.Crypto.SNTRUP761.Bindings
-      Simplex.Messaging.Crypto.SNTRUP761.Bindings.Defines
-      Simplex.Messaging.Crypto.SNTRUP761.Bindings.FFI
-      Simplex.Messaging.Crypto.SNTRUP761.Bindings.RNG
-      Simplex.Messaging.Crypto.ShortLink
-      Simplex.Messaging.Encoding
-      Simplex.Messaging.Encoding.String
-      Simplex.Messaging.Names.Record
-      Simplex.Messaging.Notifications.Client
-      Simplex.Messaging.Notifications.Protocol
-      Simplex.Messaging.Notifications.Transport
-      Simplex.Messaging.Notifications.Types
-      Simplex.Messaging.Parsers
-      Simplex.Messaging.Protocol
-      Simplex.Messaging.Protocol.Types
-      Simplex.Messaging.Server.Expiration
-      Simplex.Messaging.Server.Information
-      Simplex.Messaging.Server.QueueStore.Postgres.Config
-      Simplex.Messaging.Server.QueueStore.QueueInfo
-      Simplex.Messaging.ServiceScheme
-      Simplex.Messaging.SimplexName
-      Simplex.Messaging.Session
-      Simplex.Messaging.SystemTime
-      Simplex.Messaging.TMap
-      Simplex.Messaging.Transport
-      Simplex.Messaging.Transport.Buffer
-      Simplex.Messaging.Transport.Client
-      Simplex.Messaging.Transport.Credentials
-      Simplex.Messaging.Transport.HTTP2
-      Simplex.Messaging.Transport.HTTP2.Client
-      Simplex.Messaging.Transport.HTTP2.File
-      Simplex.Messaging.Transport.HTTP2.Server
-      Simplex.Messaging.Transport.KeepAlive
-      Simplex.Messaging.Transport.Server
-      Simplex.Messaging.Transport.Shared
-      Simplex.Messaging.Util
-      Simplex.Messaging.Version
-      Simplex.Messaging.Version.Internal
-      Simplex.RemoteControl.Client
-      Simplex.RemoteControl.Discovery
-      Simplex.RemoteControl.Discovery.Multicast
-      Simplex.RemoteControl.Invitation
-      Simplex.RemoteControl.Types
+      Popopx.FileTransfer.Agent
+      Popopx.FileTransfer.Chunks
+      Popopx.FileTransfer.Client
+      Popopx.FileTransfer.Client.Agent
+      Popopx.FileTransfer.Client.Presets
+      Popopx.FileTransfer.Crypto
+      Popopx.FileTransfer.Description
+      Popopx.FileTransfer.Protocol
+      Popopx.FileTransfer.Transport
+      Popopx.FileTransfer.Types
+      Popopx.FileTransfer.Util
+      Popopx.Messaging.Agent
+      Popopx.Messaging.Agent.Client
+      Popopx.Messaging.Agent.Env.SQLite
+      Popopx.Messaging.Agent.Lock
+      Popopx.Messaging.Agent.NtfSubSupervisor
+      Popopx.Messaging.Agent.Protocol
+      Popopx.Messaging.Agent.QueryString
+      Popopx.Messaging.Agent.RetryInterval
+      Popopx.Messaging.Agent.Stats
+      Popopx.Messaging.Agent.Store
+      Popopx.Messaging.Agent.Store.AgentStore
+      Popopx.Messaging.Agent.Store.Common
+      Popopx.Messaging.Agent.Store.DB
+      Popopx.Messaging.Agent.Store.Entity
+      Popopx.Messaging.Agent.Store.Interface
+      Popopx.Messaging.Agent.Store.Migrations
+      Popopx.Messaging.Agent.Store.Migrations.App
+      Popopx.Messaging.Agent.Store.Postgres.Options
+      Popopx.Messaging.Agent.Store.Shared
+      Popopx.Messaging.Agent.TSessionSubs
+      Popopx.Messaging.Client
+      Popopx.Messaging.Client.Agent
+      Popopx.Messaging.Compression
+      Popopx.Messaging.Crypto
+      Popopx.Messaging.Crypto.File
+      Popopx.Messaging.Crypto.Lazy
+      Popopx.Messaging.Crypto.Ratchet
+      Popopx.Messaging.Crypto.BBS
+      Popopx.Messaging.Crypto.Entitlement
+      Popopx.Messaging.Crypto.SNTRUP761
+      Popopx.Messaging.Crypto.SNTRUP761.Bindings
+      Popopx.Messaging.Crypto.SNTRUP761.Bindings.Defines
+      Popopx.Messaging.Crypto.SNTRUP761.Bindings.FFI
+      Popopx.Messaging.Crypto.SNTRUP761.Bindings.RNG
+      Popopx.Messaging.Crypto.ShortLink
+      Popopx.Messaging.Encoding
+      Popopx.Messaging.Encoding.String
+      Popopx.Messaging.Names.Record
+      Popopx.Messaging.Notifications.Client
+      Popopx.Messaging.Notifications.Protocol
+      Popopx.Messaging.Notifications.Transport
+      Popopx.Messaging.Notifications.Types
+      Popopx.Messaging.Parsers
+      Popopx.Messaging.Protocol
+      Popopx.Messaging.Protocol.Types
+      Popopx.Messaging.Server.Expiration
+      Popopx.Messaging.Server.Information
+      Popopx.Messaging.Server.QueueStore.Postgres.Config
+      Popopx.Messaging.Server.QueueStore.QueueInfo
+      Popopx.Messaging.ServiceScheme
+      Popopx.Messaging.PopopxName
+      Popopx.Messaging.Session
+      Popopx.Messaging.SystemTime
+      Popopx.Messaging.TMap
+      Popopx.Messaging.Transport
+      Popopx.Messaging.Transport.Buffer
+      Popopx.Messaging.Transport.Client
+      Popopx.Messaging.Transport.Credentials
+      Popopx.Messaging.Transport.HTTP2
+      Popopx.Messaging.Transport.HTTP2.Client
+      Popopx.Messaging.Transport.HTTP2.File
+      Popopx.Messaging.Transport.HTTP2.Server
+      Popopx.Messaging.Transport.KeepAlive
+      Popopx.Messaging.Transport.Server
+      Popopx.Messaging.Transport.Shared
+      Popopx.Messaging.Util
+      Popopx.Messaging.Version
+      Popopx.Messaging.Version.Internal
+      Popopx.RemoteControl.Client
+      Popopx.RemoteControl.Discovery
+      Popopx.RemoteControl.Discovery.Multicast
+      Popopx.RemoteControl.Invitation
+      Popopx.RemoteControl.Types
   if flag(client_postgres)
       exposed-modules:
-          Simplex.Messaging.Agent.Store.Postgres.Migrations.App
-          Simplex.Messaging.Agent.Store.Postgres.Migrations.M20241210_initial
-          Simplex.Messaging.Agent.Store.Postgres.Migrations.M20250203_msg_bodies
-          Simplex.Messaging.Agent.Store.Postgres.Migrations.M20250322_short_links
-          Simplex.Messaging.Agent.Store.Postgres.Migrations.M20250702_conn_invitations_remove_cascade_delete
-          Simplex.Messaging.Agent.Store.Postgres.Migrations.M20251009_queue_to_subscribe
-          Simplex.Messaging.Agent.Store.Postgres.Migrations.M20251010_client_notices
-          Simplex.Messaging.Agent.Store.Postgres.Migrations.M20251230_strict_tables
-          Simplex.Messaging.Agent.Store.Postgres.Migrations.M20260410_receive_attempts
-          Simplex.Messaging.Agent.Store.Postgres.Migrations.M20260411_service_certs
-          Simplex.Messaging.Agent.Store.Postgres.Migrations.M20260712_address_dr_rpc
-          Simplex.Messaging.Agent.Store.Postgres.Migrations.M20260823_snd_files_entitlement
-          Simplex.Messaging.Agent.Store.Postgres.Migrations.M20260919_ratchet_verify_codes
-          Simplex.Messaging.Agent.Store.Postgres.Migrations.M20260929_ratchet_indexes
-          Simplex.Messaging.Agent.Store.Postgres.Migrations.M20261008_rcv_switch_status
+          Popopx.Messaging.Agent.Store.Postgres.Migrations.App
+          Popopx.Messaging.Agent.Store.Postgres.Migrations.M20241210_initial
+          Popopx.Messaging.Agent.Store.Postgres.Migrations.M20250203_msg_bodies
+          Popopx.Messaging.Agent.Store.Postgres.Migrations.M20250322_short_links
+          Popopx.Messaging.Agent.Store.Postgres.Migrations.M20250702_conn_invitations_remove_cascade_delete
+          Popopx.Messaging.Agent.Store.Postgres.Migrations.M20251009_queue_to_subscribe
+          Popopx.Messaging.Agent.Store.Postgres.Migrations.M20251010_client_notices
+          Popopx.Messaging.Agent.Store.Postgres.Migrations.M20251230_strict_tables
+          Popopx.Messaging.Agent.Store.Postgres.Migrations.M20260410_receive_attempts
+          Popopx.Messaging.Agent.Store.Postgres.Migrations.M20260411_service_certs
+          Popopx.Messaging.Agent.Store.Postgres.Migrations.M20260712_address_dr_rpc
+          Popopx.Messaging.Agent.Store.Postgres.Migrations.M20260823_snd_files_entitlement
+          Popopx.Messaging.Agent.Store.Postgres.Migrations.M20260919_ratchet_verify_codes
+          Popopx.Messaging.Agent.Store.Postgres.Migrations.M20260929_ratchet_indexes
+          Popopx.Messaging.Agent.Store.Postgres.Migrations.M20261008_rcv_switch_status
   else
       exposed-modules:
-          Simplex.Messaging.Agent.Store.SQLite
-          Simplex.Messaging.Agent.Store.SQLite.Common
-          Simplex.Messaging.Agent.Store.SQLite.DB
-          Simplex.Messaging.Agent.Store.SQLite.Migrations
-          Simplex.Messaging.Agent.Store.SQLite.Migrations.App
-          Simplex.Messaging.Agent.Store.SQLite.Migrations.M20220101_initial
-          Simplex.Messaging.Agent.Store.SQLite.Migrations.M20220301_snd_queue_keys
-          Simplex.Messaging.Agent.Store.SQLite.Migrations.M20220322_notifications
-          Simplex.Messaging.Agent.Store.SQLite.Migrations.M20220608_v2
-          Simplex.Messaging.Agent.Store.SQLite.Migrations.M20220625_v2_ntf_mode
-          Simplex.Messaging.Agent.Store.SQLite.Migrations.M20220811_onion_hosts
-          Simplex.Messaging.Agent.Store.SQLite.Migrations.M20220817_connection_ntfs
-          Simplex.Messaging.Agent.Store.SQLite.Migrations.M20220905_commands
-          Simplex.Messaging.Agent.Store.SQLite.Migrations.M20220915_connection_queues
-          Simplex.Messaging.Agent.Store.SQLite.Migrations.M20230110_users
-          Simplex.Messaging.Agent.Store.SQLite.Migrations.M20230117_fkey_indexes
-          Simplex.Messaging.Agent.Store.SQLite.Migrations.M20230120_delete_errors
-          Simplex.Messaging.Agent.Store.SQLite.Migrations.M20230217_server_key_hash
-          Simplex.Messaging.Agent.Store.SQLite.Migrations.M20230223_files
-          Simplex.Messaging.Agent.Store.SQLite.Migrations.M20230320_retry_state
-          Simplex.Messaging.Agent.Store.SQLite.Migrations.M20230401_snd_files
-          Simplex.Messaging.Agent.Store.SQLite.Migrations.M20230510_files_pending_replicas_indexes
-          Simplex.Messaging.Agent.Store.SQLite.Migrations.M20230516_encrypted_rcv_message_hashes
-          Simplex.Messaging.Agent.Store.SQLite.Migrations.M20230531_switch_status
-          Simplex.Messaging.Agent.Store.SQLite.Migrations.M20230615_ratchet_sync
-          Simplex.Messaging.Agent.Store.SQLite.Migrations.M20230701_delivery_receipts
-          Simplex.Messaging.Agent.Store.SQLite.Migrations.M20230720_delete_expired_messages
-          Simplex.Messaging.Agent.Store.SQLite.Migrations.M20230722_indexes
-          Simplex.Messaging.Agent.Store.SQLite.Migrations.M20230814_indexes
-          Simplex.Messaging.Agent.Store.SQLite.Migrations.M20230829_crypto_files
-          Simplex.Messaging.Agent.Store.SQLite.Migrations.M20231222_command_created_at
-          Simplex.Messaging.Agent.Store.SQLite.Migrations.M20231225_failed_work_items
-          Simplex.Messaging.Agent.Store.SQLite.Migrations.M20240121_message_delivery_indexes
-          Simplex.Messaging.Agent.Store.SQLite.Migrations.M20240124_file_redirect
-          Simplex.Messaging.Agent.Store.SQLite.Migrations.M20240223_connections_wait_delivery
-          Simplex.Messaging.Agent.Store.SQLite.Migrations.M20240225_ratchet_kem
-          Simplex.Messaging.Agent.Store.SQLite.Migrations.M20240417_rcv_files_approved_relays
-          Simplex.Messaging.Agent.Store.SQLite.Migrations.M20240624_snd_secure
-          Simplex.Messaging.Agent.Store.SQLite.Migrations.M20240702_servers_stats
-          Simplex.Messaging.Agent.Store.SQLite.Migrations.M20240930_ntf_tokens_to_delete
-          Simplex.Messaging.Agent.Store.SQLite.Migrations.M20241007_rcv_queues_last_broker_ts
-          Simplex.Messaging.Agent.Store.SQLite.Migrations.M20241224_ratchet_e2e_snd_params
-          Simplex.Messaging.Agent.Store.SQLite.Migrations.M20250203_msg_bodies
-          Simplex.Messaging.Agent.Store.SQLite.Migrations.M20250322_short_links
-          Simplex.Messaging.Agent.Store.SQLite.Migrations.M20250702_conn_invitations_remove_cascade_delete
-          Simplex.Messaging.Agent.Store.SQLite.Migrations.M20251009_queue_to_subscribe
-          Simplex.Messaging.Agent.Store.SQLite.Migrations.M20251010_client_notices
-          Simplex.Messaging.Agent.Store.SQLite.Migrations.M20251230_strict_tables
-          Simplex.Messaging.Agent.Store.SQLite.Migrations.M20260410_receive_attempts
-          Simplex.Messaging.Agent.Store.SQLite.Migrations.M20260411_service_certs
-          Simplex.Messaging.Agent.Store.SQLite.Migrations.M20260712_address_dr_rpc
-          Simplex.Messaging.Agent.Store.SQLite.Migrations.M20260823_snd_files_entitlement
-          Simplex.Messaging.Agent.Store.SQLite.Migrations.M20260919_ratchet_verify_codes
-          Simplex.Messaging.Agent.Store.SQLite.Migrations.M20260929_ratchet_indexes
-          Simplex.Messaging.Agent.Store.SQLite.Migrations.M20261005_commands_autoincrement
-          Simplex.Messaging.Agent.Store.SQLite.Migrations.M20261008_rcv_switch_status
-          Simplex.Messaging.Agent.Store.SQLite.Migrations.M20261018_xftp_autoincrement
-          Simplex.Messaging.Agent.Store.SQLite.Util
+          Popopx.Messaging.Agent.Store.SQLite
+          Popopx.Messaging.Agent.Store.SQLite.Common
+          Popopx.Messaging.Agent.Store.SQLite.DB
+          Popopx.Messaging.Agent.Store.SQLite.Migrations
+          Popopx.Messaging.Agent.Store.SQLite.Migrations.App
+          Popopx.Messaging.Agent.Store.SQLite.Migrations.M20220101_initial
+          Popopx.Messaging.Agent.Store.SQLite.Migrations.M20220301_snd_queue_keys
+          Popopx.Messaging.Agent.Store.SQLite.Migrations.M20220322_notifications
+          Popopx.Messaging.Agent.Store.SQLite.Migrations.M20220608_v2
+          Popopx.Messaging.Agent.Store.SQLite.Migrations.M20220625_v2_ntf_mode
+          Popopx.Messaging.Agent.Store.SQLite.Migrations.M20220811_onion_hosts
+          Popopx.Messaging.Agent.Store.SQLite.Migrations.M20220817_connection_ntfs
+          Popopx.Messaging.Agent.Store.SQLite.Migrations.M20220905_commands
+          Popopx.Messaging.Agent.Store.SQLite.Migrations.M20220915_connection_queues
+          Popopx.Messaging.Agent.Store.SQLite.Migrations.M20230110_users
+          Popopx.Messaging.Agent.Store.SQLite.Migrations.M20230117_fkey_indexes
+          Popopx.Messaging.Agent.Store.SQLite.Migrations.M20230120_delete_errors
+          Popopx.Messaging.Agent.Store.SQLite.Migrations.M20230217_server_key_hash
+          Popopx.Messaging.Agent.Store.SQLite.Migrations.M20230223_files
+          Popopx.Messaging.Agent.Store.SQLite.Migrations.M20230320_retry_state
+          Popopx.Messaging.Agent.Store.SQLite.Migrations.M20230401_snd_files
+          Popopx.Messaging.Agent.Store.SQLite.Migrations.M20230510_files_pending_replicas_indexes
+          Popopx.Messaging.Agent.Store.SQLite.Migrations.M20230516_encrypted_rcv_message_hashes
+          Popopx.Messaging.Agent.Store.SQLite.Migrations.M20230531_switch_status
+          Popopx.Messaging.Agent.Store.SQLite.Migrations.M20230615_ratchet_sync
+          Popopx.Messaging.Agent.Store.SQLite.Migrations.M20230701_delivery_receipts
+          Popopx.Messaging.Agent.Store.SQLite.Migrations.M20230720_delete_expired_messages
+          Popopx.Messaging.Agent.Store.SQLite.Migrations.M20230722_indexes
+          Popopx.Messaging.Agent.Store.SQLite.Migrations.M20230814_indexes
+          Popopx.Messaging.Agent.Store.SQLite.Migrations.M20230829_crypto_files
+          Popopx.Messaging.Agent.Store.SQLite.Migrations.M20231222_command_created_at
+          Popopx.Messaging.Agent.Store.SQLite.Migrations.M20231225_failed_work_items
+          Popopx.Messaging.Agent.Store.SQLite.Migrations.M20240121_message_delivery_indexes
+          Popopx.Messaging.Agent.Store.SQLite.Migrations.M20240124_file_redirect
+          Popopx.Messaging.Agent.Store.SQLite.Migrations.M20240223_connections_wait_delivery
+          Popopx.Messaging.Agent.Store.SQLite.Migrations.M20240225_ratchet_kem
+          Popopx.Messaging.Agent.Store.SQLite.Migrations.M20240417_rcv_files_approved_relays
+          Popopx.Messaging.Agent.Store.SQLite.Migrations.M20240624_snd_secure
+          Popopx.Messaging.Agent.Store.SQLite.Migrations.M20240702_servers_stats
+          Popopx.Messaging.Agent.Store.SQLite.Migrations.M20240930_ntf_tokens_to_delete
+          Popopx.Messaging.Agent.Store.SQLite.Migrations.M20241007_rcv_queues_last_broker_ts
+          Popopx.Messaging.Agent.Store.SQLite.Migrations.M20241224_ratchet_e2e_snd_params
+          Popopx.Messaging.Agent.Store.SQLite.Migrations.M20250203_msg_bodies
+          Popopx.Messaging.Agent.Store.SQLite.Migrations.M20250322_short_links
+          Popopx.Messaging.Agent.Store.SQLite.Migrations.M20250702_conn_invitations_remove_cascade_delete
+          Popopx.Messaging.Agent.Store.SQLite.Migrations.M20251009_queue_to_subscribe
+          Popopx.Messaging.Agent.Store.SQLite.Migrations.M20251010_client_notices
+          Popopx.Messaging.Agent.Store.SQLite.Migrations.M20251230_strict_tables
+          Popopx.Messaging.Agent.Store.SQLite.Migrations.M20260410_receive_attempts
+          Popopx.Messaging.Agent.Store.SQLite.Migrations.M20260411_service_certs
+          Popopx.Messaging.Agent.Store.SQLite.Migrations.M20260712_address_dr_rpc
+          Popopx.Messaging.Agent.Store.SQLite.Migrations.M20260823_snd_files_entitlement
+          Popopx.Messaging.Agent.Store.SQLite.Migrations.M20260919_ratchet_verify_codes
+          Popopx.Messaging.Agent.Store.SQLite.Migrations.M20260929_ratchet_indexes
+          Popopx.Messaging.Agent.Store.SQLite.Migrations.M20261005_commands_autoincrement
+          Popopx.Messaging.Agent.Store.SQLite.Migrations.M20261008_rcv_switch_status
+          Popopx.Messaging.Agent.Store.SQLite.Migrations.M20261018_xftp_autoincrement
+          Popopx.Messaging.Agent.Store.SQLite.Util
   if flag(client_postgres) || flag(server_postgres)
       exposed-modules:
-          Simplex.Messaging.Agent.Store.Postgres
-          Simplex.Messaging.Agent.Store.Postgres.Common
-          Simplex.Messaging.Agent.Store.Postgres.DB
-          Simplex.Messaging.Agent.Store.Postgres.Migrations
-          Simplex.Messaging.Agent.Store.Postgres.Migrations.Util
-          Simplex.Messaging.Agent.Store.Postgres.Util
+          Popopx.Messaging.Agent.Store.Postgres
+          Popopx.Messaging.Agent.Store.Postgres.Common
+          Popopx.Messaging.Agent.Store.Postgres.DB
+          Popopx.Messaging.Agent.Store.Postgres.Migrations
+          Popopx.Messaging.Agent.Store.Postgres.Migrations.Util
+          Popopx.Messaging.Agent.Store.Postgres.Util
   if !flag(client_library)
       exposed-modules:
-          Simplex.FileTransfer.Client.Main
-          Simplex.FileTransfer.Server
-          Simplex.FileTransfer.Server.Control
-          Simplex.FileTransfer.Server.Env
-          Simplex.FileTransfer.Server.Main
-          Simplex.FileTransfer.Server.Prometheus
-          Simplex.FileTransfer.Server.Stats
-          Simplex.FileTransfer.Server.Store
-          Simplex.FileTransfer.Server.StoreLog
-          Simplex.Messaging.Server
-          Simplex.Messaging.Server.CLI
-          Simplex.Messaging.Server.Control
-          Simplex.Messaging.Server.Env.STM
-          Simplex.Messaging.Server.Main
-          Simplex.Messaging.Server.Main.GitCommit
-          Simplex.Messaging.Server.Main.Init
-          Simplex.Messaging.Server.Web
-          Simplex.Messaging.Server.MsgStore
-          Simplex.Messaging.Server.MsgStore.STM
-          Simplex.Messaging.Server.MsgStore.Types
-          Simplex.Messaging.Server.Names
-          Simplex.Messaging.Server.Names.HttpResolver
-          Simplex.Messaging.Server.NtfStore
-          Simplex.Messaging.Server.Prometheus
-          Simplex.Messaging.Server.QueueStore
-          Simplex.Messaging.Server.QueueStore.STM
-          Simplex.Messaging.Server.QueueStore.Types
-          Simplex.Messaging.Server.Stats
-          Simplex.Messaging.Server.StoreLog
-          Simplex.Messaging.Server.StoreLog.ReadWrite
-          Simplex.Messaging.Server.StoreLog.Types
-          Simplex.Messaging.Transport.WebSockets
+          Popopx.FileTransfer.Client.Main
+          Popopx.FileTransfer.Server
+          Popopx.FileTransfer.Server.Control
+          Popopx.FileTransfer.Server.Env
+          Popopx.FileTransfer.Server.Main
+          Popopx.FileTransfer.Server.Prometheus
+          Popopx.FileTransfer.Server.Stats
+          Popopx.FileTransfer.Server.Store
+          Popopx.FileTransfer.Server.StoreLog
+          Popopx.Messaging.Server
+          Popopx.Messaging.Server.CLI
+          Popopx.Messaging.Server.Control
+          Popopx.Messaging.Server.Env.STM
+          Popopx.Messaging.Server.Main
+          Popopx.Messaging.Server.Main.GitCommit
+          Popopx.Messaging.Server.Main.Init
+          Popopx.Messaging.Server.Web
+          Popopx.Messaging.Server.MsgStore
+          Popopx.Messaging.Server.MsgStore.STM
+          Popopx.Messaging.Server.MsgStore.Types
+          Popopx.Messaging.Server.Names
+          Popopx.Messaging.Server.Names.HttpResolver
+          Popopx.Messaging.Server.NtfStore
+          Popopx.Messaging.Server.Prometheus
+          Popopx.Messaging.Server.QueueStore
+          Popopx.Messaging.Server.QueueStore.STM
+          Popopx.Messaging.Server.QueueStore.Types
+          Popopx.Messaging.Server.Stats
+          Popopx.Messaging.Server.StoreLog
+          Popopx.Messaging.Server.StoreLog.ReadWrite
+          Popopx.Messaging.Server.StoreLog.Types
+          Popopx.Messaging.Transport.WebSockets
       if flag(server_postgres)
           exposed-modules:
-              Simplex.Messaging.Notifications.Server
-              Simplex.Messaging.Notifications.Server.Control
-              Simplex.Messaging.Notifications.Server.Env
-              Simplex.Messaging.Notifications.Server.Main
-              Simplex.Messaging.Notifications.Server.Prometheus
-              Simplex.Messaging.Notifications.Server.Push.APNS
-              Simplex.Messaging.Notifications.Server.Push.APNS.Internal
-              Simplex.Messaging.Notifications.Server.Stats
-              Simplex.Messaging.Notifications.Server.Store
-              Simplex.Messaging.Notifications.Server.Store.Migrations
-              Simplex.Messaging.Notifications.Server.Store.Postgres
-              Simplex.Messaging.Notifications.Server.Store.Types
-              Simplex.FileTransfer.Server.Store.Postgres
-              Simplex.FileTransfer.Server.Store.Postgres.Config
-              Simplex.FileTransfer.Server.Store.Postgres.Migrations
-              Simplex.Messaging.Server.MsgStore.Postgres
-              Simplex.Messaging.Server.QueueStore.Postgres
-              Simplex.Messaging.Server.QueueStore.Postgres.Migrations
+              Popopx.Messaging.Notifications.Server
+              Popopx.Messaging.Notifications.Server.Control
+              Popopx.Messaging.Notifications.Server.Env
+              Popopx.Messaging.Notifications.Server.Main
+              Popopx.Messaging.Notifications.Server.Prometheus
+              Popopx.Messaging.Notifications.Server.Push.APNS
+              Popopx.Messaging.Notifications.Server.Push.APNS.Internal
+              Popopx.Messaging.Notifications.Server.Stats
+              Popopx.Messaging.Notifications.Server.Store
+              Popopx.Messaging.Notifications.Server.Store.Migrations
+              Popopx.Messaging.Notifications.Server.Store.Postgres
+              Popopx.Messaging.Notifications.Server.Store.Types
+              Popopx.FileTransfer.Server.Store.Postgres
+              Popopx.FileTransfer.Server.Store.Postgres.Config
+              Popopx.FileTransfer.Server.Store.Postgres.Migrations
+              Popopx.Messaging.Server.MsgStore.Postgres
+              Popopx.Messaging.Server.QueueStore.Postgres
+              Popopx.Messaging.Server.QueueStore.Postgres.Migrations
   other-modules:
-      Paths_simplexmq
+      Paths_popopxmq
   hs-source-dirs:
       src
   default-extensions:
@@ -455,7 +455,7 @@ executable ntf-server
     buildable: False
   main-is: Main.hs
   other-modules:
-      Paths_simplexmq
+      Paths_popopxmq
   hs-source-dirs:
       apps/ntf-server
   default-extensions:
@@ -464,7 +464,7 @@ executable ntf-server
   build-depends:
       base
     , simple-logger
-    , simplexmq
+    , popopxmq
   default-language: Haskell2010
 
 executable smp-server
@@ -476,7 +476,7 @@ executable smp-server
   other-modules:
       SMPWeb
       Web.Embedded
-      Paths_simplexmq
+      Paths_popopxmq
   hs-source-dirs:
       apps/smp-server
       apps/common
@@ -488,7 +488,7 @@ executable smp-server
     , bytestring
     , file-embed >=0.0.10 && <0.1
     , simple-logger
-    , simplexmq
+    , popopxmq
     , text
   default-language: Haskell2010
 
@@ -497,7 +497,7 @@ executable xftp
       buildable: False
   main-is: Main.hs
   other-modules:
-      Paths_simplexmq
+      Paths_popopxmq
   hs-source-dirs:
       apps/xftp
   default-extensions:
@@ -505,7 +505,7 @@ executable xftp
   ghc-options: -Weverything -Wno-missing-exported-signatures -Wno-missing-import-lists -Wno-missed-specialisations -Wno-all-missed-specialisations -Wno-unsafe -Wno-safe -Wno-missing-local-signatures -Wno-missing-kind-signatures -Wno-missing-deriving-strategies -Wno-monomorphism-restriction -Wno-prepositive-qualified-module -Wno-implicit-prelude -Wno-missing-safe-haskell-mode -Wno-missing-export-lists -Wno-partial-fields -Wcompat -Werror=incomplete-record-updates -Werror=incomplete-patterns -Werror=incomplete-uni-patterns -Werror=missing-methods -Werror=tabs -Wredundant-constraints -Wincomplete-record-updates -Wunused-type-patterns -O2 -threaded -rtsopts
   build-depends:
       base
-    , simplexmq
+    , popopxmq
   default-language: Haskell2010
 
 executable xftp-server
@@ -515,7 +515,7 @@ executable xftp-server
   other-modules:
       XFTPWeb
       Web.Embedded
-      Paths_simplexmq
+      Paths_popopxmq
   hs-source-dirs:
       apps/xftp-server
       apps/common
@@ -529,10 +529,10 @@ executable xftp-server
     , file-embed >=0.0.10 && <0.1
     , filepath
     , simple-logger
-    , simplexmq
+    , popopxmq
   default-language: Haskell2010
 
-test-suite simplexmq-test
+test-suite popopxmq-test
   if flag(client_library)
       buildable: False
   type: exitcode-stdio-1.0
@@ -579,7 +579,7 @@ test-suite simplexmq-test
       SMPWeb
       XFTPWeb
       Web.Embedded
-      Paths_simplexmq
+      Paths_popopxmq
   if flag(client_postgres)
       other-modules:
           Fixtures
@@ -638,7 +638,7 @@ test-suite simplexmq-test
     , random
     , silently ==1.2.*
     , simple-logger
-    , simplexmq
+    , popopxmq
     , stm
     , text
     , time

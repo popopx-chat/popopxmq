@@ -1,4 +1,4 @@
-// Binary encoding/decoding matching Haskell Simplex.Messaging.Encoding module.
+// Binary encoding/decoding matching Haskell Popopx.Messaging.Encoding module.
 // All multi-byte integers are big-endian (network byte order).
 
 // -- Decoder: sequential parser over a Uint8Array (equivalent to Attoparsec parser)

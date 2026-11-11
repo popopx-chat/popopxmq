@@ -35,28 +35,28 @@ import Database.SQLite.Simple (Only (..))
 import qualified Database.SQLite.Simple as SQL
 import Database.SQLite.Simple.QQ (sql)
 import SMPClient (testKeyHash)
-import Simplex.FileTransfer.Client (XFTPChunkSpec (..))
-import Simplex.FileTransfer.Description
-import Simplex.FileTransfer.Protocol
-import Simplex.FileTransfer.Types
-import Simplex.Messaging.Agent.Client ()
-import Simplex.Messaging.Agent.Protocol
-import Simplex.Messaging.Agent.Store
-import Simplex.Messaging.Agent.Store.AgentStore
-import Simplex.Messaging.Agent.Store.Migrations.App (appMigrations)
-import Simplex.Messaging.Agent.Store.SQLite
-import Simplex.Messaging.Agent.Store.SQLite.Common (DBStore (..), withTransaction')
-import qualified Simplex.Messaging.Agent.Store.SQLite.DB as DB
-import Simplex.Messaging.Agent.Store.Shared (MigrationConfig (..), MigrationConfirmation (..))
-import qualified Simplex.Messaging.Crypto as C
-import Simplex.Messaging.Crypto.File (CryptoFile (..))
-import Simplex.Messaging.Crypto.Ratchet (pattern IKPQOn)
-import qualified Simplex.Messaging.Crypto.Ratchet as CR
-import Simplex.Messaging.Encoding (Encoding (..))
-import Simplex.Messaging.Encoding.String (StrEncoding (..))
-import Simplex.Messaging.Protocol (EntityId (..), QueueMode (..), SubscriptionMode (..), pattern VersionSMPC)
-import qualified Simplex.Messaging.Protocol as SMP
-import Simplex.Messaging.Agent.Store.Entity
+import Popopx.FileTransfer.Client (XFTPChunkSpec (..))
+import Popopx.FileTransfer.Description
+import Popopx.FileTransfer.Protocol
+import Popopx.FileTransfer.Types
+import Popopx.Messaging.Agent.Client ()
+import Popopx.Messaging.Agent.Protocol
+import Popopx.Messaging.Agent.Store
+import Popopx.Messaging.Agent.Store.AgentStore
+import Popopx.Messaging.Agent.Store.Migrations.App (appMigrations)
+import Popopx.Messaging.Agent.Store.SQLite
+import Popopx.Messaging.Agent.Store.SQLite.Common (DBStore (..), withTransaction')
+import qualified Popopx.Messaging.Agent.Store.SQLite.DB as DB
+import Popopx.Messaging.Agent.Store.Shared (MigrationConfig (..), MigrationConfirmation (..))
+import qualified Popopx.Messaging.Crypto as C
+import Popopx.Messaging.Crypto.File (CryptoFile (..))
+import Popopx.Messaging.Crypto.Ratchet (pattern IKPQOn)
+import qualified Popopx.Messaging.Crypto.Ratchet as CR
+import Popopx.Messaging.Encoding (Encoding (..))
+import Popopx.Messaging.Encoding.String (StrEncoding (..))
+import Popopx.Messaging.Protocol (EntityId (..), QueueMode (..), SubscriptionMode (..), pattern VersionSMPC)
+import qualified Popopx.Messaging.Protocol as SMP
+import Popopx.Messaging.Agent.Store.Entity
 import System.Random
 import Test.Hspec hiding (fit, it)
 import UnliftIO.Directory (removeFile)
@@ -188,7 +188,7 @@ testForeignKeysEnabled =
             INSERT INTO snd_queues
               ( host, port, snd_id, conn_id, snd_private_key, e2e_dh_secret, status)
             VALUES
-              ('smp.simplex.im', '5223', '1234', '2345', x'', x'', 'new');
+              ('smp.popopx.im', '5223', '1234', '2345', x'', x'', 'new');
           |]
     DB.execute_ db inconsistentQuery
       `shouldThrow` (\e -> SQL.sqlError e == SQL.ErrorConstraint)
@@ -217,7 +217,7 @@ testDhSecret :: C.DhSecretX25519
 testDhSecret = "01234567890123456789012345678901"
 
 smpServer1 :: SMPServer
-smpServer1 = SMPServer "smp.simplex.im" "5223" testKeyHash
+smpServer1 = SMPServer "smp.popopx.im" "5223" testKeyHash
 
 rcvQueue1 :: NewRcvQueue
 rcvQueue1 =
@@ -342,7 +342,7 @@ testCreateSndConnDuplicate =
 testGetRcvConn :: SpecWith DBStore
 testGetRcvConn =
   it "should get connection using rcv queue id and server" . withStoreTransaction $ \db -> do
-    let smpServer = SMPServer "smp.simplex.im" "5223" testKeyHash
+    let smpServer = SMPServer "smp.popopx.im" "5223" testKeyHash
     let recipientId = EntityId "1234"
     g <- C.newRandom
     Right (_, rq) <- createRcvConn db g cData1 rcvQueue1 SCMInvitation
@@ -410,7 +410,7 @@ testUpgradeRcvConnToDuplex =
           SndQueue
             { userId = 1,
               connId = "conn1",
-              server = SMPServer "smp.simplex.im" "5223" testKeyHash,
+              server = SMPServer "smp.popopx.im" "5223" testKeyHash,
               sndId = EntityId "2345",
               queueMode = Just QMMessaging,
               sndPrivateKey = testPrivateAuthKey,
@@ -456,7 +456,7 @@ testUpgradeSndConnToDuplex =
           RcvQueue
             { userId = 1,
               connId = "conn1",
-              server = SMPServer "smp.simplex.im" "5223" testKeyHash,
+              server = SMPServer "smp.popopx.im" "5223" testKeyHash,
               rcvId = EntityId "3456",
               rcvPrivateKey = testPrivateAuthKey,
               rcvDhSecret = testDhSecret,
@@ -761,7 +761,7 @@ testGetPendingServerCommand st = do
     corruptCmd db corrId connId = DB.execute db "UPDATE commands SET command = cast('bad' as blob) WHERE conn_id = ? AND corr_id = ?" (connId, corrId)
 
 xftpServer1 :: SMP.XFTPServer
-xftpServer1 = SMP.ProtocolServer SMP.SPXFTP "xftp.simplex.im" "5223" testKeyHash
+xftpServer1 = SMP.ProtocolServer SMP.SPXFTP "xftp.popopx.im" "5223" testKeyHash
 
 rcvFileDescr1 :: FileDescription 'FRecipient
 rcvFileDescr1 =

@@ -28,9 +28,9 @@ import Network.HTTP.Types (Status, hContentType, notFound404, ok200)
 import Network.Wai (Application, pathInfo, responseLBS)
 import qualified Network.Wai.Handler.Warp as Warp
 import SMPClient (AServerConfig (..), cfgMS, proxyCfgMS, testStoreLogFile2, testStoreMsgsFile2, updateCfg)
-import Simplex.Messaging.Server.Env.STM (AStoreType (..), ServerConfig (..), ServerStoreCfg (..), StorePaths (..))
-import Simplex.Messaging.Server.MsgStore.Types (SMSType (..), SQSType (..))
-import Simplex.Messaging.Server.Names (NamesConfig (..))
+import Popopx.Messaging.Server.Env.STM (AStoreType (..), ServerConfig (..), ServerStoreCfg (..), StorePaths (..))
+import Popopx.Messaging.Server.MsgStore.Types (SMSType (..), SQSType (..))
+import Popopx.Messaging.Server.Names (NamesConfig (..))
 import Util (HasTestEnv)
 
 -- | Run an action with a local HTTP resolver on a free port.

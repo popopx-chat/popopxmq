@@ -27,14 +27,14 @@ export function initDownload(app: HTMLElement, hash: string) {
   const size = fd.redirect ? fd.redirect.size : fd.size
   app.innerHTML = `
     <div class="card">
-      <h1>${t('title', 'SimpleX File Transfer')}</h1>
+      <h1>${t('title', 'POPOPX File Transfer')}</h1>
       <div id="dl-ready" class="stage">
         <p>${t('fileAvailable', 'File available (~%size%)').replace('%size%', formatSize(size))}</p>
         <button id="dl-btn" class="btn">${t('download', 'Download')}</button>
         <div class="security-note">
           <p>${t('dlSecurityNote1', 'This file is encrypted \u2014 the server never sees file contents.')}</p>
           <p>${t('dlSecurityNote2', 'The decryption key is in the link\u2019s hash fragment, which your browser never sends to any server.')}</p>
-          <p>${t('dlSecurityNote3', 'For maximum security, use the <a href="https://simplex.chat" target="_blank" rel="noopener">SimpleX app</a>.')}</p>
+          <p>${t('dlSecurityNote3', 'For maximum security, use the <a href="https://popopx.chat" target="_blank" rel="noopener">POPOPX app</a>.')}</p>
         </div>
       </div>
       <div id="dl-progress" class="stage" hidden>

@@ -9,7 +9,7 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# OPTIONS_GHC -fno-warn-orphans #-}
 
-module Simplex.Messaging.Server.StoreLog
+module Popopx.Messaging.Server.StoreLog
   ( StoreLog, -- constructors are not exported
     StoreLogRecord (..), -- used in tests
     openWriteStoreLog,
@@ -52,13 +52,13 @@ import qualified Data.Text as T
 import Data.Time.Clock (UTCTime, addUTCTime, getCurrentTime, nominalDay)
 import Data.Time.Format.ISO8601 (iso8601Show, iso8601ParseM)
 import GHC.IO (catchAny)
-import Simplex.Messaging.Encoding
-import Simplex.Messaging.Encoding.String
-import Simplex.Messaging.Protocol
-import Simplex.Messaging.Server.QueueStore
-import Simplex.Messaging.Server.StoreLog.Types
-import Simplex.Messaging.SystemTime
-import Simplex.Messaging.Util (ifM, tshow, unlessM, whenM)
+import Popopx.Messaging.Encoding
+import Popopx.Messaging.Encoding.String
+import Popopx.Messaging.Protocol
+import Popopx.Messaging.Server.QueueStore
+import Popopx.Messaging.Server.StoreLog.Types
+import Popopx.Messaging.SystemTime
+import Popopx.Messaging.Util (ifM, tshow, unlessM, whenM)
 import System.Directory (doesFileExist, listDirectory, removeFile, renameFile)
 import System.IO
 import System.FilePath (takeDirectory, takeFileName)

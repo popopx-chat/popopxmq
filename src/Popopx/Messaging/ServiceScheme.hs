@@ -1,10 +1,10 @@
 {-# LANGUAGE LambdaCase #-}
 {-# LANGUAGE OverloadedStrings #-}
 
-module Simplex.Messaging.ServiceScheme
+module Popopx.Messaging.ServiceScheme
   ( ServiceScheme (..),
     SrvLoc (..),
-    simplexChat,
+    popopxChat,
   ) where
 
 import Control.Applicative ((<|>))
@@ -12,18 +12,18 @@ import qualified Data.Attoparsec.ByteString.Char8 as A
 import qualified Data.ByteString.Char8 as B
 import Data.Functor (($>))
 import Network.Socket (ServiceName)
-import Simplex.Messaging.Encoding.String (StrEncoding (..))
-import Simplex.Messaging.Transport.Client (TransportHost (..))
+import Popopx.Messaging.Encoding.String (StrEncoding (..))
+import Popopx.Messaging.Transport.Client (TransportHost (..))
 
-data ServiceScheme = SSSimplex | SSAppServer SrvLoc
+data ServiceScheme = SSPopopx | SSAppServer SrvLoc
   deriving (Eq, Show)
 
 instance StrEncoding ServiceScheme where
   strEncode = \case
-    SSSimplex -> "simplex:"
+    SSPopopx -> "popopx:"
     SSAppServer srv -> "https://" <> strEncode srv
   strP =
-    "simplex:" $> SSSimplex
+    "popopx:" $> SSPopopx
       <|> "https://" *> (SSAppServer <$> strP)
 
 data SrvLoc = SrvLoc TransportHost ServiceName
@@ -41,5 +41,5 @@ instance StrEncoding SrvLoc where
     where
       port = show <$> (A.char ':' *> (A.decimal :: A.Parser Int))
 
-simplexChat :: ServiceScheme
-simplexChat = SSAppServer $ SrvLoc "simplex.chat" ""
+popopxChat :: ServiceScheme
+popopxChat = SSAppServer $ SrvLoc "popopx.chat" ""

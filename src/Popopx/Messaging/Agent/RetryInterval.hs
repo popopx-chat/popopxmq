@@ -2,7 +2,7 @@
 {-# LANGUAGE NamedFieldPuns #-}
 {-# LANGUAGE ScopedTypeVariables #-}
 
-module Simplex.Messaging.Agent.RetryInterval
+module Popopx.Messaging.Agent.RetryInterval
   ( RetryInterval (..),
     RetryInterval2 (..),
     RetryIntervalMode (..),
@@ -22,7 +22,7 @@ import Control.Concurrent.STM (retry)
 import Control.Monad (void)
 import Control.Monad.IO.Class (MonadIO, liftIO)
 import Data.Int (Int64)
-import Simplex.Messaging.Util (threadDelay', unlessM, whenM)
+import Popopx.Messaging.Util (threadDelay', unlessM, whenM)
 import UnliftIO.STM
 
 data RetryInterval = RetryInterval

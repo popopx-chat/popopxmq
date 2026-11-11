@@ -10,7 +10,7 @@
 {-# LANGUAGE TypeApplications #-}
 {-# OPTIONS_GHC -fno-warn-ambiguous-fields #-}
 
-module Simplex.FileTransfer.Client.Main
+module Popopx.FileTransfer.Client.Main
   ( SendOptions (..),
     CLIError (..),
     xftpClientCLI,
@@ -52,25 +52,25 @@ import qualified Data.Text as T
 import Data.Word (Word32)
 import GHC.Records (HasField (getField))
 import Options.Applicative
-import Simplex.FileTransfer.Chunks
-import Simplex.FileTransfer.Client
-import Simplex.FileTransfer.Client.Agent
-import Simplex.FileTransfer.Client.Presets
-import Simplex.FileTransfer.Crypto
-import Simplex.FileTransfer.Description
-import Simplex.FileTransfer.Protocol
-import Simplex.FileTransfer.Transport (XFTPRcvChunkSpec (..))
-import Simplex.FileTransfer.Types
-import Simplex.FileTransfer.Util (uniqueCombine)
-import qualified Simplex.Messaging.Crypto as C
-import Simplex.Messaging.Crypto.File (CryptoFile (..), FTCryptoError (..))
-import qualified Simplex.Messaging.Crypto.File as CF
-import qualified Simplex.Messaging.Crypto.Lazy as LC
-import Simplex.Messaging.Encoding
-import Simplex.Messaging.Encoding.String (StrEncoding (..))
-import Simplex.Messaging.Parsers (parseAll)
-import Simplex.Messaging.Protocol (ProtoServerWithAuth (..), ProtocolServer (..), SenderId, SndPrivateAuthKey, XFTPServer, XFTPServerWithAuth)
-import Simplex.Messaging.Util (groupAllOn, ifM, stateTVar', tshow, whenM)
+import Popopx.FileTransfer.Chunks
+import Popopx.FileTransfer.Client
+import Popopx.FileTransfer.Client.Agent
+import Popopx.FileTransfer.Client.Presets
+import Popopx.FileTransfer.Crypto
+import Popopx.FileTransfer.Description
+import Popopx.FileTransfer.Protocol
+import Popopx.FileTransfer.Transport (XFTPRcvChunkSpec (..))
+import Popopx.FileTransfer.Types
+import Popopx.FileTransfer.Util (uniqueCombine)
+import qualified Popopx.Messaging.Crypto as C
+import Popopx.Messaging.Crypto.File (CryptoFile (..), FTCryptoError (..))
+import qualified Popopx.Messaging.Crypto.File as CF
+import qualified Popopx.Messaging.Crypto.Lazy as LC
+import Popopx.Messaging.Encoding
+import Popopx.Messaging.Encoding.String (StrEncoding (..))
+import Popopx.Messaging.Parsers (parseAll)
+import Popopx.Messaging.Protocol (ProtoServerWithAuth (..), ProtocolServer (..), SenderId, SndPrivateAuthKey, XFTPServer, XFTPServerWithAuth)
+import Popopx.Messaging.Util (groupAllOn, ifM, stateTVar', tshow, whenM)
 import System.Exit (exitFailure)
 import System.FilePath (splitFileName, (</>))
 import System.IO.Temp (getCanonicalTemporaryDirectory)
@@ -240,7 +240,7 @@ xftpClientCLI =
     FileDescrInfo opts -> runE $ cliFileDescrInfo opts
     RandomFile opts -> cliRandomFile opts
   where
-    clientVersion = "SimpleX XFTP client v" <> xftpClientVersion
+    clientVersion = "POPOPX XFTP client v" <> xftpClientVersion
     versionOption = infoOption clientVersion (long "version" <> short 'v' <> help "Show version")
 
 runLogE :: HasField "verbose" a Bool => a -> ExceptT CLIError IO () -> IO ()

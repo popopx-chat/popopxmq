@@ -4,7 +4,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE ScopedTypeVariables #-}
 
-module Simplex.Messaging.Notifications.Server.Store.Types
+module Popopx.Messaging.Notifications.Server.Store.Types
   ( NtfTknRec (..),
     NtfSubRec (..),
     ServerNtfSub,
@@ -20,12 +20,12 @@ import Control.Concurrent.STM
 import qualified Data.ByteString.Char8 as B
 import Data.Maybe (fromMaybe)
 import Data.Word (Word16)
-import qualified Simplex.Messaging.Crypto as C
-import Simplex.Messaging.Encoding.String
-import Simplex.Messaging.Notifications.Protocol (DeviceToken, NtfRegCode, NtfSubStatus, NtfSubscriptionId, NtfTokenId, NtfTknStatus, SMPQueueNtf)
-import Simplex.Messaging.Notifications.Server.Store (NtfSubData (..), NtfTknData (..))
-import Simplex.Messaging.Protocol (NotifierId, NtfPrivateAuthKey, NtfPublicAuthKey)
-import Simplex.Messaging.SystemTime
+import qualified Popopx.Messaging.Crypto as C
+import Popopx.Messaging.Encoding.String
+import Popopx.Messaging.Notifications.Protocol (DeviceToken, NtfRegCode, NtfSubStatus, NtfSubscriptionId, NtfTokenId, NtfTknStatus, SMPQueueNtf)
+import Popopx.Messaging.Notifications.Server.Store (NtfSubData (..), NtfTknData (..))
+import Popopx.Messaging.Protocol (NotifierId, NtfPrivateAuthKey, NtfPublicAuthKey)
+import Popopx.Messaging.SystemTime
 
 data NtfTknRec = NtfTknRec
   { ntfTknId :: NtfTokenId,

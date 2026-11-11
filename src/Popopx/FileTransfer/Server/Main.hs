@@ -9,7 +9,7 @@
 {-# LANGUAGE TupleSections #-}
 {-# LANGUAGE TypeApplications #-}
 
-module Simplex.FileTransfer.Server.Main
+module Popopx.FileTransfer.Server.Main
   ( xftpServerCLI,
     xftpServerCLI_,
   ) where
@@ -29,26 +29,26 @@ import qualified Data.Text as T
 import qualified Data.Text.IO as T
 import Network.Socket (HostName)
 import Options.Applicative
-import Simplex.FileTransfer.Chunks
-import Simplex.FileTransfer.Description (FileSize (..))
-import Simplex.FileTransfer.Server (runXFTPServer)
-import Simplex.FileTransfer.Server.Env (XFTPServerConfig (..), XFTPStoreConfig, AFStoreType (..), defFileExpirationHours, defaultFileExpiration, defaultInactiveClientExpiration, readFileStoreType, runWithStoreConfig, checkFileStoreMode, importToDatabase, exportFromDatabase)
-import Simplex.FileTransfer.Transport (alpnSupportedXFTPhandshakes, supportedFileServerVRange)
-import qualified Simplex.Messaging.Crypto as C
-import Simplex.Messaging.Crypto.Entitlement (entitlementIssuerKeys)
-import Simplex.Messaging.Encoding.String
-import Simplex.Messaging.Protocol (ProtoServerWithAuth (..), pattern XFTPServer)
-import Simplex.Messaging.Agent.Store.Shared (MigrationConfirmation (..))
-import Simplex.Messaging.Server.CLI
-import Simplex.Messaging.Server.Expiration
-import Simplex.Messaging.Server.Information (ServerPublicInfo (..))
-import Simplex.Messaging.Server.Main (serverPublicInfo, printSourceCode)
-import Simplex.Messaging.Server.Web (EmbeddedWebParams (..), WebHttpsParams (..))
-import Simplex.Messaging.Transport (EntitlementConfig (..))
-import Simplex.Messaging.Transport.Client (TransportHost (..))
-import Simplex.Messaging.Transport.HTTP2 (httpALPN)
-import Simplex.Messaging.Transport.Server (ServerCredentials (..), TransportServerConfig (..), mkTransportServerConfig)
-import Simplex.Messaging.Util (eitherToMaybe, safeDecodeUtf8, tshow)
+import Popopx.FileTransfer.Chunks
+import Popopx.FileTransfer.Description (FileSize (..))
+import Popopx.FileTransfer.Server (runXFTPServer)
+import Popopx.FileTransfer.Server.Env (XFTPServerConfig (..), XFTPStoreConfig, AFStoreType (..), defFileExpirationHours, defaultFileExpiration, defaultInactiveClientExpiration, readFileStoreType, runWithStoreConfig, checkFileStoreMode, importToDatabase, exportFromDatabase)
+import Popopx.FileTransfer.Transport (alpnSupportedXFTPhandshakes, supportedFileServerVRange)
+import qualified Popopx.Messaging.Crypto as C
+import Popopx.Messaging.Crypto.Entitlement (entitlementIssuerKeys)
+import Popopx.Messaging.Encoding.String
+import Popopx.Messaging.Protocol (ProtoServerWithAuth (..), pattern XFTPServer)
+import Popopx.Messaging.Agent.Store.Shared (MigrationConfirmation (..))
+import Popopx.Messaging.Server.CLI
+import Popopx.Messaging.Server.Expiration
+import Popopx.Messaging.Server.Information (ServerPublicInfo (..))
+import Popopx.Messaging.Server.Main (serverPublicInfo, printSourceCode)
+import Popopx.Messaging.Server.Web (EmbeddedWebParams (..), WebHttpsParams (..))
+import Popopx.Messaging.Transport (EntitlementConfig (..))
+import Popopx.Messaging.Transport.Client (TransportHost (..))
+import Popopx.Messaging.Transport.HTTP2 (httpALPN)
+import Popopx.Messaging.Transport.Server (ServerCredentials (..), TransportServerConfig (..), mkTransportServerConfig)
+import Popopx.Messaging.Util (eitherToMaybe, safeDecodeUtf8, tshow)
 import System.Directory (createDirectoryIfMissing, doesFileExist)
 import System.FilePath (combine)
 import System.IO (BufferMode (..), hSetBuffering, stderr, stdout)
@@ -90,7 +90,7 @@ xftpServerCLI_ generateSite serveStaticFiles cfgPath logPath = do
       putStrLn "Deleted configuration and log files"
   where
     iniFile = combine cfgPath "file-server.ini"
-    serverVersion = "SimpleX XFTP server v" <> simplexmqVersionCommit
+    serverVersion = "POPOPX XFTP server v" <> popopxmqVersionCommit
     defaultServerPort = "443"
     executableName = "file-server"
     storeLogFilePath = combine logPath "file-server-store.log"
@@ -128,18 +128,18 @@ xftpServerCLI_ generateSite serveStaticFiles cfgPath logPath = do
           "[INFORMATION]\n\
           \# AGPLv3 license requires that you make any source code modifications\n\
           \# available to the end users of the server.\n\
-          \# LICENSE: https://github.com/simplex-chat/simplexmq/blob/stable/LICENSE\n\
+          \# LICENSE: https://github.com/popopx-chat/popopxmq/blob/stable/LICENSE\n\
           \# Include correct source code URI in case the server source code is modified in any way.\n\
-          \# source_code = https://github.com/simplex-chat/simplexmq\n\
+          \# source_code = https://github.com/popopx-chat/popopxmq\n\
           \\n\
           \# Declaring all below information is optional, any of these fields can be omitted.\n\
           \# server_country = ISO-3166 2-letter code\n\
           \# operator = entity (organization or person name)\n\
           \# operator_country = ISO-3166 2-letter code\n\
           \# website =\n\
-          \# admin_simplex = SimpleX address\n\
+          \# admin_popopx = POPOPX address\n\
           \# admin_email =\n\
-          \# complaints_simplex = SimpleX address\n\
+          \# complaints_popopx = POPOPX address\n\
           \# complaints_email =\n\
           \# hosting = entity (organization or person name)\n\
           \# hosting_country = ISO-3166 2-letter code\n\

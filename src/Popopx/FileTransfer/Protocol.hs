@@ -14,7 +14,7 @@
 {-# LANGUAGE TypeFamilies #-}
 {-# OPTIONS_GHC -fno-warn-unticked-promoted-constructors #-}
 
-module Simplex.FileTransfer.Protocol
+module Popopx.FileTransfer.Protocol
   ( FileParty (..),
     SFileParty (..),
     AFileParty (..),
@@ -45,13 +45,13 @@ import Data.List.NonEmpty (NonEmpty (..))
 import Data.Maybe (isNothing)
 import Data.Type.Equality
 import Data.Word (Word32)
-import Simplex.FileTransfer.Transport (XFTPErrorType (..), XFTPVersion, blockedFilesXFTPVersion, fileStorageTimeXFTPVersion, xftpClientHandshakeStub)
-import Simplex.Messaging.Client (authTransmission)
-import qualified Simplex.Messaging.Crypto as C
-import Simplex.Messaging.Encoding
-import Simplex.Messaging.Encoding.String
-import Simplex.Messaging.Parsers
-import Simplex.Messaging.Protocol
+import Popopx.FileTransfer.Transport (XFTPErrorType (..), XFTPVersion, blockedFilesXFTPVersion, fileStorageTimeXFTPVersion, xftpClientHandshakeStub)
+import Popopx.Messaging.Client (authTransmission)
+import qualified Popopx.Messaging.Crypto as C
+import Popopx.Messaging.Encoding
+import Popopx.Messaging.Encoding.String
+import Popopx.Messaging.Parsers
+import Popopx.Messaging.Protocol
   ( BasicAuth,
     CommandError (..),
     Protocol (..),
@@ -79,8 +79,8 @@ import Simplex.Messaging.Protocol
     tEncodeBatch1,
     tParse,
   )
-import Simplex.Messaging.Transport (THandleParams (..), TransportError (..), TransportPeer (..))
-import Simplex.Messaging.Util (eitherToMaybe, (<$?>))
+import Popopx.Messaging.Transport (THandleParams (..), TransportError (..), TransportPeer (..))
+import Popopx.Messaging.Util (eitherToMaybe, (<$?>))
 
 xftpBlockSize :: Int
 xftpBlockSize = 16384

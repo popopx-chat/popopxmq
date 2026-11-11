@@ -42,9 +42,9 @@ def registration(name):
 
 
 class SplitLinksTests(unittest.TestCase):
-    """`split_links` decodes the multi-URL convention for simplex.contact /
-    simplex.channel text records. Reuses the same rule the dApp's
-    `parseSimplexUrls` uses (separator `;`), so the two sides round-trip
+    """`split_links` decodes the multi-URL convention for popopx.contact /
+    popopx.channel text records. Reuses the same rule the dApp's
+    `parsePopopxUrls` uses (separator `;`), so the two sides round-trip
     cleanly."""
 
     def test_empty_string_yields_empty_list(self):
@@ -56,46 +56,46 @@ class SplitLinksTests(unittest.TestCase):
 
     def test_single_url_yields_singleton_list(self):
         self.assertEqual(
-            snrc.split_links("https://smp16.simplex.im/a#H1"),
-            ["https://smp16.simplex.im/a#H1"],
+            snrc.split_links("https://smp16.popopx.im/a#H1"),
+            ["https://smp16.popopx.im/a#H1"],
         )
 
     def test_two_urls_split_on_separator(self):
         self.assertEqual(
             snrc.split_links(
-                "https://smp16.simplex.im/a#H1;https://smp19.simplex.im/a#H1"
+                "https://smp16.popopx.im/a#H1;https://smp19.popopx.im/a#H1"
             ),
             [
-                "https://smp16.simplex.im/a#H1",
-                "https://smp19.simplex.im/a#H1",
+                "https://smp16.popopx.im/a#H1",
+                "https://smp19.popopx.im/a#H1",
             ],
         )
 
     def test_whitespace_around_separators_is_trimmed(self):
         self.assertEqual(
             snrc.split_links(
-                "  https://smp16.simplex.im/a#H1 ;\thttps://smp19.simplex.im/a#H1 "
+                "  https://smp16.popopx.im/a#H1 ;\thttps://smp19.popopx.im/a#H1 "
             ),
             [
-                "https://smp16.simplex.im/a#H1",
-                "https://smp19.simplex.im/a#H1",
+                "https://smp16.popopx.im/a#H1",
+                "https://smp19.popopx.im/a#H1",
             ],
         )
 
     def test_trailing_separator_does_not_produce_empty_entry(self):
         self.assertEqual(
-            snrc.split_links("https://smp16.simplex.im/a#H1;"),
-            ["https://smp16.simplex.im/a#H1"],
+            snrc.split_links("https://smp16.popopx.im/a#H1;"),
+            ["https://smp16.popopx.im/a#H1"],
         )
 
     def test_doubled_separator_does_not_produce_empty_entry(self):
         self.assertEqual(
             snrc.split_links(
-                "https://smp16.simplex.im/a#H1;;https://smp19.simplex.im/a#H1"
+                "https://smp16.popopx.im/a#H1;;https://smp19.popopx.im/a#H1"
             ),
             [
-                "https://smp16.simplex.im/a#H1",
-                "https://smp19.simplex.im/a#H1",
+                "https://smp16.popopx.im/a#H1",
+                "https://smp19.popopx.im/a#H1",
             ],
         )
 
@@ -490,7 +490,7 @@ class ReservedReasonTests(unittest.TestCase):
         snrc.eth_call = self._reserved_as(1)
         reg = snrc.name_status("acme.testing")
         self.assertEqual(reg["reasonCode"], "internal")
-        self.assertEqual(reg["reason"], "reserved for SimpleX")
+        self.assertEqual(reg["reason"], "reserved for POPOPX")
 
     def test_an_enum_value_this_resolver_predates_is_not_dropped(self):
         """A new Reason still reserves the name, and says it is unknown rather
@@ -505,7 +505,7 @@ class ReservedReasonTests(unittest.TestCase):
         status, body = snrc.resolve("acme.testing")
         self.assertEqual(status, 404)
         self.assertEqual(body["status"], "unregistered")
-        self.assertEqual(body["reason"], "reserved for SimpleX")
+        self.assertEqual(body["reason"], "reserved for POPOPX")
 
     def test_the_message_does_not_claim_a_trademark(self):
         snrc.eth_call = self._chain(0, True)
@@ -531,7 +531,7 @@ class ReservedReasonTests(unittest.TestCase):
         # keccak-256("acme")
         hashed = "[e29dae06ef4c3e336b7538b6d4f52ca1ecec009b1df6fb501320e11b223aeeaf]"
         _, body = snrc.resolve(hashed + ".testing")
-        self.assertEqual(body["reason"], "reserved for SimpleX")
+        self.assertEqual(body["reason"], "reserved for POPOPX")
 
 
 class PricingTests(unittest.TestCase):
@@ -744,7 +744,7 @@ class ErrorCodeTests(unittest.TestCase):
             snrc.eth_call,
             snrc.chain_now,
         )
-        snrc.REGISTRIES = {"testing": self.REGISTRY, "simplex": ""}
+        snrc.REGISTRIES = {"testing": self.REGISTRY, "popopx": ""}
         snrc.REGISTRARS = {"testing": self.REGISTRAR}
         snrc.CONTROLLERS = {"testing": ""}
         snrc.chain_now = lambda: int(time.time())
@@ -799,7 +799,7 @@ class ErrorCodeTests(unittest.TestCase):
         self.assertEqual(status, 200)
         self.assertEqual(body["status"], "registered")
         self.assertEqual(body["resolver"], snrc.ZERO_ADDR)
-        self.assertEqual(body["simplexContact"], [])
+        self.assertEqual(body["popopxContact"], [])
 
     def test_every_error_body_carries_both_fields(self):
         snrc.eth_call = self._chain(0)
@@ -1176,7 +1176,7 @@ class FakeChain:
     OWNER = "0xd83bd7e0e6b8a4c1f2593a7b0c4e8d1a6f9b2c37"
     RESOLVER = "0x80fa2b1c3d4e5f60718293a4b5c6d7e8f9012345"
     GRACE = 90 * 86400
-    TEXTS = {"nickname": "Acme", "url": "https://acme.example", "simplex.channel": "https://a.example/c#1;https://b.example/c#2"}
+    TEXTS = {"nickname": "Acme", "url": "https://acme.example", "popopx.channel": "https://a.example/c#1;https://b.example/c#2"}
 
     def __init__(self):
         self.now = int(time.time())
@@ -1309,7 +1309,7 @@ class FakeNodeTestCase(unittest.TestCase):
         self._saved = (snrc.RPC, snrc.RPC_URL, snrc.REGISTRIES, snrc.REGISTRARS, snrc.CONTROLLERS, snrc.NAME_POLICIES)
         snrc.RPC = self.node.url
         snrc.RPC_URL = urlparse(snrc.RPC)
-        snrc.REGISTRIES = {"testing": FakeChain.REGISTRY, "simplex": ""}
+        snrc.REGISTRIES = {"testing": FakeChain.REGISTRY, "popopx": ""}
         snrc.REGISTRARS = {"testing": FakeChain.REGISTRAR}
         snrc.CONTROLLERS = {"testing": FakeChain.CONTROLLER}
         snrc._multicall_failed_logged = False
@@ -1414,7 +1414,7 @@ class BatchedReadsTests(FakeNodeTestCase):
         status, body = self.assert_same_answer(snrc.registration, "acme.testing", 2)
         record = body["registration"]["nameRecord"]
         self.assertEqual(record["nickname"], "Acme")
-        self.assertEqual(record["simplexChannel"], ["https://a.example/c#1", "https://b.example/c#2"])
+        self.assertEqual(record["popopxChannel"], ["https://a.example/c#1", "https://b.example/c#2"])
         self.assertIsNone(record["btc"])
 
     def test_a_hashed_query_is_named_from_the_same_round_trip(self):
@@ -1485,7 +1485,7 @@ class NamePoliciesTests(FakeNodeTestCase):
         self.assertEqual((record.getMessage(), record.fields["tld"], record.fields["reservations"]), ("no_name_policy", "testing", "controller"))
 
     def test_an_unconfigured_controller_is_not_read(self):
-        snrc.CONTROLLERS = {"simplex": ""}
+        snrc.CONTROLLERS = {"popopx": ""}
         self.assertEqual(self.requests_made(snrc.name_policies), ({}, 0))
 
     def test_an_address_without_a_contract_is_read_as_no_policy(self):
@@ -1551,36 +1551,36 @@ class RequestLogTests(unittest.TestCase):
         return record
 
     def test_a_request_is_logged_with_its_outcome(self):
-        record = self.request("/v2/resolve/x.simplex")
+        record = self.request("/v2/resolve/x.popopx")
         fields = record.fields
         self.assertEqual(record.levelname, "INFO")
         self.assertEqual(
             (fields["client"], fields["method"], fields["path"], fields["status"], fields["worker"]),
-            ("127.0.0.1", "GET", "/v2/resolve/x.simplex", 400, os.getpid()),
+            ("127.0.0.1", "GET", "/v2/resolve/x.popopx", 400, os.getpid()),
         )
         self.assertGreater(fields["bytes"], 0)
         self.assertGreaterEqual(fields["ms"], 0)
 
     def test_a_trusted_proxy_names_the_client(self):
         snrc.TRUSTED_PROXIES = (ipaddress.ip_network("127.0.0.1/32"),)
-        record = self.request("/v2/resolve/x.simplex", {"X-Forwarded-For": "203.0.113.7"})
+        record = self.request("/v2/resolve/x.popopx", {"X-Forwarded-For": "203.0.113.7"})
         self.assertEqual(record.fields["client"], "203.0.113.7")
 
     def test_any_other_peer_cannot_name_itself(self):
-        record = self.request("/v2/resolve/x.simplex", {"X-Forwarded-For": "203.0.113.7"})
+        record = self.request("/v2/resolve/x.popopx", {"X-Forwarded-For": "203.0.113.7"})
         self.assertEqual(record.fields["client"], "127.0.0.1")
 
     def test_a_bad_request_is_not_logged_with_the_previous_ones_fields(self):
         """On a kept-alive connection the handler still held the last request's path and size."""
         with self.assertLogs("snrc_resolve", "INFO") as logs:
             with socket.create_connection(self.server.server_address, timeout=5) as sock:
-                sock.sendall(b"GET /v2/resolve/x.simplex HTTP/1.1\r\nHost: x\r\n\r\n")
+                sock.sendall(b"GET /v2/resolve/x.popopx HTTP/1.1\r\nHost: x\r\n\r\n")
                 sock.recv(65536)
                 sock.sendall(b"BOGUS\r\n\r\n")
                 while sock.recv(65536):
                     pass
         first, second = [r for r in logs.records if r.getMessage() == "request"]
-        self.assertEqual(first.fields["path"], "/v2/resolve/x.simplex")
+        self.assertEqual(first.fields["path"], "/v2/resolve/x.popopx")
         self.assertEqual((second.fields["status"], second.fields["path"], second.fields["bytes"], second.fields["ms"]), (400, None, None, None))
 
     def test_health_checks_are_logged_only_at_debug(self):
@@ -1614,33 +1614,33 @@ class RequestBodyTests(unittest.TestCase):
                     break
             return data
 
-    SMUGGLED = b"GET /v2/resolve/y.simplex HTTP/1.1\r\nHost: x\r\n\r\n"
+    SMUGGLED = b"GET /v2/resolve/y.popopx HTTP/1.1\r\nHost: x\r\n\r\n"
 
     def test_a_body_is_refused_and_the_connection_closed(self):
-        data = self.exchange(b"GET /v2/resolve/x.simplex HTTP/1.1\r\nHost: x\r\nContent-Length: %d\r\n\r\n" % len(self.SMUGGLED), self.SMUGGLED)
+        data = self.exchange(b"GET /v2/resolve/x.popopx HTTP/1.1\r\nHost: x\r\nContent-Length: %d\r\n\r\n" % len(self.SMUGGLED), self.SMUGGLED)
         self.assertEqual(data.count(b"HTTP/1.1 "), 1)
         self.assertIn(b"HTTP/1.1 400 ", data)
         self.assertIn(b"Connection: close", data)
-        self.assertNotIn(b"y.simplex", data)
+        self.assertNotIn(b"y.popopx", data)
 
     def test_a_length_after_a_malformed_header_line_is_still_seen(self):
         """Python stops parsing headers at a malformed line and keeps the rest as payload."""
-        data = self.exchange(b"GET /v2/resolve/x.simplex HTTP/1.1\r\nX-Junk : 1\r\nContent-Length: %d\r\n\r\n" % len(self.SMUGGLED), self.SMUGGLED)
+        data = self.exchange(b"GET /v2/resolve/x.popopx HTTP/1.1\r\nX-Junk : 1\r\nContent-Length: %d\r\n\r\n" % len(self.SMUGGLED), self.SMUGGLED)
         self.assertEqual(data.count(b"HTTP/1.1 "), 1)
         self.assertIn(b"unexpectedBody", data)
-        self.assertNotIn(b"y.simplex", data)
+        self.assertNotIn(b"y.popopx", data)
 
     def test_a_chunked_body_is_refused_and_the_connection_closed(self):
         chunked = b"%x\r\n" % len(self.SMUGGLED) + self.SMUGGLED + b"\r\n0\r\n\r\n"
-        data = self.exchange(b"GET /v2/resolve/x.simplex HTTP/1.1\r\nHost: x\r\nTransfer-Encoding: chunked\r\n\r\n", chunked)
+        data = self.exchange(b"GET /v2/resolve/x.popopx HTTP/1.1\r\nHost: x\r\nTransfer-Encoding: chunked\r\n\r\n", chunked)
         self.assertEqual(data.count(b"HTTP/1.1 "), 1)
-        self.assertNotIn(b"y.simplex", data)
+        self.assertNotIn(b"y.popopx", data)
 
     def test_an_empty_body_keeps_the_connection(self):
         conn = http.client.HTTPConnection(*self.server.server_address, timeout=5)
         answers = []
         for _ in range(2):
-            conn.request("GET", "/v2/resolve/x.simplex", headers={"Content-Length": "0"})
+            conn.request("GET", "/v2/resolve/x.popopx", headers={"Content-Length": "0"})
             res = conn.getresponse()
             answers.append((res.status, json.loads(res.read())["error"], conn.sock))
         conn.close()
@@ -1748,7 +1748,7 @@ class KeepAliveTests(unittest.TestCase):
         conn = http.client.HTTPConnection(*self.server.server_address, timeout=5)
         start = time.monotonic()
         for i in range(20):
-            conn.request("GET", "/v2/resolve/x.simplex")
+            conn.request("GET", "/v2/resolve/x.popopx")
             res = conn.getresponse()
             res.read()
             self.assertEqual((res.version, res.status), (11, 400))

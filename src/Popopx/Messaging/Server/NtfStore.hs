@@ -3,7 +3,7 @@
 {-# LANGUAGE NamedFieldPuns #-}
 {-# LANGUAGE OverloadedStrings #-}
 
-module Simplex.Messaging.Server.NtfStore
+module Popopx.Messaging.Server.NtfStore
   ( NtfStore (..),
     MsgNtf (..),
     NtfLogRecord (..),
@@ -19,12 +19,12 @@ import Data.Functor (($>))
 import Data.Int (Int64)
 import qualified Data.Map.Strict as M
 import Data.Time.Clock.System (SystemTime (..))
-import qualified Simplex.Messaging.Crypto as C
-import Simplex.Messaging.Encoding.String
-import Simplex.Messaging.Protocol (EncNMsgMeta, MsgId, NotifierId)
-import Simplex.Messaging.TMap (TMap)
-import qualified Simplex.Messaging.TMap as TM
-import Simplex.Messaging.Util (whenM)
+import qualified Popopx.Messaging.Crypto as C
+import Popopx.Messaging.Encoding.String
+import Popopx.Messaging.Protocol (EncNMsgMeta, MsgId, NotifierId)
+import Popopx.Messaging.TMap (TMap)
+import qualified Popopx.Messaging.TMap as TM
+import Popopx.Messaging.Util (whenM)
 
 newtype NtfStore = NtfStore (TMap NotifierId (TVar [MsgNtf]))
 

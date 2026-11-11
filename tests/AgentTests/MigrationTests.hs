@@ -6,10 +6,10 @@ module AgentTests.MigrationTests (migrationTests) where
 import Control.Monad
 import Data.Maybe (fromJust)
 import Data.Word (Word32)
-import Simplex.Messaging.Agent.Store.Common (DBStore, withTransaction)
-import Simplex.Messaging.Agent.Store.Interface
-import Simplex.Messaging.Agent.Store.Migrations (migrationsToRun)
-import Simplex.Messaging.Agent.Store.Shared
+import Popopx.Messaging.Agent.Store.Common (DBStore, withTransaction)
+import Popopx.Messaging.Agent.Store.Interface
+import Popopx.Messaging.Agent.Store.Migrations (migrationsToRun)
+import Popopx.Messaging.Agent.Store.Shared
 import System.Random (randomIO)
 import Test.Hspec hiding (fit, it)
 import Util
@@ -17,11 +17,11 @@ import Util
 import qualified Data.ByteString.Char8 as B
 import Database.PostgreSQL.Simple (fromOnly)
 import Fixtures
-import Simplex.Messaging.Agent.Store.Postgres.Util (dropSchema)
-import qualified Simplex.Messaging.Agent.Store.Postgres.DB as DB
+import Popopx.Messaging.Agent.Store.Postgres.Util (dropSchema)
+import qualified Popopx.Messaging.Agent.Store.Postgres.DB as DB
 #else
 import Database.SQLite.Simple (fromOnly)
-import qualified Simplex.Messaging.Agent.Store.SQLite.DB as DB
+import qualified Popopx.Messaging.Agent.Store.SQLite.DB as DB
 import System.Directory (removeFile)
 #endif
 

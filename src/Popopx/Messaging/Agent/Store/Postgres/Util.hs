@@ -3,7 +3,7 @@
 {-# LANGUAGE QuasiQuotes #-}
 {-# LANGUAGE ScopedTypeVariables #-}
 
-module Simplex.Messaging.Agent.Store.Postgres.Util
+module Popopx.Messaging.Agent.Store.Postgres.Util
   ( createDBAndUserIfNotExists,
     dropSchema,
     dropAllSchemasExceptSystem,

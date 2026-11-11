@@ -22,7 +22,7 @@
 --     to a private-IP target (SSRF amplification on top of the URL validation
 --     performed at config load in Server.Main.validateUrl).
 --   * Authorization header attached only when configured.
-module Simplex.Messaging.Server.Names.HttpResolver
+module Popopx.Messaging.Server.Names.HttpResolver
   ( RpcAuth (..),
     ResolverEnv,
     ResolverError (..),
@@ -59,7 +59,7 @@ import qualified Network.HTTP.Client as HC
 import Network.HTTP.Client.TLS (tlsManagerSettings)
 import qualified Network.HTTP.Types as HT
 import Network.HTTP.Types.URI (urlEncode)
-import Simplex.Messaging.Names.Record (NameResponse)
+import Popopx.Messaging.Names.Record (NameResponse)
 
 data RpcAuth = AuthBearer Text | AuthBasic Text Text
 

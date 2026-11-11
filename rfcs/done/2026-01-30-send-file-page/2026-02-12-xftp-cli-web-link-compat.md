@@ -48,8 +48,8 @@ No URI support. No compression. No redirect descriptions.
 
 ### Existing Haskell `FileDescriptionURI`
 
-`Description.hs:243-266` defines a `simplex:/file#/?desc=<URL-encoded raw YAML>` format.
-This is the SimpleX Chat app format - NOT the web page format. It uses URL-encoded raw YAML
+`Description.hs:243-266` defines a `popopx:/file#/?desc=<URL-encoded raw YAML>` format.
+This is the POPOPX Chat app format - NOT the web page format. It uses URL-encoded raw YAML
 (no DEFLATE compression), and has a different URL structure.
 
 ## Detailed Tech Design
@@ -166,7 +166,7 @@ The CLI should consider adding filename sanitization similar to the web client f
 The web page URL domain comes from the XFTP router address, not from a CLI flag:
 
 - **Non-redirected description**: use the router host of the first data packet's first replica.
-  E.g., `xftp://abc=@xftp1.simplex.im` -> `https://xftp1.simplex.im/#<encoded>`
+  E.g., `xftp://abc=@xftp1.popopx.im` -> `https://xftp1.popopx.im/#<encoded>`
 
 - **Redirected description**: use the router host of the redirect data packet (the outer description's
   data packet that stores the encrypted inner description).
@@ -202,7 +202,7 @@ fileWebLink :: FileDescription 'FRecipient -> (String, ByteString)
 -- Caller assembles: "https://" <> webHost <> "/#" <> uriFragment
 ```
 
-**Dependency**: Add `zlib` to `simplexmq.cabal` (for raw DEFLATE).
+**Dependency**: Add `zlib` to `popopxmq.cabal` (for raw DEFLATE).
 The codebase already has `zstd` for message compression - `zlib` is standard and small.
 
 The `zlib` Haskell package provides `Codec.Compression.Zlib.Raw` for raw DEFLATE
@@ -248,7 +248,7 @@ Pass file descriptions to the recipient(s):
 ./file.xftp/rcv1.xftp
 
 Web link:
-https://xftp1.simplex.im/#eJy0VduO2zYQ...
+https://xftp1.popopx.im/#eJy0VduO2zYQ...
 ```
 
 #### `xftp recv` - accept URL as input
@@ -298,9 +298,9 @@ so that links are ready to work once servers serve the page.
 
 ### Phase 1: Web URI codec in Haskell
 
-1. Add `zlib` dependency to `simplexmq.cabal`
-2. Add `encodeWebURI` / `decodeWebURI` / `fileWebLink` to `Simplex.FileTransfer.Description`
-   (or a new `Simplex.FileTransfer.Description.WebURI` module)
+1. Add `zlib` dependency to `popopxmq.cabal`
+2. Add `encodeWebURI` / `decodeWebURI` / `fileWebLink` to `Popopx.FileTransfer.Description`
+   (or a new `Popopx.FileTransfer.Description.WebURI` module)
 3. `fileWebLink` extracts host from first data packet's first replica router address
 4. Add unit tests: encode a known FileDescription, verify output matches web client encoding
 5. Add round-trip test: encode -> decode -> compare

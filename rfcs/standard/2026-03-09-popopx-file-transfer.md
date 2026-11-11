@@ -5,11 +5,11 @@ Standardized: 2026-03-09
 Protocol: xftp v1
 ---
 
-# SimpleX File Transfer protocol
+# POPOPX File Transfer protocol
 
 ## Problem
 
-Sending files as currently implemented in SimpleX Chat is inefficient for these reasons:
+Sending files as currently implemented in POPOPX Chat is inefficient for these reasons:
 
 1. Slow: message delivery requires acknowledgement for each message before the server sends the next message.
 2. Not fully asynchronous:
@@ -33,9 +33,9 @@ Another approach would be adopting some open-source file storage, possibly S3-co
 2. Limited meta-data protection, both on the application and on transport layer: same address for sending and receiving a file, file size is known to the server, etc.
 3. More difficult to self-host for the users when the server has 2 components (a 3rd party solution with our service component).
 
-We are not considering P2P solutions because of their bad meta-data privacy and requirement of having a single network - the same reason why P2P design is not used for SimpleX messaging network.
+We are not considering P2P solutions because of their bad meta-data privacy and requirement of having a single network - the same reason why P2P design is not used for POPOPX messaging network.
 
-A proposed solution is to develop a file hosting service (SimpleX File Transfer service) that would have better meta-data protection and functionality than the alternatives, using the ideas from SMP protocol design.
+A proposed solution is to develop a file hosting service (POPOPX File Transfer service) that would have better meta-data protection and functionality than the alternatives, using the ideas from SMP protocol design.
 
 The parameters of the solution would be:
 

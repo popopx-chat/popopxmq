@@ -10,7 +10,7 @@
 {-# LANGUAGE TypeApplications #-}
 {-# OPTIONS_GHC -fno-warn-ambiguous-fields #-}
 
-module Simplex.FileTransfer.Agent
+module Popopx.FileTransfer.Agent
   ( startXFTPWorkers,
     startXFTPSndWorkers,
     closeXFTPAgent,
@@ -56,32 +56,32 @@ import Data.Text (Text, pack)
 import Data.Time.Clock (getCurrentTime)
 import Data.Time.Format (defaultTimeLocale, formatTime)
 import Data.Word (Word32)
-import Simplex.FileTransfer.Chunks (toKB)
-import Simplex.FileTransfer.Client (XFTPChunkSpec (..), getChunkDigest, prepareChunkSizes, prepareChunkSpecs, singleChunkSize)
-import Simplex.FileTransfer.Crypto
-import Simplex.FileTransfer.Description
-import Simplex.FileTransfer.Protocol (FileParty (..), GrantedStorageTime, SFileParty (..))
-import Simplex.FileTransfer.Transport (XFTPRcvChunkSpec (..))
-import qualified Simplex.FileTransfer.Transport as XFTP
-import Simplex.FileTransfer.Types
-import qualified Simplex.FileTransfer.Types as FT
-import Simplex.FileTransfer.Util (removePath, uniqueCombine)
-import Simplex.Messaging.Agent.Client
-import Simplex.Messaging.Agent.Env.SQLite
-import Simplex.Messaging.Agent.Protocol
-import Simplex.Messaging.Agent.RetryInterval
-import Simplex.Messaging.Agent.Stats
-import Simplex.Messaging.Agent.Store.AgentStore
-import qualified Simplex.Messaging.Agent.Store.DB as DB
-import qualified Simplex.Messaging.Crypto as C
-import Simplex.Messaging.Crypto.File (CryptoFile (..), CryptoFileArgs)
-import qualified Simplex.Messaging.Crypto.File as CF
-import qualified Simplex.Messaging.Crypto.Lazy as LC
-import Simplex.Messaging.Encoding
-import Simplex.Messaging.Encoding.String (strDecode, strEncode)
-import Simplex.Messaging.Protocol (ProtocolServer, ProtocolType (..), XFTPServer)
-import qualified Simplex.Messaging.TMap as TM
-import Simplex.Messaging.Util (allFinally, catchAll_, catchAllErrors, liftError, tshow, unlessM, whenM)
+import Popopx.FileTransfer.Chunks (toKB)
+import Popopx.FileTransfer.Client (XFTPChunkSpec (..), getChunkDigest, prepareChunkSizes, prepareChunkSpecs, singleChunkSize)
+import Popopx.FileTransfer.Crypto
+import Popopx.FileTransfer.Description
+import Popopx.FileTransfer.Protocol (FileParty (..), GrantedStorageTime, SFileParty (..))
+import Popopx.FileTransfer.Transport (XFTPRcvChunkSpec (..))
+import qualified Popopx.FileTransfer.Transport as XFTP
+import Popopx.FileTransfer.Types
+import qualified Popopx.FileTransfer.Types as FT
+import Popopx.FileTransfer.Util (removePath, uniqueCombine)
+import Popopx.Messaging.Agent.Client
+import Popopx.Messaging.Agent.Env.SQLite
+import Popopx.Messaging.Agent.Protocol
+import Popopx.Messaging.Agent.RetryInterval
+import Popopx.Messaging.Agent.Stats
+import Popopx.Messaging.Agent.Store.AgentStore
+import qualified Popopx.Messaging.Agent.Store.DB as DB
+import qualified Popopx.Messaging.Crypto as C
+import Popopx.Messaging.Crypto.File (CryptoFile (..), CryptoFileArgs)
+import qualified Popopx.Messaging.Crypto.File as CF
+import qualified Popopx.Messaging.Crypto.Lazy as LC
+import Popopx.Messaging.Encoding
+import Popopx.Messaging.Encoding.String (strDecode, strEncode)
+import Popopx.Messaging.Protocol (ProtocolServer, ProtocolType (..), XFTPServer)
+import qualified Popopx.Messaging.TMap as TM
+import Popopx.Messaging.Util (allFinally, catchAll_, catchAllErrors, liftError, tshow, unlessM, whenM)
 import System.FilePath (takeFileName, (</>))
 import UnliftIO
 import UnliftIO.Directory

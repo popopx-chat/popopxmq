@@ -1,4 +1,4 @@
-# BBS+ Bindings for simplexmq
+# BBS+ Bindings for popopxmq
 
 Haskell FFI bindings to libbbs for BBS+ signatures. General-purpose - the module knows nothing about specific applications.
 
@@ -64,7 +64,7 @@ An application defines:
 - Which indexes are disclosed vs hidden
 - How to encode application values as ByteString messages
 
-### Badge example (in simplex-chat, not in this module)
+### Badge example (in popopx-chat, not in this module)
 
 Message layout (always 3 messages):
 - Index 0: master secret (32 random bytes) - HIDDEN
@@ -99,7 +99,7 @@ int bbs_proof_gen(ciphersuite, pk, signature, proof, header, header_len, present
 int bbs_proof_verify(ciphersuite, pk, proof, proof_len, header, header_len, presentation_header, presentation_header_len, disclosed_indexes, disclosed_indexes_len, n, messages, message_lens)
 ```
 
-We use `bbs_sha256_ciphersuite`. The header parameter is exposed in all Haskell functions - the application decides what to put there. Tests use `"SimpleX"` as header.
+We use `bbs_sha256_ciphersuite`. The header parameter is exposed in all Haskell functions - the application decides what to put there. Tests use `"POPOPX"` as header.
 
 The `presentation_header` parameter is what we call `presentationHeader`.
 

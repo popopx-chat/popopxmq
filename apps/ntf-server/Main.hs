@@ -1,14 +1,14 @@
 module Main where
 
 import Control.Logger.Simple
-import Simplex.Messaging.Server.CLI (getEnvPath)
-import Simplex.Messaging.Notifications.Server.Main
+import Popopx.Messaging.Server.CLI (getEnvPath)
+import Popopx.Messaging.Notifications.Server.Main
 
 defaultCfgPath :: FilePath
-defaultCfgPath = "/etc/opt/simplex-notifications"
+defaultCfgPath = "/etc/opt/popopx-notifications"
 
 defaultLogPath :: FilePath
-defaultLogPath = "/var/opt/simplex-notifications"
+defaultLogPath = "/var/opt/popopx-notifications"
 
 logCfg :: LogConfig
 logCfg = LogConfig {lc_file = Nothing, lc_stderr = True}

@@ -3,7 +3,7 @@
 {-# LANGUAGE NamedFieldPuns #-}
 {-# LANGUAGE TemplateHaskell #-}
 
-module Simplex.Messaging.Agent.Stats
+module Popopx.Messaging.Agent.Stats
   ( AgentSMPServerStats (..),
     AgentSMPServerStatsData (..),
     OptionalInt (..),
@@ -35,11 +35,11 @@ import qualified Data.Aeson.TH as J
 import Data.Int (Int64)
 import Data.Map.Strict (Map)
 import qualified Data.Map.Strict as M
-import Simplex.Messaging.Agent.Protocol (UserId)
-import Simplex.Messaging.Agent.Store.DB (FromField (..), ToField (..), fromTextField_)
-import Simplex.Messaging.Parsers (defaultJSON)
-import Simplex.Messaging.Protocol (NtfServer, SMPServer, XFTPServer)
-import Simplex.Messaging.Util (decodeJSON, encodeJSON)
+import Popopx.Messaging.Agent.Protocol (UserId)
+import Popopx.Messaging.Agent.Store.DB (FromField (..), ToField (..), fromTextField_)
+import Popopx.Messaging.Parsers (defaultJSON)
+import Popopx.Messaging.Protocol (NtfServer, SMPServer, XFTPServer)
+import Popopx.Messaging.Util (decodeJSON, encodeJSON)
 import UnliftIO.STM
 
 data AgentSMPServerStats = AgentSMPServerStats

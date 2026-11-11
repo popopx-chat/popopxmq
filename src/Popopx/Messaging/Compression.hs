@@ -1,7 +1,7 @@
 {-# LANGUAGE LambdaCase #-}
 {-# LANGUAGE OverloadedStrings #-}
 
-module Simplex.Messaging.Compression
+module Popopx.Messaging.Compression
   ( Compressed,
     maxLengthPassthrough,
     compressionLevel,
@@ -15,7 +15,7 @@ module Simplex.Messaging.Compression
 import qualified Codec.Compression.Zstd as Z1
 import Data.ByteString (ByteString)
 import qualified Data.ByteString as B
-import Simplex.Messaging.Encoding
+import Popopx.Messaging.Encoding
 
 data Compressed
   = -- | Short messages are left intact to skip copying and FFI festivities.

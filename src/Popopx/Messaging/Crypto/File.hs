@@ -2,13 +2,13 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE TemplateHaskell #-}
 
-module Simplex.Messaging.Crypto.File
+module Popopx.Messaging.Crypto.File
   ( CryptoFile (..),
     CryptoFileArgs (..),
     CryptoFileHandle (..),
     FTCryptoError (..),
-    Simplex.Messaging.Crypto.File.readFile,
-    Simplex.Messaging.Crypto.File.writeFile,
+    Popopx.Messaging.Crypto.File.readFile,
+    Popopx.Messaging.Crypto.File.writeFile,
     withFile,
     hPut,
     hPutTag,
@@ -32,11 +32,11 @@ import qualified Data.ByteString.Char8 as B
 import qualified Data.ByteString.Lazy as LB
 import Data.List.NonEmpty (NonEmpty (..))
 import Data.Maybe (isJust)
-import qualified Simplex.Messaging.Crypto as C
-import Simplex.Messaging.Crypto.Lazy (LazyByteString)
-import qualified Simplex.Messaging.Crypto.Lazy as LC
-import Simplex.Messaging.Parsers (defaultJSON)
-import Simplex.Messaging.Util (liftEitherWith, stateTVar')
+import qualified Popopx.Messaging.Crypto as C
+import Popopx.Messaging.Crypto.Lazy (LazyByteString)
+import qualified Popopx.Messaging.Crypto.Lazy as LC
+import Popopx.Messaging.Parsers (defaultJSON)
+import Popopx.Messaging.Util (liftEitherWith, stateTVar')
 import System.Directory (getFileSize)
 import UnliftIO (Handle, IOMode (..), liftIO)
 import qualified UnliftIO as IO

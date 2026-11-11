@@ -1,4 +1,4 @@
-// XFTP HTTP/2 client -- Simplex.FileTransfer.Client
+// XFTP HTTP/2 client -- Popopx.FileTransfer.Client
 //
 // Connects to XFTP server via HTTP/2, performs web handshake,
 // sends authenticated commands, receives responses.

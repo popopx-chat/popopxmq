@@ -1,8 +1,8 @@
-# SimpleX Network Protocol Specifications — Governance and Evolution (draft)
+# POPOPX Network Protocol Specifications — Governance and Evolution (draft)
 
 ## Why this document exists
 
-SimpleX Network protocol specifications must evolve as the network grows. This document defines how specifications change, who governs those changes, and how the history of changes is preserved.
+POPOPX Network protocol specifications must evolve as the network grows. This document defines how specifications change, who governs those changes, and how the history of changes is preserved.
 
 ### Lessons from the web: why ratcheted governance matters
 
@@ -16,17 +16,17 @@ Then in 2023, [W3C restructured from a multi-host consortium into a single 501(c
 
 ### The governance double ratchet
 
-SimpleX follows the same Netscape-to-consortium evolution path, but with two ratchets designed to prevent both failure modes — stagnation from premature governance transfer, and capture from governance centralization:
+POPOPX follows the same Netscape-to-consortium evolution path, but with two ratchets designed to prevent both failure modes — stagnation from premature governance transfer, and capture from governance centralization:
 
 - **Licensing ratchet**: all contributed IP is licensed under AGPLv3 (software) and Creative Commons (documentation), perpetually and irrevocably. What is licensed cannot be unlicensed. If a Party transfers Licensed IP, the licensing obligations transfer with it.
 
-- **Governance ratchet**: power can be given to the SimpleX Network Consortium, but never taken back. The Consortium Agreement requires majority decision of all Governing Parties for changes to the agreement itself, IP policy, and admission or removal of parties.
+- **Governance ratchet**: power can be given to the POPOPX Network Consortium, but never taken back. The Consortium Agreement requires majority decision of all Governing Parties for changes to the agreement itself, IP policy, and admission or removal of parties.
 
 The ratcheted transition is historically proven to be necessary. It allows the company to continue driving rapid product innovation (as Netscape did for the web) while incrementally and irreversibly transferring governance to the consortium, without the abrupt handover that stalled web evolution or the centralization that later undermined it.
 
 ### Specification governance via the Consortium Agreement
 
-The SimpleX Network Consortium Agreement (being deployed in 2026) establishes two levels of intellectual property governance: **Licensed IP** (all contributed protocol specifications, software, and documentation, licensed perpetually and irrevocably) and **Core IP** (the subset essential to the network, requiring consortium governance to change). The distinction between these levels and how they map to the RFC process is described in [Standard vs Core specifications](#standard-vs-core-specifications) below.
+The POPOPX Network Consortium Agreement (being deployed in 2026) establishes two levels of intellectual property governance: **Licensed IP** (all contributed protocol specifications, software, and documentation, licensed perpetually and irrevocably) and **Core IP** (the subset essential to the network, requiring consortium governance to change). The distinction between these levels and how they map to the RFC process is described in [Standard vs Core specifications](#standard-vs-core-specifications) below.
 
 ## Specification change process: protocol specifications and RFCs
 
@@ -92,28 +92,28 @@ Every RFC in `standard/` carries a history header:
 Proposed: YYYY-MM-DD
 Implemented: YYYY-MM-DD
 Standardized: YYYY-MM-DD
-Protocol: simplex-messaging v9 (or whichever protocol this amends)
+Protocol: popopx-messaging v9 (or whichever protocol this amends)
 ---
 ```
 
 ## Governance
 
-SimpleX Network follows the Netscape-to-W3C evolution path, with ratcheted rather than abrupt transitions:
+POPOPX Network follows the Netscape-to-W3C evolution path, with ratcheted rather than abrupt transitions:
 
 | Phase | Period | Governance | Development process |
 |-------|--------|-----------|-------------------|
 | Protocol invented | 2020 | Two people | Prototype developed |
-| SimpleX Chat Ltd | 2022 | One company | Product-first: code leads, specs follow |
-| SimpleX Network Consortium | 2026 | Agreement of SimpleX Chat Ltd and non-profit entities | Product-first for standard; standards-first for core |
+| POPOPX Chat Ltd | 2022 | One company | Product-first: code leads, specs follow |
+| POPOPX Network Consortium | 2026 | Agreement of POPOPX Chat Ltd and non-profit entities | Product-first for standard; standards-first for core |
 | Decentralized governance | Future | TBD (DAO research ongoing) | Standards-first |
 
 ### Current: product-first development
 
-SimpleX protocols currently follow a product-first development process: requirements drive code, code drives specification. RFCs are written as design proposals before implementation, but implementation details are figured out in code. Consolidated protocol specifications in `protocol/` are then amended to match the implementation.
+POPOPX protocols currently follow a product-first development process: requirements drive code, code drives specification. RFCs are written as design proposals before implementation, but implementation details are figured out in code. Consolidated protocol specifications in `protocol/` are then amended to match the implementation.
 
-This process is governed by SimpleX Chat Ltd as the IP Holding Party under the Consortium Agreement.
+This process is governed by POPOPX Chat Ltd as the IP Holding Party under the Consortium Agreement.
 
-Any Specification Author (as defined in the Consortium Agreement) may propose RFCs. Acceptance and standardization decisions are made by SimpleX Chat Ltd during the current product-first phase.
+Any Specification Author (as defined in the Consortium Agreement) may propose RFCs. Acceptance and standardization decisions are made by POPOPX Chat Ltd during the current product-first phase.
 
 ### Standard vs Core specifications
 

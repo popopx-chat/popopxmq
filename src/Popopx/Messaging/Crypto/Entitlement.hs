@@ -6,7 +6,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE TemplateHaskell #-}
 
-module Simplex.Messaging.Crypto.Entitlement
+module Popopx.Messaging.Crypto.Entitlement
   ( Entitlement (..),
     EntitlementCredential (..),
     EntitlementProof (..),
@@ -35,12 +35,12 @@ import Data.Text (Text)
 import Data.Text.Encoding (decodeUtf8', encodeUtf8)
 import Data.Time.Clock (UTCTime)
 import Data.Word (Word16)
-import qualified Simplex.Messaging.Crypto as C
-import Simplex.Messaging.Crypto.BBS
-import Simplex.Messaging.Encoding
-import Simplex.Messaging.Encoding.String
-import Simplex.Messaging.Parsers (defaultJSON)
-import Simplex.Messaging.Util ((<$$>))
+import qualified Popopx.Messaging.Crypto as C
+import Popopx.Messaging.Crypto.BBS
+import Popopx.Messaging.Encoding
+import Popopx.Messaging.Encoding.String
+import Popopx.Messaging.Parsers (defaultJSON)
+import Popopx.Messaging.Util ((<$$>))
 
 newtype MasterKey = MasterKey ByteString
   deriving newtype (Eq, Show)
@@ -89,7 +89,7 @@ instance Encoding EntitlementProof where
     pure EntitlementProof {issuerKeyIdx, entProof, entitlement}
 
 entitlementBBSHeader :: BBSHeader
-entitlementBBSHeader = BBSHeader "SimpleX badges v1"
+entitlementBBSHeader = BBSHeader "POPOPX badges v1"
 
 entitlementMessageCount :: Int
 entitlementMessageCount = 4

@@ -8,7 +8,7 @@
 
 {-# HLINT ignore "Use newtype instead of data" #-}
 
-module Simplex.Messaging.Notifications.Server.Push.APNS
+module Popopx.Messaging.Notifications.Server.Push.APNS
   ( PushNotification (..),
     APNSNotification (..),
     APNSNotificationBody (..),
@@ -62,15 +62,15 @@ import qualified Network.HTTP.Types as N
 import Network.HTTP2.Client (Request)
 import qualified Network.HTTP2.Client as H
 import Network.Socket (HostName, ServiceName)
-import qualified Simplex.Messaging.Crypto as C
-import Simplex.Messaging.Notifications.Protocol
-import Simplex.Messaging.Agent.RetryInterval (RetryInterval (..))
-import Simplex.Messaging.Notifications.Server.Push.APNS.Internal
-import Simplex.Messaging.Notifications.Server.Store.Types (NtfTknRec (..))
-import Simplex.Messaging.Parsers (defaultJSON)
-import Simplex.Messaging.Transport.HTTP2 (HTTP2Body (..))
-import Simplex.Messaging.Transport.HTTP2.Client
-import Simplex.Messaging.Util (safeDecodeUtf8, tshow)
+import qualified Popopx.Messaging.Crypto as C
+import Popopx.Messaging.Notifications.Protocol
+import Popopx.Messaging.Agent.RetryInterval (RetryInterval (..))
+import Popopx.Messaging.Notifications.Server.Push.APNS.Internal
+import Popopx.Messaging.Notifications.Server.Store.Types (NtfTknRec (..))
+import Popopx.Messaging.Parsers (defaultJSON)
+import Popopx.Messaging.Transport.HTTP2 (HTTP2Body (..))
+import Popopx.Messaging.Transport.HTTP2.Client
+import Popopx.Messaging.Util (safeDecodeUtf8, tshow)
 import System.Environment (getEnv)
 import System.X509 (getSystemCertificateStore)
 import UnliftIO.STM
@@ -211,7 +211,7 @@ defaultAPNSPushClientConfig =
       authKeyAlg = "ES256",
       authKeyIdEnv = "APNS_KEY_ID",
       paddedNtfLength = 3072,
-      appName = "chat.simplex.app",
+      appName = "chat.popopx.app",
       appTeamId = "5NN7GUYB6T",
       apnsPort = "443",
       http2cfg = defaultHTTP2ClientConfig {bufferSize = 16384},

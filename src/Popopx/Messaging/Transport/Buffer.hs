@@ -2,7 +2,7 @@
 {-# LANGUAGE NamedFieldPuns #-}
 {-# LANGUAGE OverloadedStrings #-}
 
-module Simplex.Messaging.Transport.Buffer
+module Popopx.Messaging.Transport.Buffer
   ( TBuffer (..),
     newTBuffer,
     peekBuffered,

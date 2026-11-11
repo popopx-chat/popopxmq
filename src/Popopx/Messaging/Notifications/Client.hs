@@ -4,7 +4,7 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# LANGUAGE TypeApplications #-}
 
-module Simplex.Messaging.Notifications.Client
+module Popopx.Messaging.Notifications.Client
   ( NtfClient,
     NtfClientError,
     defaultNTFClientConfig,
@@ -29,12 +29,12 @@ import Control.Monad.Trans.Except
 import Data.List.NonEmpty (NonEmpty (..))
 import qualified Data.List.NonEmpty as L
 import Data.Word (Word16)
-import Simplex.Messaging.Client
-import qualified Simplex.Messaging.Crypto as C
-import Simplex.Messaging.Notifications.Protocol
-import Simplex.Messaging.Notifications.Transport (NTFVersion, supportedClientNTFVRange, alpnSupportedNTFHandshakes)
-import Simplex.Messaging.Protocol (ErrorType, pattern NoEntity)
-import Simplex.Messaging.Transport (TLS, Transport (..))
+import Popopx.Messaging.Client
+import qualified Popopx.Messaging.Crypto as C
+import Popopx.Messaging.Notifications.Protocol
+import Popopx.Messaging.Notifications.Transport (NTFVersion, supportedClientNTFVRange, alpnSupportedNTFHandshakes)
+import Popopx.Messaging.Protocol (ErrorType, pattern NoEntity)
+import Popopx.Messaging.Transport (TLS, Transport (..))
 
 type NtfClient = ProtocolClient NTFVersion ErrorType NtfResponse
 

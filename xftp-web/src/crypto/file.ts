@@ -1,4 +1,4 @@
-// File-level encryption/decryption matching Simplex.FileTransfer.Crypto.
+// File-level encryption/decryption matching Popopx.FileTransfer.Crypto.
 // Operates on in-memory Uint8Array (no file I/O needed for browser).
 
 import {Decoder, concatBytes, encodeInt64, encodeString, decodeString, encodeMaybe, decodeMaybe} from "../protocol/encoding.js"

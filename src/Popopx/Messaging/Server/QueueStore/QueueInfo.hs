@@ -3,7 +3,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE TemplateHaskell #-}
 
-module Simplex.Messaging.Server.QueueStore.QueueInfo
+module Popopx.Messaging.Server.QueueStore.QueueInfo
   ( QueueInfo (..),
     QSub (..),
     QSubThread (..),
@@ -19,10 +19,10 @@ import qualified Data.ByteString.Lazy.Char8 as LB
 import Data.Text (Text)
 import Data.Text.Encoding (decodeLatin1, encodeUtf8)
 import Data.Time.Clock (UTCTime)
-import Simplex.Messaging.Agent.Store.DB (FromField (..), ToField (..), fromTextField_)
-import Simplex.Messaging.Encoding
-import Simplex.Messaging.Parsers (defaultJSON, dropPrefix, enumJSON)
-import Simplex.Messaging.Util (eitherToMaybe, (<$?>))
+import Popopx.Messaging.Agent.Store.DB (FromField (..), ToField (..), fromTextField_)
+import Popopx.Messaging.Encoding
+import Popopx.Messaging.Parsers (defaultJSON, dropPrefix, enumJSON)
+import Popopx.Messaging.Util (eitherToMaybe, (<$?>))
 
 data QueueInfo = QueueInfo
   { qiSnd :: Bool,

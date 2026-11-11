@@ -1,6 +1,6 @@
 {-# LANGUAGE QuasiQuotes #-}
 
-module Simplex.Messaging.Agent.Store.SQLite.Migrations.M20220625_v2_ntf_mode where
+module Popopx.Messaging.Agent.Store.SQLite.Migrations.M20220625_v2_ntf_mode where
 
 import Database.SQLite.Simple (Query)
 import Database.SQLite.Simple.QQ (sql)

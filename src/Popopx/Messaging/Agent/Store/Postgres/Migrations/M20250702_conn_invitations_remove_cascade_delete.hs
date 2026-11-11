@@ -1,7 +1,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE QuasiQuotes #-}
 
-module Simplex.Messaging.Agent.Store.Postgres.Migrations.M20250702_conn_invitations_remove_cascade_delete where
+module Popopx.Messaging.Agent.Store.Postgres.Migrations.M20250702_conn_invitations_remove_cascade_delete where
 
 import Data.Text (Text)
 import Text.RawString.QQ (r)

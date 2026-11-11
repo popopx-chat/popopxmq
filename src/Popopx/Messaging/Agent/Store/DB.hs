@@ -1,18 +1,18 @@
 {-# LANGUAGE CPP #-}
 
-module Simplex.Messaging.Agent.Store.DB
+module Popopx.Messaging.Agent.Store.DB
 #if defined(dbPostgres)
-  ( module Simplex.Messaging.Agent.Store.Postgres.DB,
+  ( module Popopx.Messaging.Agent.Store.Postgres.DB,
     FromField (..),
     ToField (..),
   )
   where
-import Simplex.Messaging.Agent.Store.Postgres.DB
+import Popopx.Messaging.Agent.Store.Postgres.DB
 #else
-  ( module Simplex.Messaging.Agent.Store.SQLite.DB,
+  ( module Popopx.Messaging.Agent.Store.SQLite.DB,
     FromField (..),
     ToField (..),
   )
   where
-import Simplex.Messaging.Agent.Store.SQLite.DB
+import Popopx.Messaging.Agent.Store.SQLite.DB
 #endif

@@ -87,7 +87,7 @@ flowchart LR
 
 ## Mechanics
 
-- `src/Simplex/Messaging/Agent/Client.hs`:
+- `src/Popopx/Messaging/Agent/Client.hs`:
   - `AgentClient` (:379-380), fields created in `newAgentClient` (:550-551):
     - `sndFilesOp :: TVar AgentOpState`;
     - `sndFilesInProgress :: TVar (Set SndFileId)`.
@@ -104,13 +104,13 @@ flowchart LR
     - `removeDeletedOrFailedSndFilesInProgress` (:2424-2435): when the set is not empty and `AODatabase` is begun by `tryBeginAgentOperation`, the counted files missing from `getNotDeletedOrFailedSndFileIds` are removed; on a query error, the error is logged and the set is unchanged; under `E.mask`, the begun operation is ended by `E.finally`;
     - `tryBeginAgentOperation` (:2446-2447): `beginAgentOperation`, or `False` by `orElse` while the operation is suspended; `True` when begun;
     - `waitUntilUploadsAllowed` (:2472-2482), with the condition `uploadsAllowed`.
-- `src/Simplex/Messaging/Agent/Store/AgentStore.hs`, new: `getNotDeletedOrFailedSndFileIds` (:3898-3900), the entity IDs of `snd_files` rows with `deleted = 0` and `failed = 0`.
-- `src/Simplex/Messaging/Agent.hs`:
+- `src/Popopx/Messaging/Agent/Store/AgentStore.hs`, new: `getNotDeletedOrFailedSndFileIds` (:3898-3900), the entity IDs of `snd_files` rows with `deleted = 0` and `failed = 0`.
+- `src/Popopx/Messaging/Agent.hs`:
   - `suspendAgent`:
     - stages (:3446-3448): `AORcvNetwork`, `AOSndFiles`, then `suspendMsgDelivery`;
     - `removeDeletedOrFailedSndFilesInProgress` (:3451), in a thread forked while the agent is suspending, separate from the timeout thread (:3452-3457); a removal that ends after the timeout holds the `AODatabase` count until it ends, and `SUSPENDED` is sent then.
   - `deleteSndFilesExpired` (:3548), local to `cleanupManager`: `removeSndFileInProgress`.
-- `src/Simplex/FileTransfer/Agent.hs`:
+- `src/Popopx/FileTransfer/Agent.hs`:
   - `xftpStartSendFile'` (:407): `addSndFileInProgress` when `ASForeground`.
   - `assertUploadsAllowed` in place of `assertAgentForeground`:
     - `runXFTPSndPrepareWorker` (:424, :487, :507);

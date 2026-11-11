@@ -1,6 +1,6 @@
 Version 4, 2026-08-08
 
-# SimpleX File Transfer Protocol
+# POPOPX File Transfer Protocol
 
 ## Table of contents
 
@@ -38,7 +38,7 @@ Version 4, 2026-08-08
 
 ## Abstract
 
-SimpleX File Transfer Protocol is a client-server protocol for asynchronous unidirectional file transmission.
+POPOPX File Transfer Protocol is a client-server protocol for asynchronous unidirectional file transmission.
 
 It's designed with the focus on communication security, integrity and meta-data privacy, under the assumption that any part of the message transmission network can be compromised.
 
@@ -46,7 +46,7 @@ It is designed as a application level protocol to solve the problem of secure an
 
 ## Introduction
 
-The objective of SimpleX File Transfer Protocol (XFTP) is to facilitate the secure and private unidirectional transfer of files from senders to recipients via persistent data packets stored by the xftp router.
+The objective of POPOPX File Transfer Protocol (XFTP) is to facilitate the secure and private unidirectional transfer of files from senders to recipients via persistent data packets stored by the xftp router.
 
 XFTP is implemented as an application level protocol on top of HTTP2 and TLS.
 
@@ -71,7 +71,7 @@ The XFTP model has three communication participants: the recipient, the XFTP rou
 
 XFTP router allows uploading fixed size data packets, with or without basic authentication. The same party that can be the sender of one data packet can be the recipient of another, without exposing it to the router.
 
-Each data packet allows multiple recipients, each recipient can download the same packet multiple times. It allows depending on the threat model use the same recipient credentials for multiple parties, thus reducing router ability to understand the number of intended recipients (but router can still track IP addresses to determine it), or use one unique set of credentials for each recipient, frustrating traffic correlation on the assumption of compromised TLS. In the latter case, senders can create a larger number of recipient credentials to hide the actual number of intended recipients from the routers (which is what SimpleX clients do).
+Each data packet allows multiple recipients, each recipient can download the same packet multiple times. It allows depending on the threat model use the same recipient credentials for multiple parties, thus reducing router ability to understand the number of intended recipients (but router can still track IP addresses to determine it), or use one unique set of credentials for each recipient, frustrating traffic correlation on the assumption of compromised TLS. In the latter case, senders can create a larger number of recipient credentials to hide the actual number of intended recipients from the routers (which is what POPOPX clients do).
 
 ```
            Sender                      Internet                XFTP relays             Internet         Recipient
@@ -80,7 +80,7 @@ Each data packet allows multiple recipients, each recipient can download the sam
                                |                       |   (can be self-hosted)  |                  |
                                |                       |        +---------+      |                  |
                   packet 1     ----- HTTP2 over TLS ------       |  XFTP   |     ---- HTTP2 / TLS -----   packet 1
-                |---> SimpleX File Transfer Protocol (XFTP) --> |  Relay  | --->        XFTP         ------------->|
+                |---> POPOPX File Transfer Protocol (XFTP) --> |  Relay  | --->        XFTP         ------------->|
                 |             ---------------------------       +---------+     ----------------------             |
                 |              |                       |                         |                  |              | 
                 |              |                       |                         |                  |              v
@@ -140,7 +140,7 @@ The sending client combines addresses of all packets and other information into 
 
 To reduce the size of file description, packets are grouped by the router host.
 
-4) Send file description(s) to the recipient(s) out-of-band, via pre-existing secure and authenticated channel. E.g., SimpleX clients send it as messages via SMP protocol, but it can be done via any other channel.
+4) Send file description(s) to the recipient(s) out-of-band, via pre-existing secure and authenticated channel. E.g., POPOPX clients send it as messages via SMP protocol, but it can be done via any other channel.
 
 ![Sending file](./diagrams/xftp/xftp-sending-file.svg)
 
@@ -235,20 +235,20 @@ File description URI syntax:
 
 ```abnf
 fileDescriptionURI = serviceScheme "/file"  "#/?desc=" description [ "&data=" userData ]
-serviceScheme = (%s"https://" clientAppServer) / %s"simplex:"
+serviceScheme = (%s"https://" clientAppServer) / %s"popopx:"
 clientAppServer = hostname [ ":" port ]
-; client app server, e.g. simplex.chat
+; client app server, e.g. popopx.chat
 description = <URI-escaped YAML file description>
 userData = <any URI-compatible string>
 ```
 
 clientAppServer is not a server the client connects to - it is a server that shows the instruction on how to download the client app that will connect using this connection request. This server can also host a mobile or desktop app manifest so that this link is opened directly in the app if it is installed on the device.
 
-"simplex" URI scheme in serviceScheme can be used instead of client app server. Client apps MUST support this URI scheme.
+"popopx" URI scheme in serviceScheme can be used instead of client app server. Client apps MUST support this URI scheme.
 
 ## XFTP qualities and features
 
-XFTP stands for SimpleX File Transfer Protocol. Its design is based on the same ideas and has some of the qualities of SimpleX Messaging Protocol:
+XFTP stands for POPOPX File Transfer Protocol. Its design is based on the same ideas and has some of the qualities of POPOPX Messaging Protocol:
 
 - recipient cannot see sender's IP address, as the file fragments (packets) are temporarily stored on multiple XFTP relays.
 - file can be sent asynchronously, without requiring the sender to be online for file to be received.
@@ -256,14 +256,14 @@ XFTP stands for SimpleX File Transfer Protocol. Its design is based on the same 
 - XFTP relays do not have any file metadata - they only see individual packets, with access to each packet authorized with anonymous credentials (using Edwards curve cryptographic signature) that are random per packet.
 - packets have one of the sizes allowed by the routers - 64KB, 256KB, 1MB and 4MB packets, so sending a large file looks indistinguishable from sending many small files to XFTP router. If the same transport connection is reused, router would only know that packets are sent by the same user.
 - each packet can be downloaded by multiple recipients, but each recipient uses their own key and packet ID to authorize access, and the packet is encrypted by a different key agreed via ephemeral DH keys (NaCl crypto_box (SalsaX20Poly1305 authenticated encryption scheme ) with shared secret derived from Curve25519 key exchange) on the way from the router to each recipient. XFTP protocol as a result has the same quality as SMP protocol - there are no identifiers and ciphertext in common between sent and received traffic inside TLS connection, so even if TLS is compromised, it complicates traffic correlation attacks.
-- XFTP protocol supports redundancy - each data packet can be sent via multiple relays, and the recipient can choose the one that is available. Current implementation of XFTP protocol in SimpleX Chat does not support redundancy though.
+- XFTP protocol supports redundancy - each data packet can be sent via multiple relays, and the recipient can choose the one that is available. Current implementation of XFTP protocol in POPOPX Chat does not support redundancy though.
 - the file as a whole is encrypted with a random symmetric key using NaCl secret_box.
 
 ## Cryptographic algorithms
 
 Clients must cryptographically authorize XFTP commands, see [Command authentication](#command-authentication).
 
-To authorize/verify transmissions clients and routers MUST use either signature algorithm Ed25519 algorithm defined in RFC8709 or using deniable authentication scheme based on NaCL crypto_box (see Simplex Messaging Protocol).
+To authorize/verify transmissions clients and routers MUST use either signature algorithm Ed25519 algorithm defined in RFC8709 or using deniable authentication scheme based on NaCL crypto_box (see Popopx Messaging Protocol).
 
 To encrypt/decrypt data packet bodies delivered to the recipients, routers/clients MUST use NaCL crypto_box.
 
@@ -553,7 +553,7 @@ ack = %s"FACK"
 
 If file recipient ID is successfully deleted, the router must send `ok` response.
 
-In current implementation of XFTP protocol in SimpleX Chat clients don't use FACK command. Files are automatically expired on routers after configured time interval.
+In current implementation of XFTP protocol in POPOPX Chat clients don't use FACK command. Files are automatically expired on routers after configured time interval.
 
 ### Error responses
 

@@ -1,4 +1,4 @@
-// XFTP client protocol operations -- Simplex.FileTransfer.Client + Crypto
+// XFTP client protocol operations -- Popopx.FileTransfer.Client + Crypto
 //
 // CbAuthenticator-based command authentication and transport-level
 // chunk encryption/decryption for XFTP downloads.

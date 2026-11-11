@@ -22,7 +22,7 @@
     console.log("connection URI: ", connURI)
     const hash = parsedURI.hash
     const hostname = parsedURI.hostname
-    let appURI = "simplex:" + parsedURI.pathname
+    let appURI = "popopx:" + parsedURI.pathname
     appURI += action.length > 1 // not short link
               ? hash
               : !hash.includes("?") // otherwise add server hostname

@@ -22,17 +22,17 @@ import qualified Data.X509.File as XF
 import Data.X509.Validation (Fingerprint (..))
 import qualified Network.HTTP.Client as H1
 import qualified Network.HTTP2.Client as H2
-import Simplex.FileTransfer.Server.Main (xftpServerCLI)
-import qualified Simplex.Messaging.Crypto as C
-import Simplex.Messaging.Server.CLI (simplexmqVersionCommit)
-import Simplex.Messaging.Server.Main (smpServerCLI, smpServerCLI_)
-import Simplex.Messaging.Transport (TLS (..), Transport (cGet, cPut, getLn), TransportPeer (..), defaultSupportedParams, defaultSupportedParamsHTTPS, supportedClientSMPRelayVRange)
-import Simplex.Messaging.Transport.Client (TransportClientConfig (..), defaultTransportClientConfig, runTLSTransportClient, smpClientHandshake)
-import qualified Simplex.Messaging.Transport.HTTP2.Client as HC
-import Simplex.Messaging.Transport.Server (loadFileFingerprint)
-import Simplex.Messaging.Util (catchAll_)
+import Popopx.FileTransfer.Server.Main (xftpServerCLI)
+import qualified Popopx.Messaging.Crypto as C
+import Popopx.Messaging.Server.CLI (popopxmqVersionCommit)
+import Popopx.Messaging.Server.Main (smpServerCLI, smpServerCLI_)
+import Popopx.Messaging.Transport (TLS (..), Transport (cGet, cPut, getLn), TransportPeer (..), defaultSupportedParams, defaultSupportedParamsHTTPS, supportedClientSMPRelayVRange)
+import Popopx.Messaging.Transport.Client (TransportClientConfig (..), defaultTransportClientConfig, runTLSTransportClient, smpClientHandshake)
+import qualified Popopx.Messaging.Transport.HTTP2.Client as HC
+import Popopx.Messaging.Transport.Server (loadFileFingerprint)
+import Popopx.Messaging.Util (catchAll_)
 import qualified SMPWeb
-import Simplex.Messaging.Server.Web (serveStaticFiles, attachStaticFiles)
+import Popopx.Messaging.Server.Web (serveStaticFiles, attachStaticFiles)
 import System.Directory (doesFileExist)
 import System.Environment (withArgs)
 import System.FilePath ((</>))
@@ -51,30 +51,30 @@ import qualified Database.PostgreSQL.Simple as PSQL
 import Database.PostgreSQL.Simple.Types (Query (..))
 import NtfClient (ntfTestServerDBConnectInfo, ntfTestServerDBConnstr, ntfTestServerDBOpts)
 import SMPClient (postgressBracket)
-import Simplex.Messaging.Agent.Store.Postgres.Options (DBOpts (..))
-import Simplex.Messaging.Notifications.Server.Main
+import Popopx.Messaging.Agent.Store.Postgres.Options (DBOpts (..))
+import Popopx.Messaging.Notifications.Server.Main
 #endif
 
 cfgPath :: HasTestEnv => FilePath
-cfgPath = testPath "cli/etc/opt/simplex"
+cfgPath = testPath "cli/etc/opt/popopx"
 
 logPath :: HasTestEnv => FilePath
-logPath = testPath "cli/etc/var/simplex"
+logPath = testPath "cli/etc/var/popopx"
 
 webPath :: HasTestEnv => FilePath
 webPath = testPath "cli/var/www"
 
 ntfCfgPath :: HasTestEnv => FilePath
-ntfCfgPath = testPath "cli/etc/opt/simplex-notifications"
+ntfCfgPath = testPath "cli/etc/opt/popopx-notifications"
 
 ntfLogPath :: HasTestEnv => FilePath
-ntfLogPath = testPath "cli/etc/var/simplex-notifications"
+ntfLogPath = testPath "cli/etc/var/popopx-notifications"
 
 fileCfgPath :: HasTestEnv => FilePath
-fileCfgPath = testPath "cli/etc/opt/simplex-files"
+fileCfgPath = testPath "cli/etc/opt/popopx-files"
 
 fileLogPath :: HasTestEnv => FilePath
-fileLogPath = testPath "cli/etc/var/simplex-files"
+fileLogPath = testPath "cli/etc/var/popopx-files"
 
 cliTests :: Spec
 cliTests = do
@@ -111,7 +111,7 @@ smpServerTest storeLog basicAuth = do
   doesFileExist (cfgPath <> "/ca.key") `shouldReturn` True
   -- start
   r <- lines <$> capture_ (withArgs ["start"] $ (100000 `timeout` smpServerCLI cfgPath logPath) `catchAll_` pure (Just ()))
-  r `shouldContain` ["SMP server v" <> simplexmqVersionCommit]
+  r `shouldContain` ["SMP server v" <> popopxmqVersionCommit]
   r `shouldContain` (if storeLog then ["Store log: " <> logPath <> "/smp-server-store.log"] else ["Store log disabled."])
   r `shouldContain` ["Serving SMP protocol on port 5223 (TLS)...", "Serving SMP protocol on port 443 (TLS)...", "Serving static site on port 443 (TLS)..."]
   r `shouldContain` ["expiring clients inactive for 21600 seconds every 3600 seconds"]
@@ -220,9 +220,9 @@ smpCloudScriptsDisableWeb :: HasCallStack => IO ()
 smpCloudScriptsDisableWeb = do
   linode <- readFile "scripts/smp-server-linode.sh"
   digitalOceanInit <-
-    readFile "scripts/smp-server-digitalocean-droplet/files/opt/simplex/initialize_server.sh"
+    readFile "scripts/smp-server-digitalocean-droplet/files/opt/popopx/initialize_server.sh"
   digitalOceanLogin <-
-    readFile "scripts/smp-server-digitalocean-droplet/files/opt/simplex/on_login.sh"
+    readFile "scripts/smp-server-digitalocean-droplet/files/opt/popopx/on_login.sh"
   linode `shouldSatisfy` ("init_opts+=(--disable-web)" `isInfixOf`)
   linode `shouldSatisfy` ("web.crt" `isInfixOf`)
   linode `shouldSatisfy` ("web.key" `isInfixOf`)
@@ -251,7 +251,7 @@ ntfServerTest storeLog = do
   lookupValue "TRANSPORT" "websockets" ini `shouldBe` Right "off"
   doesFileExist (ntfCfgPath <> "/ca.key") `shouldReturn` True
   r <- lines <$> capture_ (withArgs ["start"] $ (100000 `timeout` ntfServerCLI ntfCfgPath ntfLogPath) `catchAll_` pure (Just ()))
-  r `shouldContain` ["SMP notifications server v" <> simplexmqVersionCommit]
+  r `shouldContain` ["SMP notifications server v" <> popopxmqVersionCommit]
   r `shouldContain` (if storeLog then ["Store log: " <> ntfLogPath <> "/ntf-server-store.log"] else ["Store log disabled."])
   r `shouldContain` ["Serving NTF protocol on port 443 (TLS)..."]
   r `shouldNotSatisfy` any (B.unpack ntfTestServerDBConnstr `isInfixOf`)
@@ -270,7 +270,7 @@ xftpServerTest storeLog = do
   lookupValue "TRANSPORT" "port" ini `shouldBe` Right "443"
   doesFileExist (fileCfgPath <> "/ca.key") `shouldReturn` True
   r <- lines <$> capture_ (withArgs ["start"] $ (100000 `timeout` xftpServerCLI fileCfgPath fileLogPath) `catchAll_` pure (Just ()))
-  r `shouldContain` ["SimpleX XFTP server v" <> simplexmqVersionCommit]
+  r `shouldContain` ["POPOPX XFTP server v" <> popopxmqVersionCommit]
   r `shouldContain` (if storeLog then ["Store log: " <> fileLogPath <> "/file-server-store.log"] else ["Store log disabled."])
   r `shouldContain` ["Listening on port 443..."]
   capture_ (withStdin "Y" . withArgs ["delete"] $ xftpServerCLI fileCfgPath fileLogPath)

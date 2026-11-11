@@ -2,15 +2,15 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE QuasiQuotes #-}
 
-module Simplex.Messaging.Server.QueueStore.Postgres.Migrations
+module Popopx.Messaging.Server.QueueStore.Postgres.Migrations
   ( serverMigrations,
   )
 where
 
 import Data.List (sortOn)
 import Data.Text (Text)
-import Simplex.Messaging.Agent.Store.Shared
-import Simplex.Messaging.Agent.Store.Postgres.Migrations.Util
+import Popopx.Messaging.Agent.Store.Shared
+import Popopx.Messaging.Agent.Store.Postgres.Migrations.Util
 import Text.RawString.QQ (r)
 
 serverSchemaMigrations :: [(String, Text, Maybe Text)]

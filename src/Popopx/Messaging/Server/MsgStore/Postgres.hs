@@ -13,7 +13,7 @@
 {-# LANGUAGE TypeApplications #-}
 {-# LANGUAGE TypeFamilies #-}
 
-module Simplex.Messaging.Server.MsgStore.Postgres
+module Popopx.Messaging.Server.MsgStore.Postgres
   ( PostgresMsgStore,
     PostgresMsgStoreCfg (..),
     PostgresQueue,
@@ -45,17 +45,17 @@ import qualified Database.PostgreSQL.Simple.Copy as DB
 import Database.PostgreSQL.Simple.SqlQQ (sql)
 import Database.PostgreSQL.Simple.ToField (ToField (..))
 import Database.PostgreSQL.Simple.Types (PGArray (..))
-import Simplex.Messaging.Agent.Store.Postgres.Common
-import qualified Simplex.Messaging.Crypto as C
-import Simplex.Messaging.Protocol
-import Simplex.Messaging.Server.MsgStore
-import Simplex.Messaging.Server.MsgStore.Types
-import Simplex.Messaging.Server.QueueStore
-import Simplex.Messaging.Server.QueueStore.Postgres
-import Simplex.Messaging.Server.QueueStore.Types
-import Simplex.Messaging.Server.StoreLog (foldLogLines)
-import Simplex.Messaging.Encoding.String
-import Simplex.Messaging.Util (maybeFirstRow, maybeFirstRow')
+import Popopx.Messaging.Agent.Store.Postgres.Common
+import qualified Popopx.Messaging.Crypto as C
+import Popopx.Messaging.Protocol
+import Popopx.Messaging.Server.MsgStore
+import Popopx.Messaging.Server.MsgStore.Types
+import Popopx.Messaging.Server.QueueStore
+import Popopx.Messaging.Server.QueueStore.Postgres
+import Popopx.Messaging.Server.QueueStore.Types
+import Popopx.Messaging.Server.StoreLog (foldLogLines)
+import Popopx.Messaging.Encoding.String
+import Popopx.Messaging.Util (maybeFirstRow, maybeFirstRow')
 import System.IO (Handle, hFlush, stdout)
 
 data PostgresMsgStore = PostgresMsgStore

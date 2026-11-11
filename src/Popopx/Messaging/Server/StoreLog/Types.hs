@@ -2,7 +2,7 @@
 {-# LANGUAGE GADTs #-}
 {-# LANGUAGE KindSignatures #-}
 
-module Simplex.Messaging.Server.StoreLog.Types
+module Popopx.Messaging.Server.StoreLog.Types
   ( StoreLog (..),
   ) where
 

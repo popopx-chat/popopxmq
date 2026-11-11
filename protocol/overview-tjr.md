@@ -2,76 +2,76 @@ Revision 4, 2026-03-09
 
 Evgeny Poberezkin
 
-# SimpleX: messaging and application platform
+# POPOPX: messaging and application platform
 
 ## Table of contents
 
 - [Introduction](#introduction)
-  - [What is SimpleX](#what-is-simplex)
+  - [What is POPOPX](#what-is-popopx)
   - [Network model](#network-model)
   - [Applications](#applications)
-  - [SimpleX objectives](#simplex-objectives)
+  - [POPOPX objectives](#popopx-objectives)
   - [In Comparison](#in-comparison)
 - [Technical Details](#technical-details)
   - [Trust in Routers](#trust-in-routers)
   - [Client -> Router Communication](#client---router-communication)
   - [2-hop Onion Message Routing](#2-hop-onion-message-routing)
-  - [SimpleX Messaging Protocol](#simplex-messaging-protocol)
-  - [SimpleX Agents](#simplex-agents)
+  - [POPOPX Messaging Protocol](#popopx-messaging-protocol)
+  - [POPOPX Agents](#popopx-agents)
 - [Security](#security)
 - [Acknowledgements](#acknowledgements)
 
 
 ## Introduction
 
-#### What is SimpleX
+#### What is POPOPX
 
-SimpleX as a whole is a platform upon which applications can be built. [SimpleX Chat](https://github.com/simplex-chat/simplex-chat) is one such application that also serves as an example and reference application.
+POPOPX as a whole is a platform upon which applications can be built. [POPOPX Chat](https://github.com/simplex-chat/simplex-chat) is one such application that also serves as an example and reference application.
 
- - [SimpleX Messaging Protocol](./simplex-messaging.md) (SMP) is a protocol to send messages in one direction to a recipient, relying on a router in-between. The messages are delivered via uni-directional queues created by recipients.
+ - [POPOPX Messaging Protocol](./popopx-messaging.md) (SMP) is a protocol to send messages in one direction to a recipient, relying on a router in-between. The messages are delivered via uni-directional queues created by recipients.
 
  - SMP protocol allows to send message via a SMP router playing proxy role using 2-hop onion routing (referred to as "private routing" in messaging clients) to protect transport information of the sender (IP address and session) from the router chosen (and possibly controlled) by the recipient.
 
  - SMP runs over a transport protocol (shown below as TLS) that provides integrity, server authentication, confidentiality, and transport channel binding.
 
- - A SimpleX router is one of those routers.
+ - A POPOPX router is one of those routers.
 
- - The SimpleX Network is the term used for the collective of SimpleX routers that facilitate SMP.
+ - The POPOPX Network is the term used for the collective of POPOPX routers that facilitate SMP.
 
- - SimpleX Client libraries speak SMP to SimpleX routers and provide a low-level API not generally intended to be used by applications.
+ - POPOPX Client libraries speak SMP to POPOPX routers and provide a low-level API not generally intended to be used by applications.
 
- - SimpleX Agents interface with SimpleX Clients to provide a more high-level API intended to be used by applications. Typically they are embedded as libraries, but can also be abstracted into local services.
+ - POPOPX Agents interface with POPOPX Clients to provide a more high-level API intended to be used by applications. Typically they are embedded as libraries, but can also be abstracted into local services.
 
- - SimpleX Agents communicate with other agents inside e2e encrypted envelopes provided by SMP protocol - the syntax and semantics of the messages exchanged by the agent are defined by [SMP agent protocol](./agent-protocol.md)
+ - POPOPX Agents communicate with other agents inside e2e encrypted envelopes provided by SMP protocol - the syntax and semantics of the messages exchanged by the agent are defined by [SMP agent protocol](./agent-protocol.md)
 
 
-*Diagram showing the SimpleX Chat app, with logical layers of the chat application interfacing with a SimpleX Agent library, which in turn interfaces with a SimpleX Client library. The Client library in turn speaks the Messaging Protocol to a SimpleX router.*
+*Diagram showing the POPOPX Chat app, with logical layers of the chat application interfacing with a POPOPX Agent library, which in turn interfaces with a POPOPX Client library. The Client library in turn speaks the Messaging Protocol to a POPOPX router.*
 
 ```
   User's Computer                 Internet                    Third-Party Router
 ------------------     |   ----------------------     |   -------------------------
                        |                              |
-   SimpleX Chat        |                              |
+   POPOPX Chat        |                              |
                        |                              |
 +----------------+     |                              |
 |    Chat App    |     |                              |
 +----------------+     |                              |
-|  SimpleX Agent |     |                              |
+|  POPOPX Agent |     |                              |
 +----------------+    -------------- TLS ----------------    +----------------+
-| SimpleX Client | ------ SimpleX Messaging Protocol ------> | SimpleX router |
+| POPOPX Client | ------ POPOPX Messaging Protocol ------> | POPOPX router |
 +----------------+    -----------------------------------    +----------------+
                        |                              |
 ```
 
 #### Network model
 
-SimpleX is a general-purpose packet routing network built on top of the Internet. Network endpoints — end-user devices, automated services, AI-enabled applications, IoT devices — exchange data packets through SimpleX network nodes (SMP routers), which accept, buffer, and deliver packets. Each router operates independently and can be operated by any party on standard computing hardware.
+POPOPX is a general-purpose packet routing network built on top of the Internet. Network endpoints — end-user devices, automated services, AI-enabled applications, IoT devices — exchange data packets through POPOPX network nodes (SMP routers), which accept, buffer, and deliver packets. Each router operates independently and can be operated by any party on standard computing hardware.
 
-SimpleX routers use resource-based addressing: each address identifies a resource on a router, similar to how the World Wide Web addresses resources via URLs. Internet routers, by comparison, use endpoint-based addressing, where IP addresses identify destination devices. Because of this design, SimpleX network participants do not need globally unique addresses to communicate.
+POPOPX routers use resource-based addressing: each address identifies a resource on a router, similar to how the World Wide Web addresses resources via URLs. Internet routers, by comparison, use endpoint-based addressing, where IP addresses identify destination devices. Because of this design, POPOPX network participants do not need globally unique addresses to communicate.
 
-SimpleX network has two resource-based addressing schemes:
+POPOPX network has two resource-based addressing schemes:
 
-- *Messaging queues* ([SMP](./simplex-messaging.md)). A queue is a unidirectional, ordered sequence of fixed-size data packets (16,384 bytes each). Each queue has a resource address on a specific router, gated by cryptographic credentials that separately authorize sending and receiving.
+- *Messaging queues* ([SMP](./popopx-messaging.md)). A queue is a unidirectional, ordered sequence of fixed-size data packets (16,384 bytes each). Each queue has a resource address on a specific router, gated by cryptographic credentials that separately authorize sending and receiving.
 
 - *Data packets* ([XFTP](./xftp.md)). A data packet is an individually addressed block in one of the standard sizes. Each packet has a unique resource address on a specific router, gated by cryptographic credentials. Data packet addressing is more efficient for delivery of larger payloads than queues.
 
@@ -82,20 +82,20 @@ Routers buffer packets between submission and retrieval — from seconds to days
 
 #### Applications
 
-Applications currently using SimpleX network:
+Applications currently using POPOPX network:
 
-- **SimpleX Chat** — a peer-to-peer messenger using SimpleX network as a transport layer, in the same way that communication applications use WebRTC, Tor, i2p, or Nym. All communication logic — contacts, conversations, groups, message formats, end-to-end encryption — runs on endpoint devices.
+- **POPOPX Chat** — a peer-to-peer messenger using POPOPX network as a transport layer, in the same way that communication applications use WebRTC, Tor, i2p, or Nym. All communication logic — contacts, conversations, groups, message formats, end-to-end encryption — runs on endpoint devices.
 
-- **IoT devices** — using the SimpleX queue protocol directly for sensor data collection and device control.
+- **IoT devices** — using the POPOPX queue protocol directly for sensor data collection and device control.
 
-- **AI-based services** — automated services built on the SimpleX Chat application core.
+- **AI-based services** — automated services built on the POPOPX Chat application core.
 
 - **Secure monitoring and control systems** — applications for equipment monitoring and control, including robotics, using the network for command delivery and telemetry collection.
 
-[SimpleGo](https://simplego.dev), developed by an independent organization, is a microcontroller-based device running a SimpleX Chat-compatible messenger directly on a microcontroller without a general-purpose operating system. Running over 20 days on a single battery charge, it demonstrates the energy efficiency of resource-based addressing: the device receives packets without continuous polling. A microcontroller-based router implementation that functions simultaneously as a WiFi router is also in development.
+[SimpleGo](https://simplego.dev), developed by an independent organization, is a microcontroller-based device running a POPOPX Chat-compatible messenger directly on a microcontroller without a general-purpose operating system. Running over 20 days on a single battery charge, it demonstrates the energy efficiency of resource-based addressing: the device receives packets without continuous polling. A microcontroller-based router implementation that functions simultaneously as a WiFi router is also in development.
 
 
-#### SimpleX objectives
+#### POPOPX objectives
 
 1. Provide messaging infrastructure for distributed applications. This infrastructure needs to have the following qualities:
 
@@ -111,17 +111,17 @@ Applications currently using SimpleX network:
 
    - Low latency: the delay introduced by the network should not be higher than 100ms-1s in addition to the underlying TCP network latency.
 
-2. Provide better communication security and privacy than the alternative instant messaging solutions. In particular SimpleX provides better privacy of metadata (who talks to whom and when) and better security against active network attackers and malicious routers.
+2. Provide better communication security and privacy than the alternative instant messaging solutions. In particular POPOPX provides better privacy of metadata (who talks to whom and when) and better security against active network attackers and malicious routers.
 
 3. Balance user experience with privacy requirements, prioritizing experience of mobile device users.
 
 
 #### In Comparison
 
-SimpleX network has a design similar to P2P networks, but unlike most P2P networks it consists of clients and routers without depending on any centralized component.
-In comparison to more traditional messaging applications (e.g. WhatsApp, Signal, Telegram) the key differences of SimpleX network are:
+POPOPX network has a design similar to P2P networks, but unlike most P2P networks it consists of clients and routers without depending on any centralized component.
+In comparison to more traditional messaging applications (e.g. WhatsApp, Signal, Telegram) the key differences of POPOPX network are:
 
-- participants do not need to have globally unique addresses to communicate, instead they use redundant unidirectional (simplex) messaging queues, with a separate set of queues for each contact.
+- participants do not need to have globally unique addresses to communicate, instead they use redundant unidirectional (popopx) messaging queues, with a separate set of queues for each contact.
 
 - connection requests are passed out-of-band, non-optionally protecting key exchange against man-in-the-middle attack.
 
@@ -136,11 +136,11 @@ In comparison to more traditional messaging applications (e.g. WhatsApp, Signal,
 
 #### Trust in Routers
 
-Clients communicate directly with routers (but not with other clients) using SimpleX Messaging Protocol (SMP) running over some transport protocol that provides integrity, server authentication, confidentiality, and transport channel binding. By default, we assume this transport protocol is TLS.
+Clients communicate directly with routers (but not with other clients) using POPOPX Messaging Protocol (SMP) running over some transport protocol that provides integrity, server authentication, confidentiality, and transport channel binding. By default, we assume this transport protocol is TLS.
 
 Users use multiple routers, and choose where to receive their messages. Accordingly, they send messages to their communication partners' chosen routers either directly, if this is a known/trusted router, or via another SMP router providing proxy functionality to protect IP address and session of the sender.
 
-Although end-to-end encryption is always present, users place a degree of trust in routers they connect to. This trust decision is very similar to a user's choice of email provider; however the trust placed in a SimpleX router is significantly less. Notably, there is no re-used identifier or credential between queues on the same (or different) routers. While a user *may* re-use a transport connection to fetch messages from multiple queues, or connect to a router from the same IP address, both are choices a user may opt into to break the promise of un-correlatable queues.
+Although end-to-end encryption is always present, users place a degree of trust in routers they connect to. This trust decision is very similar to a user's choice of email provider; however the trust placed in a POPOPX router is significantly less. Notably, there is no re-used identifier or credential between queues on the same (or different) routers. While a user *may* re-use a transport connection to fetch messages from multiple queues, or connect to a router from the same IP address, both are choices a user may opt into to break the promise of un-correlatable queues.
 
 Users may trust a router because:
 
@@ -150,14 +150,14 @@ Users may trust a router because:
 
 By default, routers do not retain access logs, and permanently delete messages and queues when requested. Messages persist in memory or in a database until they cross a threshold of time, typically on the order of days.[0] There is still a risk that a router maliciously records all queues and messages (even though encrypted) sent via the same transport connection to gain a partial knowledge of the user's communications graph and other meta-data.
 
-SimpleX supports measures (managed transparently to the user at the agent level) to mitigate the trust placed in routers.  These include rotating the queues in use between users, noise traffic, supporting overlay networks such as Tor, and isolating traffic to different queues to different transport connections (and Tor circuits, if Tor is used).
+POPOPX supports measures (managed transparently to the user at the agent level) to mitigate the trust placed in routers.  These include rotating the queues in use between users, noise traffic, supporting overlay networks such as Tor, and isolating traffic to different queues to different transport connections (and Tor circuits, if Tor is used).
 
-[0] While configurable by routers, a minimum value is enforced by the default software. SimpleX Agents can provide redundant routing over queues to mitigate against message loss.
+[0] While configurable by routers, a minimum value is enforced by the default software. POPOPX Agents can provide redundant routing over queues to mitigate against message loss.
 
 
 #### Client -> Router Communication
 
-Utilizing TLS grants the SimpleX Messaging Protocol (SMP) server authentication and metadata protection to a passive network observer. But SMP does not rely on the transport protocol for message confidentiality or client authentication. The SMP protocol itself provides end-to-end confidentiality, authentication, and integrity of messages between communicating parties.
+Utilizing TLS grants the POPOPX Messaging Protocol (SMP) server authentication and metadata protection to a passive network observer. But SMP does not rely on the transport protocol for message confidentiality or client authentication. The SMP protocol itself provides end-to-end confidentiality, authentication, and integrity of messages between communicating parties.
 
 Routers have long-lived, self-signed, offline certificates whose hash is pre-shared with clients over secure channels - either provided with the client library or provided in the secure introduction between clients, as part of the router address.  The offline certificate signs an online certificate used in the transport protocol handshake. [0]
 
@@ -165,7 +165,7 @@ If the transport protocol's confidentiality is broken, incoming and outgoing mes
 
 It's important to note that the SMP protocol does not do server authentication. Instead we rely upon the fact that an attacker who tricks the transport protocol into authenticating the router incorrectly cannot do anything with the SMP messages except drop them.
 
-After the connection is established, the client sends blocks of a fixed size 16KB, and the router replies with the blocks of the same size to reduce metadata observable to a network adversary. The protocol has been designed to make traffic correlation attacks difficult, adapting ideas from Tor, remailers, and more general onion and mix networks. It does not try to replace Tor though - SimpleX routers can be deployed as onion services and SimpleX clients can communicate with routers over Tor to further improve participants privacy.
+After the connection is established, the client sends blocks of a fixed size 16KB, and the router replies with the blocks of the same size to reduce metadata observable to a network adversary. The protocol has been designed to make traffic correlation attacks difficult, adapting ideas from Tor, remailers, and more general onion and mix networks. It does not try to replace Tor though - POPOPX routers can be deployed as onion services and POPOPX clients can communicate with routers over Tor to further improve participants privacy.
 
 By using fixed-size blocks, oversized for the expected content, the vast majority of traffic is uniform in nature. When enough traffic is transiting a router simultaneously, the router acts as a low-latency mix node. We can't rely on this behavior to make a security claim, but we have engineered to take advantage of it when we can. As mentioned, this holds true even if the transport connection is compromised.
 
@@ -176,11 +176,11 @@ The protocol does not protect against attacks targeted at particular users with 
 
 #### 2-hop Onion Message Routing
 
-As SimpleX Messaging Protocol routers providing messaging queues are chosen by the recipients, in case senders connect to these routers directly the router owners (who potentially can be the recipients themselves) can learn senders' IP addresses (if Tor is not used) and which other queues on the same router are accessed by the user in the same transport connection (even if Tor is used).
+As POPOPX Messaging Protocol routers providing messaging queues are chosen by the recipients, in case senders connect to these routers directly the router owners (who potentially can be the recipients themselves) can learn senders' IP addresses (if Tor is not used) and which other queues on the same router are accessed by the user in the same transport connection (even if Tor is used).
 
 While the clients support isolating the messages sent to different queues into different transport connections (and Tor circuits), this is not practical, as it consumes additional traffic and system resources.
 
-To mitigate this problem SimpleX Messaging Protocol routers support 2-hop onion message routing when the SMP router chosen by the sender forwards the messages to the routers chosen by the recipients, thus protecting both the senders IP addresses and sessions, even if connection isolation and Tor are not used.
+To mitigate this problem POPOPX Messaging Protocol routers support 2-hop onion message routing when the SMP router chosen by the sender forwards the messages to the routers chosen by the recipients, thus protecting both the senders IP addresses and sessions, even if connection isolation and Tor are not used.
 
 The design of 2-hop onion message routing prevents these potential attacks:
 
@@ -190,12 +190,12 @@ The design of 2-hop onion message routing prevents these potential attacks:
 
 - Correlation of messages sent to different queues via the same user session (as random correlation IDs and keys are used for each message).
 
-See more details about 2-hop onion message routing design in [SimpleX Messaging Protocol](./simplex-messaging.md#proxying-sender-commands)
+See more details about 2-hop onion message routing design in [POPOPX Messaging Protocol](./popopx-messaging.md#proxying-sender-commands)
 
 Also see [Security](./security.md)
 
 
-#### SimpleX Messaging Protocol
+#### POPOPX Messaging Protocol
 
 SMP is initialized with an in-person or out-of-band introduction message, where Alice provides Bob with details of a router (including IP address or host name, port, and hash of the long-lived offline certificate), a queue ID, and Alice's public keys to agree e2e encryption. These introductions are similar to the PANDA key-exchange, in that if observed, the adversary can race to establish the communication channel instead of the intended participant. [0]
 
@@ -206,9 +206,9 @@ When setting up a queue, the router will create separate sender and recipient qu
 [0] Users can additionally create public 'contact queues' that are only used to receive connection requests.
 
 
-#### SimpleX Agents
+#### POPOPX Agents
 
-SimpleX agents provide higher-level operations compared to SimpleX Clients, who are primarily concerned with creating queues and communicating with routers using SMP.  Agent operations include:
+POPOPX agents provide higher-level operations compared to POPOPX Clients, who are primarily concerned with creating queues and communicating with routers using SMP.  Agent operations include:
 
 - Managing sets of bi-directional, redundant queues for communication partners
 
@@ -223,7 +223,7 @@ SimpleX agents provide higher-level operations compared to SimpleX Clients, who 
 
 For encryption primitives, threat model, and detailed security analysis, see [Security](./security.md).
 
-SimpleX provides these security properties:
+POPOPX provides these security properties:
 
 - **End-to-end encryption** using Double Ratchet algorithm with forward secrecy and post-quantum cryptography.
 
@@ -238,6 +238,6 @@ SimpleX provides these security properties:
 
 ## Acknowledgements
 
-Efim Poberezkin contributed to the design and implementation of [SimpleX Messaging Protocol](https://github.com/simplex-chat/simplexmq/blob/master/protocol/simplex-messaging.md) and [SimpleX Agent Protocol](https://github.com/simplex-chat/simplexmq/blob/master/protocol/agent-protocol.md) since 2019.
+Efim Poberezkin contributed to the design and implementation of [POPOPX Messaging Protocol](https://github.com/popopx-chat/popopxmq/blob/master/protocol/simplex-messaging.md) and [POPOPX Agent Protocol](https://github.com/popopx-chat/popopxmq/blob/master/protocol/agent-protocol.md) since 2019.
 
 Adam Langley's [Pond](https://github.com/agl/pond) inspired some of the recent improvements and the structure of this document.

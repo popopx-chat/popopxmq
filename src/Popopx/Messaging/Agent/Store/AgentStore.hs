@@ -25,7 +25,7 @@
 {-# OPTIONS_GHC -fno-warn-ambiguous-fields #-}
 {-# OPTIONS_GHC -fno-warn-orphans #-}
 
-module Simplex.Messaging.Agent.Store.AgentStore
+module Popopx.Messaging.Agent.Store.AgentStore
   ( -- * Users
     createUserRecord,
     getUserIds,
@@ -315,35 +315,35 @@ import Data.Word (Word32)
 import qualified Data.X509 as X
 import Network.Socket (ServiceName)
 import qualified Network.TLS as TLS
-import Simplex.FileTransfer.Client (XFTPChunkSpec (..))
-import Simplex.FileTransfer.Description
-import Simplex.FileTransfer.Protocol (FileParty (..), GrantedStorageTime (..), SFileParty (..))
-import Simplex.FileTransfer.Types
-import Simplex.Messaging.Agent.Protocol
-import Simplex.Messaging.Agent.RetryInterval (RI2State (..))
-import Simplex.Messaging.Agent.Stats
-import Simplex.Messaging.Agent.Store
-import Simplex.Messaging.Agent.Store.Common
-import qualified Simplex.Messaging.Agent.Store.DB as DB
-import Simplex.Messaging.Agent.Store.DB (Binary (..), BoolInt (..), FromField (..), ToField (..), SQLError, blobFieldDecoder, fromTextField_)
-import Simplex.Messaging.Agent.Store.Entity
-import Simplex.Messaging.Client (SMPTransportSession)
-import qualified Simplex.Messaging.Crypto as C
-import Simplex.Messaging.Crypto.File (CryptoFile (..), CryptoFileArgs (..))
-import Simplex.Messaging.Crypto.Ratchet (PQEncryption (..), PQSupport (..), RatchetX448, SkippedMsgDiff (..), SkippedMsgKeys)
-import qualified Simplex.Messaging.Crypto.Ratchet as CR
-import Simplex.Messaging.Encoding
-import Simplex.Messaging.Encoding.String
-import Simplex.Messaging.Notifications.Protocol (DeviceToken (..), NtfSubscriptionId, NtfTknStatus (..), NtfTokenId, SMPQueueNtf (..))
-import Simplex.Messaging.Notifications.Types
-import Simplex.Messaging.Parsers (parseAll)
-import Simplex.Messaging.Protocol
-import qualified Simplex.Messaging.Protocol as SMP
-import Simplex.Messaging.Protocol.Types
-import Simplex.Messaging.SystemTime
-import Simplex.Messaging.Transport.Client (TransportHost)
-import Simplex.Messaging.Util
-import Simplex.Messaging.Version.Internal
+import Popopx.FileTransfer.Client (XFTPChunkSpec (..))
+import Popopx.FileTransfer.Description
+import Popopx.FileTransfer.Protocol (FileParty (..), GrantedStorageTime (..), SFileParty (..))
+import Popopx.FileTransfer.Types
+import Popopx.Messaging.Agent.Protocol
+import Popopx.Messaging.Agent.RetryInterval (RI2State (..))
+import Popopx.Messaging.Agent.Stats
+import Popopx.Messaging.Agent.Store
+import Popopx.Messaging.Agent.Store.Common
+import qualified Popopx.Messaging.Agent.Store.DB as DB
+import Popopx.Messaging.Agent.Store.DB (Binary (..), BoolInt (..), FromField (..), ToField (..), SQLError, blobFieldDecoder, fromTextField_)
+import Popopx.Messaging.Agent.Store.Entity
+import Popopx.Messaging.Client (SMPTransportSession)
+import qualified Popopx.Messaging.Crypto as C
+import Popopx.Messaging.Crypto.File (CryptoFile (..), CryptoFileArgs (..))
+import Popopx.Messaging.Crypto.Ratchet (PQEncryption (..), PQSupport (..), RatchetX448, SkippedMsgDiff (..), SkippedMsgKeys)
+import qualified Popopx.Messaging.Crypto.Ratchet as CR
+import Popopx.Messaging.Encoding
+import Popopx.Messaging.Encoding.String
+import Popopx.Messaging.Notifications.Protocol (DeviceToken (..), NtfSubscriptionId, NtfTknStatus (..), NtfTokenId, SMPQueueNtf (..))
+import Popopx.Messaging.Notifications.Types
+import Popopx.Messaging.Parsers (parseAll)
+import Popopx.Messaging.Protocol
+import qualified Popopx.Messaging.Protocol as SMP
+import Popopx.Messaging.Protocol.Types
+import Popopx.Messaging.SystemTime
+import Popopx.Messaging.Transport.Client (TransportHost)
+import Popopx.Messaging.Util
+import Popopx.Messaging.Version.Internal
 import qualified UnliftIO.Exception as E
 import UnliftIO.STM
 #if defined(dbPostgres)

@@ -1,6 +1,6 @@
 {-# LANGUAGE QuasiQuotes #-}
 
-module Simplex.Messaging.Agent.Store.SQLite.Migrations.M20231222_command_created_at where
+module Popopx.Messaging.Agent.Store.SQLite.Migrations.M20231222_command_created_at where
 
 import Database.SQLite.Simple (Query)
 import Database.SQLite.Simple.QQ (sql)

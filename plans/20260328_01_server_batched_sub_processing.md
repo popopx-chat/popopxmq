@@ -18,7 +18,7 @@ Replace ~135 individual message peek queries with 1 batched query per batch. No 
 
 ### Step 1: Add `tryPeekMsgs` to MsgStoreClass
 
-File: `src/Simplex/Messaging/Server/MsgStore/Types.hs`
+File: `src/Popopx/Messaging/Server/MsgStore/Types.hs`
 
 Add to `MsgStoreClass`:
 
@@ -30,7 +30,7 @@ Returns a map from recipient ID to earliest pending message for each queue that 
 
 ### Step 2: Parameterize `deliver` to accept pre-fetched message
 
-File: `src/Simplex/Messaging/Server.hs`
+File: `src/Popopx/Messaging/Server.hs`
 
 Currently `deliver` (inside `subscribeQueueAndDeliver`, line 1641) calls `tryPeekMsg ms q`. Add a parameter for an optional pre-fetched message:
 
@@ -47,7 +47,7 @@ When `Nothing` is passed, falls back to individual `tryPeekMsg` (existing behavi
 
 ### Step 3: Pre-fetch messages before the processing loop
 
-File: `src/Simplex/Messaging/Server.hs`
+File: `src/Popopx/Messaging/Server.hs`
 
 Currently (lines 1372-1375):
 
@@ -82,7 +82,7 @@ Review the typeclass signature and server usage. Confirm the interface has the r
 
 #### Postgres
 
-File: `src/Simplex/Messaging/Server/MsgStore/Postgres.hs`
+File: `src/Popopx/Messaging/Server/MsgStore/Postgres.hs`
 
 Single query using `DISTINCT ON`:
 
@@ -98,13 +98,13 @@ Build `Map RecipientId Message` from results.
 
 #### STM
 
-File: `src/Simplex/Messaging/Server/MsgStore/STM.hs`
+File: `src/Popopx/Messaging/Server/MsgStore/STM.hs`
 
 Loop over queues, call `tryPeekMsg` for each, collect into map.
 
 #### Journal
 
-File: `src/Simplex/Messaging/Server/MsgStore/Journal.hs`
+File: `src/Popopx/Messaging/Server/MsgStore/Journal.hs`
 
 Loop over queues, call `tryPeekMsg` for each, collect into map.
 
@@ -132,11 +132,11 @@ Lower priority since these don't have the N-at-once pattern of subscriptions.
 
 | File | Change |
 |---|---|
-| `src/Simplex/Messaging/Server/MsgStore/Types.hs` | Add `tryPeekMsgs` to typeclass |
-| `src/Simplex/Messaging/Server/MsgStore/Postgres.hs` | Implement `tryPeekMsgs` with batch SQL |
-| `src/Simplex/Messaging/Server/MsgStore/STM.hs` | Implement `tryPeekMsgs` as loop |
-| `src/Simplex/Messaging/Server/MsgStore/Journal.hs` | Implement `tryPeekMsgs` as loop |
-| `src/Simplex/Messaging/Server.hs` | Add `prefetchMsgs`, parameterize `deliver` |
+| `src/Popopx/Messaging/Server/MsgStore/Types.hs` | Add `tryPeekMsgs` to typeclass |
+| `src/Popopx/Messaging/Server/MsgStore/Postgres.hs` | Implement `tryPeekMsgs` with batch SQL |
+| `src/Popopx/Messaging/Server/MsgStore/STM.hs` | Implement `tryPeekMsgs` as loop |
+| `src/Popopx/Messaging/Server/MsgStore/Journal.hs` | Implement `tryPeekMsgs` as loop |
+| `src/Popopx/Messaging/Server.hs` | Add `prefetchMsgs`, parameterize `deliver` |
 
 ## Testing
 

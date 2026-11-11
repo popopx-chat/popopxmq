@@ -7,7 +7,7 @@ Group=xftp
 Type=simple
 
 ExecStart=/usr/local/bin/xftp-server start +RTS -N -RTS
-ExecStopPost=/usr/local/bin/simplex-servers-stopscript xftp-server
+ExecStopPost=/usr/local/bin/popopx-servers-stopscript xftp-server
 
 LimitNOFILE=65535
 KillSignal=SIGINT

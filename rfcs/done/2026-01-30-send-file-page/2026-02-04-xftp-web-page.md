@@ -20,7 +20,7 @@ Build a static web page for browser-based XFTP file transfer (Phase 5 of master 
 
 Two build variants:
 - **Local**: single test server at `localhost:7000` (development/testing)
-- **Production**: 12 preset XFTP routers (6 SimpleX + 6 Flux)
+- **Production**: 12 preset XFTP routers (6 POPOPX + 6 Flux)
 
 Uses Vite for bundling (already a dependency via vitest). No CSS framework — plain CSS per RFC spec.
 
@@ -210,21 +210,21 @@ No `DirectBackend` is needed — the page is browser-only, and tests run in vite
 
 ```json
 {
-  "simplex": [
-    "xftp://da1aH3nOT-9G8lV7bWamhxpDYdJ1xmW7j3JpGaDR5Ug=@xftp1.simplex.im",
-    "xftp://5vog2Imy1ExJB_7zDZrkV1KDWi96jYFyy9CL6fndBVw=@xftp2.simplex.im",
-    "xftp://PYa32DdYNFWi0uZZOprWQoQpIk5qyjRJ3EF7bVpbsn8=@xftp3.simplex.im",
-    "xftp://k_GgQl40UZVV0Y4BX9ZTyMVqX5ZewcLW0waQIl7AYDE=@xftp4.simplex.im",
-    "xftp://-bIo6o8wuVc4wpZkZD3tH-rCeYaeER_0lz1ffQcSJDs=@xftp5.simplex.im",
-    "xftp://6nSvtY9pJn6PXWTAIMNl95E1Kk1vD7FM2TeOA64CFLg=@xftp6.simplex.im"
+  "popopx": [
+    "xftp://da1aH3nOT-9G8lV7bWamhxpDYdJ1xmW7j3JpGaDR5Ug=@xftp1.popopx.im",
+    "xftp://5vog2Imy1ExJB_7zDZrkV1KDWi96jYFyy9CL6fndBVw=@xftp2.popopx.im",
+    "xftp://PYa32DdYNFWi0uZZOprWQoQpIk5qyjRJ3EF7bVpbsn8=@xftp3.popopx.im",
+    "xftp://k_GgQl40UZVV0Y4BX9ZTyMVqX5ZewcLW0waQIl7AYDE=@xftp4.popopx.im",
+    "xftp://-bIo6o8wuVc4wpZkZD3tH-rCeYaeER_0lz1ffQcSJDs=@xftp5.popopx.im",
+    "xftp://6nSvtY9pJn6PXWTAIMNl95E1Kk1vD7FM2TeOA64CFLg=@xftp6.popopx.im"
   ],
   "flux": [
-    "xftp://92Sctlc09vHl_nAqF2min88zKyjdYJ9mgxRCJns5K2U=@xftp1.simplexonflux.com",
-    "xftp://YBXy4f5zU1CEhnbbCzVWTNVNsaETcAGmYqGNxHntiE8=@xftp2.simplexonflux.com",
-    "xftp://ARQO74ZSvv2OrulRF3CdgwPz_AMy27r0phtLSq5b664=@xftp3.simplexonflux.com",
-    "xftp://ub2jmAa9U0uQCy90O-fSUNaYCj6sdhl49Jh3VpNXP58=@xftp4.simplexonflux.com",
-    "xftp://Rh19D5e4Eez37DEE9hAlXDB3gZa1BdFYJTPgJWPO9OI=@xftp5.simplexonflux.com",
-    "xftp://0AznwoyfX8Od9T_acp1QeeKtxUi676IBIiQjXVwbdyU=@xftp6.simplexonflux.com"
+    "xftp://92Sctlc09vHl_nAqF2min88zKyjdYJ9mgxRCJns5K2U=@xftp1.popopxonflux.com",
+    "xftp://YBXy4f5zU1CEhnbbCzVWTNVNsaETcAGmYqGNxHntiE8=@xftp2.popopxonflux.com",
+    "xftp://ARQO74ZSvv2OrulRF3CdgwPz_AMy27r0phtLSq5b664=@xftp3.popopxonflux.com",
+    "xftp://ub2jmAa9U0uQCy90O-fSUNaYCj6sdhl49Jh3VpNXP58=@xftp4.popopxonflux.com",
+    "xftp://Rh19D5e4Eez37DEE9hAlXDB3gZa1BdFYJTPgJWPO9OI=@xftp5.popopxonflux.com",
+    "xftp://0AznwoyfX8Od9T_acp1QeeKtxUi676IBIiQjXVwbdyU=@xftp6.popopxonflux.com"
   ]
 }
 ```
@@ -239,7 +239,7 @@ declare const __XFTP_SERVERS__: string[]
 
 const serverAddresses: string[] = typeof __XFTP_SERVERS__ !== 'undefined'
   ? __XFTP_SERVERS__
-  : [...presets.simplex, ...presets.flux]
+  : [...presets.popopx, ...presets.flux]
 
 export function getServers(): XFTPServer[] {
   return serverAddresses.map(parseXFTPServer)
@@ -274,7 +274,7 @@ No `hashchange` listener — the shareable link opens in a new tab. Simple page-
 
 1. **Landing**: Drag-drop zone centered, file picker button, size limit note
 2. **Uploading**: Circular progress (canvas), percentage, cancel button
-3. **Complete**: Shareable link (input + copy button), "Install SimpleX" CTA
+3. **Complete**: Shareable link (input + copy button), "Install POPOPX" CTA
 4. **Error**: Error message + retry button. On server-unreachable, auto-retry with exponential backoff (1s, 2s, 4s, up to 3 attempts) before showing the error state.
 
 ### 5.3 Download UI states
@@ -289,7 +289,7 @@ No `hashchange` listener — the shareable link opens in a new tab. Simple page-
 Both upload-complete and download-ready states display a brief non-technical security summary:
 - Files are encrypted in the browser before upload — the server never sees file contents.
 - The link contains the decryption key in the hash fragment, which the browser never sends to any server.
-- For maximum security, use the SimpleX app.
+- For maximum security, use the POPOPX app.
 
 ### 5.5 File expiry
 
@@ -312,7 +312,7 @@ File size limit: 100MB. Displayed on upload page.
 
 Vite's `transformIndexHtml` hook (in `vite.config.ts`) replaces `__CSP_CONNECT_SRC__` at build time with origins derived from the server list:
 - Local mode: `https://localhost:7000`
-- Production: `https://xftp1.simplex.im:443 https://xftp2.simplex.im:443 ...` (all 12 servers)
+- Production: `https://xftp1.popopx.im:443 https://xftp2.popopx.im:443 ...` (all 12 servers)
 
 ## 6. Upload Flow
 
@@ -424,7 +424,7 @@ export default defineConfig(({mode}) => {
     servers = [`xftp://${fp}@localhost:7000`]
     define['__XFTP_SERVERS__'] = JSON.stringify(servers)
   } else {
-    servers = [...presets.simplex, ...presets.flux]
+    servers = [...presets.popopx, ...presets.flux]
   }
 
   return {

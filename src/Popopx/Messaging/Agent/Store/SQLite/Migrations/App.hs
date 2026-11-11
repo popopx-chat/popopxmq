@@ -1,62 +1,62 @@
 {-# LANGUAGE NamedFieldPuns #-}
 
-module Simplex.Messaging.Agent.Store.SQLite.Migrations.App (appMigrations) where
+module Popopx.Messaging.Agent.Store.SQLite.Migrations.App (appMigrations) where
 
 import Data.List (sortOn)
 import Database.SQLite.Simple (Query (..))
-import Simplex.Messaging.Agent.Store.SQLite.Migrations.M20220101_initial
-import Simplex.Messaging.Agent.Store.SQLite.Migrations.M20220301_snd_queue_keys
-import Simplex.Messaging.Agent.Store.SQLite.Migrations.M20220322_notifications
-import Simplex.Messaging.Agent.Store.SQLite.Migrations.M20220608_v2
-import Simplex.Messaging.Agent.Store.SQLite.Migrations.M20220625_v2_ntf_mode
-import Simplex.Messaging.Agent.Store.SQLite.Migrations.M20220811_onion_hosts
-import Simplex.Messaging.Agent.Store.SQLite.Migrations.M20220817_connection_ntfs
-import Simplex.Messaging.Agent.Store.SQLite.Migrations.M20220905_commands
-import Simplex.Messaging.Agent.Store.SQLite.Migrations.M20220915_connection_queues
-import Simplex.Messaging.Agent.Store.SQLite.Migrations.M20230110_users
-import Simplex.Messaging.Agent.Store.SQLite.Migrations.M20230117_fkey_indexes
-import Simplex.Messaging.Agent.Store.SQLite.Migrations.M20230120_delete_errors
-import Simplex.Messaging.Agent.Store.SQLite.Migrations.M20230217_server_key_hash
-import Simplex.Messaging.Agent.Store.SQLite.Migrations.M20230223_files
-import Simplex.Messaging.Agent.Store.SQLite.Migrations.M20230320_retry_state
-import Simplex.Messaging.Agent.Store.SQLite.Migrations.M20230401_snd_files
-import Simplex.Messaging.Agent.Store.SQLite.Migrations.M20230510_files_pending_replicas_indexes
-import Simplex.Messaging.Agent.Store.SQLite.Migrations.M20230516_encrypted_rcv_message_hashes
-import Simplex.Messaging.Agent.Store.SQLite.Migrations.M20230531_switch_status
-import Simplex.Messaging.Agent.Store.SQLite.Migrations.M20230615_ratchet_sync
-import Simplex.Messaging.Agent.Store.SQLite.Migrations.M20230701_delivery_receipts
-import Simplex.Messaging.Agent.Store.SQLite.Migrations.M20230720_delete_expired_messages
-import Simplex.Messaging.Agent.Store.SQLite.Migrations.M20230722_indexes
-import Simplex.Messaging.Agent.Store.SQLite.Migrations.M20230814_indexes
-import Simplex.Messaging.Agent.Store.SQLite.Migrations.M20230829_crypto_files
-import Simplex.Messaging.Agent.Store.SQLite.Migrations.M20231222_command_created_at
-import Simplex.Messaging.Agent.Store.SQLite.Migrations.M20231225_failed_work_items
-import Simplex.Messaging.Agent.Store.SQLite.Migrations.M20240121_message_delivery_indexes
-import Simplex.Messaging.Agent.Store.SQLite.Migrations.M20240124_file_redirect
-import Simplex.Messaging.Agent.Store.SQLite.Migrations.M20240223_connections_wait_delivery
-import Simplex.Messaging.Agent.Store.SQLite.Migrations.M20240225_ratchet_kem
-import Simplex.Messaging.Agent.Store.SQLite.Migrations.M20240417_rcv_files_approved_relays
-import Simplex.Messaging.Agent.Store.SQLite.Migrations.M20240624_snd_secure
-import Simplex.Messaging.Agent.Store.SQLite.Migrations.M20240702_servers_stats
-import Simplex.Messaging.Agent.Store.SQLite.Migrations.M20240930_ntf_tokens_to_delete
-import Simplex.Messaging.Agent.Store.SQLite.Migrations.M20241007_rcv_queues_last_broker_ts
-import Simplex.Messaging.Agent.Store.SQLite.Migrations.M20241224_ratchet_e2e_snd_params
-import Simplex.Messaging.Agent.Store.SQLite.Migrations.M20250203_msg_bodies
-import Simplex.Messaging.Agent.Store.SQLite.Migrations.M20250322_short_links
-import Simplex.Messaging.Agent.Store.SQLite.Migrations.M20250702_conn_invitations_remove_cascade_delete
-import Simplex.Messaging.Agent.Store.SQLite.Migrations.M20251009_queue_to_subscribe
-import Simplex.Messaging.Agent.Store.SQLite.Migrations.M20251010_client_notices
-import Simplex.Messaging.Agent.Store.SQLite.Migrations.M20251230_strict_tables
-import Simplex.Messaging.Agent.Store.SQLite.Migrations.M20260410_receive_attempts
-import Simplex.Messaging.Agent.Store.SQLite.Migrations.M20260411_service_certs
-import Simplex.Messaging.Agent.Store.SQLite.Migrations.M20260712_address_dr_rpc
-import Simplex.Messaging.Agent.Store.SQLite.Migrations.M20260823_snd_files_entitlement
-import Simplex.Messaging.Agent.Store.SQLite.Migrations.M20260919_ratchet_verify_codes
-import Simplex.Messaging.Agent.Store.SQLite.Migrations.M20260929_ratchet_indexes
-import Simplex.Messaging.Agent.Store.SQLite.Migrations.M20261005_commands_autoincrement
-import Simplex.Messaging.Agent.Store.SQLite.Migrations.M20261008_rcv_switch_status
-import Simplex.Messaging.Agent.Store.SQLite.Migrations.M20261018_xftp_autoincrement
-import Simplex.Messaging.Agent.Store.Shared (Migration (..))
+import Popopx.Messaging.Agent.Store.SQLite.Migrations.M20220101_initial
+import Popopx.Messaging.Agent.Store.SQLite.Migrations.M20220301_snd_queue_keys
+import Popopx.Messaging.Agent.Store.SQLite.Migrations.M20220322_notifications
+import Popopx.Messaging.Agent.Store.SQLite.Migrations.M20220608_v2
+import Popopx.Messaging.Agent.Store.SQLite.Migrations.M20220625_v2_ntf_mode
+import Popopx.Messaging.Agent.Store.SQLite.Migrations.M20220811_onion_hosts
+import Popopx.Messaging.Agent.Store.SQLite.Migrations.M20220817_connection_ntfs
+import Popopx.Messaging.Agent.Store.SQLite.Migrations.M20220905_commands
+import Popopx.Messaging.Agent.Store.SQLite.Migrations.M20220915_connection_queues
+import Popopx.Messaging.Agent.Store.SQLite.Migrations.M20230110_users
+import Popopx.Messaging.Agent.Store.SQLite.Migrations.M20230117_fkey_indexes
+import Popopx.Messaging.Agent.Store.SQLite.Migrations.M20230120_delete_errors
+import Popopx.Messaging.Agent.Store.SQLite.Migrations.M20230217_server_key_hash
+import Popopx.Messaging.Agent.Store.SQLite.Migrations.M20230223_files
+import Popopx.Messaging.Agent.Store.SQLite.Migrations.M20230320_retry_state
+import Popopx.Messaging.Agent.Store.SQLite.Migrations.M20230401_snd_files
+import Popopx.Messaging.Agent.Store.SQLite.Migrations.M20230510_files_pending_replicas_indexes
+import Popopx.Messaging.Agent.Store.SQLite.Migrations.M20230516_encrypted_rcv_message_hashes
+import Popopx.Messaging.Agent.Store.SQLite.Migrations.M20230531_switch_status
+import Popopx.Messaging.Agent.Store.SQLite.Migrations.M20230615_ratchet_sync
+import Popopx.Messaging.Agent.Store.SQLite.Migrations.M20230701_delivery_receipts
+import Popopx.Messaging.Agent.Store.SQLite.Migrations.M20230720_delete_expired_messages
+import Popopx.Messaging.Agent.Store.SQLite.Migrations.M20230722_indexes
+import Popopx.Messaging.Agent.Store.SQLite.Migrations.M20230814_indexes
+import Popopx.Messaging.Agent.Store.SQLite.Migrations.M20230829_crypto_files
+import Popopx.Messaging.Agent.Store.SQLite.Migrations.M20231222_command_created_at
+import Popopx.Messaging.Agent.Store.SQLite.Migrations.M20231225_failed_work_items
+import Popopx.Messaging.Agent.Store.SQLite.Migrations.M20240121_message_delivery_indexes
+import Popopx.Messaging.Agent.Store.SQLite.Migrations.M20240124_file_redirect
+import Popopx.Messaging.Agent.Store.SQLite.Migrations.M20240223_connections_wait_delivery
+import Popopx.Messaging.Agent.Store.SQLite.Migrations.M20240225_ratchet_kem
+import Popopx.Messaging.Agent.Store.SQLite.Migrations.M20240417_rcv_files_approved_relays
+import Popopx.Messaging.Agent.Store.SQLite.Migrations.M20240624_snd_secure
+import Popopx.Messaging.Agent.Store.SQLite.Migrations.M20240702_servers_stats
+import Popopx.Messaging.Agent.Store.SQLite.Migrations.M20240930_ntf_tokens_to_delete
+import Popopx.Messaging.Agent.Store.SQLite.Migrations.M20241007_rcv_queues_last_broker_ts
+import Popopx.Messaging.Agent.Store.SQLite.Migrations.M20241224_ratchet_e2e_snd_params
+import Popopx.Messaging.Agent.Store.SQLite.Migrations.M20250203_msg_bodies
+import Popopx.Messaging.Agent.Store.SQLite.Migrations.M20250322_short_links
+import Popopx.Messaging.Agent.Store.SQLite.Migrations.M20250702_conn_invitations_remove_cascade_delete
+import Popopx.Messaging.Agent.Store.SQLite.Migrations.M20251009_queue_to_subscribe
+import Popopx.Messaging.Agent.Store.SQLite.Migrations.M20251010_client_notices
+import Popopx.Messaging.Agent.Store.SQLite.Migrations.M20251230_strict_tables
+import Popopx.Messaging.Agent.Store.SQLite.Migrations.M20260410_receive_attempts
+import Popopx.Messaging.Agent.Store.SQLite.Migrations.M20260411_service_certs
+import Popopx.Messaging.Agent.Store.SQLite.Migrations.M20260712_address_dr_rpc
+import Popopx.Messaging.Agent.Store.SQLite.Migrations.M20260823_snd_files_entitlement
+import Popopx.Messaging.Agent.Store.SQLite.Migrations.M20260919_ratchet_verify_codes
+import Popopx.Messaging.Agent.Store.SQLite.Migrations.M20260929_ratchet_indexes
+import Popopx.Messaging.Agent.Store.SQLite.Migrations.M20261005_commands_autoincrement
+import Popopx.Messaging.Agent.Store.SQLite.Migrations.M20261008_rcv_switch_status
+import Popopx.Messaging.Agent.Store.SQLite.Migrations.M20261018_xftp_autoincrement
+import Popopx.Messaging.Agent.Store.Shared (Migration (..))
 
 schemaMigrations :: [(String, Query, Maybe Query)]
 schemaMigrations =

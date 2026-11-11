@@ -19,18 +19,18 @@
 {-# OPTIONS_GHC -fno-warn-ambiguous-fields #-}
 
 -- |
--- Module      : Simplex.Messaging.Agent
+-- Module      : Popopx.Messaging.Agent
 -- Copyright   : (c) simplex.chat
 -- License     : AGPL-3
 --
--- Maintainer  : chat@simplex.chat
+-- Maintainer  : chat@popopx.chat
 -- Stability   : experimental
 -- Portability : non-portable
 --
 -- This module defines SMP protocol agent with SQLite persistence.
 --
--- See https://github.com/simplex-chat/simplexmq/blob/master/protocol/agent-protocol.md
-module Simplex.Messaging.Agent
+-- See https://github.com/popopx-chat/popopxmq/blob/master/protocol/agent-protocol.md
+module Popopx.Messaging.Agent
   ( -- * SMP agent functional API
     AgentClient (..),
     AE,
@@ -69,7 +69,7 @@ module Simplex.Messaging.Agent
     prepareConnShortLink,
     deleteConnShortLink,
     getConnShortLink,
-    resolveSimplexName,
+    resolvePopopxName,
     getConnLinkPrivKey,
     deleteLocalInvShortLink,
     changeConnectionUser,
@@ -198,40 +198,40 @@ import Data.Time.Clock
 import Data.Time.Clock.System (systemToUTCTime)
 import Data.Traversable (mapAccumL)
 import Data.Word (Word16, Word32)
-import Simplex.FileTransfer.Agent (closeXFTPAgent, deleteSndFileInternal, deleteSndFileRemote, deleteSndFilesInternal, deleteSndFilesRemote, startXFTPSndWorkers, startXFTPWorkers, toFSFilePath, xftpDeleteRcvFile', xftpDeleteRcvFiles', xftpPrepareReceiveFile', xftpPrepareSendDescription', xftpPrepareSendFile', xftpReceiveFile', xftpSendDescription', xftpSendFile', xftpStartReceiveFile', xftpStartSendFile')
-import Simplex.FileTransfer.Description (ValidFileDescription)
-import Simplex.FileTransfer.Protocol (FileParty (..))
-import Simplex.FileTransfer.Types (RcvFileId, SndFileId)
-import Simplex.FileTransfer.Util (removePath)
-import Simplex.Messaging.Agent.Client
-import Simplex.Messaging.Agent.Env.SQLite
-import Simplex.Messaging.Agent.Lock (withLock, withLock')
-import Simplex.Messaging.Agent.NtfSubSupervisor
-import Simplex.Messaging.Agent.Protocol
-import Simplex.Messaging.Agent.RetryInterval
-import Simplex.Messaging.Agent.Stats
-import Simplex.Messaging.Agent.Store
-import Simplex.Messaging.Agent.Store.AgentStore
-import Simplex.Messaging.Agent.Store.Common (DBStore)
-import qualified Simplex.Messaging.Agent.Store.DB as DB
-import Simplex.Messaging.Agent.Store.Entity
-import Simplex.Messaging.Agent.Store.Interface (closeDBStore, execSQL, getCurrentMigrations)
-import Simplex.Messaging.Agent.Store.Shared (UpMigration (..), upMigration)
-import Simplex.Messaging.Server.Information (ServerPublicInfo)
-import qualified Simplex.Messaging.Agent.TSessionSubs as SS
-import Simplex.Messaging.Client (NetworkRequestMode (..), ProtocolClientError (..), SMPClientError, ServerTransmission (..), ServerTransmissionBatch, TransportSessionMode (..), nonBlockingWriteTBQueue, smpErrorClientNotice, temporaryClientError, unexpectedResponse)
-import qualified Simplex.Messaging.Crypto as C
-import Simplex.Messaging.Crypto.Entitlement (EntitlementCredential)
-import Simplex.Messaging.Crypto.File (CryptoFile, CryptoFileArgs)
-import Simplex.Messaging.Crypto.Ratchet (PQEncryption, PQSupport (..), pattern PQEncOff, pattern PQEncOn, pattern PQSupportOff, pattern PQSupportOn)
-import qualified Simplex.Messaging.Crypto.Ratchet as CR
-import qualified Simplex.Messaging.Crypto.ShortLink as SL
-import Simplex.Messaging.Encoding
-import Simplex.Messaging.Encoding.String
-import Simplex.Messaging.Notifications.Protocol (DeviceToken, NtfRegCode (NtfRegCode), NtfTknStatus (..), NtfTokenId, PNMessageData (..), pnMessagesP)
-import Simplex.Messaging.Notifications.Types
-import Simplex.Messaging.Parsers (defaultJSON, parse)
-import Simplex.Messaging.Protocol
+import Popopx.FileTransfer.Agent (closeXFTPAgent, deleteSndFileInternal, deleteSndFileRemote, deleteSndFilesInternal, deleteSndFilesRemote, startXFTPSndWorkers, startXFTPWorkers, toFSFilePath, xftpDeleteRcvFile', xftpDeleteRcvFiles', xftpPrepareReceiveFile', xftpPrepareSendDescription', xftpPrepareSendFile', xftpReceiveFile', xftpSendDescription', xftpSendFile', xftpStartReceiveFile', xftpStartSendFile')
+import Popopx.FileTransfer.Description (ValidFileDescription)
+import Popopx.FileTransfer.Protocol (FileParty (..))
+import Popopx.FileTransfer.Types (RcvFileId, SndFileId)
+import Popopx.FileTransfer.Util (removePath)
+import Popopx.Messaging.Agent.Client
+import Popopx.Messaging.Agent.Env.SQLite
+import Popopx.Messaging.Agent.Lock (withLock, withLock')
+import Popopx.Messaging.Agent.NtfSubSupervisor
+import Popopx.Messaging.Agent.Protocol
+import Popopx.Messaging.Agent.RetryInterval
+import Popopx.Messaging.Agent.Stats
+import Popopx.Messaging.Agent.Store
+import Popopx.Messaging.Agent.Store.AgentStore
+import Popopx.Messaging.Agent.Store.Common (DBStore)
+import qualified Popopx.Messaging.Agent.Store.DB as DB
+import Popopx.Messaging.Agent.Store.Entity
+import Popopx.Messaging.Agent.Store.Interface (closeDBStore, execSQL, getCurrentMigrations)
+import Popopx.Messaging.Agent.Store.Shared (UpMigration (..), upMigration)
+import Popopx.Messaging.Server.Information (ServerPublicInfo)
+import qualified Popopx.Messaging.Agent.TSessionSubs as SS
+import Popopx.Messaging.Client (NetworkRequestMode (..), ProtocolClientError (..), SMPClientError, ServerTransmission (..), ServerTransmissionBatch, TransportSessionMode (..), nonBlockingWriteTBQueue, smpErrorClientNotice, temporaryClientError, unexpectedResponse)
+import qualified Popopx.Messaging.Crypto as C
+import Popopx.Messaging.Crypto.Entitlement (EntitlementCredential)
+import Popopx.Messaging.Crypto.File (CryptoFile, CryptoFileArgs)
+import Popopx.Messaging.Crypto.Ratchet (PQEncryption, PQSupport (..), pattern PQEncOff, pattern PQEncOn, pattern PQSupportOff, pattern PQSupportOn)
+import qualified Popopx.Messaging.Crypto.Ratchet as CR
+import qualified Popopx.Messaging.Crypto.ShortLink as SL
+import Popopx.Messaging.Encoding
+import Popopx.Messaging.Encoding.String
+import Popopx.Messaging.Notifications.Protocol (DeviceToken, NtfRegCode (NtfRegCode), NtfTknStatus (..), NtfTokenId, PNMessageData (..), pnMessagesP)
+import Popopx.Messaging.Notifications.Types
+import Popopx.Messaging.Parsers (defaultJSON, parse)
+import Popopx.Messaging.Protocol
   ( BrokerMsg,
     Cmd (..),
     ErrorType (AUTH),
@@ -257,16 +257,16 @@ import Simplex.Messaging.Protocol
     VersionSMPC,
     senderCanSecure,
   )
-import qualified Simplex.Messaging.Protocol as SMP
-import Simplex.Messaging.ServiceScheme (ServiceScheme (..))
-import Simplex.Messaging.SystemTime
-import qualified Simplex.Messaging.TMap as TM
-import Simplex.Messaging.Transport (SMPVersion, THClientService' (..), THandleAuth (..), THandleParams (..))
-import Simplex.Messaging.Util
-import Simplex.Messaging.Version
-import Simplex.RemoteControl.Client
-import Simplex.RemoteControl.Invitation
-import Simplex.RemoteControl.Types
+import qualified Popopx.Messaging.Protocol as SMP
+import Popopx.Messaging.ServiceScheme (ServiceScheme (..))
+import Popopx.Messaging.SystemTime
+import qualified Popopx.Messaging.TMap as TM
+import Popopx.Messaging.Transport (SMPVersion, THClientService' (..), THandleAuth (..), THandleParams (..))
+import Popopx.Messaging.Util
+import Popopx.Messaging.Version
+import Popopx.RemoteControl.Client
+import Popopx.RemoteControl.Invitation
+import Popopx.RemoteControl.Types
 import System.Mem.Weak (deRefWeak)
 import UnliftIO.Async (mapConcurrently)
 import UnliftIO.Concurrent (forkFinally, forkIO, killThread, mkWeakThreadId, threadDelay)
@@ -484,12 +484,12 @@ getConnShortLink :: AgentClient -> NetworkRequestMode -> UserId -> ConnShortLink
 getConnShortLink c = withAgentEnv c .:. getConnShortLink' c
 {-# INLINE getConnShortLink #-}
 
--- | Resolve a SimpleX name (PFWD RSLV). The agent owns server selection: it
+-- | Resolve a POPOPX name (PFWD RSLV). The agent owns server selection: it
 -- picks a names-capable server (ServerRoles.names) from the user's nameSrvs, so
 -- chat clients just pass the parsed domain.
-resolveSimplexName :: AgentClient -> NetworkRequestMode -> UserId -> SimplexDomain -> AE NameResponse
-resolveSimplexName c nm userId domain = withAgentEnv c $ resolveSimplexName' c nm userId domain
-{-# INLINE resolveSimplexName #-}
+resolvePopopxName :: AgentClient -> NetworkRequestMode -> UserId -> PopopxDomain -> AE NameResponse
+resolvePopopxName c nm userId domain = withAgentEnv c $ resolvePopopxName' c nm userId domain
+{-# INLINE resolvePopopxName #-}
 
 getConnLinkPrivKey :: AgentClient -> ConnId -> AE (Maybe C.PrivateKeyEd25519)
 getConnLinkPrivKey c = withAgentEnv c . getConnLinkPrivKey' c
@@ -999,7 +999,7 @@ ackMessageAsync' c corrId connId msgId rcptInfo_ = do
   case cType of
     SCDuplex -> enqueueAck
     SCRcv -> enqueueAck
-    SCSnd -> throwE $ CONN SIMPLEX "ackMessageAsync"
+    SCSnd -> throwE $ CONN POPOPX "ackMessageAsync"
     SCContact -> throwE $ CMD PROHIBITED "ackMessageAsync: SCContact"
     SCNew -> throwE $ CMD PROHIBITED "ackMessageAsync: SCNew"
   where
@@ -1112,7 +1112,7 @@ prepareLinkParams rootKey@(_, plpRootPrivKey) linkEntityId clientData plpInitKey
   plpQueueE2EKeys@(e2ePubKey, _) <- atomically $ C.generateKeyPair g
   let sndId = SMP.EntityId $ B.take 24 $ C.sha3_384 corrId
       qUri = SMPQueueUri smpClientVRange $ SMPQueueAddress srv sndId e2ePubKey (Just qm)
-      connReq = mkConnReq $ ConnReqUriData SSSimplex smpAgentVRange [qUri] clientData
+      connReq = mkConnReq $ ConnReqUriData SSPopopx smpAgentVRange [qUri] clientData
       (plpLinkKey, plpSignedFixedData) = SL.encodeSignFixedData rootKey smpAgentVRange connReq linkEntityId
   pure (connReq, PreparedLinkParams {plpNonce, plpQueueE2EKeys, plpLinkKey, plpRootPrivKey, plpSignedFixedData, plpSrvWithAuth, plpInitKeys, plpRatchetKeys})
 
@@ -1273,7 +1273,7 @@ newContactLinkCreds c rq clientData = do
   AgentConfig {smpClientVRange = vr, smpAgentVRange} <- asks config
   sigKeys@(_, privSigKey) <- atomically $ C.generateKeyPair @'C.Ed25519 g
   let qUri = SMPQueueUri vr $ (rcvSMPQueueAddress rq) {queueMode = Just QMContact}
-      connReq = CRContactUri (ConnReqUriData SSSimplex smpAgentVRange [qUri] clientData) Nothing
+      connReq = CRContactUri (ConnReqUriData SSPopopx smpAgentVRange [qUri] clientData) Nothing
       (linkKey, fixedData) = SL.encodeSignFixedData sigKeys smpAgentVRange connReq Nothing
       (linkId, k) = SL.contactShortLinkKdf linkKey
   encFixedData <- liftError id $ SL.encryptFixedData g k fixedData
@@ -1366,8 +1366,8 @@ getConnShortLink' c nm userId = \case
 deleteLocalInvShortLink' :: AgentClient -> ConnShortLink 'CMInvitation -> AM ()
 deleteLocalInvShortLink' c (CSLInvitation _ srv linkId _) = withStore' c $ \db -> deleteInvShortLink db srv linkId
 
-resolveSimplexName' :: AgentClient -> NetworkRequestMode -> UserId -> SimplexDomain -> AM NameResponse
-resolveSimplexName' c nm userId domain = do
+resolvePopopxName' :: AgentClient -> NetworkRequestMode -> UserId -> PopopxDomain -> AM NameResponse
+resolvePopopxName' c nm userId domain = do
   resolverSrv <- getNextNameServer c userId
   resolveName c nm userId resolverSrv domain
 
@@ -1401,7 +1401,7 @@ newRcvConnSrv c nm userId connId enableNtfs cMode userLinkData_ clientData pqIni
     createConnReq :: Maybe AddressRatchetKeys -> SMPQueueUri -> AM (ConnectionRequestUri c)
     createConnReq addrKeys_ qUri = do
       AgentConfig {smpAgentVRange, e2eEncryptVRange} <- asks config
-      let crData = ConnReqUriData SSSimplex smpAgentVRange [qUri] clientData
+      let crData = ConnReqUriData SSPopopx smpAgentVRange [qUri] clientData
       case cMode of
         SCMContact -> pure $ CRContactUri crData addrKeys_
         SCMInvitation -> do
@@ -1666,7 +1666,7 @@ joinConnSrv' c nm userId connId enableNtfs cReqUri@CRContactUri {} cInfo pqSuppo
           g <- asks random
           AgentConfig {smpClientVRange = vr, smpAgentVRange, e2eEncryptVRange = e2eVR} <- asks config
           let qUri = SMPQueueUri vr $ (rcvSMPQueueAddress rq) {queueMode = Just QMMessaging}
-              crData = ConnReqUriData SSSimplex smpAgentVRange [qUri] Nothing
+              crData = ConnReqUriData SSPopopx smpAgentVRange [qUri] Nothing
           e2eRcvParams <- withStore' c $ \db -> do
             lockConnForUpdate db connId
             getRatchetX3dhKeys db connId >>= \case
@@ -1815,7 +1815,7 @@ prepareReply c userId Invitation {invitationId, connReq, serviceRequest, created
       pure (cData, sq)
 
 serviceReqBinding :: CR.Ratchet a -> ByteString
-serviceReqBinding CR.Ratchet {rcAD = Str ad} = C.sha3_256 $ "SimpleXService" <> ad
+serviceReqBinding CR.Ratchet {rcAD = Str ad} = C.sha3_256 $ "POPOPXService" <> ad
 
 signServiceReq :: Maybe C.PrivateKeyEd25519 -> ByteString -> MsgBody -> Maybe RequestSignature
 signServiceReq signKey_ binding payload =
@@ -1926,7 +1926,7 @@ subscribeConnections_ c conns = do
     sndSubResult :: SndQueue -> Either AgentErrorType ()
     sndSubResult SndQueue {status} = case status of
       Confirmed -> Right ()
-      Active -> Left $ CONN SIMPLEX "subscribeConnections"
+      Active -> Left $ CONN POPOPX "subscribeConnections"
       _ -> Left $ INTERNAL "unexpected queue status"
     rcvQueues :: (ConnId, SomeConnSub) -> [RcvQueueSub]
     rcvQueues (_, SomeConn _ conn) = connRcvQueues conn
@@ -2100,7 +2100,7 @@ getConnectionMessages' c = mapM $ tryAllErrors' . getConnectionMessage
         DuplexConnection _ (rq :| _) _ -> pure rq
         RcvConnection _ rq -> pure rq
         ContactConnection _ rq -> pure rq
-        SndConnection _ _ -> throwE $ CONN SIMPLEX "getConnectionMessage"
+        SndConnection _ _ -> throwE $ CONN POPOPX "getConnectionMessage"
         NewConnection _ -> throwE $ CMD PROHIBITED "getConnectionMessage: NewConnection"
       whenM (atomically $ hasActiveSubscription c rq) . throwE $ CMD PROHIBITED "getConnectionMessage: subscribed"
       msg_ <- getQueueMessage c rq `catchAllErrors` \e -> atomically (releaseGetLock c rq) >> throwError e
@@ -2188,7 +2188,7 @@ sendMessagesB_ c reqs connIds = withConnLocks c connIds "sendMessages" $ do
         DuplexConnection cData _ sqs -> prepareMsg cData sqs
         SndConnection cData sq -> prepareMsg cData [sq]
         -- we can't fail here, as it may prevent delivery of subsequent messages that reference the body of the failed message.
-        _ -> (s, mkReq $ Left $ CONN SIMPLEX $ "sendMessagesB_ " <> show (connType cType))
+        _ -> (s, mkReq $ Left $ CONN POPOPX $ "sendMessagesB_ " <> show (connType cType))
       Left e -> (s, mkReq $ Left e)
       where
         prepareMsg :: ConnData -> NonEmpty SndQueue -> (Set ConnId, Either AgentErrorType (Either AgentErrorType (ConnData, NonEmpty SndQueue), Maybe PQEncryption, MsgFlags, ValueOrRef AMessage))
@@ -2843,7 +2843,7 @@ ackMessage' c cmdId_ connId msgId rcptInfo_ = withConnLockNotify c connId "ackMe
       t_ <- ack
       del
       pure t_
-    SndConnection {} -> throwE $ CONN SIMPLEX "ackMessage"
+    SndConnection {} -> throwE $ CONN POPOPX "ackMessage"
     ContactConnection {} -> throwE $ CMD PROHIBITED "ackMessage: ContactConnection"
     NewConnection _ -> throwE $ CMD PROHIBITED "ackMessage: NewConnection"
   where
@@ -2876,7 +2876,7 @@ getConnectionQueueInfo' c nm connId = do
     DuplexConnection _ (rq :| _) _ -> getQueueInfo c nm rq
     RcvConnection _ rq -> getQueueInfo c nm rq
     ContactConnection _ rq -> getQueueInfo c nm rq
-    SndConnection {} -> throwE $ CONN SIMPLEX "getConnectionQueueInfo"
+    SndConnection {} -> throwE $ CONN POPOPX "getConnectionQueueInfo"
     NewConnection _ -> throwE $ CMD PROHIBITED "getConnectionQueueInfo: NewConnection"
 
 switchConnection' :: AgentClient -> NetworkRequestMode -> ConnId -> AM ConnectionStats
@@ -2988,7 +2988,7 @@ suspendConnection' c nm connId = withConnLock c connId "suspendConnection" $ do
     DuplexConnection _ rqs _ -> mapM_ (suspendQueue c nm) rqs
     RcvConnection _ rq -> suspendQueue c nm rq
     ContactConnection _ rq -> suspendQueue c nm rq
-    SndConnection _ _ -> throwE $ CONN SIMPLEX "suspendConnection"
+    SndConnection _ _ -> throwE $ CONN POPOPX "suspendConnection"
     NewConnection _ -> throwE $ CMD PROHIBITED "suspendConnection"
 
 -- | Delete SMP agent connection (DEL command) in Reader monad
@@ -3349,7 +3349,7 @@ toggleConnectionNtfs' c connId enable = do
     DuplexConnection cData _ _ -> toggle cData
     RcvConnection cData _ -> toggle cData
     ContactConnection cData _ -> toggle cData
-    _ -> throwE $ CONN SIMPLEX "toggleConnectionNtfs"
+    _ -> throwE $ CONN POPOPX "toggleConnectionNtfs"
   where
     toggle :: ConnData -> AM ()
     toggle ConnData {enableNtfs}

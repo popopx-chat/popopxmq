@@ -21,7 +21,7 @@
       "type": "shell",
       "inline": [
         "cloud-init status --wait",
-        "mkdir -p /opt/simplex"
+        "mkdir -p /opt/popopx"
       ]
     },
     {

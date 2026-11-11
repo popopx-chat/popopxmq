@@ -3,7 +3,7 @@
 module Web.Embedded where
 
 import Data.FileEmbed (embedDir, embedFile)
-import Simplex.Messaging.Server.Web (EmbeddedContent (..))
+import Popopx.Messaging.Server.Web (EmbeddedContent (..))
 
 embeddedContent :: EmbeddedContent
 embeddedContent =

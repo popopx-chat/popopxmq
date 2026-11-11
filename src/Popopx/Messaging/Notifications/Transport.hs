@@ -7,7 +7,7 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE TupleSections #-}
 
-module Simplex.Messaging.Notifications.Transport
+module Popopx.Messaging.Notifications.Transport
   ( NTFVersion,
     VersionRangeNTF,
     pattern VersionNTF,
@@ -23,12 +23,12 @@ import Control.Monad.Except
 import Control.Monad.Trans.Except
 import Data.Word (Word16)
 import qualified Data.X509 as X
-import qualified Simplex.Messaging.Crypto as C
-import Simplex.Messaging.Encoding
-import Simplex.Messaging.Transport
-import Simplex.Messaging.Util (liftEitherWith)
-import Simplex.Messaging.Version
-import Simplex.Messaging.Version.Internal
+import qualified Popopx.Messaging.Crypto as C
+import Popopx.Messaging.Encoding
+import Popopx.Messaging.Transport
+import Popopx.Messaging.Util (liftEitherWith)
+import Popopx.Messaging.Version
+import Popopx.Messaging.Version.Internal
 
 ntfBlockSize :: Int
 ntfBlockSize = 512

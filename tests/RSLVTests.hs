@@ -26,11 +26,11 @@ import Network.HTTP.Types (Status, status200, status404, status502)
 import NamesResolverServer (memCfg, memCfg2, memProxyCfg, withNames)
 import qualified NamesResolverServer as NRS
 import SMPClient
-import Simplex.Messaging.Client
-import qualified Simplex.Messaging.Crypto as C
-import Simplex.Messaging.Encoding.String (strDecode)
+import Popopx.Messaging.Client
+import qualified Popopx.Messaging.Crypto as C
+import Popopx.Messaging.Encoding.String (strDecode)
 import SMPNamesTests (availableBody, registeredBody, reservedBody, resolved, testNameRecord, testPricing)
-import Simplex.Messaging.Protocol
+import Popopx.Messaging.Protocol
   ( BrokerMsg (..),
     Cmd (..),
     Command (..),
@@ -49,15 +49,15 @@ import Simplex.Messaging.Protocol
     tGetClient,
     tPut,
   )
-import qualified Simplex.Messaging.Protocol as SMP
-import Simplex.Messaging.Server.Env.STM (ServerConfig (..))
-import Simplex.Messaging.SimplexName (SimplexDomain)
-import Simplex.Messaging.Transport
-import Simplex.Messaging.Version (mkVersionRange)
+import qualified Popopx.Messaging.Protocol as SMP
+import Popopx.Messaging.Server.Env.STM (ServerConfig (..))
+import Popopx.Messaging.PopopxName (PopopxDomain)
+import Popopx.Messaging.Transport
+import Popopx.Messaging.Version (mkVersionRange)
 import Test.Hspec hiding (fit, it)
 import Util (HasTestEnv, it)
 
-domain :: Text -> SimplexDomain
+domain :: Text -> PopopxDomain
 domain = either error id . strDecode . encodeUtf8
 
 withResolverServer :: HasTestEnv => (Status, LB.ByteString) -> IO a -> IO a
@@ -76,7 +76,7 @@ withProxyAndResolver (st, body) runTest =
     withSmpServerConfigOn (transport @TLS) memProxyCfg testPort $ \_ ->
       withSmpServerConfigOn (transport @TLS) (withNames port memCfg2) testPort2 (const runTest)
 
-sendRslv :: Transport c => THandleSMP c 'TClient -> B.ByteString -> SimplexDomain -> IO (Transmission (Either ErrorType BrokerMsg))
+sendRslv :: Transport c => THandleSMP c 'TClient -> B.ByteString -> PopopxDomain -> IO (Transmission (Either ErrorType BrokerMsg))
 sendRslv h@THandle {params} corrId d = do
   let TransmissionForAuth {tToSend} = encodeTransmissionForAuth params (CorrId corrId, NoEntity, Cmd SResolver (RSLV (NQDomain d)))
   [Right ()] <- tPut h (Right (Nothing, tToSend) :| [])
@@ -117,7 +117,7 @@ testRslvBackendNotFound :: HasTestEnv => IO ()
 testRslvBackendNotFound =
   withResolverServer (status404, "{}") $
     testSMPClient @TLS $ \h -> do
-      (corrId, _entId, resp) <- sendRslv h "rs01" (domain "ghost.simplex")
+      (corrId, _entId, resp) <- sendRslv h "rs01" (domain "ghost.popopx")
       corrId `shouldBe` CorrId "rs01"
       resp `shouldBe` Right (ERR (NAME (RESOLVER "HTTP 404")))
 
@@ -125,14 +125,14 @@ testRslvBackendHttpErr :: HasTestEnv => IO ()
 testRslvBackendHttpErr =
   withResolverServer (status502, "{}") $
     testSMPClient @TLS $ \h -> do
-      (_, _, resp) <- sendRslv h "rs05" (domain "alice.simplex")
+      (_, _, resp) <- sendRslv h "rs05" (domain "alice.popopx")
       resp `shouldBe` Right (ERR (NAME (RESOLVER "HTTP 502")))
 
 testRslvDisabled :: HasTestEnv => IO ()
 testRslvDisabled =
   withSmpServerConfigOn (transport @TLS) memCfg testPort $ const $
     testSMPClient @TLS $ \h -> do
-      (_, _, resp) <- sendRslv h "rs06" (domain "alice.simplex")
+      (_, _, resp) <- sendRslv h "rs06" (domain "alice.popopx")
       resp `shouldBe` Right (ERR (NAME NO_RESOLVER))
 
 testRslvVersion :: HasTestEnv => IO ()
@@ -144,7 +144,7 @@ testRslvVersion =
         oldCfg = defaultSMPClientConfig {serverVRange = mkVersionRange minServerSMPRelayVersion rcvServiceSMPVersion}
     pcE <- getProtocolClient g NRMInteractive (1, srv, Nothing) oldCfg [] Nothing ts (\_ -> pure ())
     pc <- either (fail . show) pure pcE
-    r <- runExceptT (directResolveName pc NRMInteractive (domain "alice.simplex"))
+    r <- runExceptT (directResolveName pc NRMInteractive (domain "alice.popopx"))
     case r of
       Left (PCETransportError TEVersion) -> pure ()
       _ -> expectationFailure $ "expected Left (PCETransportError TEVersion), got: " <> show r
@@ -159,7 +159,7 @@ forwardedResolveAlice = do
   pcE <- getProtocolClient g NRMInteractive (1, proxyServ, Nothing) cfg' [] Nothing ts (\_ -> pure ())
   pc <- either (fail . show) pure pcE
   sess <- runExceptT' (connectSMPProxiedRelay pc NRMInteractive relayServ Nothing)
-  runExceptT (proxyResolveName pc NRMInteractive sess (domain "alice.simplex"))
+  runExceptT (proxyResolveName pc NRMInteractive sess (domain "alice.popopx"))
 
 testRslvForwarded :: HasTestEnv => IO ()
 testRslvForwarded =
@@ -179,7 +179,7 @@ testRslvSuccess :: HasTestEnv => IO ()
 testRslvSuccess =
   withResolverServer (status200, registeredBody testNameRecord) $
     testSMPClient @TLS $ \h -> do
-      (corrId, _entId, resp) <- sendRslv h "rs07" (domain "alice.simplex")
+      (corrId, _entId, resp) <- sendRslv h "rs07" (domain "alice.popopx")
       corrId `shouldBe` CorrId "rs07"
       case resp of
         Right (RNAME NameResponse {registration = NRRegistered {nameRecord}}) -> nameRecord `shouldBe` testNameRecord
@@ -189,7 +189,7 @@ testRslvAvailable :: HasTestEnv => IO ()
 testRslvAvailable =
   withResolverServer (status200, availableBody) $
     testSMPClient @TLS $ \h -> do
-      (corrId, _entId, resp) <- sendRslv h "na01" (domain "ghost.simplex")
+      (corrId, _entId, resp) <- sendRslv h "na01" (domain "ghost.popopx")
       corrId `shouldBe` CorrId "na01"
       resp `shouldBe` Right (RNAME (resolved (NRAvailable testPricing Nothing)))
 
@@ -197,7 +197,7 @@ testRslvReserved :: HasTestEnv => IO ()
 testRslvReserved =
   withResolverServer (status200, reservedBody) $
     testSMPClient @TLS $ \h -> do
-      (_, _, resp) <- sendRslv h "na03" (domain "acme.simplex")
+      (_, _, resp) <- sendRslv h "na03" (domain "acme.popopx")
       resp `shouldBe` Right (RNAME (resolved (NRReserved NRRTrademark)))
 
 -- | A client that predates v22 must see exactly what it saw before: the record
@@ -217,14 +217,14 @@ testRslvOldClientRecord :: HasTestEnv => IO ()
 testRslvOldClientRecord =
   withResolverServer (status200, registeredBody testNameRecord) $ do
     pc <- oldClient
-    r <- runExceptT' (directResolveName pc NRMInteractive (domain "alice.simplex"))
+    r <- runExceptT' (directResolveName pc NRMInteractive (domain "alice.popopx"))
     r `shouldBe` NameResponse Nothing (NRRegistered Nothing Nothing Nothing testNameRecord)
 
 testRslvOldClientNotFound :: HasTestEnv => IO ()
 testRslvOldClientNotFound =
   withResolverServer (status200, availableBody) $ do
     pc <- oldClient
-    r <- runExceptT (directResolveName pc NRMInteractive (domain "alice.simplex"))
+    r <- runExceptT (directResolveName pc NRMInteractive (domain "alice.popopx"))
     case r of
       Left (PCEProtocolError (SMP.NAME SMP.NOT_FOUND)) -> pure ()
       _ -> expectationFailure $ "expected Left (PCEProtocolError (NAME NOT_FOUND)), got: " <> show r
@@ -258,27 +258,27 @@ testRslvSendsTheHash :: HasTestEnv => IO ()
 testRslvSendsTheHash =
   withResolverServerReqs (status200, registeredBody testNameRecord) $ \reqs -> do
     pc <- currentClient
-    r <- runExceptT' (directResolveName pc NRMInteractive (domain "alice.simplex"))
-    resolvePaths reqs `shouldReturn` [["v2", "resolve", aliceHash <> ".simplex"]]
+    r <- runExceptT' (directResolveName pc NRMInteractive (domain "alice.popopx"))
+    resolvePaths reqs `shouldReturn` [["v2", "resolve", aliceHash <> ".popopx"]]
     -- the client never sent the name, and the record still names it
     case r of
-      NameResponse {registration = NRRegistered {nameRecord}} -> SMP.nrName nameRecord `shouldBe` "alice.simplex"
+      NameResponse {registration = NRRegistered {nameRecord}} -> SMP.nrName nameRecord `shouldBe` "alice.popopx"
       _ -> expectationFailure $ "expected NRRegistered, got: " <> show r
 
 testSubnameKeepsItsLabels :: HasTestEnv => IO ()
 testSubnameKeepsItsLabels =
   withResolverServerReqs (status200, availableBody) $ \reqs -> do
     pc <- currentClient
-    _ <- runExceptT' (directResolveName pc NRMInteractive (domain "x.alice.simplex"))
-    resolvePaths reqs `shouldReturn` [["v2", "resolve", "x.alice.simplex"]]
+    _ <- runExceptT' (directResolveName pc NRMInteractive (domain "x.alice.popopx"))
+    resolvePaths reqs `shouldReturn` [["v2", "resolve", "x.alice.popopx"]]
 
 -- a hashed query does not tell the router the name, so the record's own name is
 -- checked against the one that was asked for
 testRslvWrongName :: HasTestEnv => IO ()
 testRslvWrongName =
-  withResolverServer (status200, registeredBody testNameRecord {SMP.nrName = "mallory.simplex"}) $ do
+  withResolverServer (status200, registeredBody testNameRecord {SMP.nrName = "mallory.popopx"}) $ do
     pc <- currentClient
-    r <- runExceptT (directResolveName pc NRMInteractive (domain "alice.simplex"))
+    r <- runExceptT (directResolveName pc NRMInteractive (domain "alice.popopx"))
     case r of
       Left (PCEUnexpectedResponse _) -> pure ()
       _ -> expectationFailure $ "expected Left (PCEUnexpectedResponse ..), got: " <> show r
@@ -342,16 +342,16 @@ readSlotWaitMetrics = do
         [v] -> pure $ read v
         _ -> fail $ "no metric " <> name
   SlotWaitMetrics
-    <$> metric "simplex_smp_cmd_slot_wait_ms_count"
-    <*> metric "simplex_smp_cmd_slot_wait_timeouts"
-    <*> metric "simplex_smp_cmd_slot_wait_ms_max"
-    <*> metric "simplex_smp_cmd_slot_wait_ms_sum"
+    <$> metric "popopx_smp_cmd_slot_wait_ms_count"
+    <*> metric "popopx_smp_cmd_slot_wait_timeouts"
+    <*> metric "popopx_smp_cmd_slot_wait_ms_max"
+    <*> metric "popopx_smp_cmd_slot_wait_ms_sum"
 
 -- | One RSLV per block, so no batch limit applies.
 sendRslvs :: THandleSMP TLS 'TClient -> String -> Int -> IO ()
 sendRslvs h@THandle {params} prefix n =
   forM_ [1 .. n] $ \i -> do
-    let TransmissionForAuth {tToSend} = encodeTransmissionForAuth params (CorrId (B.pack $ prefix <> show i), NoEntity, Cmd SResolver (RSLV (NQDomain (domain "alice.simplex"))))
+    let TransmissionForAuth {tToSend} = encodeTransmissionForAuth params (CorrId (B.pack $ prefix <> show i), NoEntity, Cmd SResolver (RSLV (NQDomain (domain "alice.popopx"))))
     [Right ()] <- tPut h (Right (Nothing, tToSend) :| [])
     pure ()
 

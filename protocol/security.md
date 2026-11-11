@@ -1,8 +1,8 @@
 Revision 1, 2026-03-09
 
-# SimpleX Network: Security
+# POPOPX Network: Security
 
-This document describes the cryptographic primitives and threat model for the SimpleX network. For a general introduction, see [SimpleX: messaging and application platform](./overview-tjr.md).
+This document describes the cryptographic primitives and threat model for the POPOPX network. For a general introduction, see [POPOPX: messaging and application platform](./overview-tjr.md).
 
 ## Table of contents
 
@@ -11,8 +11,8 @@ This document describes the cryptographic primitives and threat model for the Si
   - [Global Assumptions](#global-assumptions)
   - [A passive adversary able to monitor the traffic of one user](#a-passive-adversary-able-to-monitor-the-traffic-of-one-user)
   - [A passive adversary able to monitor a set of senders and recipients](#a-passive-adversary-able-to-monitor-a-set-of-senders-and-recipients)
-  - [SimpleX Messaging Protocol router](#simplex-messaging-protocol-router)
-  - [SimpleX Messaging Protocol router that proxies the messages to another SMP router](#simplex-messaging-protocol-router-that-proxies-the-messages-to-another-smp-router)
+  - [POPOPX Messaging Protocol router](#popopx-messaging-protocol-router)
+  - [POPOPX Messaging Protocol router that proxies the messages to another SMP router](#popopx-messaging-protocol-router-that-proxies-the-messages-to-another-smp-router)
   - [An attacker who obtained Alice's (decrypted) chat database](#an-attacker-who-obtained-alices-decrypted-chat-database)
   - [A user's contact](#a-users-contact)
   - [An attacker who observes the initiating party showing an introduction message to the joining party](#an-attacker-who-observes-the-initiating-party-showing-an-introduction-message-to-the-joining-party)
@@ -54,7 +54,7 @@ All primitives in use, their lengths, domain-separation strings and the policy f
 
 *can:*
 
-- identify that and when a user is using SimpleX.
+- identify that and when a user is using POPOPX.
 
 - determine which routers the user receives messages from.
 
@@ -70,9 +70,9 @@ All primitives in use, their lengths, domain-separation strings and the policy f
 
 *can:*
 
-- identify who and when is using SimpleX.
+- identify who and when is using POPOPX.
 
-- learn which SimpleX Messaging Protocol routers are used as receive queues for which users.
+- learn which POPOPX Messaging Protocol routers are used as receive queues for which users.
 
 - learn when messages are sent and received.
 
@@ -84,7 +84,7 @@ All primitives in use, their lengths, domain-separation strings and the policy f
 
 - perform traffic correlation attacks with any increase in efficiency over a non-compromised transport protocol.
 
-### SimpleX Messaging Protocol router
+### POPOPX Messaging Protocol router
 
 *can:*
 
@@ -120,7 +120,7 @@ All primitives in use, their lengths, domain-separation strings and the policy f
 
 - perform senders' queue correlation (matching multiple queues to a single sender) via either a re-used transport connection, user's IP Address, or connection timing regularities, unless it has additional information from the proxy SMP router (provided messages are sent via proxy SMP router).
 
-### SimpleX Messaging Protocol router that proxies the messages to another SMP router
+### POPOPX Messaging Protocol router that proxies the messages to another SMP router
 
 *can:*
 
@@ -206,7 +206,7 @@ All primitives in use, their lengths, domain-separation strings and the policy f
 
 *can:*
 
-- Denial of Service SimpleX messaging routers.
+- Denial of Service POPOPX messaging routers.
 
 - spam a user's public "contact queue" with connection requests.
 
@@ -214,4 +214,4 @@ All primitives in use, their lengths, domain-separation strings and the policy f
 
 - send messages to a user who they are not connected with.
 
-- enumerate queues on a SimpleX router.
+- enumerate queues on a POPOPX router.

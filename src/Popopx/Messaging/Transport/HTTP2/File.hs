@@ -1,6 +1,6 @@
 {-# LANGUAGE MultiWayIf #-}
 
-module Simplex.Messaging.Transport.HTTP2.File
+module Popopx.Messaging.Transport.HTTP2.File
   ( fileBlockSize,
     hReceiveFile,
     hSendFile,

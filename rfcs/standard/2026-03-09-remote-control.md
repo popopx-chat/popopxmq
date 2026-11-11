@@ -5,9 +5,9 @@ Standardized: 2026-03-09
 Protocol: xrcp v1
 ---
 
-# SimpleX Remote Control protocol
+# POPOPX Remote Control protocol
 
-Using profiles in SimpleX Chat mobile app from desktop app with minimal risk to the security/threat model of SimpleX protocols.
+Using profiles in POPOPX Chat mobile app from desktop app with minimal risk to the security/threat model of POPOPX protocols.
 
 ## Problem
 
@@ -35,7 +35,7 @@ Existing service discovery and remote control protocols known to us are vulnerab
   - Events sent by host to update controller UI.
   - Uploading and downloading files between host and controller, either to be processed by the host or to be presented in the controller UI.
 
-This design will allow application-level protocol that is quite close to how SimpleX Chat UI interacts with SimpleX Chat core - there is a similar RPC + events protocol and support for files. The application-level protocol is out of scope of this specification.
+This design will allow application-level protocol that is quite close to how POPOPX Chat UI interacts with POPOPX Chat core - there is a similar RPC + events protocol and support for files. The application-level protocol is out of scope of this specification.
 
 ## Protocol phases
 
@@ -49,7 +49,7 @@ Protocol consists of four phases:
 
 The invitation to the first session between host and controller pair MUST be shared out-of-band, to establish a long term identity keys/certificates of the controller to host device.
 
-The subsequent sessions can be announced via an application-defined site-local multicast group, e.g. `224.0.0.251` (also used in mDNS/bonjour) and an application-defined port (SimpleX Chat uses 5227).
+The subsequent sessions can be announced via an application-defined site-local multicast group, e.g. `224.0.0.251` (also used in mDNS/bonjour) and an application-defined port (POPOPX Chat uses 5227).
 
 The session invitation contains this data:
 - supported version range for remote control protocol
@@ -213,7 +213,7 @@ Once controller replies HELLO to the valid host HELLO block, it should stop acce
 
 The protocol for communication during the session is out of scope of this protocol.
 
-SimpleX Chat will use HTTP2 encoding, where host device acts as a server and controller acts as a client (these roles are reversed compared with TLS connection).
+POPOPX Chat will use HTTP2 encoding, where host device acts as a server and controller acts as a client (these roles are reversed compared with TLS connection).
 
 Payloads in the protocol must be encrypted using NaCL cryptobox using the hybrid shared secret agreed during session establishment.
 

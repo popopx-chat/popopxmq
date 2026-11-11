@@ -1,6 +1,6 @@
 {-# LANGUAGE ForeignFunctionInterface #-}
 
-module Simplex.Messaging.Crypto.SNTRUP761.Bindings.FFI
+module Popopx.Messaging.Crypto.SNTRUP761.Bindings.FFI
   ( c_sntrup761_keypair,
     c_sntrup761_enc,
     c_sntrup761_dec,
@@ -8,7 +8,7 @@ module Simplex.Messaging.Crypto.SNTRUP761.Bindings.FFI
 
 import Foreign
 import Foreign.C
-import Simplex.Messaging.Crypto.SNTRUP761.Bindings.RNG (RNGContext, RNGFunc)
+import Popopx.Messaging.Crypto.SNTRUP761.Bindings.RNG (RNGContext, RNGFunc)
 
 -- int sntrup761_keypair (uint8_t *pk, uint8_t *sk, void *random_ctx, sntrup761_random_func *random);
 foreign import ccall "sntrup761_keypair"

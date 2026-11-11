@@ -1,4 +1,4 @@
-module Simplex.Messaging.Agent.QueryString
+module Popopx.Messaging.Agent.QueryString
   ( QueryStringParams (..),
     QSPEscaping (..),
     queryParam,
@@ -13,8 +13,8 @@ import Data.ByteString.Char8 (ByteString)
 import qualified Data.ByteString.Char8 as B
 import Data.List (find)
 import qualified Network.HTTP.Types as Q
-import Simplex.Messaging.Encoding.String
-import Simplex.Messaging.Parsers (parseAll)
+import Popopx.Messaging.Encoding.String
+import Popopx.Messaging.Parsers (parseAll)
 
 data QueryStringParams = QSP QSPEscaping Q.SimpleQuery
   deriving (Show)

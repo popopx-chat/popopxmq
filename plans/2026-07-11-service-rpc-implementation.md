@@ -4,7 +4,7 @@ RFC: [../rfcs/2026-07-11-service-rpc.md](../rfcs/2026-07-11-service-rpc.md)
 
 Depends on: [2026-07-12-address-dr-implementation.md](2026-07-12-address-dr-implementation.md). RPC establishes the double ratchet from the address exactly as address-DR does; this is the RPC layer on top of it.
 
-**Status: implemented and tested in this repo.** Service-side idempotency (single execution by request hash) is deferred. The `simplex-chat` integration is a separate repo.
+**Status: implemented and tested in this repo.** Service-side idempotency (single execution by request hash) is deferred. The `popopx-chat` integration is a separate repo.
 
 **Scope.** One request, one response — no continuation, no streaming.
 
@@ -76,7 +76,7 @@ ALTER TABLE connections ADD COLUMN service_request_expires_at TEXT;             
 
 The down migration drops the columns then the table/index. Schema dump tests pass (up, down, STRICT).
 
-## Agent API — `Simplex.Messaging.Agent`
+## Agent API — `Popopx.Messaging.Agent`
 
 ```haskell
 -- service: send the one response, return the reply ConnId, then tear the reply connection down.
@@ -132,4 +132,4 @@ In `FunctionalAPITests` (plus the encoding roundtrip in `ConnectionRequestTests`
 - Resilience: `server down → send → up → receive → down → reply → up → receive response`.
 - No regression: the contact rejection and DR-join suites still pass.
 
-The `simplex-chat` end-to-end tests (happy path, drop-when-off, non-DR fail-fast) live in that repo.
+The `popopx-chat` end-to-end tests (happy path, drop-when-off, non-DR fail-fast) live in that repo.

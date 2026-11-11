@@ -9,12 +9,12 @@
 module CoreTests.SOCKSSettings where
 
 import Network.Socket (SockAddr (..), tupleToHostAddress)
-import Simplex.Messaging.Agent.Client (ipAddressProtected)
-import Simplex.Messaging.Client
-import qualified Simplex.Messaging.Crypto as C
-import Simplex.Messaging.Encoding.String
-import Simplex.Messaging.Protocol (ErrorType, pattern SMPServer)
-import Simplex.Messaging.Transport.Client
+import Popopx.Messaging.Agent.Client (ipAddressProtected)
+import Popopx.Messaging.Client
+import qualified Popopx.Messaging.Crypto as C
+import Popopx.Messaging.Encoding.String
+import Popopx.Messaging.Protocol (ErrorType, pattern SMPServer)
+import Popopx.Messaging.Transport.Client
 import Test.Hspec hiding (fit, it)
 import Util
 

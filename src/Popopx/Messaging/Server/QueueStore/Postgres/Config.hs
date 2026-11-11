@@ -1,10 +1,10 @@
-module Simplex.Messaging.Server.QueueStore.Postgres.Config
+module Popopx.Messaging.Server.QueueStore.Postgres.Config
   ( PostgresStoreCfg (..),
   ) where
 
 import Data.Int (Int64)
-import Simplex.Messaging.Agent.Store.Postgres.Options (DBOpts)
-import Simplex.Messaging.Agent.Store.Shared (MigrationConfirmation)
+import Popopx.Messaging.Agent.Store.Postgres.Options (DBOpts)
+import Popopx.Messaging.Agent.Store.Shared (MigrationConfirmation)
 
 data PostgresStoreCfg = PostgresStoreCfg
   { dbOpts :: DBOpts,

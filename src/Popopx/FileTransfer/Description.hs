@@ -13,7 +13,7 @@
 {-# LANGUAGE TemplateHaskell #-}
 {-# OPTIONS_GHC -fno-warn-ambiguous-fields #-}
 
-module Simplex.FileTransfer.Description
+module Popopx.FileTransfer.Description
   ( FileDescription (..),
     RedirectFileInfo (..),
     AFileDescription (..),
@@ -69,17 +69,17 @@ import Data.Text (Text)
 import Data.Text.Encoding (encodeUtf8)
 import Data.Word (Word32)
 import qualified Data.Yaml as Y
-import Simplex.FileTransfer.Chunks
-import Simplex.FileTransfer.Protocol
-import Simplex.Messaging.Agent.QueryString
-import Simplex.Messaging.Agent.Store.DB (Binary (..), FromField (..), ToField (..))
-import qualified Simplex.Messaging.Crypto as C
-import Simplex.Messaging.Encoding (Encoding (..))
-import Simplex.Messaging.Encoding.String
-import Simplex.Messaging.Parsers (defaultJSON, parseAll)
-import Simplex.Messaging.Protocol (XFTPServer)
-import Simplex.Messaging.ServiceScheme (ServiceScheme (..))
-import Simplex.Messaging.Util (bshow, safeDecodeUtf8, (<$?>))
+import Popopx.FileTransfer.Chunks
+import Popopx.FileTransfer.Protocol
+import Popopx.Messaging.Agent.QueryString
+import Popopx.Messaging.Agent.Store.DB (Binary (..), FromField (..), ToField (..))
+import qualified Popopx.Messaging.Crypto as C
+import Popopx.Messaging.Encoding (Encoding (..))
+import Popopx.Messaging.Encoding.String
+import Popopx.Messaging.Parsers (defaultJSON, parseAll)
+import Popopx.Messaging.Protocol (XFTPServer)
+import Popopx.Messaging.ServiceScheme (ServiceScheme (..))
+import Popopx.Messaging.Util (bshow, safeDecodeUtf8, (<$?>))
 
 data FileDescription (p :: FileParty) = FileDescription
   { party :: SFileParty p,
@@ -277,7 +277,7 @@ data FileDescriptionURI = FileDescriptionURI
 type FileClientData = Text
 
 fileDescriptionURI :: ValidFileDescription 'FRecipient -> FileDescriptionURI
-fileDescriptionURI vfd = FileDescriptionURI SSSimplex vfd mempty
+fileDescriptionURI vfd = FileDescriptionURI SSPopopx vfd mempty
 
 instance StrEncoding FileDescriptionURI where
   strEncode FileDescriptionURI {scheme, description, clientData} = mconcat [strEncode scheme, "/file", "#/?", queryStr]

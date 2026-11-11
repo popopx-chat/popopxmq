@@ -1,6 +1,6 @@
 {-# LANGUAGE NamedFieldPuns #-}
 
-module Simplex.Messaging.Server.Expiration
+module Popopx.Messaging.Server.Expiration
   ( ExpirationConfig (..),
     expireBeforeEpoch,
     showTTL,

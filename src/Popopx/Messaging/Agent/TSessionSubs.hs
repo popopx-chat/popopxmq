@@ -4,7 +4,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE TupleSections #-}
 
-module Simplex.Messaging.Agent.TSessionSubs
+module Popopx.Messaging.Agent.TSessionSubs
   ( TSessionSubs (sessionSubs),
     SessSubs (..),
     emptyIO,
@@ -43,14 +43,14 @@ import Data.Map.Strict (Map)
 import qualified Data.Map.Strict as M
 import Data.Maybe (fromMaybe, isJust)
 import qualified Data.Set as S
-import Simplex.Messaging.Agent.Protocol (SMPQueue (..))
-import Simplex.Messaging.Agent.Store (RcvQueue, RcvQueueSub (..), ServiceAssoc, SomeRcvQueue, StoredRcvQueue (rcvServiceAssoc), rcvQueueSub)
-import Simplex.Messaging.Client (SMPTransportSession, TransportSessionMode (..))
-import Simplex.Messaging.Protocol (IdsHash, RecipientId, ServiceSub (..), queueIdHash)
-import Simplex.Messaging.TMap (TMap)
-import qualified Simplex.Messaging.TMap as TM
-import Simplex.Messaging.Transport
-import Simplex.Messaging.Util (anyM, ($>>=))
+import Popopx.Messaging.Agent.Protocol (SMPQueue (..))
+import Popopx.Messaging.Agent.Store (RcvQueue, RcvQueueSub (..), ServiceAssoc, SomeRcvQueue, StoredRcvQueue (rcvServiceAssoc), rcvQueueSub)
+import Popopx.Messaging.Client (SMPTransportSession, TransportSessionMode (..))
+import Popopx.Messaging.Protocol (IdsHash, RecipientId, ServiceSub (..), queueIdHash)
+import Popopx.Messaging.TMap (TMap)
+import qualified Popopx.Messaging.TMap as TM
+import Popopx.Messaging.Transport
+import Popopx.Messaging.Util (anyM, ($>>=))
 
 data TSessionSubs = TSessionSubs
   { sessionSubs :: TMap SMPTransportSession SessSubs

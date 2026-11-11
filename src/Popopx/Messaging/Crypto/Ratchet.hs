@@ -18,7 +18,7 @@
 {-# LANGUAGE TypeFamilies #-}
 {-# OPTIONS_GHC -fno-warn-redundant-constraints #-}
 
-module Simplex.Messaging.Crypto.Ratchet
+module Popopx.Messaging.Crypto.Ratchet
   ( Ratchet (..),
     RatchetX448,
     MsgEncryptKey (..),
@@ -114,16 +114,16 @@ import Data.Maybe (fromMaybe, isJust)
 import Data.Type.Equality
 import Data.Typeable (Typeable)
 import Data.Word (Word16, Word32)
-import Simplex.Messaging.Agent.QueryString
-import Simplex.Messaging.Agent.Store.DB (Binary (..), BoolInt (..), FromField (..), ToField (..), blobFieldDecoder)
-import Simplex.Messaging.Crypto
-import Simplex.Messaging.Crypto.SNTRUP761.Bindings
-import Simplex.Messaging.Encoding
-import Simplex.Messaging.Encoding.String
-import Simplex.Messaging.Parsers (defaultJSON, parseE, parseE')
-import Simplex.Messaging.Util ((<$?>))
-import Simplex.Messaging.Version
-import Simplex.Messaging.Version.Internal
+import Popopx.Messaging.Agent.QueryString
+import Popopx.Messaging.Agent.Store.DB (Binary (..), BoolInt (..), FromField (..), ToField (..), blobFieldDecoder)
+import Popopx.Messaging.Crypto
+import Popopx.Messaging.Crypto.SNTRUP761.Bindings
+import Popopx.Messaging.Encoding
+import Popopx.Messaging.Encoding.String
+import Popopx.Messaging.Parsers (defaultJSON, parseE, parseE')
+import Popopx.Messaging.Util ((<$?>))
+import Popopx.Messaging.Version
+import Popopx.Messaging.Version.Internal
 import UnliftIO.STM
 
 -- e2e encryption headers version history:
@@ -506,8 +506,8 @@ pqX3dh (sk1, rk1) dh1 dh2 dh3 kemAccepted =
     dhs = dhBytes' dh1 <> dhBytes' dh2 <> dhBytes' dh3 <> pq
     pq = maybe "" (\RatchetKEMAccepted {rcPQRss = KEMSharedKey ss} -> BA.convert ss) kemAccepted
     salt = B.replicate 64 '\0'
-    (hk, nhk, sk) = hkdf3 salt dhs "SimpleXX3DH"
-    vcPQ = hkdf salt dhs "SimpleXVerifyCode" 32
+    (hk, nhk, sk) = hkdf3 salt dhs "POPOPXX3DH"
+    vcPQ = hkdf salt dhs "POPOPXVerifyCode" 32
 
 type RatchetX448 = Ratchet 'X448
 
@@ -1155,12 +1155,12 @@ rootKdf (RatchetKey rk) k pk kemSecret_ =
       ss = case kemSecret_ of
         Just (KEMSharedKey s) -> dhOut <> BA.convert s
         Nothing -> dhOut
-      (rk', ck, nhk) = hkdf3 rk ss "SimpleXRootRatchet"
+      (rk', ck, nhk) = hkdf3 rk ss "POPOPXRootRatchet"
    in (RatchetKey rk', RatchetKey ck, Key nhk)
 
 chainKdf :: RatchetKey -> (RatchetKey, Key, IV, IV)
 chainKdf (RatchetKey ck) =
-  let (ck', mk, ivs) = hkdf3 "" ck "SimpleXChainRatchet"
+  let (ck', mk, ivs) = hkdf3 "" ck "POPOPXChainRatchet"
       (iv1, iv2) = B.splitAt 16 ivs
    in (RatchetKey ck', Key mk, IV iv1, IV iv2)
 

@@ -7,7 +7,7 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE TypeApplications #-}
 
-module Simplex.Messaging.Server.StoreLog.ReadWrite
+module Popopx.Messaging.Server.StoreLog.ReadWrite
   ( writeQueueStore,
     readQueueStore,
   ) where
@@ -17,13 +17,13 @@ import Control.Logger.Simple
 import qualified Data.ByteString.Char8 as B
 import qualified Data.Text as T
 import Data.Text.Encoding (decodeLatin1)
-import Simplex.Messaging.Encoding.String
-import Simplex.Messaging.Protocol (ASubscriberParty (..), ErrorType, RecipientId, SParty (..))
-import Simplex.Messaging.Server.QueueStore (QueueRec, ServiceRec (..))
-import Simplex.Messaging.Server.QueueStore.STM (STMQueueStore (..), STMService (..), withLoadedQueues)
-import Simplex.Messaging.Server.QueueStore.Types
-import Simplex.Messaging.Server.StoreLog
-import Simplex.Messaging.Util (tshow, ($>>=))
+import Popopx.Messaging.Encoding.String
+import Popopx.Messaging.Protocol (ASubscriberParty (..), ErrorType, RecipientId, SParty (..))
+import Popopx.Messaging.Server.QueueStore (QueueRec, ServiceRec (..))
+import Popopx.Messaging.Server.QueueStore.STM (STMQueueStore (..), STMService (..), withLoadedQueues)
+import Popopx.Messaging.Server.QueueStore.Types
+import Popopx.Messaging.Server.StoreLog
+import Popopx.Messaging.Util (tshow, ($>>=))
 import System.IO
 
 writeQueueStore :: forall q. StoreQueueClass q => StoreLog 'WriteMode -> STMQueueStore q -> IO ()

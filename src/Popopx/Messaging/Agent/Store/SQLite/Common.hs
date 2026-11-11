@@ -3,7 +3,7 @@
 {-# LANGUAGE NamedFieldPuns #-}
 {-# LANGUAGE ScopedTypeVariables #-}
 
-module Simplex.Messaging.Agent.Store.SQLite.Common
+module Popopx.Messaging.Agent.Store.SQLite.Common
   ( DBStore (..),
     DBOpts (..),
     SQLiteFuncDef (..),
@@ -28,9 +28,9 @@ import Database.SQLite.Simple (SQLError)
 import qualified Database.SQLite.Simple as SQL
 import Database.SQLite3.Bindings
 import Foreign.Ptr
-import qualified Simplex.Messaging.Agent.Store.SQLite.DB as DB
-import Simplex.Messaging.Agent.Store.SQLite.Util
-import Simplex.Messaging.Util (ifM, unlessM)
+import qualified Popopx.Messaging.Agent.Store.SQLite.DB as DB
+import Popopx.Messaging.Agent.Store.SQLite.Util
+import Popopx.Messaging.Util (ifM, unlessM)
 import qualified UnliftIO.Exception as E
 import UnliftIO.MVar
 import UnliftIO.STM
@@ -74,7 +74,7 @@ withConnectionPriority DBStore {dbSem, dbConnection} priority action
   | priority = E.bracket_ signal release $ withMVar dbConnection action
   | otherwise = lowPriority
   where
-    -- To debug FK errors, set foreign_keys = OFF in Simplex.Messaging.Agent.Store.SQLite and use action' instead of action
+    -- To debug FK errors, set foreign_keys = OFF in Popopx.Messaging.Agent.Store.SQLite and use action' instead of action
     -- action' conn = do
     --   r <- action conn
     --   violations <- DB.query_ conn "PRAGMA foreign_key_check" :: IO [ (String, Int, String, Int)]

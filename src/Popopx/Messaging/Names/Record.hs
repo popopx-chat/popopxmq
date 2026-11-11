@@ -8,7 +8,7 @@
 {-# LANGUAGE StrictData #-}
 {-# LANGUAGE TemplateHaskell #-}
 
-module Simplex.Messaging.Names.Record
+module Popopx.Messaging.Names.Record
   ( NameRecord (..),
     NameResponse (..),
     NameRegistration (..),
@@ -29,15 +29,15 @@ import Data.Int (Int64)
 import Data.Map.Strict (Map)
 import Data.Text (Text)
 import qualified Data.Text as T
-import Simplex.Messaging.Encoding.String
-import Simplex.Messaging.Parsers (defaultJSON, dropPrefix, taggedObjectJSON)
-import Simplex.Messaging.SystemTime (SystemSeconds)
+import Popopx.Messaging.Encoding.String
+import Popopx.Messaging.Parsers (defaultJSON, dropPrefix, taggedObjectJSON)
+import Popopx.Messaging.SystemTime (SystemSeconds)
 
 -- | Resolved name record returned by the names role. JSON keys match the
 --   resolver REST output; both FromJSON (resolver -> server) and ToJSON
 --   (server diagnostics) are TH-derived from one Options value, so the Haskell
 --   type IS the schema. Text fields use the empty string as the "unset"
---   sentinel; coin fields use JSON null. simplexContact / simplexChannel are
+--   sentinel; coin fields use JSON null. popopxContact / popopxChannel are
 --   arrays of links (primary first, empty when unset) so a name can advertise
 --   fallback SMP servers. owner / resolver are 0x-hex Ethereum addresses, kept
 --   verbatim as text (the resolver is the source of truth for their validity).
@@ -47,8 +47,8 @@ data NameRecord = NameRecord
     nrNickname :: Text,
     nrWebsite :: Text,
     nrLocation :: Text,
-    nrSimplexContact :: [Text],
-    nrSimplexChannel :: [Text],
+    nrPopopxContact :: [Text],
+    nrPopopxChannel :: [Text],
     nrEth :: Maybe Text,
     nrBtc :: Maybe Text,
     nrXmr :: Maybe Text,
@@ -134,7 +134,7 @@ newtype ZstdTerms = ZstdTerms ByteString
 
 -- | Why the registry holds a name back.
 data NameReservedReason
-  = -- | held for SimpleX
+  = -- | held for POPOPX
     NRRInternal
   | NRRTrademark
   | NRRCommunity

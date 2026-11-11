@@ -9,12 +9,12 @@ module SMPWeb
 import Data.ByteString (ByteString)
 import Data.String (fromString)
 import Web.Embedded (embeddedContent)
-import Simplex.Messaging.Encoding.String (strEncode)
-import Simplex.Messaging.Server.Information
-import Simplex.Messaging.Server.Main (simplexmqSource)
-import qualified Simplex.Messaging.Server.Web as Web
-import Simplex.Messaging.Server.Web (render, serverInfoSubsts, timedTTLText)
-import Simplex.Messaging.Transport.Client (TransportHost (..))
+import Popopx.Messaging.Encoding.String (strEncode)
+import Popopx.Messaging.Server.Information
+import Popopx.Messaging.Server.Main (popopxmqSource)
+import qualified Popopx.Messaging.Server.Web as Web
+import Popopx.Messaging.Server.Web (render, serverInfoSubsts, timedTTLText)
+import Popopx.Messaging.Transport.Client (TransportHost (..))
 
 smpGenerateSite :: ServerInformation -> Maybe TransportHost -> FilePath -> IO ()
 smpGenerateSite si onionHost path =
@@ -26,7 +26,7 @@ smpLinkPages = ["contact", "invitation", "a", "c", "g", "r", "i"]
 serverInformation :: ServerInformation -> Maybe TransportHost -> ByteString
 serverInformation ServerInformation {config, information} onionHost = render (Web.indexHtml embeddedContent) substs
   where
-    substs = [("smpConfig", Just "y"), ("xftpConfig", Nothing)] <> substConfig <> serverInfoSubsts simplexmqSource information <> [("onionHost", strEncode <$> onionHost), ("iniFileName", Just "smp-server.ini")]
+    substs = [("smpConfig", Just "y"), ("xftpConfig", Nothing)] <> substConfig <> serverInfoSubsts popopxmqSource information <> [("onionHost", strEncode <$> onionHost), ("iniFileName", Just "smp-server.ini")]
     substConfig =
       [ ( "persistence",
           Just $ case persistence config of

@@ -17,19 +17,19 @@
 {-# LANGUAGE TypeApplications #-}
 
 -- |
--- Module      : Simplex.Messaging.Server
+-- Module      : Popopx.Messaging.Server
 -- Copyright   : (c) simplex.chat
 -- License     : AGPL-3
 --
--- Maintainer  : chat@simplex.chat
+-- Maintainer  : chat@popopx.chat
 -- Stability   : experimental
 -- Portability : non-portable
 --
 -- This module defines SMP protocol server with in-memory persistence
 -- and optional append only log of SMP queue records.
 --
--- See https://github.com/simplex-chat/simplexmq/blob/master/protocol/simplex-messaging.md
-module Simplex.Messaging.Server
+-- See https://github.com/popopx-chat/popopxmq/blob/master/protocol/simplex-messaging.md
+module Popopx.Messaging.Server
   ( runSMPServer,
     runSMPServerBlocking,
     controlPortAuth,
@@ -94,36 +94,36 @@ import GHC.TypeLits (KnownNat)
 import Network.Socket (ServiceName, Socket, socketToHandle)
 import qualified Network.TLS as TLS
 import Numeric.Natural (Natural)
-import Simplex.Messaging.Agent.Lock
-import Simplex.Messaging.Client (NetworkConfig (..), NetworkRequestMode (..), ProtocolClient (thParams), ProtocolClientConfig (..), ProtocolClientError (..), SMPClient, SMPClientError, clientHandlers, forwardSMPTransmission, netTimeoutInt, smpProxyError, temporaryClientError)
-import Simplex.Messaging.Client.Agent (OwnServer, SMPClientAgent (..), SMPClientAgentConfig (..), SMPClientAgentEvent (..), closeSMPClientAgent, getSMPServerClient'', isOwnServer, lookupSMPServerClient, getConnectedSMPServerClient)
-import qualified Simplex.Messaging.Crypto as C
-import Simplex.Messaging.Encoding
-import Simplex.Messaging.Encoding.String
-import Simplex.Messaging.Protocol
-import Simplex.Messaging.Server.Control
-import Simplex.Messaging.Server.Env.STM as Env
-import Simplex.Messaging.Server.Expiration
-import Simplex.Messaging.Server.MsgStore
-import Simplex.Messaging.Server.Names (NamesEnv, closeNamesEnv, resolveName)
-import Simplex.Messaging.Server.MsgStore.STM
-import Simplex.Messaging.Server.MsgStore.Types
-import Simplex.Messaging.Server.NtfStore
-import Simplex.Messaging.Server.Prometheus
-import Simplex.Messaging.Server.QueueStore
-import Simplex.Messaging.Server.QueueStore.QueueInfo
-import Simplex.Messaging.Server.QueueStore.STM (withLoadedQueues)
-import Simplex.Messaging.Server.QueueStore.Types
-import Simplex.Messaging.Server.Stats
-import Simplex.Messaging.Server.StoreLog (foldLogLines)
-import Simplex.Messaging.SystemTime
-import Simplex.Messaging.TMap (TMap)
-import qualified Simplex.Messaging.TMap as TM
-import Simplex.Messaging.Transport
-import Simplex.Messaging.Transport.Buffer (trimCR)
-import Simplex.Messaging.Transport.Server
-import Simplex.Messaging.Util
-import Simplex.Messaging.Version
+import Popopx.Messaging.Agent.Lock
+import Popopx.Messaging.Client (NetworkConfig (..), NetworkRequestMode (..), ProtocolClient (thParams), ProtocolClientConfig (..), ProtocolClientError (..), SMPClient, SMPClientError, clientHandlers, forwardSMPTransmission, netTimeoutInt, smpProxyError, temporaryClientError)
+import Popopx.Messaging.Client.Agent (OwnServer, SMPClientAgent (..), SMPClientAgentConfig (..), SMPClientAgentEvent (..), closeSMPClientAgent, getSMPServerClient'', isOwnServer, lookupSMPServerClient, getConnectedSMPServerClient)
+import qualified Popopx.Messaging.Crypto as C
+import Popopx.Messaging.Encoding
+import Popopx.Messaging.Encoding.String
+import Popopx.Messaging.Protocol
+import Popopx.Messaging.Server.Control
+import Popopx.Messaging.Server.Env.STM as Env
+import Popopx.Messaging.Server.Expiration
+import Popopx.Messaging.Server.MsgStore
+import Popopx.Messaging.Server.Names (NamesEnv, closeNamesEnv, resolveName)
+import Popopx.Messaging.Server.MsgStore.STM
+import Popopx.Messaging.Server.MsgStore.Types
+import Popopx.Messaging.Server.NtfStore
+import Popopx.Messaging.Server.Prometheus
+import Popopx.Messaging.Server.QueueStore
+import Popopx.Messaging.Server.QueueStore.QueueInfo
+import Popopx.Messaging.Server.QueueStore.STM (withLoadedQueues)
+import Popopx.Messaging.Server.QueueStore.Types
+import Popopx.Messaging.Server.Stats
+import Popopx.Messaging.Server.StoreLog (foldLogLines)
+import Popopx.Messaging.SystemTime
+import Popopx.Messaging.TMap (TMap)
+import qualified Popopx.Messaging.TMap as TM
+import Popopx.Messaging.Transport
+import Popopx.Messaging.Transport.Buffer (trimCR)
+import Popopx.Messaging.Transport.Server
+import Popopx.Messaging.Util
+import Popopx.Messaging.Version
 import System.Environment (lookupEnv)
 import System.Exit (exitFailure, exitSuccess)
 import System.IO (hPrint, hPutStrLn, hSetNewlineMode, universalNewlineMode)
@@ -142,12 +142,12 @@ import GHC.Conc.Sync (threadLabel)
 #endif
 
 #if defined(dbServerPostgres)
-import Simplex.Messaging.Server.MsgStore.Postgres (getDbMessageStats)
+import Popopx.Messaging.Server.MsgStore.Postgres (getDbMessageStats)
 #endif
 
 -- | Runs an SMP server using passed configuration.
 --
--- See a full server here: https://github.com/simplex-chat/simplexmq/blob/master/apps/smp-server/Main.hs
+-- See a full server here: https://github.com/popopx-chat/popopxmq/blob/master/apps/smp-server/Main.hs
 runSMPServer :: MsgStoreClass s => ServerConfig s -> Maybe AttachHTTP -> IO ()
 runSMPServer cfg attachHTTP_ = do
   started <- newEmptyTMVarIO

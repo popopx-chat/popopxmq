@@ -7,7 +7,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE ScopedTypeVariables #-}
 
-module Simplex.Messaging.Transport.Client
+module Popopx.Messaging.Transport.Client
   ( runTransportClient,
     runTLSTransportClient,
     smpClientHandshake,
@@ -53,14 +53,14 @@ import GHC.IO.Exception (IOErrorType (..))
 import Network.Socket
 import Network.Socks5
 import qualified Network.TLS as T
-import qualified Simplex.Messaging.Crypto as C
-import Simplex.Messaging.Encoding
-import Simplex.Messaging.Encoding.String
-import Simplex.Messaging.Parsers (parseAll, parseString)
-import Simplex.Messaging.Transport
-import Simplex.Messaging.Transport.KeepAlive
-import Simplex.Messaging.Transport.Shared
-import Simplex.Messaging.Util (bshow, catchAll, catchAll_, tshow, (<$?>))
+import qualified Popopx.Messaging.Crypto as C
+import Popopx.Messaging.Encoding
+import Popopx.Messaging.Encoding.String
+import Popopx.Messaging.Parsers (parseAll, parseString)
+import Popopx.Messaging.Transport
+import Popopx.Messaging.Transport.KeepAlive
+import Popopx.Messaging.Transport.Shared
+import Popopx.Messaging.Util (bshow, catchAll, catchAll_, tshow, (<$?>))
 import System.IO.Error
 import Text.Read (readMaybe)
 import UnliftIO.Exception (IOException)

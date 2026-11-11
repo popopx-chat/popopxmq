@@ -1,20 +1,20 @@
-# SimpleXMQ repository
+# POPOPXMQ repository
 
 This file provides guidance on the project structure to help working with code in this repository.
 
 ## Project Overview
 
-SimpleXMQ is a Haskell message broker implementing unidirectional (simplex) queues for privacy-preserving messaging. 
+POPOPXMQ is a Haskell message broker implementing unidirectional (popopx) queues for privacy-preserving messaging. 
 
 Key components:
 
-- **SimpleX Messaging Protocol**: SMP protocol definition and encodings ([code](../src/Simplex/Messaging/Protocol.hs), [transport code](../src/Simplex/Messaging/Transport.hs), [spec](../protocol/simplex-messaging.md)).
-- **SMP Server**: Message broker with TLS, in-memory queues, optional persistence ([main code](../src/Simplex/Messaging/Server.hs), [all code files](../src/Simplex/Messaging/Server/), [executable](../apps/smp-server/)). For proxying SMP commands the server uses [lightweight SMP client](../src/Simplex/Messaging/Client/Agent.hs).
-- **SMP Client**: Functional API with STM-based message delivery ([code](../src/Simplex/Messaging/Client.hs)).
-- **SMP Agent**: High-level duplex connections via multiple simplex queues with E2E encryption ([code](../src/Simplex/Messaging/Agent.hs)). Implements Agent-to-agent protocol ([code](../src/Simplex/Messaging/Agent/Protocol.hs), [spec](../protocol/agent-protocol.md)) via intermediary agent client ([code](../src/Simplex/Messaging/Agent/Client.hs)).
-- **XFTP**: SimpleX File Transfer Protocol, server and CLI client ([code](../src/Simplex/FileTransfer/), [spec](../protocol/xftp.md)).
-- **XRCP**: SimpleX Remote Control Protocol ([code](`../src/Simplex/RemoteControl/`), [spec](../protocol/xrcp.md)).
-- **Notifications**: Push notifications server requires PostgreSQL ([code](../src/Simplex/Messaging/Notifications), [executable](../apps/ntf-server/)). Client protocol is used for clients to communicate with the server ([code](../src/Simplex/Messaging/Notifications/Protocol.hs), [spec](../protocol/push-notifications.md)). For subscribing to SMP notifications the server uses [lightweight SMP client](../src/Simplex/Messaging/Client/Agent.hs).
+- **POPOPX Messaging Protocol**: SMP protocol definition and encodings ([code](../src/Popopx/Messaging/Protocol.hs), [transport code](../src/Popopx/Messaging/Transport.hs), [spec](../protocol/popopx-messaging.md)).
+- **SMP Server**: Message broker with TLS, in-memory queues, optional persistence ([main code](../src/Popopx/Messaging/Server.hs), [all code files](../src/Popopx/Messaging/Server/), [executable](../apps/smp-server/)). For proxying SMP commands the server uses [lightweight SMP client](../src/Popopx/Messaging/Client/Agent.hs).
+- **SMP Client**: Functional API with STM-based message delivery ([code](../src/Popopx/Messaging/Client.hs)).
+- **SMP Agent**: High-level duplex connections via multiple popopx queues with E2E encryption ([code](../src/Popopx/Messaging/Agent.hs)). Implements Agent-to-agent protocol ([code](../src/Popopx/Messaging/Agent/Protocol.hs), [spec](../protocol/agent-protocol.md)) via intermediary agent client ([code](../src/Popopx/Messaging/Agent/Client.hs)).
+- **XFTP**: POPOPX File Transfer Protocol, server and CLI client ([code](../src/Popopx/FileTransfer/), [spec](../protocol/xftp.md)).
+- **XRCP**: POPOPX Remote Control Protocol ([code](`../src/Popopx/RemoteControl/`), [spec](../protocol/xrcp.md)).
+- **Notifications**: Push notifications server requires PostgreSQL ([code](../src/Popopx/Messaging/Notifications), [executable](../apps/ntf-server/)). Client protocol is used for clients to communicate with the server ([code](../src/Popopx/Messaging/Notifications/Protocol.hs), [spec](../protocol/push-notifications.md)). For subscribing to SMP notifications the server uses [lightweight SMP client](../src/Popopx/Messaging/Client/Agent.hs).
 
 ## Architecture
 
@@ -35,30 +35,30 @@ TLS Transport (HTTP2 encoding) → XFTP Protocol → Out-of-band file descriptio
 ## Key Patterns
 
 1. **Persistence**: All queue state managed via Software Transactional Memory or via PostgreSQL
-   - `Simplex.Messaging.Server.MsgStore.STM` - in-memory messages
-   - `Simplex.Messaging.Server.QueueStore.STM` - in-memory queue state
-   - `Simplex.Messaging.Server.MsgStore.Postgres` - message storage
-   - `Simplex.Messaging.Server.QueueStore.Postgres` - queue storage
+   - `Popopx.Messaging.Server.MsgStore.STM` - in-memory messages
+   - `Popopx.Messaging.Server.QueueStore.STM` - in-memory queue state
+   - `Popopx.Messaging.Server.MsgStore.Postgres` - message storage
+   - `Popopx.Messaging.Server.QueueStore.Postgres` - queue storage
 
 2. **Append-Only Store Log**: Optional persistence via journal for in-memory storage
-   - `Simplex.Messaging.Server.StoreLog` - queue creation log
+   - `Popopx.Messaging.Server.StoreLog` - queue creation log
    - Compacted on restart
 
 3. **Agent Storage**:
    - SQLite (default) or PostgreSQL
-   - Migrations in `src/Simplex/Messaging/Agent/Store/{SQLite,Postgres}/Migrations/`
+   - Migrations in `src/Popopx/Messaging/Agent/Store/{SQLite,Postgres}/Migrations/`
 
 4. **Protocol Versioning**: All layers support version negotiation
-   - `Simplex.Messaging.Version` - version range utilities
+   - `Popopx.Messaging.Version` - version range utilities
 
 5. **Double Ratchet E2E**: Per-connection encryption
-   - `Simplex.Messaging.Crypto.Ratchet`
-   - SNTRUP761 post-quantum KEM (`src/Simplex/Messaging/Crypto/SNTRUP761/`)
+   - `Popopx.Messaging.Crypto.Ratchet`
+   - SNTRUP761 post-quantum KEM (`src/Popopx/Messaging/Crypto/SNTRUP761/`)
 
 ## Source Layout
 
 ```
-src/Simplex/
+src/Popopx/
 ├── Messaging/
 │   ├── Agent.hs          # Main agent (~210KB)
 │   ├── Server.hs         # SMP server (~130KB)
@@ -76,7 +76,7 @@ src/Simplex/
 ## Protocol Documentation
 
 - `protocol/overview-tjr.md`: SMP protocols stack overview
-- `protocol/simplex-messaging.md`: SMP protocol spec (v19)
+- `protocol/popopx-messaging.md`: SMP protocol spec (v19)
 - `protocol/agent-protocol.md`: Agent protocol spec (v7)
 - `protocol/xftp.md`: File transfer protocol
 - `protocol/xrcp.md`: Remote control protocol

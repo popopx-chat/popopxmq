@@ -9,7 +9,7 @@
 {-# LANGUAGE TupleSections #-}
 {-# LANGUAGE TypeApplications #-}
 
-module Simplex.Messaging.Crypto.ShortLink
+module Popopx.Messaging.Crypto.ShortLink
   ( contactShortLinkKdf,
     invShortLinkKdf,
     encodeSignLinkData,
@@ -32,12 +32,12 @@ import Data.Bifunctor (first)
 import Data.Bitraversable (bimapM)
 import Data.ByteString (ByteString)
 import qualified Data.ByteString as B
-import Simplex.Messaging.Agent.Client (cryptoError)
-import Simplex.Messaging.Agent.Protocol
-import qualified Simplex.Messaging.Crypto as C
-import Simplex.Messaging.Encoding
-import Simplex.Messaging.Protocol (EncDataBytes (..), EntityId (..), LinkId, QueueLinkData)
-import Simplex.Messaging.Util (liftEitherWith)
+import Popopx.Messaging.Agent.Client (cryptoError)
+import Popopx.Messaging.Agent.Protocol
+import qualified Popopx.Messaging.Crypto as C
+import Popopx.Messaging.Encoding
+import Popopx.Messaging.Protocol (EncDataBytes (..), EntityId (..), LinkId, QueueLinkData)
+import Popopx.Messaging.Util (liftEitherWith)
 
 fixedDataPaddedLength :: Int
 fixedDataPaddedLength = 2008 -- 2048 - 24 (nonce) - 16 (auth tag)
@@ -47,11 +47,11 @@ userDataPaddedLength = 13784 -- 13824 - 24 - 16
 
 contactShortLinkKdf :: LinkKey -> (LinkId, C.SbKey)
 contactShortLinkKdf (LinkKey k) =
-  let (lnkId, sbKey) = B.splitAt 24 $ C.hkdf "" k "SimpleXContactLink" 56
+  let (lnkId, sbKey) = B.splitAt 24 $ C.hkdf "" k "POPOPXContactLink" 56
    in (EntityId lnkId, C.unsafeSbKey sbKey)
 
 invShortLinkKdf :: LinkKey -> C.SbKey
-invShortLinkKdf (LinkKey k) = C.unsafeSbKey $ C.hkdf "" k "SimpleXInvLink" 32
+invShortLinkKdf (LinkKey k) = C.unsafeSbKey $ C.hkdf "" k "POPOPXInvLink" 32
 
 encodeSignLinkData :: forall c. ConnectionModeI c => C.KeyPairEd25519 -> VersionRangeSMPA -> ConnectionRequestUri c -> Maybe ByteString -> UserConnLinkData c -> (LinkKey, (ByteString, ByteString))
 encodeSignLinkData keys@(_, pk) agentVRange connReq linkEntityId userData =

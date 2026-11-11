@@ -1,4 +1,4 @@
-module Simplex.RemoteControl.Discovery.Multicast
+module Popopx.RemoteControl.Discovery.Multicast
   ( setMembership
   ) where
 

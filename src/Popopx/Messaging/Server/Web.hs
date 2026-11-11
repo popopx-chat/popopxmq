@@ -3,7 +3,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE StrictData #-}
 
-module Simplex.Messaging.Server.Web
+module Popopx.Messaging.Server.Web
   ( EmbeddedWebParams (..),
     WebHttpsParams (..),
     EmbeddedContent (..),
@@ -41,12 +41,12 @@ import qualified Network.Wai.Application.Static as S
 import qualified Network.Wai.Handler.Warp as W
 import qualified Network.Wai.Handler.Warp.Internal as WI
 import qualified Network.Wai.Handler.WarpTLS as WT
-import Simplex.Messaging.Encoding.String (strEncode)
-import Simplex.Messaging.Server (AttachHTTP)
-import Simplex.Messaging.Server.CLI (simplexmqCommit)
-import Simplex.Messaging.Server.Information
-import Simplex.Messaging.Transport (simplexMQVersion)
-import Simplex.Messaging.Util (tshow)
+import Popopx.Messaging.Encoding.String (strEncode)
+import Popopx.Messaging.Server (AttachHTTP)
+import Popopx.Messaging.Server.CLI (popopxmqCommit)
+import Popopx.Messaging.Server.Information
+import Popopx.Messaging.Transport (popopxMQVersion)
+import Popopx.Messaging.Util (tshow)
 import System.Directory (canonicalizePath, createDirectoryIfMissing, doesFileExist)
 import System.FilePath
 import UnliftIO.Concurrent (forkFinally)
@@ -237,7 +237,7 @@ staticMimeType fp
 
 -- | Substitutions for server information fields shared between SMP and XFTP pages.
 serverInfoSubsts :: String -> Maybe ServerPublicInfo -> [(ByteString, Maybe ByteString)]
-serverInfoSubsts simplexmqSource information =
+serverInfoSubsts popopxmqSource information =
   concat
     [ basic,
       maybe [("usageConditions", Nothing), ("usageAmendments", Nothing)] conds (usageConditions spi),
@@ -251,10 +251,10 @@ serverInfoSubsts simplexmqSource information =
     basic =
       [ ("sourceCode", if T.null sc then Nothing else Just (encodeUtf8 sc)),
         ("noSourceCode", if T.null sc then Just "none" else Nothing),
-        ("version", Just $ B.pack simplexMQVersion),
-        ("commitSourceCode", Just $ encodeUtf8 $ maybe (T.pack simplexmqSource) sourceCode information),
-        ("shortCommit", Just $ B.pack $ take 7 simplexmqCommit),
-        ("commit", Just $ B.pack simplexmqCommit),
+        ("version", Just $ B.pack popopxMQVersion),
+        ("commitSourceCode", Just $ encodeUtf8 $ maybe (T.pack popopxmqSource) sourceCode information),
+        ("shortCommit", Just $ B.pack $ take 7 popopxmqCommit),
+        ("commit", Just $ B.pack popopxmqCommit),
         ("website", encodeUtf8 <$> website spi)
       ]
     spi = fromMaybe (emptyServerInfo "") information
@@ -268,16 +268,16 @@ serverInfoSubsts simplexmqSource information =
         ("operatorEntity", Just $ encodeUtf8 name),
         ("operatorCountry", encodeUtf8 <$> country)
       ]
-    admin ServerContactAddress {simplex, email, pgp} =
+    admin ServerContactAddress {popopx, email, pgp} =
       [ ("admin", Just ""),
-        ("adminSimplex", encodeUtf8 <$> simplex),
+        ("adminPopopx", encodeUtf8 <$> popopx),
         ("adminEmail", encodeUtf8 <$> email),
         ("adminPGP", encodeUtf8 . pkURI <$> pgp),
         ("adminPGPFingerprint", encodeUtf8 . pkFingerprint <$> pgp)
       ]
-    complaints ServerContactAddress {simplex, email, pgp} =
+    complaints ServerContactAddress {popopx, email, pgp} =
       [ ("complaints", Just ""),
-        ("complaintsSimplex", encodeUtf8 <$> simplex),
+        ("complaintsPopopx", encodeUtf8 <$> popopx),
         ("complaintsEmail", encodeUtf8 <$> email),
         ("complaintsPGP", encodeUtf8 . pkURI <$> pgp),
         ("complaintsPGPFingerprint", encodeUtf8 . pkFingerprint <$> pgp)
@@ -292,7 +292,7 @@ serverInfoSubsts simplexmqSource information =
         ("hostingType", (\s -> maybe s (\(c, rest) -> toUpper c `B.cons` rest) $ B.uncons s) . strEncode <$> hostingType spi)
       ]
 
--- Copy-pasted from simplex-chat Simplex.Chat.Types.Preferences
+-- Copy-pasted from popopx-chat Popopx.Chat.Types.Preferences
 {-# INLINE timedTTLText #-}
 timedTTLText :: (Integral i, Show i) => i -> String
 timedTTLText 0 = "0 sec"

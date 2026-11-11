@@ -4,11 +4,11 @@
 {-# LANGUAGE StrictData #-}
 {-# LANGUAGE TemplateHaskell #-}
 
-module Simplex.Messaging.SimplexName
-  ( SimplexNameInfo (..),
-    SimplexDomain (..),
-    SimplexTLD (..),
-    SimplexNameType (..),
+module Popopx.Messaging.PopopxName
+  ( PopopxNameInfo (..),
+    PopopxDomain (..),
+    PopopxTLD (..),
+    PopopxNameType (..),
     fullDomainName,
     LabelHash (..),
     labelHash,
@@ -32,32 +32,32 @@ import Data.Functor (($>))
 import Data.Text (Text)
 import qualified Data.Text as T
 import Data.Text.Encoding (decodeLatin1, encodeUtf8)
-import Simplex.Messaging.Agent.Store.DB (FromField (..), ToField (..), fromTextField_)
-import Simplex.Messaging.Encoding (Encoding (..))
-import Simplex.Messaging.Encoding.String
-import Simplex.Messaging.Parsers (defaultJSON, dropPrefix, enumJSON)
-import Simplex.Messaging.Util (eitherToMaybe, safeDecodeUtf8, (<$?>))
+import Popopx.Messaging.Agent.Store.DB (FromField (..), ToField (..), fromTextField_)
+import Popopx.Messaging.Encoding (Encoding (..))
+import Popopx.Messaging.Encoding.String
+import Popopx.Messaging.Parsers (defaultJSON, dropPrefix, enumJSON)
+import Popopx.Messaging.Util (eitherToMaybe, safeDecodeUtf8, (<$?>))
 
-data SimplexNameInfo = SimplexNameInfo
-  { nameType :: SimplexNameType,
-    nameDomain :: SimplexDomain
+data PopopxNameInfo = PopopxNameInfo
+  { nameType :: PopopxNameType,
+    nameDomain :: PopopxDomain
   }
   deriving (Eq, Show)
 
-data SimplexDomain = SimplexDomain
-  { nameTLD :: SimplexTLD,
+data PopopxDomain = PopopxDomain
+  { nameTLD :: PopopxTLD,
     domain :: Text,
-    subDomain :: [Text] -- parent to child: ["b", "a"] for a.b.domain.simplex
+    subDomain :: [Text] -- parent to child: ["b", "a"] for a.b.domain.popopx
   }
   deriving (Eq, Show)
 
-data SimplexTLD = TLDSimplex | TLDTesting | TLDWeb
+data PopopxTLD = TLDPopopx | TLDTesting | TLDWeb
   deriving (Eq, Show)
 
-data SimplexNameType = NTPublicGroup | NTContact
+data PopopxNameType = NTPublicGroup | NTContact
   deriving (Eq, Show)
 
-instance StrEncoding SimplexNameType where
+instance StrEncoding PopopxNameType where
   strEncode = \case
     NTPublicGroup -> "#"
     NTContact -> "@"
@@ -100,17 +100,17 @@ boundedNonSpace = do
     then fail "expected non-empty name token"
     else if B.length bs > 253 then fail "name exceeds 253 bytes" else pure bs
 
-instance StrEncoding SimplexNameInfo where
-  strEncode SimplexNameInfo {nameType, nameDomain} =
+instance StrEncoding PopopxNameInfo where
+  strEncode PopopxNameInfo {nameType, nameDomain} =
     strEncode nameType <> strEncode nameDomain
-  strP = optional "simplex:/name" *> ((strP >>= infoP) <|> infoP NTPublicGroup)
+  strP = optional "popopx:/name" *> ((strP >>= infoP) <|> infoP NTPublicGroup)
     where
-      infoP NTPublicGroup = SimplexNameInfo NTPublicGroup <$> (strP <|> bareName)
-      infoP NTContact = SimplexNameInfo NTContact <$> strP
+      infoP NTPublicGroup = PopopxNameInfo NTPublicGroup <$> (strP <|> bareName)
+      infoP NTContact = PopopxNameInfo NTContact <$> strP
       bareName = parseBare . safeDecodeUtf8 <$?> boundedNonSpace
-      parseBare s = (\name -> SimplexDomain TLDSimplex (T.toLower name) []) <$> AT.parseOnly (nameLabelP <* AT.endOfInput) s
+      parseBare s = (\name -> PopopxDomain TLDPopopx (T.toLower name) []) <$> AT.parseOnly (nameLabelP <* AT.endOfInput) s
 
-instance StrEncoding SimplexDomain where
+instance StrEncoding PopopxDomain where
   strEncode = encodeUtf8 . fullDomainName
   strP = parseDomain . safeDecodeUtf8 <$?> boundedNonSpace
     where
@@ -118,44 +118,44 @@ instance StrEncoding SimplexDomain where
       mkDomain labels = case reverse lowered of
         [] -> Left "empty name"
         [_] -> Left "domain requires TLD"
-        "simplex" : name : sub -> Right (SimplexDomain TLDSimplex name sub)
-        "testing" : name : sub -> Right (SimplexDomain TLDTesting name sub)
-        _ -> Right (SimplexDomain TLDWeb (T.intercalate "." lowered) [])
+        "popopx" : name : sub -> Right (PopopxDomain TLDPopopx name sub)
+        "testing" : name : sub -> Right (PopopxDomain TLDTesting name sub)
+        _ -> Right (PopopxDomain TLDWeb (T.intercalate "." lowered) [])
         where
           lowered = map T.toLower labels
 
-instance Encoding SimplexDomain where
+instance Encoding PopopxDomain where
   smpEncode = strEncode
   smpP = strP
 
-fullDomainName :: SimplexDomain -> Text
-fullDomainName SimplexDomain {nameTLD, domain, subDomain} = T.intercalate "." (reverse subDomain ++ [domain]) <> decodeLatin1 (strEncode nameTLD)
+fullDomainName :: PopopxDomain -> Text
+fullDomainName PopopxDomain {nameTLD, domain, subDomain} = T.intercalate "." (reverse subDomain ++ [domain]) <> decodeLatin1 (strEncode nameTLD)
 
-instance StrEncoding SimplexTLD where
+instance StrEncoding PopopxTLD where
   strEncode = \case
-    TLDSimplex -> ".simplex"
+    TLDPopopx -> ".popopx"
     TLDTesting -> ".testing"
     TLDWeb -> ""
   strP =
-    ".simplex" $> TLDSimplex <|> ".testing" $> TLDTesting <|> pure TLDWeb
+    ".popopx" $> TLDPopopx <|> ".testing" $> TLDTesting <|> pure TLDWeb
 
-shortNameInfoStr :: SimplexNameInfo -> Text
+shortNameInfoStr :: PopopxNameInfo -> Text
 shortNameInfoStr = \case
-  SimplexNameInfo {nameType = NTPublicGroup, nameDomain = SimplexDomain {nameTLD = TLDSimplex, domain, subDomain = []}} -> "#" <> domain
+  PopopxNameInfo {nameType = NTPublicGroup, nameDomain = PopopxDomain {nameTLD = TLDPopopx, domain, subDomain = []}} -> "#" <> domain
   info -> pfx <> fullDomainName (nameDomain info)
     where
       pfx = case nameType info of
         NTPublicGroup -> "#"
         NTContact -> "@"
 
-instance ToField SimplexDomain where toField = toField . decodeLatin1 . strEncode
+instance ToField PopopxDomain where toField = toField . decodeLatin1 . strEncode
 
-instance FromField SimplexDomain where fromField = fromTextField_ (eitherToMaybe . strDecode . encodeUtf8)
+instance FromField PopopxDomain where fromField = fromTextField_ (eitherToMaybe . strDecode . encodeUtf8)
 
-$(J.deriveJSON (enumJSON $ dropPrefix "TLD") ''SimplexTLD)
+$(J.deriveJSON (enumJSON $ dropPrefix "TLD") ''PopopxTLD)
 
-$(J.deriveJSON (enumJSON $ dropPrefix "NT") ''SimplexNameType)
+$(J.deriveJSON (enumJSON $ dropPrefix "NT") ''PopopxNameType)
 
-$(J.deriveJSON defaultJSON ''SimplexDomain)
+$(J.deriveJSON defaultJSON ''PopopxDomain)
 
-$(J.deriveJSON defaultJSON ''SimplexNameInfo)
+$(J.deriveJSON defaultJSON ''PopopxNameInfo)

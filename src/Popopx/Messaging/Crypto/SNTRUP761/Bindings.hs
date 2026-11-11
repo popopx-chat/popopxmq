@@ -2,7 +2,7 @@
 {-# LANGUAGE TypeApplications #-}
 {-# LANGUAGE PatternSynonyms #-}
 
-module Simplex.Messaging.Crypto.SNTRUP761.Bindings
+module Popopx.Messaging.Crypto.SNTRUP761.Bindings
   ( KEMPublicKey,
     KEMSecretKey,
     KEMCiphertext,
@@ -24,14 +24,14 @@ import Data.Bifunctor (bimap)
 import Data.ByteArray (ScrubbedBytes)
 import qualified Data.ByteArray as BA
 import Data.ByteString (ByteString)
-import Simplex.Messaging.Agent.Store.DB (FromField (..), ToField (..))
-import qualified Simplex.Messaging.Crypto as C
-import Simplex.Messaging.Crypto.SNTRUP761.Bindings.Defines
-import Simplex.Messaging.Crypto.SNTRUP761.Bindings.FFI
-import Simplex.Messaging.Crypto.SNTRUP761.Bindings.RNG (rngFuncPtr, withDRG)
-import Simplex.Messaging.Encoding
-import Simplex.Messaging.Encoding.String
-import Simplex.Messaging.Util ((<$?>))
+import Popopx.Messaging.Agent.Store.DB (FromField (..), ToField (..))
+import qualified Popopx.Messaging.Crypto as C
+import Popopx.Messaging.Crypto.SNTRUP761.Bindings.Defines
+import Popopx.Messaging.Crypto.SNTRUP761.Bindings.FFI
+import Popopx.Messaging.Crypto.SNTRUP761.Bindings.RNG (rngFuncPtr, withDRG)
+import Popopx.Messaging.Encoding
+import Popopx.Messaging.Encoding.String
+import Popopx.Messaging.Util ((<$?>))
 
 newtype KEMPublicKey = KEMPublicKey_ ByteString
   deriving (Eq, Show)

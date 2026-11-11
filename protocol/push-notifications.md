@@ -1,6 +1,6 @@
 Version 3, 2025-01-24
 
-# Overview of push notifications for SimpleX Messaging Routers
+# Overview of push notifications for POPOPX Messaging Routers
 
 This document describes Notification Router protocol version 3. Version history:
 - v1: initial version
@@ -13,7 +13,7 @@ This document describes Notification Router protocol version 3. Version history:
 - [Participating routers](#participating-routers)
 - [Register device token to receive push notifications](#register-device-token-to-receive-push-notifications)
 - [Subscribe to connection notifications](#subscribe-to-connection-notifications)
-- [SimpleX Notification Router protocol](#simplex-notification-router-protocol)
+- [POPOPX Notification Router protocol](#popopx-notification-router-protocol)
   - [Register new notification token](#register-new-notification-token)
   - [Verify notification token](#verify-notification-token)
   - [Check notification token status](#check-notification-token-status)
@@ -28,7 +28,7 @@ This document describes Notification Router protocol version 3. Version history:
 
 ## Introduction
 
-SimpleX Messaging routers already operate as push routers and deliver the messages to subscribed clients as soon as they are sent to the routers.
+POPOPX Messaging routers already operate as push routers and deliver the messages to subscribed clients as soon as they are sent to the routers.
 
 The reason for push notifications is to support instant message notifications on iOS that does not allow background services.
 
@@ -36,7 +36,7 @@ The reason for push notifications is to support instant message notifications on
 
 The diagram below shows which routers participate in message notification delivery.
 
-While push provider (e.g., APN) can learn how many notifications are delivered to the user, it cannot access message content, even encrypted, or any message metadata - the notifications are e2e encrypted between SimpleX Notification Router and the user's device.
+While push provider (e.g., APN) can learn how many notifications are delivered to the user, it cannot access message content, even encrypted, or any message metadata - the notifications are e2e encrypted between POPOPX Notification Router and the user's device.
 
 ```
   User's iOS device                Internet                           Routers
@@ -44,25 +44,25 @@ While push provider (e.g., APN) can learn how many notifications are delivered t
                         .                              .
                         .                              .       can be self-hosted now
 +--------------+        .                              .         +----------------+
-| SimpleX Chat |       -------------- TLS ---------------        | SimpleX        |
-|    client    |------> SimpleX Messaging Protocol (SMP) ------> | Messaging      |
+| POPOPX Chat |       -------------- TLS ---------------        | POPOPX        |
+|    client    |------> POPOPX Messaging Protocol (SMP) ------> | Messaging      |
 +--------------+       ----------------------------------        | Router         |
      ^    |             .                              .         +----------------+
      |    |             .                              .          . . .  |   . . .
      |    |             .                              .               | V |
      |    |             .                              .               |SMP| TLS
-     |    |             .                              .               | | |               SimpleX
+     |    |             .                              .               | | |               POPOPX
      |    |             .                              .          . . .  V   . . .      NTF Router
      |    |             .                              .       +----------------------------------+
      |    |             .                              .       | +---------------+                |
-     |    |            -------------- TLS ---------------      | | SimpleX       | can be         | 
+     |    |            -------------- TLS ---------------      | | POPOPX       | can be         | 
      |    |----------->   Notification Router Protocol  -----> | | Notifications | self-hosted    |
      |                 ----------------------------------      | | Subscriber    | in the future  |
      |                  .                              .       | +---------------+                |
      |                  .                              .       |         |                        |
      |                  .                              .       |         V                        |
      |                  .                              .       | +---------------+                |
-     |                  .                              .       | | SimpleX       |                |
+     |                  .                              .       | | POPOPX       |                |
      |                  .                              .       | | Push          |                |
      |                  .                              .       | | Router        |                |
      |                  .                              .       | +---------------+                |
@@ -90,11 +90,11 @@ This diagram shows the process of subscription to notifications, notification de
 
 ![Subscribe to notifications](./diagrams/notifications/subscription.svg)
 
-## SimpleX Notification Router protocol
+## POPOPX Notification Router protocol
 
-To manage notification subscriptions to SMP routers, SimpleX Notification Router provides an RPC protocol with a similar design to SimpleX Messaging Protocol router.
+To manage notification subscriptions to SMP routers, POPOPX Notification Router provides an RPC protocol with a similar design to POPOPX Messaging Protocol router.
 
-This protocol sends requests and responses in a fixed size blocks of 512 bytes over TLS, uses the same [syntax of protocol transmissions](./simplex-messaging.md#smp-transmission-and-transport-block-structure) as SMP protocol, and has the same transport [handshake syntax](./simplex-messaging.md#transport-handshake) (except the router certificate is not included in the handshake).
+This protocol sends requests and responses in a fixed size blocks of 512 bytes over TLS, uses the same [syntax of protocol transmissions](./popopx-messaging.md#smp-transmission-and-transport-block-structure) as SMP protocol, and has the same transport [handshake syntax](./popopx-messaging.md#transport-handshake) (except the router certificate is not included in the handshake).
 
 The client and router use ALPN extension with `ntf/1` protocol name to agree handshake version.
 
@@ -102,7 +102,7 @@ Protocol commands have this syntax:
 
 ```abnf
 ntfRouterTransmission = authorization corrId entityId ntfRouterCmd
-  ; same transmission structure as SMP, see simplex-messaging.md
+  ; same transmission structure as SMP, see popopx-messaging.md
 ntfRouterCmd = newTokenCmd / verifyTokenCmd / checkTokenCmd /
                replaceTokenCmd / deleteTokenCmd / cronCmd /
                newSubCmd / checkSubCmd / deleteSubCmd / pingCmd
@@ -295,17 +295,17 @@ All commands can return error response:
 errorResp = %s"ERR" SP errorType
 ```
 
-Where `errorType` has the same syntax as in [SimpleX Messaging Protocol](./simplex-messaging.md#error-responses)
+Where `errorType` has the same syntax as in [POPOPX Messaging Protocol](./popopx-messaging.md#error-responses)
 
 ## Threat Model
 
-This threat model compliments SimpleX Messaging Protocol [threat model](./security.md#threat-model)
+This threat model compliments POPOPX Messaging Protocol [threat model](./security.md#threat-model)
 
 #### A passive adversary able to monitor the traffic of one user
 
 *can:*
 
- - identify that and a user is using SimpleX push notifications.
+ - identify that and a user is using POPOPX push notifications.
 
 *cannot:*
 
@@ -317,13 +317,13 @@ This threat model compliments SimpleX Messaging Protocol [threat model](./securi
 
  - perform more efficient traffic correlation attacks against senders and recipients and correlate senders and recipients within the monitored set, frustrated by the number of users on the routers.
 
-#### SimpleX Messaging Protocol router
+#### POPOPX Messaging Protocol router
 
 *can:*
 
 - learn which messages trigger push notifications.
 
-- learn IP address of SimpleX notification routers used by the user.
+- learn IP address of POPOPX notification routers used by the user.
 
 - drop message notifications.
 
@@ -335,7 +335,7 @@ This threat model compliments SimpleX Messaging Protocol [threat model](./securi
 
 - learn which queues belong to the same users with any additional efficiency compared with not using push notifications.
 
-#### SimpleX Notification Router subscribed to message notifications
+#### POPOPX Notification Router subscribed to message notifications
 
 *can:*
 
@@ -361,7 +361,7 @@ This threat model compliments SimpleX Messaging Protocol [threat model](./securi
 
 - add, duplicate, or corrupt individual messages that will be shown to the user.
 
-#### SimpleX Notification Router subscribed ONLY to periodic notifications
+#### POPOPX Notification Router subscribed ONLY to periodic notifications
 
 *can:*
 
@@ -397,7 +397,7 @@ This threat model compliments SimpleX Messaging Protocol [threat model](./securi
 
 *can:*
 
-- learn that a user uses SimpleX app.
+- learn that a user uses POPOPX app.
 
 - learn how many notifications are delivered to user's device.
 
@@ -405,7 +405,7 @@ This threat model compliments SimpleX Messaging Protocol [threat model](./securi
 
 *cannot:*
 
-- learn which SimpleX Messaging Protocol routers are used by a user (notifications are e2e encrypted).
+- learn which POPOPX Messaging Protocol routers are used by a user (notifications are e2e encrypted).
 
 - learn which or how many messaging queues a user receives notifications from.
 
@@ -417,4 +417,4 @@ This threat model compliments SimpleX Messaging Protocol [threat model](./securi
 
 - register notification token not present on attacker's device.
 
-- enumerate tokens or subscriptions on a SimpleX Notification Router.
+- enumerate tokens or subscriptions on a POPOPX Notification Router.

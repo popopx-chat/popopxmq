@@ -5,7 +5,7 @@
 {-# LANGUAGE NamedFieldPuns #-}
 {-# LANGUAGE OverloadedStrings #-}
 
-module Simplex.FileTransfer.Server.StoreLog
+module Popopx.FileTransfer.Server.StoreLog
   ( StoreLog,
     FileStoreLogRecord (..),
     closeStoreLog,
@@ -33,14 +33,14 @@ import Data.List.NonEmpty (NonEmpty)
 import qualified Data.List.NonEmpty as L
 import Data.Map.Strict (Map)
 import qualified Data.Map.Strict as M
-import Simplex.FileTransfer.Protocol (FileInfo (..))
-import Simplex.FileTransfer.Server.Store
-import Simplex.FileTransfer.Transport (XFTPErrorType (..))
-import Simplex.Messaging.Encoding.String
-import Simplex.Messaging.Protocol (BlockingInfo, EntityId (..), RcvPublicAuthKey, RecipientId, SenderId)
-import Simplex.Messaging.Server.QueueStore (ServerEntityStatus (..))
-import Simplex.Messaging.Server.StoreLog
-import Simplex.Messaging.Util (bshow)
+import Popopx.FileTransfer.Protocol (FileInfo (..))
+import Popopx.FileTransfer.Server.Store
+import Popopx.FileTransfer.Transport (XFTPErrorType (..))
+import Popopx.Messaging.Encoding.String
+import Popopx.Messaging.Protocol (BlockingInfo, EntityId (..), RcvPublicAuthKey, RecipientId, SenderId)
+import Popopx.Messaging.Server.QueueStore (ServerEntityStatus (..))
+import Popopx.Messaging.Server.StoreLog
+import Popopx.Messaging.Util (bshow)
 import System.FilePath (takeFileName)
 import System.IO
 

@@ -1,6 +1,6 @@
 {-# LANGUAGE LambdaCase #-}
 
-module Simplex.Messaging.Agent.Store.Migrations
+module Popopx.Messaging.Agent.Store.Migrations
   ( Migration (..),
     MigrationsToRun (..),
     DownMigration (..),
@@ -16,7 +16,7 @@ import Control.Monad
 import Data.Char (toLower)
 import Data.Functor (($>))
 import Data.Maybe (isJust, isNothing, mapMaybe)
-import Simplex.Messaging.Agent.Store.Shared
+import Popopx.Messaging.Agent.Store.Shared
 import System.Exit (exitFailure)
 import System.IO (hFlush, stdout)
 

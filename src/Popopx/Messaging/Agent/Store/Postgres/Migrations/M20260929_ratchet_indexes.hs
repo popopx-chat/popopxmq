@@ -1,7 +1,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE QuasiQuotes #-}
 
-module Simplex.Messaging.Agent.Store.Postgres.Migrations.M20260929_ratchet_indexes where
+module Popopx.Messaging.Agent.Store.Postgres.Migrations.M20260929_ratchet_indexes where
 
 import Data.Text (Text)
 import Text.RawString.QQ (r)

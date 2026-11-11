@@ -9,7 +9,7 @@
 {-# LANGUAGE TypeApplications #-}
 {-# LANGUAGE TypeFamilies #-}
 
-module Simplex.Messaging.Notifications.Protocol
+module Popopx.Messaging.Notifications.Protocol
   ( NtfEntity (..),
     SNtfEntity (..),
     NtfEntityI (..),
@@ -56,14 +56,14 @@ import Data.Text.Encoding (decodeLatin1, encodeUtf8)
 import Data.Time.Clock.System
 import Data.Type.Equality
 import Data.Word (Word16)
-import Simplex.Messaging.Agent.Protocol (updateSMPServerHosts)
-import Simplex.Messaging.Agent.Store.DB (FromField (..), ToField (..), fromTextField_)
-import qualified Simplex.Messaging.Crypto as C
-import Simplex.Messaging.Encoding
-import Simplex.Messaging.Encoding.String
-import Simplex.Messaging.Notifications.Transport (NTFVersion, ntfClientHandshake)
-import Simplex.Messaging.Protocol hiding (Command (..), CommandTag (..))
-import Simplex.Messaging.Util (eitherToMaybe, (<$?>))
+import Popopx.Messaging.Agent.Protocol (updateSMPServerHosts)
+import Popopx.Messaging.Agent.Store.DB (FromField (..), ToField (..), fromTextField_)
+import qualified Popopx.Messaging.Crypto as C
+import Popopx.Messaging.Encoding
+import Popopx.Messaging.Encoding.String
+import Popopx.Messaging.Notifications.Transport (NTFVersion, ntfClientHandshake)
+import Popopx.Messaging.Protocol hiding (Command (..), CommandTag (..))
+import Popopx.Messaging.Util (eitherToMaybe, (<$?>))
 
 data NtfEntity = Token | Subscription
   deriving (Show)

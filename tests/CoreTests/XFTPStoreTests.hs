@@ -6,16 +6,16 @@ module CoreTests.XFTPStoreTests (xftpStoreTests, xftpMigrationTests) where
 
 import Control.Monad
 import Data.Word (Word32)
-import Simplex.FileTransfer.Protocol (FileInfo (..), SFileParty (..))
-import Simplex.FileTransfer.Server.Store
-import Simplex.FileTransfer.Server.Store.Postgres (PostgresFileStore, importFileStore, exportFileStore)
-import Simplex.FileTransfer.Server.StoreLog (closeStoreLog, readWriteFileStore, serverFileName, writeFileStore)
-import Simplex.FileTransfer.Transport (XFTPErrorType (..))
-import qualified Simplex.Messaging.Crypto as C
-import Simplex.Messaging.Protocol (BlockingInfo (..), BlockingReason (..), EntityId (..))
-import Simplex.Messaging.Server.QueueStore (ServerEntityStatus (..))
-import Simplex.Messaging.Server.StoreLog (openWriteStoreLog)
-import Simplex.Messaging.SystemTime (RoundedSystemTime (..))
+import Popopx.FileTransfer.Protocol (FileInfo (..), SFileParty (..))
+import Popopx.FileTransfer.Server.Store
+import Popopx.FileTransfer.Server.Store.Postgres (PostgresFileStore, importFileStore, exportFileStore)
+import Popopx.FileTransfer.Server.StoreLog (closeStoreLog, readWriteFileStore, serverFileName, writeFileStore)
+import Popopx.FileTransfer.Transport (XFTPErrorType (..))
+import qualified Popopx.Messaging.Crypto as C
+import Popopx.Messaging.Protocol (BlockingInfo (..), BlockingReason (..), EntityId (..))
+import Popopx.Messaging.Server.QueueStore (ServerEntityStatus (..))
+import Popopx.Messaging.Server.StoreLog (openWriteStoreLog)
+import Popopx.Messaging.SystemTime (RoundedSystemTime (..))
 import System.Directory (doesFileExist, removeFile)
 import System.FilePath ((</>))
 import Test.Hspec hiding (fit, it)

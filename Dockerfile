@@ -5,7 +5,7 @@ FROM ubuntu:${TAG} AS build
 
 ### Build stage
 
-# Install curl and git and simplexmq dependencies
+# Install curl and git and popopxmq dependencies
 RUN apt-get update && apt-get install -y curl git build-essential libgmp3-dev zlib1g-dev llvm-18 llvm-18-dev libnuma-dev libssl-dev
 
 # Specify bootstrap Haskell versions
@@ -31,7 +31,7 @@ COPY apps /project/apps/
 COPY cbits /project/cbits/
 COPY src /project/src/
 
-COPY cabal.project Setup.hs simplexmq.cabal LICENSE /project
+COPY cabal.project Setup.hs popopxmq.cabal LICENSE /project
 
 WORKDIR /project
 
@@ -61,7 +61,7 @@ RUN bin="$(find /project/dist-newstyle -name "$APP" -type f -executable)" && \
     mv "$bin" ./ && \
     strip ./"$APP" &&\
     mv /project/scripts/docker/entrypoint-"$APP" ./entrypoint &&\
-    mv /project/scripts/main/simplex-servers-stopscript ./simplex-servers-stopscript
+    mv /project/scripts/main/popopx-servers-stopscript ./popopx-servers-stopscript
 
 ### Final stage
 FROM ubuntu:${TAG}
@@ -78,7 +78,7 @@ RUN if [ -z "$APP_PORT" ]; then printf "Please spcify \$APP_PORT build-arg.\n"; 
 
 EXPOSE $APP_PORT
 
-# simplexmq requires using SIGINT to correctly preserve undelivered messages and restore them on restart
+# popopxmq requires using SIGINT to correctly preserve undelivered messages and restore them on restart
 STOPSIGNAL SIGINT
 
 # Finally, execute helper script

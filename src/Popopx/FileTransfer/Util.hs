@@ -1,11 +1,11 @@
-module Simplex.FileTransfer.Util
+module Popopx.FileTransfer.Util
   ( uniqueCombine,
     safeFileNameStr,
     removePath,
   )
 where
 
-import Simplex.Messaging.Util (ifM, whenM)
+import Popopx.Messaging.Util (ifM, whenM)
 import System.FilePath (makeValid, splitExtensions, takeFileName, (</>))
 import UnliftIO
 import UnliftIO.Directory

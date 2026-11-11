@@ -1,6 +1,6 @@
 {-# LANGUAGE QuasiQuotes #-}
 
-module Simplex.Messaging.Agent.Store.SQLite.Migrations.M20250322_short_links where
+module Popopx.Messaging.Agent.Store.SQLite.Migrations.M20250322_short_links where
 
 import Database.SQLite.Simple (Query)
 import Database.SQLite.Simple.QQ (sql)

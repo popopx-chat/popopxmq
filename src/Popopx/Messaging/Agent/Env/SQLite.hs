@@ -11,7 +11,7 @@
 {-# LANGUAGE TypeApplications #-}
 {-# OPTIONS_GHC -fno-warn-unticked-promoted-constructors #-}
 
-module Simplex.Messaging.Agent.Env.SQLite
+module Popopx.Messaging.Agent.Env.SQLite
   ( AM',
     AM,
     AgentConfig (..),
@@ -58,27 +58,27 @@ import Data.Time.Clock.System (SystemTime (..))
 import Data.Word (Word16)
 import Network.Socket
 import Numeric.Natural
-import Simplex.FileTransfer.Client (XFTPClientConfig (..), defaultXFTPClientConfig)
-import Simplex.Messaging.Agent.Protocol
-import Simplex.Messaging.Agent.RetryInterval
-import Simplex.Messaging.Agent.Store (createStore)
-import Simplex.Messaging.Agent.Store.Common (DBStore)
-import Simplex.Messaging.Agent.Store.Interface (DBOpts)
-import Simplex.Messaging.Agent.Store.Shared (MigrationConfig (..), MigrationError (..))
-import Simplex.Messaging.Client
-import qualified Simplex.Messaging.Crypto as C
-import Simplex.Messaging.Crypto.BBS (BBSPublicKey)
-import Simplex.Messaging.Crypto.Entitlement (EntitlementCredential, entitlementIssuerKeys)
-import Simplex.Messaging.Crypto.Ratchet (VersionRangeE2E, supportedE2EEncryptVRange)
-import Simplex.Messaging.Notifications.Client (defaultNTFClientConfig)
-import Simplex.Messaging.Notifications.Transport (NTFVersion)
-import Simplex.Messaging.Notifications.Types
-import Simplex.Messaging.Parsers (defaultJSON)
-import Simplex.Messaging.Protocol (NtfServer, ProtoServerWithAuth (..), ProtocolServer (..), ProtocolType (..), ProtocolTypeI, VersionRangeSMPC, XFTPServer, supportedSMPClientVRange)
-import Simplex.Messaging.TMap (TMap)
-import qualified Simplex.Messaging.TMap as TM
-import Simplex.Messaging.Transport (SMPVersion)
-import Simplex.Messaging.Transport.Client (TransportHost)
+import Popopx.FileTransfer.Client (XFTPClientConfig (..), defaultXFTPClientConfig)
+import Popopx.Messaging.Agent.Protocol
+import Popopx.Messaging.Agent.RetryInterval
+import Popopx.Messaging.Agent.Store (createStore)
+import Popopx.Messaging.Agent.Store.Common (DBStore)
+import Popopx.Messaging.Agent.Store.Interface (DBOpts)
+import Popopx.Messaging.Agent.Store.Shared (MigrationConfig (..), MigrationError (..))
+import Popopx.Messaging.Client
+import qualified Popopx.Messaging.Crypto as C
+import Popopx.Messaging.Crypto.BBS (BBSPublicKey)
+import Popopx.Messaging.Crypto.Entitlement (EntitlementCredential, entitlementIssuerKeys)
+import Popopx.Messaging.Crypto.Ratchet (VersionRangeE2E, supportedE2EEncryptVRange)
+import Popopx.Messaging.Notifications.Client (defaultNTFClientConfig)
+import Popopx.Messaging.Notifications.Transport (NTFVersion)
+import Popopx.Messaging.Notifications.Types
+import Popopx.Messaging.Parsers (defaultJSON)
+import Popopx.Messaging.Protocol (NtfServer, ProtoServerWithAuth (..), ProtocolServer (..), ProtocolType (..), ProtocolTypeI, VersionRangeSMPC, XFTPServer, supportedSMPClientVRange)
+import Popopx.Messaging.TMap (TMap)
+import qualified Popopx.Messaging.TMap as TM
+import Popopx.Messaging.Transport (SMPVersion)
+import Popopx.Messaging.Transport.Client (TransportHost)
 import System.Mem.Weak (Weak)
 import System.Random (StdGen, newStdGen)
 import UnliftIO.STM
@@ -265,9 +265,9 @@ defaultAgentConfig =
       subsBatchSize = 1350,
       -- CA certificate private key is not needed for initialization
       -- ! we do not generate these
-      caCertificateFile = "/etc/opt/simplex-agent/ca.crt",
-      privateKeyFile = "/etc/opt/simplex-agent/agent.key",
-      certificateFile = "/etc/opt/simplex-agent/agent.crt",
+      caCertificateFile = "/etc/opt/popopx-agent/ca.crt",
+      privateKeyFile = "/etc/opt/popopx-agent/agent.key",
+      certificateFile = "/etc/opt/popopx-agent/agent.crt",
       rcvExpireCount = 8,
       rcvExpireInterval = nominalDay,
       e2eEncryptVRange = supportedE2EEncryptVRange,

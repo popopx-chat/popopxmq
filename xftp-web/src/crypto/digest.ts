@@ -1,4 +1,4 @@
-// Cryptographic hash functions matching Simplex.Messaging.Crypto (sha256Hash, sha512Hash).
+// Cryptographic hash functions matching Popopx.Messaging.Crypto (sha256Hash, sha512Hash).
 
 import sodium from "libsodium-wrappers-sumo"
 

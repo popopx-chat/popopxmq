@@ -4,12 +4,12 @@
 > original design. **The shipped code differs in several load-bearing ways:**
 >
 > - **Wire format**: `NameRecord` is now JSON (aeson), not the custom binary
->   ABNF this plan documents. See `protocol/simplex-messaging.md` §Resolver
->   commands and `src/Simplex/Messaging/Protocol.hs` ToJSON/FromJSON instances.
+>   ABNF this plan documents. See `protocol/popopx-messaging.md` §Resolver
+>   commands and `src/Popopx/Messaging/Protocol.hs` ToJSON/FromJSON instances.
 > - **No cache**: the TTL + FIFO + byte-cap cache, in-flight coalescing,
 >   `psqueues` dep, and `cache_*` INI keys are all gone. Every RSLV becomes
 >   one `eth_call` bounded by `rpcMaxConcurrency` + `rpcTimeoutMs`. See
->   `src/Simplex/Messaging/Server/Names.hs`.
+>   `src/Popopx/Messaging/Server/Names.hs`.
 > - **No `allow_dangerous_colocation` flag**: the proxy co-location guard
 >   was demoted to a startup `logWarn` (the flag was always-on because
 >   `[PROXY]` has no enable toggle).
@@ -21,13 +21,13 @@
 >   EipChecksumSpec).
 >
 > Sources of truth: `CHANGELOG.md` (release notes),
-> `protocol/simplex-messaging.md` §Resolver commands (wire format),
-> `src/Simplex/Messaging/Server/Names*.hs` (implementation). This file is
+> `protocol/popopx-messaging.md` §Resolver commands (wire format),
+> `src/Popopx/Messaging/Server/Names*.hs` (implementation). This file is
 > retained as historical context; do not treat it as a specification.
 
 Implementation plan for Part 2 of [RFC 2026-05-21-public-namespaces](https://github.com/simplex-chat/simplex-chat/blob/ep/namespace/docs/rfcs/2026-05-21-public-namespaces.md). Adds a forwarded-only `RSLV <lookup_key>` SMP command that returns `NAME <NameRecord>` read from the SNRC contract via a Reth+Nimbus JSON-RPC endpoint. Smp-server becomes name-capable by `[NAMES] enable: on`.
 
-Out of scope: `Simplex.Messaging.Client` API, agent-side resolution flow, `ServerRoles.names` in the agent, default-router list, reverse resolution, multicoin/text records, state proofs.
+Out of scope: `Popopx.Messaging.Client` API, agent-side resolution flow, `ServerRoles.names` in the agent, default-router list, reverse resolution, multicoin/text records, state proofs.
 
 ## Architecture
 
@@ -55,7 +55,7 @@ RSLV is **forwarded-only** — direct RSLV is rejected `CMD PROHIBITED`. This pr
 
 ## Protocol
 
-Shared library: `src/Simplex/Messaging/Protocol.hs` and `src/Simplex/Messaging/Transport.hs`.
+Shared library: `src/Popopx/Messaging/Protocol.hs` and `src/Popopx/Messaging/Transport.hs`.
 
 **Version.** `Transport.hs:226`: `namesSMPVersion = VersionSMP 20`. Bump `currentClientSMPRelayVersion`, `currentServerSMPRelayVersion`, `proxiedSMPRelayVersion` to 20. Pre-v20 binaries lack the `RSLV_` tag; v20 binaries with sessions negotiated at v < 20 reject `RSLV_` at the parameter parser. The proxied-version bump 18 → 20 is safe (v19's `RecipientService`/`NotifierService` aren't in the forwarded whitelist; v18's `BLOCKED info` is already version-branched at `Protocol.hs:1943`).
 
@@ -154,7 +154,7 @@ Both list parsers fail at the count step before allocating; the second inherits 
 
 ## Server changes
 
-All edits in `src/Simplex/Messaging/Server.hs`.
+All edits in `src/Popopx/Messaging/Server.hs`.
 
 **`forwarded :: Bool` plumbing.** Three signatures change:
 
@@ -206,7 +206,7 @@ In-flight `resolveName` calls during shutdown receive `ConnectionClosed` → `Et
 
 ## Resolver subtree
 
-New module tree at `src/Simplex/Messaging/Server/Names/`:
+New module tree at `src/Popopx/Messaging/Server/Names/`:
 
 | Module | Contents |
 |---|---|
@@ -306,7 +306,7 @@ enable: off
 # Same-host:
 # ethereum_endpoint: http://127.0.0.1:8545
 # Central Reth via Caddy:
-# ethereum_endpoint: https://eth.simplex.chat:443
+# ethereum_endpoint: https://eth.popopx.chat:443
 # rpc_auth: basic <username>:<password>
 # snrc_address: 0x0000000000000000000000000000000000000000
 # cache_seconds: 300
@@ -367,7 +367,7 @@ reth node \
 **Caddy + Let's Encrypt + Basic auth** (Topology B):
 
 ```caddy
-eth.simplex.chat {
+eth.popopx.chat {
   basicauth {
     smp-server-1 $2a$14$<bcrypt-hash-1>
     smp-server-2 $2a$14$<bcrypt-hash-2>
@@ -393,10 +393,10 @@ Caddy auto-fetches Let's Encrypt cert. Each smp-server has its own credential; r
 6. `NameResolverStats` sub-record + CSV log + Prometheus `names =` block.
 7. Replace stub in (3) with real `resolveName`.
 8. Tests.
-9. `protocol/simplex-messaging.md`: header version line 1 (`19 → 20`), sentence at line 86, version-history list (lines 93–105) v20 entry, TOC (lines 25–68) "Resolver commands" subsection, new section with ABNF + byte layout + error semantics, "Router security requirements" paragraph about names-role outbound HTTP, cross-ref `Transport.hs:226`.
+9. `protocol/popopx-messaging.md`: header version line 1 (`19 → 20`), sentence at line 86, version-history list (lines 93–105) v20 entry, TOC (lines 25–68) "Resolver commands" subsection, new section with ABNF + byte layout + error semantics, "Router security requirements" paragraph about names-role outbound HTTP, cross-ref `Transport.hs:226`.
 10. `CHANGELOG.md`: v6.6 entry.
 
-**Cabal** (`simplexmq.cabal`): bump `version: 6.6.0.0`. Add to `if !flag(client_library)` block: `http-client >=0.7 && <0.8`, `http-client-tls >=0.3 && <0.4`, `network-uri >=2.6 && <2.7`, `psqueues >=0.2.7 && <0.3`. Expose 4 new `Server.Names.*` modules in the same block. `crypton` already provides `Keccak_256`.
+**Cabal** (`popopxmq.cabal`): bump `version: 6.6.0.0`. Add to `if !flag(client_library)` block: `http-client >=0.7 && <0.8`, `http-client-tls >=0.3 && <0.4`, `network-uri >=2.6 && <2.7`, `psqueues >=0.2.7 && <0.3`. Expose 4 new `Server.Names.*` modules in the same block. `crypton` already provides `Keccak_256`.
 
 **Files changed**:
 
@@ -414,8 +414,8 @@ Caddy auto-fetches Let's Encrypt cert. Each smp-server has its own credential; r
 | `Server/Names/Resolver.hs` (new) | All resolver types + cache + coalescing + `fetchOnceTimed` + `newNamesEnv[With]` + `closeNamesEnv` |
 | `Server/Names/Eth/RPC.hs` (new) | `EthRpcEnv`, `ethCallReal` with bounded body + concurrency semaphore + `Authorization` header |
 | `Server/Names/Eth/SNRC.hs` (new) | `EthAddress`, Keccak namehash, bounded ABI (8 invariants), `getRecord` with zero-owner detection |
-| `simplexmq.cabal` | Bump `6.6.0.0`; 4 new deps + 4 new modules in `if !flag(client_library)` block |
-| `protocol/simplex-messaging.md` | Header version, version-history v20 entry, new "Resolver commands" section |
+| `popopxmq.cabal` | Bump `6.6.0.0`; 4 new deps + 4 new modules in `if !flag(client_library)` block |
+| `protocol/popopx-messaging.md` | Header version, version-history v20 entry, new "Resolver commands" section |
 | `CHANGELOG.md` | v6.6 entry |
 
 ## Testing
@@ -452,4 +452,4 @@ Integration against real Reth+Nimbus mainnet deferred to ops.
 
 Mitigations: caching + coalescing + `rpcTimeoutMs` + `rpcMaxResponseBytes` + `rpcMaxConcurrency`; co-location refused at startup; URL validation; Caddy + auth in front of Reth; Reth's own gas/size caps. Timing side-channels (cache-hit vs miss latency) not mitigated — flagged for post-MVP. State proofs deferred to post-MVP per RFC.
 
-**Cross-repo coordination.** The `simplex-chat` `ep/namespace` branch currently contains only the RFC commit — no agent-side wire-format code yet. This plan's wire format is validated only by simplexmq's own tests until a matching agent PR lands (structurally weak — encoder/decoder bugs are mutually consistent with themselves). Coordinate with the agent-side implementer **before merging** on: exact `NameRecord` field order and types; `LookupKey` namespace-prefix convention; error-code semantics; Part 1 SNRC contract `getRecord` ABI surface.
+**Cross-repo coordination.** The `popopx-chat` `ep/namespace` branch currently contains only the RFC commit — no agent-side wire-format code yet. This plan's wire format is validated only by popopxmq's own tests until a matching agent PR lands (structurally weak — encoder/decoder bugs are mutually consistent with themselves). Coordinate with the agent-side implementer **before merging** on: exact `NameRecord` field order and types; `LookupKey` namespace-prefix convention; error-code semantics; Part 1 SNRC contract `getRecord` ABI surface.

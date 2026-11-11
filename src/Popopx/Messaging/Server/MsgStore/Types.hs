@@ -10,7 +10,7 @@
 {-# LANGUAGE TupleSections #-}
 {-# LANGUAGE TypeApplications #-}
 {-# LANGUAGE TypeFamilyDependencies #-}
-module Simplex.Messaging.Server.MsgStore.Types
+module Popopx.Messaging.Server.MsgStore.Types
   ( MsgStoreClass (..),
     MSType (..),
     QSType (..),
@@ -33,10 +33,10 @@ import Control.Monad.Trans.Except
 import Data.Int (Int64)
 import Data.Kind
 import Data.Map.Strict (Map)
-import Simplex.Messaging.Protocol
-import Simplex.Messaging.Server.QueueStore
-import Simplex.Messaging.Server.QueueStore.Types
-import Simplex.Messaging.Util (($>>=))
+import Popopx.Messaging.Protocol
+import Popopx.Messaging.Server.QueueStore
+import Popopx.Messaging.Server.QueueStore.Types
+import Popopx.Messaging.Util (($>>=))
 
 class QueueStoreClass (StoreQueue s) (QueueStore s) => MsgStoreClass s where
   type MsgStoreConfig s = c | c -> s

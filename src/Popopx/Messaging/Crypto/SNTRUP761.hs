@@ -2,7 +2,7 @@
 {-# LANGUAGE GADTs #-}
 {-# LANGUAGE LambdaCase #-}
 
-module Simplex.Messaging.Crypto.SNTRUP761
+module Popopx.Messaging.Crypto.SNTRUP761
   ( KEMHybridSecret (..),
     kcbDecrypt,
     kcbEncrypt,
@@ -13,9 +13,9 @@ import Crypto.Hash (Digest, SHA3_256, hash)
 import Data.ByteArray (ScrubbedBytes)
 import qualified Data.ByteArray as BA
 import Data.ByteString (ByteString)
-import Simplex.Messaging.Crypto
-import qualified Simplex.Messaging.Crypto as C
-import Simplex.Messaging.Crypto.SNTRUP761.Bindings
+import Popopx.Messaging.Crypto
+import qualified Popopx.Messaging.Crypto as C
+import Popopx.Messaging.Crypto.SNTRUP761.Bindings
 
 -- Hybrid shared secret for crypto_box is defined as SHA256(DHSecret || KEMSharedKey),
 -- similar to https://datatracker.ietf.org/doc/draft-josefsson-ntruprime-hybrid/

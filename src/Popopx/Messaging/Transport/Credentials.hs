@@ -1,7 +1,7 @@
 {-# LANGUAGE DuplicateRecordFields #-}
 {-# LANGUAGE GADTs #-}
 
-module Simplex.Messaging.Transport.Credentials
+module Popopx.Messaging.Transport.Credentials
   ( tlsCredentials,
     Credentials,
     genCredentials,
@@ -21,7 +21,7 @@ import Data.Text.Encoding (encodeUtf8)
 import qualified Data.X509 as X509
 import Data.X509.Validation (Fingerprint (..), getFingerprint)
 import qualified Network.TLS as TLS
-import qualified Simplex.Messaging.Crypto as C
+import qualified Popopx.Messaging.Crypto as C
 import qualified Time.System as Hourglass
 import qualified Time.Types as HT
 

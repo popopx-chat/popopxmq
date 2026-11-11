@@ -1,12 +1,12 @@
 {-# LANGUAGE LambdaCase #-}
 {-# LANGUAGE OverloadedStrings #-}
 
-module Simplex.Messaging.Server.MsgStore
+module Popopx.Messaging.Server.MsgStore
   ( MsgLogRecord (..),
   ) where
 
-import Simplex.Messaging.Encoding.String
-import Simplex.Messaging.Protocol (Message (..), RecipientId)
+import Popopx.Messaging.Encoding.String
+import Popopx.Messaging.Protocol (Message (..), RecipientId)
 
 data MsgLogRecord = MLRv3 RecipientId Message
 

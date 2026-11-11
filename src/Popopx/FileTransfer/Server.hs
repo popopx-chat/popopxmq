@@ -13,7 +13,7 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE TupleSections #-}
 
-module Simplex.FileTransfer.Server
+module Popopx.FileTransfer.Server
   ( runXFTPServer,
     runXFTPServerBlocking,
   ) where
@@ -48,38 +48,38 @@ import qualified Network.HTTP.Types as N
 import Network.HPACK.Token (tokenKey)
 import qualified Network.HTTP2.Server as H
 import Network.Socket
-import Simplex.FileTransfer.Protocol
-import Simplex.FileTransfer.Server.Control (ControlProtocol (..))
-import Simplex.FileTransfer.Server.Env
-import Simplex.FileTransfer.Server.Prometheus
-import Simplex.FileTransfer.Server.Stats
-import Simplex.FileTransfer.Server.Store
-import Simplex.FileTransfer.Server.StoreLog
-import Simplex.FileTransfer.Transport
-import qualified Simplex.Messaging.Crypto as C
-import Simplex.Messaging.Crypto.BBS (BBSPresHeader (..))
-import Simplex.Messaging.Crypto.Entitlement (Entitlement (..), EntitlementProof (..), EntitlementVerification (..), verifyEntitlement)
-import qualified Simplex.Messaging.Crypto.Lazy as LC
-import Simplex.Messaging.Encoding
-import Simplex.Messaging.Encoding.String
-import Simplex.Messaging.Protocol (BlockingInfo, CommandError (..), EntityId (..), RcvPublicAuthKey, RcvPublicDhKey, RecipientId, SignedTransmission, pattern NoEntity)
-import Simplex.Messaging.Server (controlPortAuth, dummyVerifyCmd, verifyCmdAuthorization)
-import Simplex.Messaging.Server.Control (CPClientRole (..))
-import Simplex.Messaging.Server.Expiration
-import Simplex.Messaging.Server.QueueStore (ServerEntityStatus (..))
-import Simplex.Messaging.Server.Stats
-import Simplex.Messaging.SystemTime
-import Simplex.Messaging.TMap (TMap)
-import qualified Simplex.Messaging.TMap as TM
-import Simplex.Messaging.Transport (CertChainPubKey (..), EntitlementConfig (..), SessionEntitlement (..), SessionId, THandleAuth (..), THandleParams (..), TransportPeer (..), defaultSupportedParams, defaultSupportedParamsHTTPS)
-import Simplex.Messaging.Transport.Buffer (trimCR)
-import Simplex.Messaging.Transport.HTTP2
-import Simplex.Messaging.Transport.HTTP2.File (fileBlockSize)
-import Simplex.Messaging.Transport.HTTP2.Server (runHTTP2Server)
-import Simplex.Messaging.Transport.Server (SNICredentialUsed, TransportServerConfig (..), runLocalTCPServer)
-import Simplex.Messaging.Server.Web (serveStaticPageH2)
-import Simplex.Messaging.Util
-import Simplex.Messaging.Version
+import Popopx.FileTransfer.Protocol
+import Popopx.FileTransfer.Server.Control (ControlProtocol (..))
+import Popopx.FileTransfer.Server.Env
+import Popopx.FileTransfer.Server.Prometheus
+import Popopx.FileTransfer.Server.Stats
+import Popopx.FileTransfer.Server.Store
+import Popopx.FileTransfer.Server.StoreLog
+import Popopx.FileTransfer.Transport
+import qualified Popopx.Messaging.Crypto as C
+import Popopx.Messaging.Crypto.BBS (BBSPresHeader (..))
+import Popopx.Messaging.Crypto.Entitlement (Entitlement (..), EntitlementProof (..), EntitlementVerification (..), verifyEntitlement)
+import qualified Popopx.Messaging.Crypto.Lazy as LC
+import Popopx.Messaging.Encoding
+import Popopx.Messaging.Encoding.String
+import Popopx.Messaging.Protocol (BlockingInfo, CommandError (..), EntityId (..), RcvPublicAuthKey, RcvPublicDhKey, RecipientId, SignedTransmission, pattern NoEntity)
+import Popopx.Messaging.Server (controlPortAuth, dummyVerifyCmd, verifyCmdAuthorization)
+import Popopx.Messaging.Server.Control (CPClientRole (..))
+import Popopx.Messaging.Server.Expiration
+import Popopx.Messaging.Server.QueueStore (ServerEntityStatus (..))
+import Popopx.Messaging.Server.Stats
+import Popopx.Messaging.SystemTime
+import Popopx.Messaging.TMap (TMap)
+import qualified Popopx.Messaging.TMap as TM
+import Popopx.Messaging.Transport (CertChainPubKey (..), EntitlementConfig (..), SessionEntitlement (..), SessionId, THandleAuth (..), THandleParams (..), TransportPeer (..), defaultSupportedParams, defaultSupportedParamsHTTPS)
+import Popopx.Messaging.Transport.Buffer (trimCR)
+import Popopx.Messaging.Transport.HTTP2
+import Popopx.Messaging.Transport.HTTP2.File (fileBlockSize)
+import Popopx.Messaging.Transport.HTTP2.Server (runHTTP2Server)
+import Popopx.Messaging.Transport.Server (SNICredentialUsed, TransportServerConfig (..), runLocalTCPServer)
+import Popopx.Messaging.Server.Web (serveStaticPageH2)
+import Popopx.Messaging.Util
+import Popopx.Messaging.Version
 import System.Environment (lookupEnv)
 import System.Exit (exitFailure)
 import System.FilePath ((</>))

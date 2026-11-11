@@ -9,7 +9,7 @@
 {-# LANGUAGE TupleSections #-}
 {-# LANGUAGE TypeApplications #-}
 
-module Simplex.FileTransfer.Client
+module Popopx.FileTransfer.Client
   ( XFTPClient (..),
     XFTPClientConfig (..),
     XFTPChunkSpec (..),
@@ -56,11 +56,11 @@ import qualified Data.X509.Validation as XV
 import qualified Network.HTTP.Types as N
 import qualified Network.HTTP2.Client as H
 import Network.Socket (HostName)
-import Simplex.FileTransfer.Chunks
-import Simplex.FileTransfer.Protocol
-import Simplex.FileTransfer.Transport
-import Simplex.Messaging.Crypto.Entitlement (EntitlementProof)
-import Simplex.Messaging.Client
+import Popopx.FileTransfer.Chunks
+import Popopx.FileTransfer.Protocol
+import Popopx.FileTransfer.Transport
+import Popopx.Messaging.Crypto.Entitlement (EntitlementProof)
+import Popopx.Messaging.Client
   ( NetworkConfig (..),
     NetworkRequestMode (..),
     ProtocolClientError (..),
@@ -74,11 +74,11 @@ import Simplex.Messaging.Client
     clientHandlers,
     useWebPort,
   )
-import qualified Simplex.Messaging.Crypto as C
-import qualified Simplex.Messaging.Crypto.Lazy as LC
-import Simplex.Messaging.Encoding (smpDecode, smpEncode)
-import Simplex.Messaging.Encoding.String
-import Simplex.Messaging.Protocol
+import qualified Popopx.Messaging.Crypto as C
+import qualified Popopx.Messaging.Crypto.Lazy as LC
+import Popopx.Messaging.Encoding (smpDecode, smpEncode)
+import Popopx.Messaging.Encoding.String
+import Popopx.Messaging.Protocol
   ( BasicAuth,
     NetworkError (..),
     Protocol (..),
@@ -87,13 +87,13 @@ import Simplex.Messaging.Protocol
     SenderId,
     pattern NoEntity,
   )
-import Simplex.Messaging.Transport (ALPN, CertChainPubKey (..), HandshakeError (..), SessionId, THandleAuth (..), THandleParams (..), TransportError (..), TransportPeer (..), defaultSupportedParams)
-import Simplex.Messaging.Transport.Client (TransportClientConfig (..), TransportHost)
-import Simplex.Messaging.Transport.HTTP2
-import Simplex.Messaging.Transport.HTTP2.Client
-import Simplex.Messaging.Transport.HTTP2.File
-import Simplex.Messaging.Util (liftEitherWith, liftError', tshow, whenM)
-import Simplex.Messaging.Version
+import Popopx.Messaging.Transport (ALPN, CertChainPubKey (..), HandshakeError (..), SessionId, THandleAuth (..), THandleParams (..), TransportError (..), TransportPeer (..), defaultSupportedParams)
+import Popopx.Messaging.Transport.Client (TransportClientConfig (..), TransportHost)
+import Popopx.Messaging.Transport.HTTP2
+import Popopx.Messaging.Transport.HTTP2.Client
+import Popopx.Messaging.Transport.HTTP2.File
+import Popopx.Messaging.Util (liftEitherWith, liftError', tshow, whenM)
+import Popopx.Messaging.Version
 import System.IO (IOMode (..), SeekMode (..), hSeek, withFile)
 import System.Timeout (timeout)
 import UnliftIO.Directory

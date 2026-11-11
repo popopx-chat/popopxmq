@@ -6,7 +6,7 @@ TAG="$1"
 tempdir="$(mktemp -d)"
 init_dir="$PWD"
 
-repo_name="simplexmq"
+repo_name="popopxmq"
 repo="https://github.com/simplex-chat/${repo_name}"
 export DOCKER_BUILDKIT=1
 
@@ -33,7 +33,7 @@ for os in 22.04 24.04; do
 		--no-cache \
 		--build-arg TAG=${os} \
 		--build-arg GHC=9.6.3 \
-		-f "$tempdir/simplexmq/Dockerfile.build" \
+		-f "$tempdir/popopxmq/Dockerfile.build" \
 		-t local \
 		.
 
@@ -47,7 +47,7 @@ for os in 22.04 24.04; do
 	docker exec \
 		-t \
 		builder \
-		sh -c 'git config --global --add safe.directory \*; cabal update && cabal build --jobs=$(nproc) --enable-tests -fserver_postgres && mkdir -p /out && for i in smp-server simplexmq-test; do bin=$(find /project/dist-newstyle -name "$i" -type f -executable) && chmod +x "$bin" && mv "$bin" /out/; done && strip /out/smp-server'
+		sh -c 'git config --global --add safe.directory \*; cabal update && cabal build --jobs=$(nproc) --enable-tests -fserver_postgres && mkdir -p /out && for i in smp-server popopxmq-test; do bin=$(find /project/dist-newstyle -name "$i" -type f -executable) && chmod +x "$bin" && mv "$bin" /out/; done && strip /out/smp-server'
 
 	# Copy smp-server postgresql binary and prepare it
 	docker cp \

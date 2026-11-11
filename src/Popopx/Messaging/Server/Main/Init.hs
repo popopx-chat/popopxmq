@@ -2,7 +2,7 @@
 {-# LANGUAGE NamedFieldPuns #-}
 {-# LANGUAGE OverloadedStrings #-}
 
-module Simplex.Messaging.Server.Main.Init
+module Popopx.Messaging.Server.Main.Init
   ( InitOptions (..),
     ServerPassword (..),
     defaultControlPort,
@@ -22,15 +22,15 @@ import Data.Text (Text)
 import qualified Data.Text as T
 import Data.Text.Encoding (decodeLatin1)
 import Network.Socket (HostName)
-import Simplex.Messaging.Agent.Store.Postgres.Options (DBOpts (..))
-import Simplex.Messaging.Encoding.String
-import Simplex.Messaging.Protocol (BasicAuth)
-import Simplex.Messaging.Server.CLI (SignAlgorithm, onOff)
-import Simplex.Messaging.Server.Env.STM
-import Simplex.Messaging.Server.Expiration (ExpirationConfig (..))
-import Simplex.Messaging.Server.Information (Entity (..), ServerPublicInfo (..))
-import Simplex.Messaging.Transport.Client (SocksProxy, TransportHost)
-import Simplex.Messaging.Util (safeDecodeUtf8, tshow)
+import Popopx.Messaging.Agent.Store.Postgres.Options (DBOpts (..))
+import Popopx.Messaging.Encoding.String
+import Popopx.Messaging.Protocol (BasicAuth)
+import Popopx.Messaging.Server.CLI (SignAlgorithm, onOff)
+import Popopx.Messaging.Server.Env.STM
+import Popopx.Messaging.Server.Expiration (ExpirationConfig (..))
+import Popopx.Messaging.Server.Information (Entity (..), ServerPublicInfo (..))
+import Popopx.Messaging.Transport.Client (SocksProxy, TransportHost)
+import Popopx.Messaging.Util (safeDecodeUtf8, tshow)
 import System.FilePath ((</>))
 
 defaultControlPort :: Int
@@ -165,7 +165,7 @@ iniFileContent cfgPath logPath opts host basicAuth controlPortPwds =
         \# Same-host:\n\
         \# resolver_endpoint: http://127.0.0.1:8000\n\
         \# Resolver behind TLS reverse proxy:\n\
-        \# resolver_endpoint: https://names.simplex.chat:443\n\
+        \# resolver_endpoint: https://names.popopx.chat:443\n\
         \# resolver_auth: basic <username>:<password>\n\
         \# resolver_timeout_ms: 3000\n\
         \# resolver_max_response_bytes: 16000\n\
@@ -204,7 +204,7 @@ informationIniContent InitOptions {sourceCode, serverInfo} =
   "[INFORMATION]\n\
   \# AGPLv3 license requires that you make any source code modifications\n\
   \# available to the end users of the server.\n\
-  \# LICENSE: https://github.com/simplex-chat/simplexmq/blob/stable/LICENSE\n\
+  \# LICENSE: https://github.com/popopx-chat/popopxmq/blob/stable/LICENSE\n\
   \# Include correct source code URI in case the server source code is modified in any way.\n\
   \# If any other information fields are present, source code property also MUST be present.\n\n"
     <> (optDisabled sourceCode <> "source_code = " <> fromMaybe "URI" sourceCode)
@@ -222,13 +222,13 @@ informationIniContent InitOptions {sourceCode, serverInfo} =
     <> (optDisabled website <> "website = " <> fromMaybe "" website)
     <> "\n\n\
        \# Administrative contacts.\n\
-       \# admin_simplex = SimpleX address\n\
+       \# admin_popopx = POPOPX address\n\
        \# admin_email =\n\
        \# admin_pgp =\n\
        \# admin_pgp_fingerprint =\n\
        \\n\
        \# Contacts for complaints and feedback.\n\
-       \# complaints_simplex = SimpleX address\n\
+       \# complaints_popopx = POPOPX address\n\
        \# complaints_email =\n\
        \# complaints_pgp =\n\
        \# complaints_pgp_fingerprint =\n\

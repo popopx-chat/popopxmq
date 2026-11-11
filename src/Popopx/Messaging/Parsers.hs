@@ -4,7 +4,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE PatternSynonyms #-}
 
-module Simplex.Messaging.Parsers
+module Popopx.Messaging.Parsers
   ( base64P,
     parse,
     parseAll,
@@ -39,7 +39,7 @@ import Data.String
 import qualified Data.Text as T
 import Data.Time.Clock (UTCTime)
 import Data.Time.ISO8601 (parseISO8601)
-import Simplex.Messaging.Util (safeDecodeUtf8, (<$?>))
+import Popopx.Messaging.Util (safeDecodeUtf8, (<$?>))
 import Text.Read (readMaybe)
 
 base64P :: Parser ByteString

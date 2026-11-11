@@ -4,7 +4,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE ScopedTypeVariables #-}
 
-module Simplex.Messaging.Encoding.String
+module Popopx.Messaging.Encoding.String
   ( TextEncoding (..),
     StrEncoding (..),
     Str (..),
@@ -50,9 +50,9 @@ import Data.Word (Word16, Word32)
 import qualified Data.X509 as X
 import qualified Data.X509.Validation as XV
 import GHC.TypeLits (KnownSymbol, Symbol, symbolVal)
-import Simplex.Messaging.Encoding
-import Simplex.Messaging.Parsers (parseAll)
-import Simplex.Messaging.Util (bshow, safeDecodeUtf8, (<$?>))
+import Popopx.Messaging.Encoding
+import Popopx.Messaging.Parsers (parseAll)
+import Popopx.Messaging.Util (bshow, safeDecodeUtf8, (<$?>))
 
 class TextEncoding a where
   textEncode :: a -> Text

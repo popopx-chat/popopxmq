@@ -64,31 +64,31 @@ import qualified Database.PostgreSQL.Simple as PSQL
 import NtfClient
 import SMPAgentClient (agentCfg, initAgentServers, initAgentServers2, testDB, testDB2, testNtfServer, testNtfServer2)
 import SMPClient
-import Simplex.Messaging.Agent hiding (checkNtfToken, createConnection, joinConnection, registerNtfToken, sendMessage, verifyNtfToken)
-import qualified Simplex.Messaging.Agent as A
-import Simplex.Messaging.Agent.Client (ProtocolTestFailure (..), ProtocolTestStep (..), ServerQueueInfo (..), withStore')
-import Simplex.Messaging.Agent.Env.SQLite (AgentConfig, Env (..), InitialAgentServers)
-import Simplex.Messaging.Agent.Protocol hiding (CON, CONF, INFO, SENT)
-import Simplex.Messaging.Agent.Store.AgentStore (getSavedNtfToken)
-import Simplex.Messaging.Agent.Store.Common (withTransaction)
-import qualified Simplex.Messaging.Agent.Store.DB as DB
-import Simplex.Messaging.Agent.Store.Interface (closeDBStore, reopenDBStore)
-import Simplex.Messaging.Client (pattern NRMInteractive)
-import qualified Simplex.Messaging.Crypto as C
-import Simplex.Messaging.Encoding.String
-import Simplex.Messaging.Notifications.Protocol
-import Simplex.Messaging.Notifications.Server.Env (NtfServerConfig (..))
-import Simplex.Messaging.Notifications.Server.Push.APNS
-import Simplex.Messaging.Notifications.Server.Store.Postgres (closeNtfDbStore, newNtfDbStore, withDB')
-import Simplex.Messaging.Notifications.Types (NtfTknAction (..), NtfToken (..))
-import Simplex.Messaging.Parsers (parseAll)
-import Simplex.Messaging.Protocol (ErrorType (AUTH), NetworkError (..), MsgFlags (MsgFlags), NMsgMeta (..), NtfServer, ProtocolServer (..), SMPMsgMeta (..), SubscriptionMode (..))
-import qualified Simplex.Messaging.Protocol as SMP
-import Simplex.Messaging.Server.Env.STM (AStoreType (..), ServerConfig (..))
-import Simplex.Messaging.Server.Information (ServerPublicInfo (..))
-import Simplex.Messaging.Server.QueueStore.QueueInfo (QueueInfo (..))
-import Simplex.Messaging.Transport (ASrvTransport)
-import Simplex.Messaging.Transport.Server (TransportServerConfig (..))
+import Popopx.Messaging.Agent hiding (checkNtfToken, createConnection, joinConnection, registerNtfToken, sendMessage, verifyNtfToken)
+import qualified Popopx.Messaging.Agent as A
+import Popopx.Messaging.Agent.Client (ProtocolTestFailure (..), ProtocolTestStep (..), ServerQueueInfo (..), withStore')
+import Popopx.Messaging.Agent.Env.SQLite (AgentConfig, Env (..), InitialAgentServers)
+import Popopx.Messaging.Agent.Protocol hiding (CON, CONF, INFO, SENT)
+import Popopx.Messaging.Agent.Store.AgentStore (getSavedNtfToken)
+import Popopx.Messaging.Agent.Store.Common (withTransaction)
+import qualified Popopx.Messaging.Agent.Store.DB as DB
+import Popopx.Messaging.Agent.Store.Interface (closeDBStore, reopenDBStore)
+import Popopx.Messaging.Client (pattern NRMInteractive)
+import qualified Popopx.Messaging.Crypto as C
+import Popopx.Messaging.Encoding.String
+import Popopx.Messaging.Notifications.Protocol
+import Popopx.Messaging.Notifications.Server.Env (NtfServerConfig (..))
+import Popopx.Messaging.Notifications.Server.Push.APNS
+import Popopx.Messaging.Notifications.Server.Store.Postgres (closeNtfDbStore, newNtfDbStore, withDB')
+import Popopx.Messaging.Notifications.Types (NtfTknAction (..), NtfToken (..))
+import Popopx.Messaging.Parsers (parseAll)
+import Popopx.Messaging.Protocol (ErrorType (AUTH), NetworkError (..), MsgFlags (MsgFlags), NMsgMeta (..), NtfServer, ProtocolServer (..), SMPMsgMeta (..), SubscriptionMode (..))
+import qualified Popopx.Messaging.Protocol as SMP
+import Popopx.Messaging.Server.Env.STM (AStoreType (..), ServerConfig (..))
+import Popopx.Messaging.Server.Information (ServerPublicInfo (..))
+import Popopx.Messaging.Server.QueueStore.QueueInfo (QueueInfo (..))
+import Popopx.Messaging.Transport (ASrvTransport)
+import Popopx.Messaging.Transport.Server (TransportServerConfig (..))
 import System.Process (callCommand)
 import Test.Hspec hiding (fit, it)
 import UnliftIO

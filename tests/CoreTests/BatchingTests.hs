@@ -21,11 +21,11 @@ import qualified Data.X509 as X
 import qualified Data.X509.CertificateStore as XS
 import qualified Data.X509.File as XF
 import Foreign.Ptr (plusPtr)
-import Simplex.Messaging.Client
-import qualified Simplex.Messaging.Crypto as C
-import Simplex.Messaging.Encoding
-import Simplex.Messaging.Protocol
-import Simplex.Messaging.Transport
+import Popopx.Messaging.Client
+import qualified Popopx.Messaging.Crypto as C
+import Popopx.Messaging.Encoding
+import Popopx.Messaging.Protocol
+import Popopx.Messaging.Transport
 import Test.Hspec hiding (fit, it)
 import Util
 
@@ -120,7 +120,7 @@ testClientBatchNMSGs = do
   (length rs1, length rs2, length rs3) `shouldBe` (40, 80, 80)
   all lenOk [s1, s2, s3] `shouldBe` True
 
--- 4 responses are used in Simplex.Messaging.Server / `send`
+-- 4 responses are used in Popopx.Messaging.Server / `send`
 testBatchSubResponses :: IO ()
 testBatchSubResponses = do
   client <- testClientStub

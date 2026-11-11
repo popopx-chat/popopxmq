@@ -10,11 +10,11 @@ import Control.Monad.IO.Class
 import Data.List.NonEmpty (NonEmpty (..))
 import qualified Data.Map.Strict as M
 import SMPAgentClient
-import Simplex.Messaging.Agent (withAgentEnv)
-import Simplex.Messaging.Agent.Client hiding (userServers)
-import Simplex.Messaging.Agent.Env.SQLite
-import Simplex.Messaging.Client (defaultNetworkConfig)
-import Simplex.Messaging.Protocol
+import Popopx.Messaging.Agent (withAgentEnv)
+import Popopx.Messaging.Agent.Client hiding (userServers)
+import Popopx.Messaging.Agent.Env.SQLite
+import Popopx.Messaging.Client (defaultNetworkConfig)
+import Popopx.Messaging.Protocol
 import Test.Hspec hiding (fit, it)
 import Test.QuickCheck
 import Util
@@ -25,17 +25,17 @@ serverChoiceTests = do
   describe "Server operators" $ do
     it "should choose server of different operator" $ ioProperty $ testChooseDifferentOperator
 
-operatorSimpleX :: Maybe OperatorId
-operatorSimpleX = Just 1
+operatorPOPOPX :: Maybe OperatorId
+operatorPOPOPX = Just 1
 
 operator2 :: Maybe OperatorId
 operator2 = Just 2
 
 testOp1Srv1 :: ProtoServerWithAuth 'PSMP
-testOp1Srv1 = "smp://LcJU@test1.simplex.im"
+testOp1Srv1 = "smp://LcJU@test1.popopx.im"
 
 testOp1Srv2 :: ProtoServerWithAuth 'PSMP
-testOp1Srv2 = "smp://LcJU@test2.simplex.im"
+testOp1Srv2 = "smp://LcJU@test2.popopx.im"
 
 testOp2Srv1 :: ProtoServerWithAuth 'PSMP
 testOp2Srv1 = "smp://LcJU@srv1.example.com"
@@ -45,8 +45,8 @@ testOp2Srv2 = "smp://LcJU@srv2.example.com"
 
 testSMPServers :: NonEmpty (ServerCfg 'PSMP)
 testSMPServers =
-  [ presetServerCfg True allRoles operatorSimpleX testOp1Srv1,
-    presetServerCfg True allRoles operatorSimpleX testOp1Srv2,
+  [ presetServerCfg True allRoles operatorPOPOPX testOp1Srv1,
+    presetServerCfg True allRoles operatorPOPOPX testOp1Srv2,
     presetServerCfg True proxyOnly operator2 testOp2Srv1,
     presetServerCfg True proxyOnly operator2 testOp2Srv2
   ]

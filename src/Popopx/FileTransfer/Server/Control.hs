@@ -1,15 +1,15 @@
 {-# LANGUAGE LambdaCase #-}
 {-# LANGUAGE OverloadedStrings #-}
 
-module Simplex.FileTransfer.Server.Control
+module Popopx.FileTransfer.Server.Control
   ( ControlProtocol (..),
   )
 where
 
 import qualified Data.Attoparsec.ByteString.Char8 as A
-import Simplex.FileTransfer.Protocol (XFTPFileId)
-import Simplex.Messaging.Encoding.String
-import Simplex.Messaging.Protocol (BasicAuth, BlockingInfo)
+import Popopx.FileTransfer.Protocol (XFTPFileId)
+import Popopx.Messaging.Encoding.String
+import Popopx.Messaging.Protocol (BasicAuth, BlockingInfo)
 
 data ControlProtocol
   = CPAuth BasicAuth

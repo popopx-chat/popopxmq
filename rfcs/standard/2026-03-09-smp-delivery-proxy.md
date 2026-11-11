@@ -2,7 +2,7 @@
 Proposed: 2023-05-24
 Implemented: 2024-06-21
 Standardized: 2026-03-09
-Protocol: simplex-messaging v8
+Protocol: popopx-messaging v8
 ---
 
 > **Implementation note:** Short conceptual proposal. The full design evolved into the two-hop onion routing architecture described in RFC 2023-09-12-second-relays, implemented as SMP v8 with PRXY/PKEY/PFWD/RFWD/RRES/PRES commands.
@@ -11,7 +11,7 @@ Protocol: simplex-messaging v8
 
 ## Problem
 
-SimpleX network relies on SMP relays to hold sent messages while the recipient is offline. This design provides many advantages over pure p2p designs [1]. The threat model for relays is covered in [2].
+POPOPX network relies on SMP relays to hold sent messages while the recipient is offline. This design provides many advantages over pure p2p designs [1]. The threat model for relays is covered in [2].
 
 The problem with this design is that the relays are chosen by the recipients, and they as a result can be used to record transport addresses of the senders.
 

@@ -2,7 +2,7 @@
 Proposed: 2024-06-21
 Implemented: ~2025 (SMP v15)
 Standardized: 2026-03-10
-Protocol: simplex-messaging + agent-protocol
+Protocol: popopx-messaging + agent-protocol
 ---
 
 > **Implementation note:** This RFC was promoted from done/ to standard/ based on verification that the described feature exists in the codebase. The RFC text reflects the original proposal and may not match the actual implementation in all details. The consolidated protocol specifications in `protocol/` are the authoritative reference for current behavior.
@@ -30,9 +30,9 @@ The proposed syntax:
 ```abnf
 shortConnectionRequest = connectionScheme "/" connReqType "#/" smpServer "/" linkHash
 connReqType = %s"invitation" / %s"contact"
-connectionScheme = (%s"https://" clientAppServer) / %s"simplex:"
+connectionScheme = (%s"https://" clientAppServer) / %s"popopx:"
 clientAppServer = hostname [ ":" port ]
-  ; client app server, e.g. simplex.chat
+  ; client app server, e.g. popopx.chat
 smpServer = serverIdentity "@" srvHosts [":" port] ; no smp:// prefix, no escaping
 srvHosts = <hostname> ["," srvHosts] ; RFC1123, RFC5891
 linkHash = <base64url encoded SHA256 or SHA512 hash of the original link>
@@ -43,7 +43,7 @@ If SMP router supports pages, its name can be used as clientAppServer, without r
 Example link:
 
 ```
-https://simplex.chat/contact/#0YuTwO05YJWS8rkjn9eLJDjQhFKvIYd8d4xG8X1blIU=@smp8.simplex.im/abcdefghij0123456789abcdefghij0123456789abc=
+https://popopx.chat/contact/#0YuTwO05YJWS8rkjn9eLJDjQhFKvIYd8d4xG8X1blIU=@smp8.popopx.im/abcdefghij0123456789abcdefghij0123456789abc=
 ```
 
 This link has the length of ~136 characters (256 bits), which is shorter than the full contact address (~310 characters) and much shorter than invitation links (~528 characters) even without post-quantum keys added to them.
@@ -59,13 +59,13 @@ If the router is known, the client could use its hash and onion address, otherwi
 With the first two of these "improvements" the link could be ~122 characters:
 
 ```
-https://smp8.simplex.im/contact/#0YuTwO05YJWS8rkjn9eLJDjQhFKvIYd8d4xG8X1blIU@/abcdefghij0123456789abcdefghij0123456789abc
+https://smp8.popopx.im/contact/#0YuTwO05YJWS8rkjn9eLJDjQhFKvIYd8d4xG8X1blIU@/abcdefghij0123456789abcdefghij0123456789abc
 ```
 
 If onion address is preserved the link will be ~184 characters (won't fit in Twitter 160 characters bio):
 
 ```
-https://smp8.simplex.im/contact/#0YuTwO05YJWS8rkjn9eLJDjQhFKvIYd8d4xG8X1blIU@beccx4yfxxbvyhqypaavemqurytl6hozr47wfc7uuecacjqdvwpw2xid.onion/abcdefghij0123456789abcdefghij0123456789abc
+https://smp8.popopx.im/contact/#0YuTwO05YJWS8rkjn9eLJDjQhFKvIYd8d4xG8X1blIU@beccx4yfxxbvyhqypaavemqurytl6hozr47wfc7uuecacjqdvwpw2xid.onion/abcdefghij0123456789abcdefghij0123456789abc
 ```
 
 If we implement it, the request to resolve the link would be made via proxied SMP command (to avoid the direct connection between the client and the recipient's router).

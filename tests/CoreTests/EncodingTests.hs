@@ -13,12 +13,12 @@ import Data.Int (Int64)
 import Data.List.NonEmpty (NonEmpty (..))
 import Data.Time.Clock.System (SystemTime (..), getSystemTime, utcToSystemTime)
 import Data.Time.ISO8601 (parseISO8601)
-import Simplex.Messaging.Encoding
-import Simplex.Messaging.Encoding.String
-import Simplex.Messaging.Parsers (parseAll)
-import Simplex.Messaging.Protocol (ProtocolServer (..), XFTPServer)
-import Simplex.Messaging.ServiceScheme (ServiceScheme (..), SrvLoc (..))
-import Simplex.Messaging.Transport.Client (TransportHost (..))
+import Popopx.Messaging.Encoding
+import Popopx.Messaging.Encoding.String
+import Popopx.Messaging.Parsers (parseAll)
+import Popopx.Messaging.Protocol (ProtocolServer (..), XFTPServer)
+import Popopx.Messaging.ServiceScheme (ServiceScheme (..), SrvLoc (..))
+import Popopx.Messaging.Transport.Client (TransportHost (..))
 import Test.Hspec hiding (fit, it)
 import Test.Hspec.QuickCheck (modifyMaxSuccess)
 import Test.QuickCheck
@@ -50,14 +50,14 @@ encodingTests = modifyMaxSuccess (const 1000) $ do
       \i -> parseAll smpP (smpEncode i) == Right (i :: Int64)
   describe "Encoding transport hosts" $ do
     describe "domain name hosts" $ do
-      it "should encode / decode domain name" $ THDomainName "smp.simplex.im" #==# "smp.simplex.im"
+      it "should encode / decode domain name" $ THDomainName "smp.popopx.im" #==# "smp.popopx.im"
       it "should not allow whitespace or punctuation" $ do
-        shouldNotParse @TransportHost "smp,simplex.im" "endOfInput"
-        shouldNotParse @TransportHost "smp:simplex.im" "endOfInput"
-        shouldNotParse @TransportHost "smp#simplex.im" "endOfInput"
-        shouldNotParse @TransportHost "smp simplex.im" "endOfInput"
-        shouldNotParse @TransportHost "smp\nsimplex.im" "endOfInput"
-        shouldNotParse @TransportHost "smp\0simplex.im" "endOfInput"
+        shouldNotParse @TransportHost "smp,popopx.im" "endOfInput"
+        shouldNotParse @TransportHost "smp:popopx.im" "endOfInput"
+        shouldNotParse @TransportHost "smp#popopx.im" "endOfInput"
+        shouldNotParse @TransportHost "smp popopx.im" "endOfInput"
+        shouldNotParse @TransportHost "smp\npopopx.im" "endOfInput"
+        shouldNotParse @TransportHost "smp\0popopx.im" "endOfInput"
         shouldReject @TransportHost "\0"
     describe "onion hosts" $ do
       it "should encode / decode onion host" $ THOnionHost "beccx4yfxxbvyhqypaavemqurytl6hozr47wfc7uuecacjqdvwpw2xid.onion" #==# "beccx4yfxxbvyhqypaavemqurytl6hozr47wfc7uuecacjqdvwpw2xid.onion"
@@ -78,8 +78,8 @@ encodingTests = modifyMaxSuccess (const 1000) $ do
         THDomainName "192.168.0.-1" #==# "192.168.0.-1"
         shouldNotParse @TransportHost "192.168.0.0.1" "endOfInput"
         -- brackets are reserved for IPv6 literals
-        shouldReject @TransportHost "[simplex.chat]"
-        shouldReject @TransportHost "[smp.simplex.im]"
+        shouldReject @TransportHost "[popopx.chat]"
+        shouldReject @TransportHost "[smp.popopx.im]"
   describe "Encoding service locations" $ do
     it "should parse bracketed IPv6 host with port" $ do
       strDecode @ServiceScheme "https://[2001:db8::1]:8443"
@@ -87,7 +87,7 @@ encodingTests = modifyMaxSuccess (const 1000) $ do
       strEncode (SSAppServer $ SrvLoc "2001:db8::1" "8443")
         `shouldBe` "https://[2001:db8::1]:8443"
     it "should reject bracketed non-IPv6 host" $
-      shouldReject @ServiceScheme "https://[simplex.chat]:8443"
+      shouldReject @ServiceScheme "https://[popopx.chat]:8443"
   describe "Encoding protocol servers" $ do
     it "should parse bracketed IPv6 server host with port" $
       case strDecode @XFTPServer "xftp://1234-w==@[2001:db8::1]:443" of
@@ -96,7 +96,7 @@ encodingTests = modifyMaxSuccess (const 1000) $ do
           parsedHost `shouldBe` (ipv6Host :| [])
           parsedPort `shouldBe` "443"
     it "should reject bracketed non-IPv6 server host" $
-      shouldReject @XFTPServer "xftp://1234-w==@[simplex.chat]:443"
+      shouldReject @XFTPServer "xftp://1234-w==@[popopx.chat]:443"
   where
     ipv6Host :: TransportHost
     ipv6Host = either error id $ strDecode "2001:db8::1"

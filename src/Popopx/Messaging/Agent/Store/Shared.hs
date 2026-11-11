@@ -3,7 +3,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE TemplateHaskell #-}
 
-module Simplex.Messaging.Agent.Store.Shared
+module Popopx.Messaging.Agent.Store.Shared
   ( Migration (..),
     MigrationsToRun (..),
     DownMigration (..),
@@ -25,8 +25,8 @@ import qualified Data.Attoparsec.ByteString.Char8 as A
 import Data.List (intercalate)
 import Data.Maybe (isJust)
 import Data.Text (Text)
-import Simplex.Messaging.Encoding.String
-import Simplex.Messaging.Parsers (defaultJSON, dropPrefix, sumTypeJSON)
+import Popopx.Messaging.Encoding.String
+import Popopx.Messaging.Parsers (defaultJSON, dropPrefix, sumTypeJSON)
 
 data Migration = Migration {name :: String, up :: Text, down :: Maybe Text}
   deriving (Eq, Show)

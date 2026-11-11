@@ -14,7 +14,7 @@
 - A thread created by `forkClient` writes the responses to the send queue.
 - Delay 0: the responses are written to the send queue directly.
 - `authDelayExceeded`: incremented when processing took longer than the delay.
-  - Prometheus counter `simplex_smp_auth_delay_exceeded`.
+  - Prometheus counter `popopx_smp_auth_delay_exceeded`.
   - Not saved in the stats backup.
   - Not in the daily stats log.
 - Configuration:
@@ -41,10 +41,10 @@
   - `processForwardedCommand`: start time.
 - `Server/Env/STM.hs`: `authErrorDelay` field, `defaultAuthErrorDelayMs`.
 - `Server/Stats.hs`: `authDelayExceeded` in `ServerStats` and `ServerStatsData`.
-- `Server/Prometheus.hs`: `simplex_smp_auth_delay_exceeded`.
+- `Server/Prometheus.hs`: `popopx_smp_auth_delay_exceeded`.
 - `Server/Main.hs`: INI value.
 - `Server/Main/Init.hs`: INI template line.
-- `simplexmq.cabal`: `timeit` removed from the test suite.
+- `popopxmq.cabal`: `timeit` removed from the test suite.
 - `tests/SMPClient.hs`: `authErrorDelay = 20000`.
 - `tests/ServerTests.hs`:
   - delayed AUTH for wrong key, absent queue, absent link and suspended queue; immediate `SOK`.

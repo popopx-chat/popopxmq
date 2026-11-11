@@ -27,31 +27,31 @@ import qualified Data.List.NonEmpty as NE
 import Data.Word (Word8, Word16, Word32)
 import System.Random (randomIO)
 import Data.X509.Validation (Fingerprint (..))
-import Simplex.FileTransfer.Client (prepareChunkSizes)
-import Simplex.FileTransfer.Client.Main (decodeWebURI, encodeWebURI)
-import Simplex.FileTransfer.Description (FileDescription (..), FileSize (..), ValidFileDescription, pattern ValidFileDescription)
-import Simplex.FileTransfer.Protocol (FileParty (..), xftpBlockSize)
-import Simplex.FileTransfer.Transport (XFTPClientHello (..))
-import Simplex.FileTransfer.Types (FileHeader (..))
-import qualified Simplex.Messaging.Crypto as C
-import qualified Simplex.Messaging.Crypto.Lazy as LC
-import Simplex.Messaging.Encoding
-import Simplex.Messaging.Encoding.String (strDecode, strEncode)
-import Simplex.Messaging.Transport.Server (loadFileFingerprint)
+import Popopx.FileTransfer.Client (prepareChunkSizes)
+import Popopx.FileTransfer.Client.Main (decodeWebURI, encodeWebURI)
+import Popopx.FileTransfer.Description (FileDescription (..), FileSize (..), ValidFileDescription, pattern ValidFileDescription)
+import Popopx.FileTransfer.Protocol (FileParty (..), xftpBlockSize)
+import Popopx.FileTransfer.Transport (XFTPClientHello (..))
+import Popopx.FileTransfer.Types (FileHeader (..))
+import qualified Popopx.Messaging.Crypto as C
+import qualified Popopx.Messaging.Crypto.Lazy as LC
+import Popopx.Messaging.Encoding
+import Popopx.Messaging.Encoding.String (strDecode, strEncode)
+import Popopx.Messaging.Transport.Server (loadFileFingerprint)
 import System.Directory (createDirectoryIfMissing, doesDirectoryExist, removeDirectoryRecursive)
 import System.Environment (getEnvironment)
 import System.Exit (ExitCode (..))
 import System.Process (CreateProcess (..), StdStream (..), createProcess, proc, waitForProcess)
 import Test.Hspec hiding (fit, it)
 import Util
-import Simplex.FileTransfer.Server.Env (XFTPServerConfig)
-import Simplex.FileTransfer.Server.Store (STMFileStore)
+import Popopx.FileTransfer.Server.Env (XFTPServerConfig)
+import Popopx.FileTransfer.Server.Store (STMFileStore)
 import XFTPClient (testXFTPServerConfigEd25519SNI, testXFTPServerConfigSNI, withXFTPServerCfg, xftpSendFile, xftpTestPort)
 import AgentTests.FunctionalAPITests (rfGet, runRight, runRight_, sfGet, withAgent)
-import Simplex.Messaging.Agent (AgentClient, xftpReceiveFile, xftpStartWorkers)
-import Simplex.Messaging.Agent.Protocol (AEvent (..))
+import Popopx.Messaging.Agent (AgentClient, xftpReceiveFile, xftpStartWorkers)
+import Popopx.Messaging.Agent.Protocol (AEvent (..))
 import SMPAgentClient (agentCfg, initAgentServers, testDB)
-import qualified Simplex.Messaging.Crypto.File as CF
+import qualified Popopx.Messaging.Crypto.File as CF
 
 xftpWebDir :: FilePath
 xftpWebDir = "xftp-web"

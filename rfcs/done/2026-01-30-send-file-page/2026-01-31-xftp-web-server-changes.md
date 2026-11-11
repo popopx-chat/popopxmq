@@ -79,8 +79,8 @@ Access-Control-Max-Age: 86400
 
 ```ini
 [WEB]
-# cert: /etc/opt/simplex-xftp/web.crt
-# key: /etc/opt/simplex-xftp/web.key
+# cert: /etc/opt/popopx-xftp/web.crt
+# key: /etc/opt/popopx-xftp/web.key
 ```
 
 Commented out by default — web support is opt-in.
@@ -93,11 +93,11 @@ Commented out by default — web support is opt-in.
 
 ## 5. Files Modified
 
-### 5.1 `src/Simplex/Messaging/Transport/Server.hs`
+### 5.1 `src/Popopx/Messaging/Transport/Server.hs`
 
 Added `addCORSHeaders :: Bool` field to `TransportServerConfig`. Updated `mkTransportServerConfig` to accept the new parameter. All existing SMP call sites pass `False`.
 
-### 5.2 `src/Simplex/Messaging/Transport/HTTP2/Server.hs`
+### 5.2 `src/Popopx/Messaging/Transport/HTTP2/Server.hs`
 
 - Extracted `expireInactiveClient` from `runHTTP2ServerWith_`'s `where` clause to a module-level function.
 - Parameterized `runHTTP2ServerWith_`: setup type changed from `((TLS p -> IO ()) -> a)` to `(((Bool, TLS p) -> IO ()) -> a)`, callback from `HTTP2ServerFunc` to `Bool -> HTTP2ServerFunc`. The `Bool` is the per-connection `sniUsed` flag, threaded through `H.run` to the callback.
@@ -105,19 +105,19 @@ Added `addCORSHeaders :: Bool` field to `TransportServerConfig`. Updated `mkTran
 - Adapted `runHTTP2ServerWith` (client-side HTTP/2, no SNI): wraps its setup to inject `(False, tls)` and its callback with `const`.
 - Updated `getHTTP2Server` (test helper) to pass `Nothing` for httpCreds.
 
-### 5.3 `src/Simplex/FileTransfer/Server/Env.hs`
+### 5.3 `src/Popopx/FileTransfer/Server/Env.hs`
 
 - Added `httpCredentials :: Maybe ServerCredentials` to `XFTPServerConfig`.
 - Added `httpServerCreds :: Maybe T.Credential` to `XFTPEnv`.
 - `newXFTPServerEnv` loads HTTP credentials when configured.
 
-### 5.4 `src/Simplex/FileTransfer/Server/Main.hs`
+### 5.4 `src/Popopx/FileTransfer/Server/Main.hs`
 
 - Added `[WEB]` section to INI template.
 - Added `httpCredentials` parsing from INI `[WEB]` section (`cert` and `key` fields).
 - Set `addCORSHeaders = isJust httpCredentials_` in transport config (conditional on web cert presence).
 
-### 5.5 `src/Simplex/FileTransfer/Server.hs`
+### 5.5 `src/Popopx/FileTransfer/Server.hs`
 
 Core server changes:
 

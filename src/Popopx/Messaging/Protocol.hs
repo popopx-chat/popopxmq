@@ -30,18 +30,18 @@
 {-# OPTIONS_GHC -fno-warn-unticked-promoted-constructors #-}
 
 -- |
--- Module      : Simplex.Messaging.ProtocolEncoding
+-- Module      : Popopx.Messaging.ProtocolEncoding
 -- Copyright   : (c) simplex.chat
 -- License     : AGPL-3
 --
--- Maintainer  : chat@simplex.chat
+-- Maintainer  : chat@popopx.chat
 -- Stability   : experimental
 -- Portability : non-portable
 --
 -- Types, parsers, serializers and functions to send and receive SMP protocol commands and responses.
 --
--- See https://github.com/simplex-chat/simplexmq/blob/master/protocol/simplex-messaging.md
-module Simplex.Messaging.Protocol
+-- See https://github.com/popopx-chat/popopxmq/blob/master/protocol/simplex-messaging.md
+module Popopx.Messaging.Protocol
   ( -- * SMP protocol parameters
     supportedSMPClientVRange,
     maxMessageLength,
@@ -276,21 +276,21 @@ import qualified GHC.TypeLits as TE
 import qualified GHC.TypeLits as Type
 import Network.Socket (ServiceName)
 import qualified Network.TLS as TLS
-import Simplex.Messaging.Agent.Store.DB (Binary (..), FromField (..), ToField (..), blobFieldDecoder)
-import qualified Simplex.Messaging.Crypto as C
-import Simplex.Messaging.Encoding
-import Simplex.Messaging.Encoding.String
-import Simplex.Messaging.Names.Record
-import Simplex.Messaging.Parsers
-import Simplex.Messaging.Protocol.Types
-import Simplex.Messaging.Server.QueueStore.QueueInfo
-import Simplex.Messaging.ServiceScheme
-import Simplex.Messaging.SimplexName (LabelHash, SimplexDomain (..), SimplexTLD (..), fullDomainName, labelHash)
-import Simplex.Messaging.Transport
-import Simplex.Messaging.Transport.Client (TransportHost, TransportHosts (..))
-import Simplex.Messaging.Util (bshow, eitherToMaybe, safeDecodeUtf8, (<$?>))
-import Simplex.Messaging.Version
-import Simplex.Messaging.Version.Internal
+import Popopx.Messaging.Agent.Store.DB (Binary (..), FromField (..), ToField (..), blobFieldDecoder)
+import qualified Popopx.Messaging.Crypto as C
+import Popopx.Messaging.Encoding
+import Popopx.Messaging.Encoding.String
+import Popopx.Messaging.Names.Record
+import Popopx.Messaging.Parsers
+import Popopx.Messaging.Protocol.Types
+import Popopx.Messaging.Server.QueueStore.QueueInfo
+import Popopx.Messaging.ServiceScheme
+import Popopx.Messaging.PopopxName (LabelHash, PopopxDomain (..), PopopxTLD (..), fullDomainName, labelHash)
+import Popopx.Messaging.Transport
+import Popopx.Messaging.Transport.Client (TransportHost, TransportHosts (..))
+import Popopx.Messaging.Util (bshow, eitherToMaybe, safeDecodeUtf8, (<$?>))
+import Popopx.Messaging.Version
+import Popopx.Messaging.Version.Internal
 
 -- SMP client protocol version history:
 -- 1 - binary protocol encoding (1/1/2022)
@@ -617,7 +617,7 @@ data Command (p :: Party) where
   -- - entity ID: empty
   -- - corrId: unique correlation ID between proxy and relay, also used as a nonce to encrypt forwarded transmission
   RFWD :: EncFwdTransmission -> Command ProxyService -- use CorrId as CbNonce, proxy to relay
-  -- Resolve SimpleX name.
+  -- Resolve POPOPX name.
   RSLV :: NameQuery -> Command Resolver
 
 deriving instance Show (Command p)
@@ -759,7 +759,7 @@ data BrokerMsg where
   OK :: BrokerMsg
   ERR :: ErrorType -> BrokerMsg
   PONG :: BrokerMsg
-  -- What the router knows about a SimpleX name.
+  -- What the router knows about a POPOPX name.
   RNAME :: NameResponse -> BrokerMsg
   deriving (Eq, Show)
 
@@ -1640,7 +1640,7 @@ data ErrorType
   deriving (Eq, Show)
 
 -- | What RSLV asks about: a name, or the hash of a second-level label.
-data NameQuery = NQDomain SimplexDomain | NQHash LabelHash SimplexTLD
+data NameQuery = NQDomain PopopxDomain | NQHash LabelHash PopopxTLD
   deriving (Eq, Show)
 
 instance Encoding NameQuery where
@@ -1652,7 +1652,7 @@ instance Encoding NameQuery where
 -- | Hashed from v22, except a name with subnames or a web TLD.
 hashedQuery :: NameQuery -> NameQuery
 hashedQuery q = case q of
-  NQDomain SimplexDomain {nameTLD, domain, subDomain}
+  NQDomain PopopxDomain {nameTLD, domain, subDomain}
     | null subDomain && nameTLD /= TLDWeb -> NQHash (labelHash domain) nameTLD
   _ -> q
 

@@ -3,13 +3,13 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE TemplateHaskell #-}
 
-module Simplex.Messaging.Protocol.Types
+module Popopx.Messaging.Protocol.Types
   ( ClientNotice (..),
   ) where
 
 import qualified Data.Aeson.TH as J
 import Data.Int (Int64)
-import Simplex.Messaging.Parsers
+import Popopx.Messaging.Parsers
 
 data ClientNotice = ClientNotice
   { ttl :: Maybe Int64 -- seconds, Nothing - indefinite

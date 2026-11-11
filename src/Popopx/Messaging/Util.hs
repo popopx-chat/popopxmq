@@ -3,7 +3,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE ScopedTypeVariables #-}
 
-module Simplex.Messaging.Util
+module Popopx.Messaging.Util
   ( AnyError (..),
     (<$?>),
     ($>>),

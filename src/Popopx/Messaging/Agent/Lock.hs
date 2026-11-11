@@ -1,4 +1,4 @@
-module Simplex.Messaging.Agent.Lock
+module Popopx.Messaging.Agent.Lock
   ( Lock,
     createLock,
     createLockIO,

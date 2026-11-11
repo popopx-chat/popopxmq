@@ -1,6 +1,6 @@
 {-# LANGUAGE QuasiQuotes #-}
 
-module Simplex.Messaging.Agent.Store.SQLite.Migrations.M20250702_conn_invitations_remove_cascade_delete where
+module Popopx.Messaging.Agent.Store.SQLite.Migrations.M20250702_conn_invitations_remove_cascade_delete where
 
 import Database.SQLite.Simple (Query)
 import Database.SQLite.Simple.QQ (sql)

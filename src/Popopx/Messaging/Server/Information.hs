@@ -6,7 +6,7 @@
 {-# LANGUAGE StrictData #-}
 {-# LANGUAGE TemplateHaskell #-}
 
-module Simplex.Messaging.Server.Information
+module Popopx.Messaging.Server.Information
   ( ServerInformation (..),
     ServerPublicConfig (..),
     ServerPublicInfo (..),
@@ -26,8 +26,8 @@ import qualified Data.Attoparsec.ByteString.Char8 as A
 import Data.Int (Int64)
 import Data.Maybe (isJust)
 import Data.Text (Text)
-import Simplex.Messaging.Encoding.String
-import Simplex.Messaging.Parsers (defaultJSON, dropPrefix, enumJSON)
+import Popopx.Messaging.Encoding.String
+import Popopx.Messaging.Parsers (defaultJSON, dropPrefix, enumJSON)
 
 data ServerInformation = ServerInformation
   { config :: ServerPublicConfig,
@@ -111,7 +111,7 @@ data Entity = Entity {name :: Text, country :: Maybe Text}
   deriving (Show)
 
 data ServerContactAddress = ServerContactAddress
-  { simplex :: Maybe Text,
+  { popopx :: Maybe Text,
     email :: Maybe Text, -- it is recommended that it matches DNS email address, if either is present
     pgp :: Maybe PGPKey
   }

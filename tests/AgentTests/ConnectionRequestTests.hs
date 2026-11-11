@@ -23,22 +23,22 @@ import Data.ByteString (ByteString)
 import qualified Data.ByteString.Char8 as B
 import Data.Either (isLeft)
 import Network.HTTP.Types (urlEncode)
-import Simplex.Messaging.Agent.Protocol
-import qualified Simplex.Messaging.Crypto as C
-import Simplex.Messaging.Crypto.Ratchet
-import Simplex.Messaging.Encoding
-import Simplex.Messaging.Encoding.String
-import Simplex.Messaging.Protocol (EntityId (..), ProtocolServer (..), QueueMode (..), currentSMPClientVersion, supportedSMPClientVRange, pattern VersionSMPC)
-import Simplex.Messaging.ServiceScheme (ServiceScheme (..))
-import Simplex.Messaging.Version
+import Popopx.Messaging.Agent.Protocol
+import qualified Popopx.Messaging.Crypto as C
+import Popopx.Messaging.Crypto.Ratchet
+import Popopx.Messaging.Encoding
+import Popopx.Messaging.Encoding.String
+import Popopx.Messaging.Protocol (EntityId (..), ProtocolServer (..), QueueMode (..), currentSMPClientVersion, supportedSMPClientVRange, pattern VersionSMPC)
+import Popopx.Messaging.ServiceScheme (ServiceScheme (..))
+import Popopx.Messaging.Version
 import Test.Hspec hiding (fit, it)
 import Util
 
 srv :: SMPServer
-srv = SMPServer "smp.simplex.im,jjbyvoemxysm7qxap7m5d5m35jzv5qq6gnlv7s4rsn7tdwwmuqciwpid.onion" "5223" (C.KeyHash "\215m\248\251")
+srv = SMPServer "smp.popopx.im,jjbyvoemxysm7qxap7m5d5m35jzv5qq6gnlv7s4rsn7tdwwmuqciwpid.onion" "5223" (C.KeyHash "\215m\248\251")
 
 srv1 :: SMPServer
-srv1 = SMPServer "smp.simplex.im" "5223" (C.KeyHash "\215m\248\251")
+srv1 = SMPServer "smp.popopx.im" "5223" (C.KeyHash "\215m\248\251")
 
 queueAddr :: SMPQueueAddress
 queueAddr =
@@ -78,19 +78,19 @@ queueContact :: SMPQueueUri
 queueContact = SMPQueueUri supportedSMPClientVRange queueAddrContact
 
 queueStr :: ByteString
-queueStr = "smp://1234-w==@smp.simplex.im:5223/3456-w==#/?v=1-4&dh=" <> url testDhKeyStr <> "&q=m&k=s" <> "&srv=jjbyvoemxysm7qxap7m5d5m35jzv5qq6gnlv7s4rsn7tdwwmuqciwpid.onion"
+queueStr = "smp://1234-w==@smp.popopx.im:5223/3456-w==#/?v=1-4&dh=" <> url testDhKeyStr <> "&q=m&k=s" <> "&srv=jjbyvoemxysm7qxap7m5d5m35jzv5qq6gnlv7s4rsn7tdwwmuqciwpid.onion"
 
 queueStrNoQM :: ByteString
-queueStrNoQM = "smp://1234-w==@smp.simplex.im:5223/3456-w==#/?v=1-4&dh=" <> url testDhKeyStr <> "&srv=jjbyvoemxysm7qxap7m5d5m35jzv5qq6gnlv7s4rsn7tdwwmuqciwpid.onion"
+queueStrNoQM = "smp://1234-w==@smp.popopx.im:5223/3456-w==#/?v=1-4&dh=" <> url testDhKeyStr <> "&srv=jjbyvoemxysm7qxap7m5d5m35jzv5qq6gnlv7s4rsn7tdwwmuqciwpid.onion"
 
 queueStrContact :: ByteString
-queueStrContact = "smp://1234-w==@smp.simplex.im:5223/3456-w==#/?v=1-4&dh=" <> url testDhKeyStr <> "&q=c" <> "&srv=jjbyvoemxysm7qxap7m5d5m35jzv5qq6gnlv7s4rsn7tdwwmuqciwpid.onion"
+queueStrContact = "smp://1234-w==@smp.popopx.im:5223/3456-w==#/?v=1-4&dh=" <> url testDhKeyStr <> "&q=c" <> "&srv=jjbyvoemxysm7qxap7m5d5m35jzv5qq6gnlv7s4rsn7tdwwmuqciwpid.onion"
 
 queue1 :: SMPQueueUri
 queue1 = SMPQueueUri supportedSMPClientVRange queueAddr1
 
 queue1Str :: ByteString
-queue1Str = "smp://1234-w==@smp.simplex.im:5223/3456-w==#/?v=1-4&dh=" <> url testDhKeyStr <> "&q=m&k=s"
+queue1Str = "smp://1234-w==@smp.popopx.im:5223/3456-w==#/?v=1-4&dh=" <> url testDhKeyStr <> "&q=m&k=s"
 
 queueV1 :: SMPQueueUri
 queueV1 = SMPQueueUri (mkVersionRange (VersionSMPC 1) (VersionSMPC 1)) queueAddrNoQM
@@ -104,10 +104,10 @@ queueNew :: SMPQueueUri
 queueNew = SMPQueueUri (mkVersionRange (VersionSMPC 2) currentSMPClientVersion) queueAddr
 
 queueNewStr :: ByteString
-queueNewStr = "smp://1234-w==@smp.simplex.im,jjbyvoemxysm7qxap7m5d5m35jzv5qq6gnlv7s4rsn7tdwwmuqciwpid.onion:5223/3456-w==#/?v=2-4&dh=" <> url testDhKeyStr <> "&q=m&k=s"
+queueNewStr = "smp://1234-w==@smp.popopx.im,jjbyvoemxysm7qxap7m5d5m35jzv5qq6gnlv7s4rsn7tdwwmuqciwpid.onion:5223/3456-w==#/?v=2-4&dh=" <> url testDhKeyStr <> "&q=m&k=s"
 
 queueNewStr' :: ByteString
-queueNewStr' = "smp://1234-w==@smp.simplex.im,jjbyvoemxysm7qxap7m5d5m35jzv5qq6gnlv7s4rsn7tdwwmuqciwpid.onion:5223/3456-w==#/?v=2-4&dh=" <> testDhKeyStr <> "&q=m&k=s"
+queueNewStr' = "smp://1234-w==@smp.popopx.im,jjbyvoemxysm7qxap7m5d5m35jzv5qq6gnlv7s4rsn7tdwwmuqciwpid.onion:5223/3456-w==#/?v=2-4&dh=" <> testDhKeyStr <> "&q=m&k=s"
 
 queueNewNoPort :: SMPQueueUri
 queueNewNoPort = (queueNew :: SMPQueueUri) {queueAddress = queueAddrNoPort}
@@ -116,7 +116,7 @@ queueNew1 :: SMPQueueUri
 queueNew1 = SMPQueueUri (mkVersionRange (VersionSMPC 2) currentSMPClientVersion) queueAddr1
 
 queueNew1Str :: ByteString
-queueNew1Str = "smp://1234-w==@smp.simplex.im:5223/3456-w==#/?v=2-4&dh=" <> url testDhKeyStr <> "&q=m&k=s"
+queueNew1Str = "smp://1234-w==@smp.popopx.im:5223/3456-w==#/?v=2-4&dh=" <> url testDhKeyStr <> "&q=m&k=s"
 
 queueNew1NoPort :: SMPQueueUri
 queueNew1NoPort = (queueNew1 :: SMPQueueUri) {queueAddress = queueAddrNoPort1}
@@ -130,7 +130,7 @@ testDhKeyStr = strEncode testDhKey
 connReqData :: ConnReqUriData
 connReqData =
   ConnReqUriData
-    { crScheme = SSSimplex,
+    { crScheme = SSPopopx,
       crAgentVRange = supportedSMPAgentVRange,
       crSmpQueues = [queue],
       crClientData = Nothing
@@ -249,44 +249,44 @@ connectionRequestTests =
   describe "connection request parsing / serializing" $ do
     it "should serialize and parse SMP queue URIs" $ do
       queue #==# queueStr
-      queue #== ("smp://1234-w==@smp.simplex.im:5223/3456-w==#" <> testDhKeyStr <> "/?v=1-4&extra_param=abc&srv=jjbyvoemxysm7qxap7m5d5m35jzv5qq6gnlv7s4rsn7tdwwmuqciwpid.onion&q=m&k=s")
+      queue #== ("smp://1234-w==@smp.popopx.im:5223/3456-w==#" <> testDhKeyStr <> "/?v=1-4&extra_param=abc&srv=jjbyvoemxysm7qxap7m5d5m35jzv5qq6gnlv7s4rsn7tdwwmuqciwpid.onion&q=m&k=s")
       queueNoQM #==# queueStrNoQM
       queueContact #==# queueStrContact
       queue1 #==# queue1Str
       queueNew #==# queueNewStr
       queueNew #== queueNewStr'
       queueNew1 #==# queueNew1Str
-      queueNewNoPort #==# ("smp://1234-w==@smp.simplex.im,jjbyvoemxysm7qxap7m5d5m35jzv5qq6gnlv7s4rsn7tdwwmuqciwpid.onion/3456-w==#/?v=2-4&dh=" <> url testDhKeyStr <> "&q=m&k=s")
-      queueNew1NoPort #==# ("smp://1234-w==@smp.simplex.im/3456-w==#/?v=2-4&dh=" <> url testDhKeyStr <> "&q=m&k=s")
-      queueV1 #==# ("smp://1234-w==@smp.simplex.im:5223/3456-w==#/?v=1&dh=" <> url testDhKeyStr <> "&srv=jjbyvoemxysm7qxap7m5d5m35jzv5qq6gnlv7s4rsn7tdwwmuqciwpid.onion")
-      queueV1 #== ("smp://1234-w==@smp.simplex.im,jjbyvoemxysm7qxap7m5d5m35jzv5qq6gnlv7s4rsn7tdwwmuqciwpid.onion:5223/3456-w==#" <> testDhKeyStr)
-      queueV1 #== ("smp://1234-w==@smp.simplex.im:5223/3456-w==#/?extra_param=abc&v=1&dh=" <> testDhKeyStr <> "&srv=jjbyvoemxysm7qxap7m5d5m35jzv5qq6gnlv7s4rsn7tdwwmuqciwpid.onion")
-      queueV1 #== ("smp://1234-w==@smp.simplex.im:5223/3456-w==#" <> testDhKeyStr <> "/?v=1&extra_param=abc&srv=jjbyvoemxysm7qxap7m5d5m35jzv5qq6gnlv7s4rsn7tdwwmuqciwpid.onion")
-      queueV1NoPort #==# ("smp://1234-w==@smp.simplex.im/3456-w==#/?v=1&dh=" <> url testDhKeyStr <> "&srv=jjbyvoemxysm7qxap7m5d5m35jzv5qq6gnlv7s4rsn7tdwwmuqciwpid.onion")
-      queueV1NoPort #== ("smp://1234-w==@smp.simplex.im/3456-w==#/?v=1-1&dh=" <> url testDhKeyStr <> "&srv=jjbyvoemxysm7qxap7m5d5m35jzv5qq6gnlv7s4rsn7tdwwmuqciwpid.onion")
-      queueV1NoPort #== ("smp://1234-w==@smp.simplex.im,jjbyvoemxysm7qxap7m5d5m35jzv5qq6gnlv7s4rsn7tdwwmuqciwpid.onion/3456-w==#" <> testDhKeyStr)
+      queueNewNoPort #==# ("smp://1234-w==@smp.popopx.im,jjbyvoemxysm7qxap7m5d5m35jzv5qq6gnlv7s4rsn7tdwwmuqciwpid.onion/3456-w==#/?v=2-4&dh=" <> url testDhKeyStr <> "&q=m&k=s")
+      queueNew1NoPort #==# ("smp://1234-w==@smp.popopx.im/3456-w==#/?v=2-4&dh=" <> url testDhKeyStr <> "&q=m&k=s")
+      queueV1 #==# ("smp://1234-w==@smp.popopx.im:5223/3456-w==#/?v=1&dh=" <> url testDhKeyStr <> "&srv=jjbyvoemxysm7qxap7m5d5m35jzv5qq6gnlv7s4rsn7tdwwmuqciwpid.onion")
+      queueV1 #== ("smp://1234-w==@smp.popopx.im,jjbyvoemxysm7qxap7m5d5m35jzv5qq6gnlv7s4rsn7tdwwmuqciwpid.onion:5223/3456-w==#" <> testDhKeyStr)
+      queueV1 #== ("smp://1234-w==@smp.popopx.im:5223/3456-w==#/?extra_param=abc&v=1&dh=" <> testDhKeyStr <> "&srv=jjbyvoemxysm7qxap7m5d5m35jzv5qq6gnlv7s4rsn7tdwwmuqciwpid.onion")
+      queueV1 #== ("smp://1234-w==@smp.popopx.im:5223/3456-w==#" <> testDhKeyStr <> "/?v=1&extra_param=abc&srv=jjbyvoemxysm7qxap7m5d5m35jzv5qq6gnlv7s4rsn7tdwwmuqciwpid.onion")
+      queueV1NoPort #==# ("smp://1234-w==@smp.popopx.im/3456-w==#/?v=1&dh=" <> url testDhKeyStr <> "&srv=jjbyvoemxysm7qxap7m5d5m35jzv5qq6gnlv7s4rsn7tdwwmuqciwpid.onion")
+      queueV1NoPort #== ("smp://1234-w==@smp.popopx.im/3456-w==#/?v=1-1&dh=" <> url testDhKeyStr <> "&srv=jjbyvoemxysm7qxap7m5d5m35jzv5qq6gnlv7s4rsn7tdwwmuqciwpid.onion")
+      queueV1NoPort #== ("smp://1234-w==@smp.popopx.im,jjbyvoemxysm7qxap7m5d5m35jzv5qq6gnlv7s4rsn7tdwwmuqciwpid.onion/3456-w==#" <> testDhKeyStr)
     it "should serialize and parse connection invitations and contact addresses" $ do
-      connectionRequest #==# ("simplex:/invitation#/?v=6-8&smp=" <> url queueStr <> "&e2e=" <> testE2ERatchetParamsStrUri)
-      connectionRequest #== ("https://simplex.chat/invitation#/?v=6-8&smp=" <> url queueStr <> "&e2e=" <> testE2ERatchetParamsStrUri)
-      connectionRequestNoQM #==# ("simplex:/invitation#/?v=6-8&smp=" <> url queueStrNoQM <> "&e2e=" <> testE2ERatchetParamsStrUri)
-      connectionRequest1 #==# ("simplex:/invitation#/?v=6-8&smp=" <> url queue1Str <> "&e2e=" <> testE2ERatchetParamsStrUri)
-      connectionRequest2queues #==# ("simplex:/invitation#/?v=6-8&smp=" <> url (queueStr <> ";" <> queueStr) <> "&e2e=" <> testE2ERatchetParamsStrUri)
-      connectionRequestNew #==# ("simplex:/invitation#/?v=6-8&smp=" <> url queueNewStr <> "&e2e=" <> testE2ERatchetParamsStrUri)
-      connectionRequestNew1 #==# ("simplex:/invitation#/?v=6-8&smp=" <> url queueNew1Str <> "&e2e=" <> testE2ERatchetParamsStrUri)
-      connectionRequest2queuesNew #==# ("simplex:/invitation#/?v=6-8&smp=" <> url (queueNewStr <> ";" <> queueNewStr) <> "&e2e=" <> testE2ERatchetParamsStrUri)
-      connectionRequestV1 #== ("https://simplex.chat/invitation#/?v=1&smp=" <> url queueStr <> "&e2e=" <> testE2ERatchetParamsStrUri)
-      connectionRequestClientDataEmpty #==# ("simplex:/invitation#/?v=6-8&smp=" <> url queueStr <> "&e2e=" <> testE2ERatchetParamsStrUri <> "&data=" <> url "{}")
-      contactAddress #==# ("simplex:/contact#/?v=6-8&smp=" <> url queueStr)
-      contactAddressDR #==# ("simplex:/contact#/?v=6-8&smp=" <> url queueStr <> "&e2e=" <> testE2ERatchetParamsStrUri <> "&rk=MDEyMzQ1Njc4OWFiY2RlZg%3D%3D")
-      contactAddress #== ("https://simplex.chat/contact#/?v=6-8&smp=" <> url queueStr)
-      contactAddress2queues #==# ("simplex:/contact#/?v=6-8&smp=" <> url (queueStr <> ";" <> queueStr))
-      contactAddressNew #==# ("simplex:/contact#/?v=6-8&smp=" <> url queueNewStr)
-      contactAddress2queuesNew #==# ("simplex:/contact#/?v=6-8&smp=" <> url (queueNewStr <> ";" <> queueNewStr))
-      contactAddressV6 #==# ("simplex:/contact#/?v=6&smp=" <> url queueStr)
-      contactAddressV6 #== ("https://simplex.chat/contact#/?v=1&smp=" <> url queueStr) -- adjusted to v6
-      contactAddressV6 #== ("https://simplex.chat/contact#/?v=1-2&smp=" <> url queueStr) -- adjusted to v6
-      contactAddressV6 #== ("https://simplex.chat/contact#/?v=2-2&smp=" <> url queueStr)
-      contactAddressClientData #==# ("simplex:/contact#/?v=6-8&smp=" <> url queueStr <> "&data=" <> url "{\"type\":\"group_link\", \"group_link_id\":\"abc\"}")
+      connectionRequest #==# ("popopx:/invitation#/?v=6-8&smp=" <> url queueStr <> "&e2e=" <> testE2ERatchetParamsStrUri)
+      connectionRequest #== ("https://popopx.chat/invitation#/?v=6-8&smp=" <> url queueStr <> "&e2e=" <> testE2ERatchetParamsStrUri)
+      connectionRequestNoQM #==# ("popopx:/invitation#/?v=6-8&smp=" <> url queueStrNoQM <> "&e2e=" <> testE2ERatchetParamsStrUri)
+      connectionRequest1 #==# ("popopx:/invitation#/?v=6-8&smp=" <> url queue1Str <> "&e2e=" <> testE2ERatchetParamsStrUri)
+      connectionRequest2queues #==# ("popopx:/invitation#/?v=6-8&smp=" <> url (queueStr <> ";" <> queueStr) <> "&e2e=" <> testE2ERatchetParamsStrUri)
+      connectionRequestNew #==# ("popopx:/invitation#/?v=6-8&smp=" <> url queueNewStr <> "&e2e=" <> testE2ERatchetParamsStrUri)
+      connectionRequestNew1 #==# ("popopx:/invitation#/?v=6-8&smp=" <> url queueNew1Str <> "&e2e=" <> testE2ERatchetParamsStrUri)
+      connectionRequest2queuesNew #==# ("popopx:/invitation#/?v=6-8&smp=" <> url (queueNewStr <> ";" <> queueNewStr) <> "&e2e=" <> testE2ERatchetParamsStrUri)
+      connectionRequestV1 #== ("https://popopx.chat/invitation#/?v=1&smp=" <> url queueStr <> "&e2e=" <> testE2ERatchetParamsStrUri)
+      connectionRequestClientDataEmpty #==# ("popopx:/invitation#/?v=6-8&smp=" <> url queueStr <> "&e2e=" <> testE2ERatchetParamsStrUri <> "&data=" <> url "{}")
+      contactAddress #==# ("popopx:/contact#/?v=6-8&smp=" <> url queueStr)
+      contactAddressDR #==# ("popopx:/contact#/?v=6-8&smp=" <> url queueStr <> "&e2e=" <> testE2ERatchetParamsStrUri <> "&rk=MDEyMzQ1Njc4OWFiY2RlZg%3D%3D")
+      contactAddress #== ("https://popopx.chat/contact#/?v=6-8&smp=" <> url queueStr)
+      contactAddress2queues #==# ("popopx:/contact#/?v=6-8&smp=" <> url (queueStr <> ";" <> queueStr))
+      contactAddressNew #==# ("popopx:/contact#/?v=6-8&smp=" <> url queueNewStr)
+      contactAddress2queuesNew #==# ("popopx:/contact#/?v=6-8&smp=" <> url (queueNewStr <> ";" <> queueNewStr))
+      contactAddressV6 #==# ("popopx:/contact#/?v=6&smp=" <> url queueStr)
+      contactAddressV6 #== ("https://popopx.chat/contact#/?v=1&smp=" <> url queueStr) -- adjusted to v6
+      contactAddressV6 #== ("https://popopx.chat/contact#/?v=1-2&smp=" <> url queueStr) -- adjusted to v6
+      contactAddressV6 #== ("https://popopx.chat/contact#/?v=2-2&smp=" <> url queueStr)
+      contactAddressClientData #==# ("popopx:/contact#/?v=6-8&smp=" <> url queueStr <> "&data=" <> url "{\"type\":\"group_link\", \"group_link_id\":\"abc\"}")
     it "should reject KEM ciphertext without KEM key in e2e params" $
       strDecode @(RcvE2ERatchetParamsUri 'C.X448) (strEncode testE2ERatchetParams <> "&kem_ct=" <> strEncode (B.replicate 1039 '\0'))
         `shouldSatisfy` isLeft
@@ -317,16 +317,16 @@ connectionRequestTests =
       smpEncodingTest (aBinaryConnReq contactAddressV6)
       smpEncodingTest (aBinaryConnReq contactAddressClientData)
     it "should serialize / parse short links" $ do
-      CSLContact SLSServer CCTContact srv (LinkKey "0123456789abcdef0123456789abcdef") #==# "https://smp.simplex.im/a#MDEyMzQ1Njc4OWFiY2RlZjAxMjM0NTY3ODlhYmNkZWY?h=jjbyvoemxysm7qxap7m5d5m35jzv5qq6gnlv7s4rsn7tdwwmuqciwpid.onion&p=5223&c=1234-w"
-      CSLContact SLSServer CCTGroup srv (LinkKey "0123456789abcdef0123456789abcdef") #==# "https://smp.simplex.im/g#MDEyMzQ1Njc4OWFiY2RlZjAxMjM0NTY3ODlhYmNkZWY?h=jjbyvoemxysm7qxap7m5d5m35jzv5qq6gnlv7s4rsn7tdwwmuqciwpid.onion&p=5223&c=1234-w"
-      CSLContact SLSServer CCTContact shortSrv (LinkKey "0123456789abcdef0123456789abcdef") #==# "https://smp.simplex.im/a#MDEyMzQ1Njc4OWFiY2RlZjAxMjM0NTY3ODlhYmNkZWY"
-      CSLInvitation SLSServer srv (EntityId "0123456789abcdef01234567") (LinkKey "0123456789abcdef0123456789abcdef") #==# "https://smp.simplex.im/i#MDEyMzQ1Njc4OWFiY2RlZjAxMjM0NTY3/MDEyMzQ1Njc4OWFiY2RlZjAxMjM0NTY3ODlhYmNkZWY?h=jjbyvoemxysm7qxap7m5d5m35jzv5qq6gnlv7s4rsn7tdwwmuqciwpid.onion&p=5223&c=1234-w"
-      CSLInvitation SLSServer shortSrv (EntityId "0123456789abcdef01234567") (LinkKey "0123456789abcdef0123456789abcdef") #==# "https://smp.simplex.im/i#MDEyMzQ1Njc4OWFiY2RlZjAxMjM0NTY3/MDEyMzQ1Njc4OWFiY2RlZjAxMjM0NTY3ODlhYmNkZWY"
-      CSLContact SLSSimplex CCTContact srv (LinkKey "0123456789abcdef0123456789abcdef") #==# "simplex:/a#MDEyMzQ1Njc4OWFiY2RlZjAxMjM0NTY3ODlhYmNkZWY?h=smp.simplex.im%2Cjjbyvoemxysm7qxap7m5d5m35jzv5qq6gnlv7s4rsn7tdwwmuqciwpid.onion&p=5223&c=1234-w"
-      CSLContact SLSSimplex CCTGroup srv (LinkKey "0123456789abcdef0123456789abcdef") #==# "simplex:/g#MDEyMzQ1Njc4OWFiY2RlZjAxMjM0NTY3ODlhYmNkZWY?h=smp.simplex.im%2Cjjbyvoemxysm7qxap7m5d5m35jzv5qq6gnlv7s4rsn7tdwwmuqciwpid.onion&p=5223&c=1234-w"
-      CSLContact SLSSimplex CCTContact shortSrv (LinkKey "0123456789abcdef0123456789abcdef") #==# "simplex:/a#MDEyMzQ1Njc4OWFiY2RlZjAxMjM0NTY3ODlhYmNkZWY?h=smp.simplex.im"
-      CSLInvitation SLSSimplex srv (EntityId "0123456789abcdef01234567") (LinkKey "0123456789abcdef0123456789abcdef") #==# "simplex:/i#MDEyMzQ1Njc4OWFiY2RlZjAxMjM0NTY3/MDEyMzQ1Njc4OWFiY2RlZjAxMjM0NTY3ODlhYmNkZWY?h=smp.simplex.im%2Cjjbyvoemxysm7qxap7m5d5m35jzv5qq6gnlv7s4rsn7tdwwmuqciwpid.onion&p=5223&c=1234-w"
-      CSLInvitation SLSSimplex shortSrv (EntityId "0123456789abcdef01234567") (LinkKey "0123456789abcdef0123456789abcdef") #==# "simplex:/i#MDEyMzQ1Njc4OWFiY2RlZjAxMjM0NTY3/MDEyMzQ1Njc4OWFiY2RlZjAxMjM0NTY3ODlhYmNkZWY?h=smp.simplex.im"
+      CSLContact SLSServer CCTContact srv (LinkKey "0123456789abcdef0123456789abcdef") #==# "https://smp.popopx.im/a#MDEyMzQ1Njc4OWFiY2RlZjAxMjM0NTY3ODlhYmNkZWY?h=jjbyvoemxysm7qxap7m5d5m35jzv5qq6gnlv7s4rsn7tdwwmuqciwpid.onion&p=5223&c=1234-w"
+      CSLContact SLSServer CCTGroup srv (LinkKey "0123456789abcdef0123456789abcdef") #==# "https://smp.popopx.im/g#MDEyMzQ1Njc4OWFiY2RlZjAxMjM0NTY3ODlhYmNkZWY?h=jjbyvoemxysm7qxap7m5d5m35jzv5qq6gnlv7s4rsn7tdwwmuqciwpid.onion&p=5223&c=1234-w"
+      CSLContact SLSServer CCTContact shortSrv (LinkKey "0123456789abcdef0123456789abcdef") #==# "https://smp.popopx.im/a#MDEyMzQ1Njc4OWFiY2RlZjAxMjM0NTY3ODlhYmNkZWY"
+      CSLInvitation SLSServer srv (EntityId "0123456789abcdef01234567") (LinkKey "0123456789abcdef0123456789abcdef") #==# "https://smp.popopx.im/i#MDEyMzQ1Njc4OWFiY2RlZjAxMjM0NTY3/MDEyMzQ1Njc4OWFiY2RlZjAxMjM0NTY3ODlhYmNkZWY?h=jjbyvoemxysm7qxap7m5d5m35jzv5qq6gnlv7s4rsn7tdwwmuqciwpid.onion&p=5223&c=1234-w"
+      CSLInvitation SLSServer shortSrv (EntityId "0123456789abcdef01234567") (LinkKey "0123456789abcdef0123456789abcdef") #==# "https://smp.popopx.im/i#MDEyMzQ1Njc4OWFiY2RlZjAxMjM0NTY3/MDEyMzQ1Njc4OWFiY2RlZjAxMjM0NTY3ODlhYmNkZWY"
+      CSLContact SLSPopopx CCTContact srv (LinkKey "0123456789abcdef0123456789abcdef") #==# "popopx:/a#MDEyMzQ1Njc4OWFiY2RlZjAxMjM0NTY3ODlhYmNkZWY?h=smp.popopx.im%2Cjjbyvoemxysm7qxap7m5d5m35jzv5qq6gnlv7s4rsn7tdwwmuqciwpid.onion&p=5223&c=1234-w"
+      CSLContact SLSPopopx CCTGroup srv (LinkKey "0123456789abcdef0123456789abcdef") #==# "popopx:/g#MDEyMzQ1Njc4OWFiY2RlZjAxMjM0NTY3ODlhYmNkZWY?h=smp.popopx.im%2Cjjbyvoemxysm7qxap7m5d5m35jzv5qq6gnlv7s4rsn7tdwwmuqciwpid.onion&p=5223&c=1234-w"
+      CSLContact SLSPopopx CCTContact shortSrv (LinkKey "0123456789abcdef0123456789abcdef") #==# "popopx:/a#MDEyMzQ1Njc4OWFiY2RlZjAxMjM0NTY3ODlhYmNkZWY?h=smp.popopx.im"
+      CSLInvitation SLSPopopx srv (EntityId "0123456789abcdef01234567") (LinkKey "0123456789abcdef0123456789abcdef") #==# "popopx:/i#MDEyMzQ1Njc4OWFiY2RlZjAxMjM0NTY3/MDEyMzQ1Njc4OWFiY2RlZjAxMjM0NTY3ODlhYmNkZWY?h=smp.popopx.im%2Cjjbyvoemxysm7qxap7m5d5m35jzv5qq6gnlv7s4rsn7tdwwmuqciwpid.onion&p=5223&c=1234-w"
+      CSLInvitation SLSPopopx shortSrv (EntityId "0123456789abcdef01234567") (LinkKey "0123456789abcdef0123456789abcdef") #==# "popopx:/i#MDEyMzQ1Njc4OWFiY2RlZjAxMjM0NTY3/MDEyMzQ1Njc4OWFiY2RlZjAxMjM0NTY3ODlhYmNkZWY?h=smp.popopx.im"
     it "should shorten / restore short links" $ do
       let contact = CSLContact SLSServer CCTContact
       shortenShortLink [srv] (contact srv (LinkKey "0123456789abcdef0123456789abcdef"))
@@ -371,10 +371,10 @@ connectionRequestTests =
     smpEncodingTest a = smpDecode (smpEncode a) `shouldBe` Right a
 
 shortSrv :: SMPServer
-shortSrv = SMPServer "smp.simplex.im" "" (C.KeyHash "")
+shortSrv = SMPServer "smp.popopx.im" "" (C.KeyHash "")
 
 srvOnion :: SMPServer
 srvOnion = SMPServer "jjbyvoemxysm7qxap7m5d5m35jzv5qq6gnlv7s4rsn7tdwwmuqciwpid.onion" "" (C.KeyHash "\215m\248\251")
 
 srv2 :: SMPServer
-srv2 = SMPServer "smp2.simplex.im,jjbyvoemxysm7qxap7m5d5m35jzv5qq6gnlv7s4rsn7tdwwmuqciwpid.onion" "" (C.KeyHash "\215m\248\251")
+srv2 = SMPServer "smp2.popopx.im,jjbyvoemxysm7qxap7m5d5m35jzv5qq6gnlv7s4rsn7tdwwmuqciwpid.onion" "" (C.KeyHash "\215m\248\251")

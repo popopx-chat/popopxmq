@@ -7,7 +7,7 @@
 {-# LANGUAGE NamedFieldPuns #-}
 {-# LANGUAGE OverloadedStrings #-}
 
-module Simplex.Messaging.Server.QueueStore
+module Popopx.Messaging.Server.QueueStore
   ( QueueRec (..),
     NtfCreds (..),
     ServiceRec (..),
@@ -23,17 +23,17 @@ import Data.List.NonEmpty (NonEmpty)
 import Data.Maybe (isJust)
 import qualified Data.X509 as X
 import qualified Data.X509.Validation as XV
-import Simplex.Messaging.Encoding
-import Simplex.Messaging.Encoding.String
-import Simplex.Messaging.Protocol
-import Simplex.Messaging.SystemTime
-import Simplex.Messaging.Transport (SMPServiceRole)
+import Popopx.Messaging.Encoding
+import Popopx.Messaging.Encoding.String
+import Popopx.Messaging.Protocol
+import Popopx.Messaging.SystemTime
+import Popopx.Messaging.Transport (SMPServiceRole)
 #if defined(dbServerPostgres)
 import Data.Text.Encoding (decodeLatin1, encodeUtf8)
 import Database.PostgreSQL.Simple.FromField (FromField (..))
 import Database.PostgreSQL.Simple.ToField (ToField (..))
-import Simplex.Messaging.Agent.Store.Postgres.DB (fromTextField_)
-import Simplex.Messaging.Util (eitherToMaybe)
+import Popopx.Messaging.Agent.Store.Postgres.DB (fromTextField_)
+import Popopx.Messaging.Util (eitherToMaybe)
 #endif
 
 data QueueRec = QueueRec

@@ -8,7 +8,7 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE TypeApplications #-}
 
-module Simplex.Messaging.Transport.HTTP2.Client
+module Popopx.Messaging.Transport.HTTP2.Client
   ( HTTP2Client (..),
     HClient (..),
     HTTP2Response (..),
@@ -38,13 +38,13 @@ import Network.Socket (HostName, ServiceName)
 import Network.Socks5 (SocksCredentials)
 import qualified Network.TLS as T
 import Numeric.Natural (Natural)
-import qualified Simplex.Messaging.Crypto as C
-import Simplex.Messaging.Encoding.String
-import Simplex.Messaging.Protocol (NetworkError (..), toNetworkError)
-import Simplex.Messaging.Transport (ALPN, STransportPeer (..), SessionId, TLS (tlsALPN, tlsPeerCert, tlsUniq), TransportPeer (..), TransportPeerI (..), getServerVerifyKey)
-import Simplex.Messaging.Transport.Client (TransportClientConfig (..), TransportHost (..), defaultTcpConnectTimeout, runTLSTransportClient)
-import Simplex.Messaging.Transport.HTTP2
-import Simplex.Messaging.Util (eitherToMaybe)
+import qualified Popopx.Messaging.Crypto as C
+import Popopx.Messaging.Encoding.String
+import Popopx.Messaging.Protocol (NetworkError (..), toNetworkError)
+import Popopx.Messaging.Transport (ALPN, STransportPeer (..), SessionId, TLS (tlsALPN, tlsPeerCert, tlsUniq), TransportPeer (..), TransportPeerI (..), getServerVerifyKey)
+import Popopx.Messaging.Transport.Client (TransportClientConfig (..), TransportHost (..), defaultTcpConnectTimeout, runTLSTransportClient)
+import Popopx.Messaging.Transport.HTTP2
+import Popopx.Messaging.Util (eitherToMaybe)
 import UnliftIO.STM
 import UnliftIO.Timeout
 

@@ -24,10 +24,10 @@ import RemoteControl (remoteControlTests)
 import SMPNamesTests (smpNamesTests)
 import SMPProxyTests (smpProxyCapabilityTests, smpProxyTests)
 import ServerTests
-import Simplex.Messaging.Server.Env.STM (AStoreType (..))
-import Simplex.Messaging.Server.MsgStore.Types (SMSType (..), SQSType (..))
-import Simplex.Messaging.Transport (TLS, Transport (..))
--- import Simplex.Messaging.Transport.WebSockets (WS)
+import Popopx.Messaging.Server.Env.STM (AStoreType (..))
+import Popopx.Messaging.Server.MsgStore.Types (SMSType (..), SQSType (..))
+import Popopx.Messaging.Transport (TLS, Transport (..))
+-- import Popopx.Messaging.Transport.WebSockets (WS)
 import System.Directory (createDirectoryIfMissing, listDirectory, removePathForcibly)
 import System.Environment (getArgs, setEnv, withArgs)
 import System.FilePath ((</>))
@@ -36,15 +36,15 @@ import Test.Hspec.Core.Runner (defaultConfig, evalSpec, evaluateResult, readConf
 import Util
 import XFTPAgent
 import XFTPCLI (xftpCLIFileTests)
-import Simplex.FileTransfer.Server.Env (AFStoreType (..))
-import Simplex.FileTransfer.Server.Store (SFSType (..))
+import Popopx.FileTransfer.Server.Env (AFStoreType (..))
+import Popopx.FileTransfer.Server.Store (SFSType (..))
 import XFTPServerTests (xftpServerTests)
 import WebTests (webTests)
 import XFTPWebTests (xftpWebTests)
 
 #if defined(dbPostgres)
 import Fixtures
-import Simplex.Messaging.Agent.Store.Postgres.Migrations.App
+import Popopx.Messaging.Agent.Store.Postgres.Migrations.App
 #else
 import AgentTests.SchemaDump (schemaDumpTest)
 #endif
@@ -54,8 +54,8 @@ import CoreTests.XFTPStoreTests (xftpStoreTests, xftpMigrationTests)
 import NtfServerTests (ntfServerTests)
 import NtfClient (ntfTestServerDBConnectInfo, ntfTestServerDBOpts)
 import SMPClient (testServerDBConnectInfo, testServerDBOpts)
-import Simplex.Messaging.Notifications.Server.Store.Migrations (ntfServerMigrations)
-import Simplex.Messaging.Server.QueueStore.Postgres.Migrations (serverMigrations)
+import Popopx.Messaging.Notifications.Server.Store.Migrations (ntfServerMigrations)
+import Popopx.Messaging.Server.QueueStore.Postgres.Migrations (serverMigrations)
 import XFTPClient (testXFTPDBConnectInfo)
 #endif
 
@@ -178,14 +178,14 @@ main = do
                   "20260918_expire_messages" -- msg_queue_expire moves to the bottom on down migration
                 ] -- skipComparisonForDownMigrations
                 testServerDBOpts
-                "src/Simplex/Messaging/Server/QueueStore/Postgres/server_schema.sql"
+                "src/Popopx/Messaging/Server/QueueStore/Postgres/server_schema.sql"
           around_ (postgressBracket ntfTestServerDBConnectInfo) $
             describe "Ntf server schema dump" $
               postgresSchemaDumpTest
                 ntfServerMigrations
                 [] -- skipComparisonForDownMigrations
                 ntfTestServerDBOpts
-                "src/Simplex/Messaging/Notifications/Server/Store/ntf_server_schema.sql"
+                "src/Popopx/Messaging/Notifications/Server/Store/ntf_server_schema.sql"
 #endif
 #if defined(dbPostgres)
           around_ (postgressBracket testDBConnectInfo) $
@@ -194,7 +194,7 @@ main = do
                 appMigrations
                 ["20250322_short_links"] -- snd_secure and last_broker_ts columns swap order on down migration
                 (testDBOpts "smp_agent_test_protocol_schema")
-                "src/Simplex/Messaging/Agent/Store/Postgres/Migrations/agent_postgres_schema.sql"
+                "src/Popopx/Messaging/Agent/Store/Postgres/Migrations/agent_postgres_schema.sql"
 #else
           after_ (listDirectory tmpDir >>= mapM_ (removeFileIfExists . (tmpDir </>))) $
             describe "Agent SQLite schema dump" schemaDumpTest

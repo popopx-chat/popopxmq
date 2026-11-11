@@ -3,7 +3,7 @@
 
 ## 1. Problem & Business Case
 
-There is no way to send or receive files using SimpleX without installing the app. A static web page that implements the XFTP protocol client-side would allow anyone with a browser to upload and download files via XFTP routers, promoting app adoption.
+There is no way to send or receive files using POPOPX without installing the app. A static web page that implements the XFTP protocol client-side would allow anyone with a browser to upload and download files via XFTP routers, promoting app adoption.
 
 **Business constraints:**
 - Web page allows up to 100 MB uploads; app allows up to 1 GB.
@@ -46,10 +46,10 @@ There is no way to send or receive files using SimpleX without installing the ap
 
 ### 3.1 Upload Flow
 
-1. **Landing state:** Drag-and-drop zone with centered upload icon and "Drop file here or click to upload" text. File size limit displayed ("Up to 100 MB — install SimpleX app for up to 1 GB"). Simple white background, no decoration.
+1. **Landing state:** Drag-and-drop zone with centered upload icon and "Drop file here or click to upload" text. File size limit displayed ("Up to 100 MB — install POPOPX app for up to 1 GB"). Simple white background, no decoration.
 2. **File selected:** Show file name and size. Begin upload immediately.
 3. **Upload progress:** Large circular progress indicator (clockwise, starting from 3 o'clock position). Percentage in center. Cancel button below.
-4. **Upload complete:** Show shareable link with copy button. QR code if link is short enough (≤ ~1000 chars). "Install SimpleX for larger files" CTA.
+4. **Upload complete:** Show shareable link with copy button. QR code if link is short enough (≤ ~1000 chars). "Install POPOPX for larger files" CTA.
 
 ### 3.2 Download Flow
 
@@ -113,11 +113,11 @@ These estimates are preliminary and may be incorrect.
 ```
 xftp-web/src/                      # Separate npm project (see §12.19)
 ├── protocol/
-│   ├── encoding.ts        # Binary encoding/decoding ← Simplex.Messaging.Encoding          ✓
-│   ├── commands.ts         # XFTP commands + responses ← Simplex.FileTransfer.Protocol      ✓
+│   ├── encoding.ts        # Binary encoding/decoding ← Popopx.Messaging.Encoding          ✓
+│   ├── commands.ts         # XFTP commands + responses ← Popopx.FileTransfer.Protocol      ✓
 │   ├── transmission.ts     # Transmission framing, signing, padding                          ✓
 │   ├── handshake.ts        # XFTP handshake (standard + web) ← FileTransfer.Transport       ✓
-│   ├── address.ts          # XFTP server address parser ← Simplex.Messaging.Protocol        ✓
+│   ├── address.ts          # XFTP server address parser ← Popopx.Messaging.Protocol        ✓
 │   ├── chunks.ts           # Chunk sizes + splitting ← FileTransfer.Chunks + Client.hs      ✓
 │   ├── client.ts           # Transport crypto (cbAuthenticate, transit encrypt/decrypt)      ✓
 │   └── description.ts      # Types, YAML, validation, base64url ← FileTransfer.Description  ✓
@@ -129,13 +129,13 @@ xftp-web/src/                      # Separate npm project (see §12.19)
 │   ├── padding.ts          # Block padding/unpadding (2-byte length prefix + '#' fill)        ✓
 │   └── identity.ts         # Web handshake identity proof verification (Ed25519/Ed448)        ✓
 ├── download.ts             # Download helper functions (DH, transit-decrypt, file-decrypt)    ✓
-├── client.ts               # HTTP/2 XFTP client ← Simplex.FileTransfer.Client
+├── client.ts               # HTTP/2 XFTP client ← Popopx.FileTransfer.Client
 └── agent.ts                # Upload/download orchestration + URI ← FileTransfer.Client.Main
 ```
 
 ### 5.2 Binary Encoding
 
-The XFTP wire format uses a custom binary encoding (from `Simplex.Messaging.Encoding`). Key patterns:
+The XFTP wire format uses a custom binary encoding (from `Popopx.Messaging.Encoding`). Key patterns:
 
 - **Length-prefixed bytestrings:** `<1-byte length><bytes>` (`ByteString`, max 255 bytes — used for entity IDs, short fields) or `<2-byte big-endian length><bytes>` (`Large`, max 65535 bytes — used for larger data).
 - **Transmission format:** `<signature> <corrId> <entityId> <command>`
@@ -298,7 +298,7 @@ T.onServerNameIndication = case sniCredential of
 
 ### 6.2 CORS Support
 
-Browsers enforce same-origin policy. The web page (served from `example.com`) must make cross-origin requests to XFTP routers (`xftp1.simplex.im`, etc.).
+Browsers enforce same-origin policy. The web page (served from `example.com`) must make cross-origin requests to XFTP routers (`xftp1.popopx.im`, etc.).
 
 **Required router changes:**
 
@@ -378,7 +378,7 @@ The XFTP router can optionally serve the static web page itself (similar to how 
 
 This can be implemented identically to the SMP router's static page serving (`apps/smp-server/web/Static.hs`), using Warp to handle HTTP requests on the same TLS connection.
 
-Alternatively, the page is hosted on a separate web server (e.g., `files.simplex.chat`). The XFTP routers only need to handle XFTP protocol requests (POST) with CORS headers.
+Alternatively, the page is hosted on a separate web server (e.g., `files.popopx.chat`). The XFTP routers only need to handle XFTP protocol requests (POST) with CORS headers.
 
 ## 7. Security Analysis
 
@@ -427,7 +427,7 @@ The web page should display a brief, non-technical security summary explaining t
 - The file link (URL) contains the decryption key in the hash fragment, which the browser never sends to any router.
 - Only someone with the exact link can download and decrypt the file.
 - The main risk is if the web page itself is tampered with (page substitution attack). IPFS hosting mitigates this.
-- For maximum security, use the SimpleX app instead.
+- For maximum security, use the POPOPX app instead.
 
 ## 8. Implementation Approach Discussion
 
@@ -497,8 +497,8 @@ The web page should display a brief, non-technical security summary explaining t
 
 **Goal:** Complete XFTP client that can upload and download files against a real Haskell XFTP router.
 
-1. **`client.ts`** ← `Simplex.FileTransfer.Client` — HTTP/2 client via `fetch()` / `node:http2`: connect + handshake, sendCommand, createChunk, uploadChunk, downloadChunk, deleteChunk, ackChunk, ping.
-2. **`agent.ts`** ← `Simplex.FileTransfer.Client.Main` — Upload orchestration (encrypt → split into data packets → register → upload → build description), download orchestration (parse → download → verify → decrypt → ack), URL encoding with DEFLATE compression (§4.1).
+1. **`client.ts`** ← `Popopx.FileTransfer.Client` — HTTP/2 client via `fetch()` / `node:http2`: connect + handshake, sendCommand, createChunk, uploadChunk, downloadChunk, deleteChunk, ackChunk, ping.
+2. **`agent.ts`** ← `Popopx.FileTransfer.Client.Main` — Upload orchestration (encrypt → split into data packets → register → upload → build description), download orchestration (parse → download → verify → decrypt → ack), URL encoding with DEFLATE compression (§4.1).
 
 ### Phase 4: Integration Testing
 
@@ -517,7 +517,7 @@ The web page should display a brief, non-technical security summary explaining t
 1. **Bundle TypeScript** — Compile to ES module bundle with libsodium.js WASM included.
 2. **Upload UI** — Drag-drop zone, file picker, progress circle, link display.
 3. **Download UI** — Parse URL, show file info, download button, progress circle.
-4. **App install CTA** — Banner/messaging promoting SimpleX app for larger files.
+4. **App install CTA** — Banner/messaging promoting POPOPX app for larger files.
 
 ### Phase 6: Router-Hosted Page (Optional)
 
@@ -583,7 +583,7 @@ describe "crypto/padding" $ do
 
 **Development workflow:** Implement one TS function → run its Haskell test → fix until it passes → move to next function. Bottom-up confidence building. No guessing what's broken.
 
-**Test execution:** Tests live in `tests/XFTPWebTests.hs` in the simplexmq repo, skipped by default (require compiled TS project path). Run with:
+**Test execution:** Tests live in `tests/XFTPWebTests.hs` in the popopxmq repo, skipped by default (require compiled TS project path). Run with:
 ```bash
 cabal test --ghc-options -O0 --test-option=--match="/XFTP Web Client/"
 ```
@@ -710,7 +710,7 @@ Hardcode 48 hours for standalone web page. Router-hosted page can use router-con
 
 This section maps every TypeScript module to the Haskell functions it must reimplement. File paths are relative to `src/`. Line numbers reference the current codebase. Each TypeScript function must produce byte-identical output to its Haskell counterpart — this is transpilation, not reimplementation.
 
-### 12.1 `protocol/encoding.ts` ← `Simplex/Messaging/Encoding.hs`
+### 12.1 `protocol/encoding.ts` ← `Popopx/Messaging/Encoding.hs`
 
 Binary encoding primitives. Every XFTP type's wire format is built from these.
 
@@ -738,7 +738,7 @@ Binary encoding primitives. Every XFTP type's wire format is built from these.
 
 **Tuple encoding:** Tuples are encoded by concatenating encoded fields. Decoded by parsing fields sequentially. Instances at lines 172-212.
 
-### 12.2 `protocol/commands.ts` ← `Simplex/FileTransfer/Protocol.hs`
+### 12.2 `protocol/commands.ts` ← `Popopx/FileTransfer/Protocol.hs`
 
 XFTP commands and their wire encoding.
 
@@ -762,7 +762,7 @@ XFTP commands and their wire encoding.
 
 **Command tags** (`FileCommandTag`, line 103): Each command is prefixed by its tag string (`"FNEW"`, `"FADD"`, etc.) encoded via `smpEncode`.
 
-### 12.3 `protocol/transmission.ts` ← `Simplex/FileTransfer/Protocol.hs`
+### 12.3 `protocol/transmission.ts` ← `Popopx/FileTransfer/Protocol.hs`
 
 Transmission framing: sign, encode, pad to block size.
 
@@ -776,7 +776,7 @@ Transmission framing: sign, encode, pad to block size.
 
 **Padding:** Uses `Crypto.pad` (`Crypto.hs:1077`) — 2-byte big-endian length prefix + message + `#` (0x23) fill.
 
-### 12.4 `crypto/secretbox.ts` ← `Simplex/Messaging/Crypto.hs` + `Simplex/Messaging/Crypto/Lazy.hs`
+### 12.4 `crypto/secretbox.ts` ← `Popopx/Messaging/Crypto.hs` + `Popopx/Messaging/Crypto/Lazy.hs`
 
 Streaming XSalsa20-Poly1305 encryption/decryption.
 
@@ -802,7 +802,7 @@ Streaming XSalsa20-Poly1305 encryption/decryption.
 
 The `xSalsa20` function (`Crypto.hs:1467`) uses: `initialize 20 secret (zero8 ++ iv0)`, then `derive state0 iv1`, then `generate state1 32` for keystream, `combine state2 msg` for encryption.
 
-### 12.5 `crypto/keys.ts` ← `Simplex/Messaging/Crypto.hs`
+### 12.5 `crypto/keys.ts` ← `Popopx/Messaging/Crypto.hs`
 
 Key generation, signing, DH.
 
@@ -819,7 +819,7 @@ Key generation, signing, DH.
 - `CbNonce` (`Crypto.hs:1368`): 24-byte nonce (newtype over ByteString)
 - `KeyHash` (`Crypto.hs:981`): SHA-256 of certificate public key
 
-### 12.6 `crypto/digest.ts` ← `Simplex/Messaging/Crypto.hs`
+### 12.6 `crypto/digest.ts` ← `Popopx/Messaging/Crypto.hs`
 
 Hash functions.
 
@@ -828,7 +828,7 @@ Hash functions.
 | `sha256(data)` | `sha256Hash` | 1006 | SHA-256 digest (32 bytes) |
 | `sha512(data)` | `sha512Hash` | 1011 | SHA-512 digest (64 bytes) |
 
-### 12.7 `crypto/padding.ts` ← `Simplex/Messaging/Crypto.hs` + `Simplex/Messaging/Crypto/Lazy.hs`
+### 12.7 `crypto/padding.ts` ← `Popopx/Messaging/Crypto.hs` + `Popopx/Messaging/Crypto/Lazy.hs`
 
 Block padding used for protocol messages and file encryption.
 
@@ -842,7 +842,7 @@ Block padding used for protocol messages and file encryption.
 **Strict pad format (protocol messages):** `[2-byte BE length][message][# # # ...]`
 **Lazy pad format (file encryption):** `[8-byte Int64 length][message][# # # ...]`
 
-### 12.8 `crypto/file.ts` ← `Simplex/FileTransfer/Crypto.hs`
+### 12.8 `crypto/file.ts` ← `Popopx/FileTransfer/Crypto.hs`
 
 File-level encryption/decryption orchestrating the streaming primitives.
 
@@ -873,7 +873,7 @@ Note: `encryptFile` does NOT use `padLazy` or `sbEncryptTailTag`. It manually pr
 
 **`FileHeader`** (`Types.hs:35`): `{fileName :: String, fileExtra :: Maybe String}`, parsed via `smpP`.
 
-### 12.9 `transport/handshake.ts` ← `Simplex/FileTransfer/Transport.hs`
+### 12.9 `transport/handshake.ts` ← `Popopx/FileTransfer/Transport.hs`
 
 XFTP handshake types and encoding.
 
@@ -888,7 +888,7 @@ XFTP handshake types and encoding.
 | `XFTP_VERSION_RANGE` | `supportedFileServerVRange` | 101 | Version 1..3 |
 | `CURRENT_XFTP_VERSION` | `currentXFTPVersion` | 98 | Version 3 |
 
-### 12.10 `protocol/client.ts` ← `Simplex/FileTransfer/Client.hs` (crypto primitives) — DONE
+### 12.10 `protocol/client.ts` ← `Popopx/FileTransfer/Client.hs` (crypto primitives) — DONE
 
 Transport-level crypto for command authentication and data packet encryption/decryption.
 
@@ -899,7 +899,7 @@ Transport-level crypto for command authentication and data packet encryption/dec
 | `encryptTransportChunk(dhSecret, nonce, plain)` | `sendEncFile` | Encrypt data packet (tag appended) | ✓ |
 | `decryptTransportChunk(dhSecret, nonce, enc)` | `receiveEncFile` | Decrypt data packet (tag verified) | ✓ |
 
-### 12.11 `protocol/chunks.ts` ← `Simplex/FileTransfer/Chunks.hs` + `Client.hs` — DONE
+### 12.11 `protocol/chunks.ts` ← `Popopx/FileTransfer/Chunks.hs` + `Client.hs` — DONE
 
 Data packet size selection and file splitting.
 
@@ -912,7 +912,7 @@ Data packet size selection and file splitting.
 | `prepareChunkSpecs(sizes)` | `prepareChunkSpecs` (Client.hs:339) | ✓ |
 | `getChunkDigest(chunk)` | `getChunkDigest` (Client.hs:347) | ✓ |
 
-### 12.12–12.14 `protocol/description.ts` ← `Simplex/FileTransfer/Description.hs` — DONE
+### 12.12–12.14 `protocol/description.ts` ← `Popopx/FileTransfer/Description.hs` — DONE
 
 Types, YAML encode/decode, base64url, FileSize, replica grouping/folding, validation — all in one file.
 
@@ -927,7 +927,7 @@ Types, YAML encode/decode, base64url, FileSize, replica grouping/folding, valida
 | `fdSeparator` | `fdSeparator` (line 111) | ✓ |
 | Internal: `unfoldChunksToReplicas`, `foldReplicasToChunks`, `encodeFileReplicas` | Matching functions | ✓ |
 
-### 12.15 `client.ts` ← `Simplex/FileTransfer/Client.hs` (HTTP/2 operations)
+### 12.15 `client.ts` ← `Popopx/FileTransfer/Client.hs` (HTTP/2 operations)
 
 HTTP/2 XFTP client using `node:http2` (Node.js) or `fetch()` (browser). Transpilation of `Client.hs` network operations.
 
@@ -954,7 +954,7 @@ HTTP/2 XFTP client using `node:http2` (Node.js) or `fetch()` (browser). Transpil
 3. Response: read 16KB `bodyHead`, decode via `xftpDecodeTClient`
 4. For FGET: response also has streaming body (encrypted chunk)
 
-### 12.16 `agent.ts` ← `Simplex/FileTransfer/Client/Main.hs`
+### 12.16 `agent.ts` ← `Popopx/FileTransfer/Client/Main.hs`
 
 Upload/download orchestration and URL encoding. Combines what the RFC originally split across `agent/upload.ts`, `agent/download.ts`, and `description/uri.ts`.
 
@@ -998,7 +998,7 @@ Upload/download orchestration and URL encoding. Combines what the RFC originally
 | `encodeDescriptionURI(fd)` | DEFLATE compress YAML → base64url → URL hash fragment |
 | `decodeDescriptionURI(url)` | Parse hash fragment → base64url decode → inflate → YAML parse |
 
-### 12.17 Transit Encryption Detail ← `Simplex/FileTransfer/Client.hs:253-275`
+### 12.17 Transit Encryption Detail ← `Popopx/FileTransfer/Client.hs:253-275`
 
 `downloadXFTPChunk` performs transit decryption after FGET:
 
@@ -1044,24 +1044,24 @@ Upload/download orchestration and URL encoding. Combines what the RFC originally
 xftp-web/                          # Separate npm project
 ├── src/
 │   ├── protocol/
-│   │   ├── encoding.ts            # ← Simplex.Messaging.Encoding                        ✓
-│   │   ├── commands.ts            # ← Simplex.FileTransfer.Protocol (commands+responses) ✓
-│   │   ├── transmission.ts        # ← Simplex.FileTransfer.Protocol (framing)            ✓
-│   │   ├── handshake.ts           # ← Simplex.FileTransfer.Transport (handshake)         ✓
-│   │   ├── address.ts             # ← Simplex.Messaging.Protocol (server address)        ✓
-│   │   ├── chunks.ts              # ← Simplex.FileTransfer.Chunks + Client.hs (sizing)   ✓
+│   │   ├── encoding.ts            # ← Popopx.Messaging.Encoding                        ✓
+│   │   ├── commands.ts            # ← Popopx.FileTransfer.Protocol (commands+responses) ✓
+│   │   ├── transmission.ts        # ← Popopx.FileTransfer.Protocol (framing)            ✓
+│   │   ├── handshake.ts           # ← Popopx.FileTransfer.Transport (handshake)         ✓
+│   │   ├── address.ts             # ← Popopx.Messaging.Protocol (server address)        ✓
+│   │   ├── chunks.ts              # ← Popopx.FileTransfer.Chunks + Client.hs (sizing)   ✓
 │   │   ├── client.ts              # ← Transport crypto (cbAuth, transit encrypt/decrypt)  ✓
-│   │   └── description.ts         # ← Simplex.FileTransfer.Description (types+yaml+val)  ✓
+│   │   └── description.ts         # ← Popopx.FileTransfer.Description (types+yaml+val)  ✓
 │   ├── crypto/
-│   │   ├── secretbox.ts           # ← Simplex.Messaging.Crypto + Crypto.Lazy             ✓
-│   │   ├── file.ts                # ← Simplex.FileTransfer.Crypto                        ✓
-│   │   ├── keys.ts                # ← Simplex.Messaging.Crypto (Ed25519/X25519/Ed448)    ✓
-│   │   ├── digest.ts              # ← Simplex.Messaging.Crypto (sha256, sha512)          ✓
-│   │   ├── padding.ts             # ← Simplex.Messaging.Crypto (pad/unPad)               ✓
+│   │   ├── secretbox.ts           # ← Popopx.Messaging.Crypto + Crypto.Lazy             ✓
+│   │   ├── file.ts                # ← Popopx.FileTransfer.Crypto                        ✓
+│   │   ├── keys.ts                # ← Popopx.Messaging.Crypto (Ed25519/X25519/Ed448)    ✓
+│   │   ├── digest.ts              # ← Popopx.Messaging.Crypto (sha256, sha512)          ✓
+│   │   ├── padding.ts             # ← Popopx.Messaging.Crypto (pad/unPad)               ✓
 │   │   └── identity.ts            # ← Web handshake identity proof (Ed25519/Ed448)        ✓
 │   ├── download.ts                # Download helpers (DH, transit-decrypt, file-decrypt)  ✓
-│   ├── client.ts                  # ← Simplex.FileTransfer.Client (HTTP/2 operations)
-│   └── agent.ts                   # ← Simplex.FileTransfer.Client.Main (orchestration)
+│   ├── client.ts                  # ← Popopx.FileTransfer.Client (HTTP/2 operations)
+│   └── agent.ts                   # ← Popopx.FileTransfer.Client.Main (orchestration)
 ├── web/                           # Browser UI (Phase 5)
 │   ├── index.html
 │   ├── upload.ts
@@ -1071,7 +1071,7 @@ xftp-web/                          # Separate npm project
 └── tsconfig.json
 ```
 
-**Haskell tests (in simplexmq repo):**
+**Haskell tests (in popopxmq repo):**
 ```
 tests/
 ├── XFTPWebTests.hs               # Haskell-driven: calls each TS function via node,

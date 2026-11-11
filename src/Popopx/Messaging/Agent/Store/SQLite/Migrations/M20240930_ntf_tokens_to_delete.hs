@@ -1,6 +1,6 @@
 {-# LANGUAGE QuasiQuotes #-}
 
-module Simplex.Messaging.Agent.Store.SQLite.Migrations.M20240930_ntf_tokens_to_delete where
+module Popopx.Messaging.Agent.Store.SQLite.Migrations.M20240930_ntf_tokens_to_delete where
 
 import Database.SQLite.Simple (Query)
 import Database.SQLite.Simple.QQ (sql)

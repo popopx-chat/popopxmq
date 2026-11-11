@@ -7,7 +7,7 @@
 {-# LANGUAGE StrictData #-}
 {-# LANGUAGE TupleSections #-}
 
-module Simplex.Messaging.Agent.Store.SQLite.Migrations
+module Popopx.Messaging.Agent.Store.SQLite.Migrations
   ( initialize,
     run,
     getCurrentMigrations,
@@ -24,13 +24,13 @@ import Data.Time.Clock (getCurrentTime)
 import Database.SQLite.Simple (Only (..), Query (..))
 import qualified Database.SQLite.Simple as SQL
 import qualified Database.SQLite3 as SQLite3
-import Simplex.Messaging.Agent.Protocol (extraSMPServerHosts)
-import qualified Simplex.Messaging.Agent.Store.DB as DB
-import Simplex.Messaging.Agent.Store.SQLite.Common
-import Simplex.Messaging.Agent.Store.SQLite.Migrations.M20230110_users
-import Simplex.Messaging.Agent.Store.Shared
-import Simplex.Messaging.Encoding.String
-import Simplex.Messaging.Transport.Client (TransportHost)
+import Popopx.Messaging.Agent.Protocol (extraSMPServerHosts)
+import qualified Popopx.Messaging.Agent.Store.DB as DB
+import Popopx.Messaging.Agent.Store.SQLite.Common
+import Popopx.Messaging.Agent.Store.SQLite.Migrations.M20230110_users
+import Popopx.Messaging.Agent.Store.Shared
+import Popopx.Messaging.Encoding.String
+import Popopx.Messaging.Transport.Client (TransportHost)
 
 getCurrentMigrations :: Maybe Query -> DB.Connection -> IO [Migration]
 getCurrentMigrations migrationsTable DB.Connection {DB.conn} =

@@ -4,7 +4,7 @@
 {-# LANGUAGE NamedFieldPuns #-}
 {-# LANGUAGE OverloadedStrings #-}
 
-module Simplex.RemoteControl.Invitation
+module Popopx.RemoteControl.Invitation
   ( RCInvitation (..)
   , signInvitation
   , RCSignedInvitation (..)
@@ -22,12 +22,12 @@ import Data.Time.Clock.System (SystemTime)
 import Data.Word (Word16)
 import Network.HTTP.Types (parseSimpleQuery)
 import Network.HTTP.Types.URI (SimpleQuery, renderSimpleQuery, urlDecode)
-import qualified Simplex.Messaging.Crypto as C
-import Simplex.Messaging.Encoding
-import Simplex.Messaging.Encoding.String
-import Simplex.Messaging.Parsers (parseAll)
-import Simplex.Messaging.Transport.Client (TransportHost)
-import Simplex.RemoteControl.Types (VersionRangeRCP)
+import qualified Popopx.Messaging.Crypto as C
+import Popopx.Messaging.Encoding
+import Popopx.Messaging.Encoding.String
+import Popopx.Messaging.Parsers (parseAll)
+import Popopx.Messaging.Transport.Client (TransportHost)
+import Popopx.RemoteControl.Types (VersionRangeRCP)
 
 data RCInvitation = RCInvitation
   { -- | CA TLS certificate fingerprint of the controller.

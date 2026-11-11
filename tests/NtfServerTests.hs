@@ -40,23 +40,23 @@ import ServerTests
     _SEND',
     pattern Resp,
   )
-import qualified Simplex.Messaging.Agent.Protocol as AP
-import Simplex.Messaging.Agent.RetryInterval (RetryInterval (..))
-import Simplex.Messaging.Agent.Store.Postgres.Options (DBOpts (..))
-import Simplex.Messaging.Client.Agent (SMPClientAgentConfig (..))
-import qualified Simplex.Messaging.Crypto as C
-import Simplex.Messaging.Encoding
-import Simplex.Messaging.Notifications.Protocol
-import Simplex.Messaging.Notifications.Server.Env (NtfServerConfig (..))
-import Simplex.Messaging.Notifications.Server.Push.APNS
-import Simplex.Messaging.Notifications.Server.Store.Postgres (closeNtfDbStore, newNtfDbStore, withDB')
-import Simplex.Messaging.Notifications.Transport (THandleNTF)
-import Simplex.Messaging.Parsers (parse, parseAll)
-import Simplex.Messaging.Protocol hiding (notification)
-import Simplex.Messaging.Server.Env.STM (AStoreType)
-import Simplex.Messaging.Server.QueueStore.Postgres.Config (PostgresStoreCfg (..))
-import Simplex.Messaging.Transport
-import Simplex.Messaging.Transport.Client (TransportHost (..))
+import qualified Popopx.Messaging.Agent.Protocol as AP
+import Popopx.Messaging.Agent.RetryInterval (RetryInterval (..))
+import Popopx.Messaging.Agent.Store.Postgres.Options (DBOpts (..))
+import Popopx.Messaging.Client.Agent (SMPClientAgentConfig (..))
+import qualified Popopx.Messaging.Crypto as C
+import Popopx.Messaging.Encoding
+import Popopx.Messaging.Notifications.Protocol
+import Popopx.Messaging.Notifications.Server.Env (NtfServerConfig (..))
+import Popopx.Messaging.Notifications.Server.Push.APNS
+import Popopx.Messaging.Notifications.Server.Store.Postgres (closeNtfDbStore, newNtfDbStore, withDB')
+import Popopx.Messaging.Notifications.Transport (THandleNTF)
+import Popopx.Messaging.Parsers (parse, parseAll)
+import Popopx.Messaging.Protocol hiding (notification)
+import Popopx.Messaging.Server.Env.STM (AStoreType)
+import Popopx.Messaging.Server.QueueStore.Postgres.Config (PostgresStoreCfg (..))
+import Popopx.Messaging.Transport
+import Popopx.Messaging.Transport.Client (TransportHost (..))
 import System.Timeout (timeout)
 import Test.Hspec hiding (fit, it)
 import UnliftIO.STM

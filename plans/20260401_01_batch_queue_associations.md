@@ -119,8 +119,8 @@ At step 2, store functions can initially be stubs returning empty sets. Steps 3-
 
 | File | Change |
 |---|---|
-| `src/Simplex/Messaging/Server.hs` | `prepareBatch` with fold + merge; one map parameter through `processCommand` -> `subscribeQueueAndDeliver` / `subscribeNotifications` -> `sharedSubscribeQueue` |
-| `src/Simplex/Messaging/Server/QueueStore/Types.hs` | Add `setRcvQueueServices`, `setNtfQueueServices` to `QueueStoreClass` |
-| `src/Simplex/Messaging/Server/QueueStore/Postgres.hs` | Implement with batch `UPDATE ... RETURNING` + per-item TVar/log updates |
-| `src/Simplex/Messaging/Server/QueueStore/STM.hs` | Implement as loop |
-| `src/Simplex/Messaging/Server/MsgStore/Journal.hs` | Delegate to underlying store |
+| `src/Popopx/Messaging/Server.hs` | `prepareBatch` with fold + merge; one map parameter through `processCommand` -> `subscribeQueueAndDeliver` / `subscribeNotifications` -> `sharedSubscribeQueue` |
+| `src/Popopx/Messaging/Server/QueueStore/Types.hs` | Add `setRcvQueueServices`, `setNtfQueueServices` to `QueueStoreClass` |
+| `src/Popopx/Messaging/Server/QueueStore/Postgres.hs` | Implement with batch `UPDATE ... RETURNING` + per-item TVar/log updates |
+| `src/Popopx/Messaging/Server/QueueStore/STM.hs` | Implement as loop |
+| `src/Popopx/Messaging/Server/MsgStore/Journal.hs` | Delegate to underlying store |

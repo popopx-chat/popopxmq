@@ -41,7 +41,7 @@ Servers:
 - include commit SHA in printed version and in web page (#1608).
 
 SMP server:
-- support short SimpleX addresses in server information page (#1600).
+- support short POPOPX addresses in server information page (#1600).
 - wrap all queries in transactions (#1603).
 
 SMP agent:
@@ -109,7 +109,7 @@ Servers:
 - handle ECONNABORTED error on client connections.
 - reproducible builds.
 - blocking records for content moderation.
-- update script (simplex-servers-update) downloads scripts from the specified or the latest stable tag.
+- update script (popopx-servers-update) downloads scripts from the specified or the latest stable tag.
 
 SMP server:
 - support for PostgreSQL database for queue records for higher traffic servers.
@@ -383,7 +383,7 @@ SMP agent:
 
 Version 5.7.0.4
 
-_Please note_: the earliest SimpleX Chat clients supported by this version of the servers is 5.5.3 (released on February 11, 2024).
+_Please note_: the earliest POPOPX Chat clients supported by this version of the servers is 5.5.3 (released on February 11, 2024).
 
 SMP server:
 - increase max SMP protocol version to 7 (support for deniable authenticators).
@@ -515,7 +515,7 @@ Agent:
   - fix asynchronous JOINing connection.
   - handle repeating JOINs without failure.
   - api to get subscribed connections.
-  - return simplex:/ links as invitations.
+  - return popopx:/ links as invitations.
   - fix memory leak.
 - XFTP improvements:
   - suspend when agent is suspended.
@@ -589,7 +589,7 @@ SMP server:
 
 # 5.0.0
 
-SimpleX File Transfer Protocol (XFTP):
+POPOPX File Transfer Protocol (XFTP):
 - XFTP server
 - XFTP CLI
 - support XFTP in the agent
@@ -599,7 +599,7 @@ Other changes:
 - support IPv6 in the servers and in the agent
 - support for 32-bit platforms
 
-Read more about XFTP in this post: https://simplex.chat/blog/20230301-simplex-file-transfer-protocol.html
+Read more about XFTP in this post: https://popopx.chat/blog/20230301-popopx-file-transfer-protocol.html
 
 # 4.4.1
 
@@ -677,7 +677,7 @@ SMP server:
 
 SMP agent:
 
-- API to test SMP servers. It connects to the server, creates and deletes a messaging queue. The new SimpleX Chat client uses this API to allow you to test that you have the correct server address, with the valid certificate fingerprint and password, before enabling the new server.
+- API to test SMP servers. It connects to the server, creates and deletes a messaging queue. The new POPOPX Chat client uses this API to allow you to test that you have the correct server address, with the valid certificate fingerprint and password, before enabling the new server.
 
 # 3.4.0
 
@@ -821,7 +821,7 @@ SMP agent:
 - Make new SMP client attempt to reconnect on network error.
 - Reduce connection handshake expiration to 2 days.
 
-JSON encoding of types used in simplex-chat, some other minor adjustments.
+JSON encoding of types used in popopx-chat, some other minor adjustments.
 
 # 1.0.2
 
@@ -850,10 +850,10 @@ SMP server:
 Security and privacy improvements:
 
 - Faster and more secure 2-layer E2E encryption with additional encryption layer between servers and recipients:
-  - application messages in each duplex connection (managed by SMP agents - see [overview](https://github.com/simplex-chat/simplexmq/blob/master/protocol/overview-tjr.md)) are encrypted using [double-ratchet algorithm](https://www.signal.org/docs/specifications/doubleratchet/), providing forward secrecy and break-in recovery. This layer uses two Curve448 keys per client for [X3DH key agreement](https://www.signal.org/docs/specifications/x3dh/), SHA512 based HKDFs and AES-GCM AEAD encryption.
+  - application messages in each duplex connection (managed by SMP agents - see [overview](https://github.com/popopx-chat/popopxmq/blob/master/protocol/overview-tjr.md)) are encrypted using [double-ratchet algorithm](https://www.signal.org/docs/specifications/doubleratchet/), providing forward secrecy and break-in recovery. This layer uses two Curve448 keys per client for [X3DH key agreement](https://www.signal.org/docs/specifications/x3dh/), SHA512 based HKDFs and AES-GCM AEAD encryption.
   - SMP client messages are additionally E2E encrypted in each SMP queue to avoid cipher-text correlation of messages sent via multiple redundant queues (that will be supported soon). This and the next layer use [NaCl crypto_box algorithm](https://nacl.cr.yp.to/index.html) with XSalsa20Poly1305 cipher and Curve25519 keys for DH key agreement.
   - Messages delivered from the servers to the recipients are additionally encrypted to avoid cipher-text correlation between sent and received messages.
-- To prevent any traffic correlation by content size, SimpleX uses fixed transport block size of 16kb (16384 bytes) with padding on all encryption layers:
+- To prevent any traffic correlation by content size, POPOPX uses fixed transport block size of 16kb (16384 bytes) with padding on all encryption layers:
   - application messages are padded to 15788 bytes before E2E double-ratchet encryption.
   - messages between SMP clients are padded to 16032 bytes before E2E encryption in each SMP queue.
   - messages from the server to the recipient are padded to padded to 16088 bytes before the additional encryption layer (see above).
@@ -869,10 +869,10 @@ Efficiency improvements:
 - Binary protocol encodings to reduce overhead from circa 15% to approximately 3.7% of transmitted application message size, with only 2.2% overhead for SMP protocol messages.
 - More performant cryptographic algorithms.
 
-For more information about SimpleX:
+For more information about POPOPX:
 
-- [SimpleX overview](https://github.com/simplex-chat/simplexmq/blob/master/protocol/overview-tjr.md).
-- [SimpleX chat v1 announcement](https://github.com/simplex-chat/simplex-chat/blob/master/blog/20220112-simplex-chat-v1-released.md).
+- [POPOPX overview](https://github.com/popopx-chat/popopxmq/blob/master/protocol/overview-tjr.md).
+- [POPOPX chat v1 announcement](https://github.com/simplex-chat/simplex-chat/blob/master/blog/20220112-simplex-chat-v1-released.md).
 
 # 0.5.2
 
@@ -898,7 +898,7 @@ For more information about SimpleX:
 
 # 0.4.0
 
-- SMP server implementation and [SMP protocol](https://github.com/simplex-chat/simplexmq/blob/master/protocol/simplex-messaging.md) changes:
+- SMP server implementation and [SMP protocol](https://github.com/popopx-chat/popopxmq/blob/master/protocol/simplex-messaging.md) changes:
   - support 3072 bit RSA key size
   - add SMP queue quotas
   - set default transport block size to 4096 bits
@@ -911,7 +911,7 @@ For more information about SimpleX:
   - asynchronous message delivery - the agent does not need transport connection to accept client messages for delivery
   - additional confirmation of message reception from the client to prevent message loss in case of process termination
   - set transport block size to 8192 bits (in the future the agent protocol can allow to have different block sizes for different duplex connections)
-  - added client commands and notifications (see [agent protocol](https://github.com/simplex-chat/simplexmq/blob/master/protocol/agent-protocol.md)):
+  - added client commands and notifications (see [agent protocol](https://github.com/popopx-chat/popopxmq/blob/master/protocol/agent-protocol.md)):
     - `REQ` - the notification about joining party establishing connection
     - `ACPT` - the command to accept connection with the joining party
     - `INFO` - the notification with the information from the initiating party

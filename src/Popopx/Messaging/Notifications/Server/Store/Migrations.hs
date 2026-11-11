@@ -2,15 +2,15 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE QuasiQuotes #-}
 
-module Simplex.Messaging.Notifications.Server.Store.Migrations
+module Popopx.Messaging.Notifications.Server.Store.Migrations
   ( ntfServerMigrations,
   )
 where
 
 import Data.List (sortOn)
 import Data.Text (Text)
-import Simplex.Messaging.Agent.Store.Postgres.Migrations.Util
-import Simplex.Messaging.Agent.Store.Shared
+import Popopx.Messaging.Agent.Store.Postgres.Migrations.Util
+import Popopx.Messaging.Agent.Store.Shared
 import Text.RawString.QQ (r)
 
 ntfServerSchemaMigrations :: [(String, Text, Maybe Text)]

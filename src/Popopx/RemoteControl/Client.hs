@@ -7,7 +7,7 @@
 {-# LANGUAGE TupleSections #-}
 {-# OPTIONS_GHC -fno-warn-ambiguous-fields #-}
 
-module Simplex.RemoteControl.Client
+module Popopx.RemoteControl.Client
   ( RCHostClient (action),
     RCHostConnection,
     newRCHostPairing,
@@ -55,24 +55,24 @@ import Data.X509.Validation (Fingerprint (..), getFingerprint)
 import Network.Socket (PortNumber, SockAddr (..), hostAddressToTuple)
 import qualified Network.TLS as TLS
 import qualified Network.UDP as UDP
-import Simplex.Messaging.Agent.Client ()
-import qualified Simplex.Messaging.Crypto as C
-import Simplex.Messaging.Crypto.Lazy (LazyByteString)
-import qualified Simplex.Messaging.Crypto.Lazy as LC
-import Simplex.Messaging.Crypto.SNTRUP761
-import Simplex.Messaging.Crypto.SNTRUP761.Bindings
-import Simplex.Messaging.Encoding
-import Simplex.Messaging.Encoding.String (StrEncoding (..))
-import Simplex.Messaging.Transport (TSbChainKeys (..), TLS (..), TransportPeer (..), cGet, cPut)
-import Simplex.Messaging.Transport.Buffer (peekBuffered)
-import Simplex.Messaging.Transport.Client (TransportClientConfig (..), TransportHost (..), defaultTransportClientConfig, runTransportClient)
-import Simplex.Messaging.Transport.Credentials (genCredentials, tlsCredentials)
-import Simplex.Messaging.Transport.Server (validateClientCertificate)
-import Simplex.Messaging.Util
-import Simplex.Messaging.Version
-import Simplex.RemoteControl.Discovery (getLocalAddress, recvAnnounce, startTLSServer, withListener, withSender)
-import Simplex.RemoteControl.Invitation
-import Simplex.RemoteControl.Types
+import Popopx.Messaging.Agent.Client ()
+import qualified Popopx.Messaging.Crypto as C
+import Popopx.Messaging.Crypto.Lazy (LazyByteString)
+import qualified Popopx.Messaging.Crypto.Lazy as LC
+import Popopx.Messaging.Crypto.SNTRUP761
+import Popopx.Messaging.Crypto.SNTRUP761.Bindings
+import Popopx.Messaging.Encoding
+import Popopx.Messaging.Encoding.String (StrEncoding (..))
+import Popopx.Messaging.Transport (TSbChainKeys (..), TLS (..), TransportPeer (..), cGet, cPut)
+import Popopx.Messaging.Transport.Buffer (peekBuffered)
+import Popopx.Messaging.Transport.Client (TransportClientConfig (..), TransportHost (..), defaultTransportClientConfig, runTransportClient)
+import Popopx.Messaging.Transport.Credentials (genCredentials, tlsCredentials)
+import Popopx.Messaging.Transport.Server (validateClientCertificate)
+import Popopx.Messaging.Util
+import Popopx.Messaging.Version
+import Popopx.RemoteControl.Discovery (getLocalAddress, recvAnnounce, startTLSServer, withListener, withSender)
+import Popopx.RemoteControl.Invitation
+import Popopx.RemoteControl.Types
 import UnliftIO
 import UnliftIO.Concurrent
 

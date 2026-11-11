@@ -1,4 +1,4 @@
-module Simplex.Messaging.Crypto.SNTRUP761.Bindings.RNG
+module Popopx.Messaging.Crypto.SNTRUP761.Bindings.RNG
   ( withDRG,
     rngFuncPtr,
     RNGContext,
@@ -11,7 +11,7 @@ import Crypto.Random (ChaChaDRG)
 import Data.ByteArray (ByteArrayAccess (copyByteArrayToPtr))
 import Foreign
 import Foreign.C
-import qualified Simplex.Messaging.Crypto as C
+import qualified Popopx.Messaging.Crypto as C
 
 withDRG :: TVar ChaChaDRG -> (Ptr RNGContext -> IO a) -> IO a
 withDRG drg = bracket (castStablePtrToPtr <$> newStablePtr drg) (freeStablePtr . castPtrToStablePtr)

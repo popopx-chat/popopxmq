@@ -1,4 +1,4 @@
-// Block padding matching Simplex.Messaging.Crypto (strict) and Simplex.Messaging.Crypto.Lazy.
+// Block padding matching Popopx.Messaging.Crypto (strict) and Popopx.Messaging.Crypto.Lazy.
 // Strict: 2-byte BE length prefix + message + '#' fill.
 // Lazy:   8-byte Int64 length prefix + message + '#' fill.
 

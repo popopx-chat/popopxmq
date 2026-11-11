@@ -9,9 +9,9 @@ Protocol: push-notifications v1
 
 ## Background and motivation
 
-SimpleX Chat clients should receive message notifications when not being online and/or subscribed to SMP servers.
+POPOPX Chat clients should receive message notifications when not being online and/or subscribed to SMP servers.
 
-To avoid revealing identities of clients directly to SMP servers via any kind of push notification tokens, a new party called SimpleX Notification Server is introduced to act as a service for subscribing to SMP server queue notifications on behalf of clients and sending push notifications to them.
+To avoid revealing identities of clients directly to SMP servers via any kind of push notification tokens, a new party called POPOPX Notification Server is introduced to act as a service for subscribing to SMP server queue notifications on behalf of clients and sending push notifications to them.
 
 ## Proposal
 
@@ -64,7 +64,7 @@ Response:
 
 ### Agent schema changes
 
-See [migration](../src/Simplex/Messaging/Agent/Store/SQLite/Migrations/M20220322_notifications.hs)
+See [migration](../src/Popopx/Messaging/Agent/Store/SQLite/Migrations/M20220322_notifications.hs)
 
 ### Agent code
 

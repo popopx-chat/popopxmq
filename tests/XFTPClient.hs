@@ -13,21 +13,21 @@ import Data.String (fromString)
 import Data.Time.Clock (getCurrentTime)
 import Network.Socket (ServiceName)
 import SMPClient (serverBracket)
-import Simplex.FileTransfer.Client
-import Simplex.FileTransfer.Description
-import Simplex.FileTransfer.Server (runXFTPServerBlocking)
-import Simplex.FileTransfer.Server.Env (XFTPServerConfig (..), XFTPStoreConfig (..), AFStoreType (..), defaultFileExpiration, defaultInactiveClientExpiration)
-import Simplex.FileTransfer.Server.Store (FileStoreClass, SFSType (..), STMFileStore)
-import Simplex.FileTransfer.Transport (alpnSupportedXFTPhandshakes, supportedFileServerVRange)
-import Simplex.FileTransfer.Types (SndFileId)
-import qualified Simplex.Messaging.Agent as A
-import Simplex.Messaging.Agent.Protocol (UserId)
-import Simplex.Messaging.Crypto.File (CryptoFile)
-import Simplex.Messaging.Protocol (XFTPServer)
-import Simplex.Messaging.Transport (defaultSupportedParams)
-import Simplex.Messaging.Transport.HTTP2 (defaultHTTP2BufferSize, httpALPN)
-import Simplex.Messaging.Transport.HTTP2.Server (runHTTP2Server)
-import Simplex.Messaging.Transport.Server
+import Popopx.FileTransfer.Client
+import Popopx.FileTransfer.Description
+import Popopx.FileTransfer.Server (runXFTPServerBlocking)
+import Popopx.FileTransfer.Server.Env (XFTPServerConfig (..), XFTPStoreConfig (..), AFStoreType (..), defaultFileExpiration, defaultInactiveClientExpiration)
+import Popopx.FileTransfer.Server.Store (FileStoreClass, SFSType (..), STMFileStore)
+import Popopx.FileTransfer.Transport (alpnSupportedXFTPhandshakes, supportedFileServerVRange)
+import Popopx.FileTransfer.Types (SndFileId)
+import qualified Popopx.Messaging.Agent as A
+import Popopx.Messaging.Agent.Protocol (UserId)
+import Popopx.Messaging.Crypto.File (CryptoFile)
+import Popopx.Messaging.Protocol (XFTPServer)
+import Popopx.Messaging.Transport (defaultSupportedParams)
+import Popopx.Messaging.Transport.HTTP2 (defaultHTTP2BufferSize, httpALPN)
+import Popopx.Messaging.Transport.HTTP2.Server (runHTTP2Server)
+import Popopx.Messaging.Transport.Server
 import System.Directory (createDirectoryIfMissing)
 import Test.Hspec hiding (fit, it)
 import UnliftIO.STM (TMVar, atomically, newEmptyTMVarIO, putTMVar)
@@ -37,9 +37,9 @@ import Control.Monad (void)
 import qualified Database.PostgreSQL.Simple as PSQL
 import Database.PostgreSQL.Simple (ConnectInfo (..), defaultConnectInfo)
 import Database.PostgreSQL.Simple.Types (Query (..))
-import Simplex.FileTransfer.Server.Store.Postgres.Config (PostgresFileStoreCfg (..), defaultXFTPDBOpts)
-import Simplex.Messaging.Agent.Store.Postgres.Options (DBOpts (..))
-import Simplex.Messaging.Agent.Store.Shared (MigrationConfirmation (..))
+import Popopx.FileTransfer.Server.Store.Postgres.Config (PostgresFileStoreCfg (..), defaultXFTPDBOpts)
+import Popopx.Messaging.Agent.Store.Postgres.Options (DBOpts (..))
+import Popopx.Messaging.Agent.Store.Shared (MigrationConfirmation (..))
 #endif
 
 xftpSendFile :: A.AgentClient -> UserId -> CryptoFile -> Int -> A.AE SndFileId

@@ -5,7 +5,7 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE TupleSections #-}
 
-module Simplex.Messaging.Crypto.Lazy
+module Popopx.Messaging.Crypto.Lazy
   ( sha256Hash,
     sha512Hash,
     pad,
@@ -51,9 +51,9 @@ import Data.Composition ((.:.))
 import Data.Int (Int64)
 import Data.List.NonEmpty (NonEmpty (..))
 import Foreign (sizeOf)
-import Simplex.Messaging.Crypto (CbNonce, CryptoError (..), DhSecret (..), DhSecretX25519, SbKey, SbKeyNonce, pattern CbNonce, pattern SbKey)
-import Simplex.Messaging.Crypto.SNTRUP761 (KEMHybridSecret (..))
-import Simplex.Messaging.Encoding
+import Popopx.Messaging.Crypto (CbNonce, CryptoError (..), DhSecret (..), DhSecretX25519, SbKey, SbKeyNonce, pattern CbNonce, pattern SbKey)
+import Popopx.Messaging.Crypto.SNTRUP761 (KEMHybridSecret (..))
+import Popopx.Messaging.Encoding
 
 type LazyByteString = LB.ByteString
 

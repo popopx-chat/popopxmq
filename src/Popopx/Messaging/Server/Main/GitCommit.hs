@@ -1,7 +1,7 @@
 {-# LANGUAGE LambdaCase #-}
 {-# LANGUAGE TemplateHaskell #-}
 
-module Simplex.Messaging.Server.Main.GitCommit
+module Popopx.Messaging.Server.Main.GitCommit
   ( gitCommit,
   ) where
 

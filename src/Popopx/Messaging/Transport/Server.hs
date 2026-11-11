@@ -7,7 +7,7 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE TupleSections #-}
 
-module Simplex.Messaging.Transport.Server
+module Popopx.Messaging.Transport.Server
   ( TransportServerConfig (..),
     ServerCredentials (..),
     TLSServerCredential (..),
@@ -49,9 +49,9 @@ import Foreign.C.Error
 import GHC.IO.Exception (ioe_errno)
 import Network.Socket
 import qualified Network.TLS as T
-import Simplex.Messaging.Transport
-import Simplex.Messaging.Transport.Shared
-import Simplex.Messaging.Util (catchAll_, labelMyThread, stateTVar', tshow, unlessM)
+import Popopx.Messaging.Transport
+import Popopx.Messaging.Transport.Shared
+import Popopx.Messaging.Util (catchAll_, labelMyThread, stateTVar', tshow, unlessM)
 import System.Exit (exitFailure)
 import System.IO.Error (tryIOError)
 import System.Mem.Weak (Weak, deRefWeak)

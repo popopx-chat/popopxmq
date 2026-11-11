@@ -19,21 +19,21 @@ import qualified Data.ByteString.Lazy.Char8 as LB
 import Data.List (stripPrefix)
 import Data.List.NonEmpty (NonEmpty (..))
 import Data.Time.Clock.System (SystemTime (..), getSystemTime)
-import qualified Simplex.Messaging.Crypto as C
-import Simplex.Messaging.Encoding.String (StrEncoding (..))
-import Simplex.Messaging.Transport (TSbChainKeys (..))
-import Simplex.Messaging.Transport.Client (TransportHost)
-import qualified Simplex.RemoteControl.Client as HC (RCHostClient (action))
-import qualified Simplex.RemoteControl.Client as RC
-import Simplex.RemoteControl.Discovery (mkLastLocalHost, preferAddress)
-import Simplex.RemoteControl.Invitation
+import qualified Popopx.Messaging.Crypto as C
+import Popopx.Messaging.Encoding.String (StrEncoding (..))
+import Popopx.Messaging.Transport (TSbChainKeys (..))
+import Popopx.Messaging.Transport.Client (TransportHost)
+import qualified Popopx.RemoteControl.Client as HC (RCHostClient (action))
+import qualified Popopx.RemoteControl.Client as RC
+import Popopx.RemoteControl.Discovery (mkLastLocalHost, preferAddress)
+import Popopx.RemoteControl.Invitation
   ( RCEncInvitation (..),
     RCInvitation (..),
     RCSignedInvitation,
     signInvitation,
     verifySignedInvitation,
   )
-import Simplex.RemoteControl.Types
+import Popopx.RemoteControl.Types
 import Test.Hspec hiding (fit, it)
 import UnliftIO
 import UnliftIO.Concurrent
@@ -102,7 +102,7 @@ testInvitationBracketedNonIPv6HostRejected :: IO ()
 testInvitationBracketedNonIPv6HostRejected = do
   invitation <- testIPv6Invitation
   let bracketedUri =
-        B.pack . replaceFirst "@2001:db8::1:" "@[simplex.chat]:" . B.unpack $
+        B.pack . replaceFirst "@2001:db8::1:" "@[popopx.chat]:" . B.unpack $
           strEncode invitation
   case strDecode bracketedUri :: Either String RCInvitation of
     Left _ -> pure ()

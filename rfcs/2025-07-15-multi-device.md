@@ -12,9 +12,9 @@ In addition to that, the specific implementation of this approach in Signal comp
 
 While this limitation can be addressed with notifications when a new device is added and per-device keys, we still find the remaining attack vectors on user security and privacy to be unacceptable, and opening unsuspecting users to various criminal actions - and it is wrong to say that would only affect security conscious users, and most people would not be affected by these risks. Allowing potential criminals in groups to know which device you are currently using is a real risk for all users.
 
-Another approach was offered by Threema that is ["mediator" router](https://threema.com/en/blog/md-architectural-overview) where the state of encryption ratchets is stored router-side. While it protects the user from their communication peers, it increases required level of trust to the routers, and in case of SimpleX network it would expose the knowledge of who communicates to whom. So while the idea of router-side storage of encryption state is promising, it has to be per-connection, to retain "no-accounts" property of SimpleX messaging network.
+Another approach was offered by Threema that is ["mediator" router](https://threema.com/en/blog/md-architectural-overview) where the state of encryption ratchets is stored router-side. While it protects the user from their communication peers, it increases required level of trust to the routers, and in case of POPOPX network it would expose the knowledge of who communicates to whom. So while the idea of router-side storage of encryption state is promising, it has to be per-connection, to retain "no-accounts" property of POPOPX messaging network.
 
-Also see [FAQ](https://simplex.chat/faq/#why-cant-i-use-the-same-profile-on-different-devices) and [this issue](https://github.com/simplex-chat/simplex-chat/issues/444#issuecomment-3066968358).
+Also see [FAQ](https://popopx.chat/faq/#why-cant-i-use-the-same-profile-on-different-devices) and [this issue](https://github.com/simplex-chat/simplex-chat/issues/444#issuecomment-3066968358).
 
 ## Proposed solution
 

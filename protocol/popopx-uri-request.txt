@@ -1,18 +1,18 @@
-Scheme name: simplex
+Scheme name: popopx
 
 Status: Provisional
 
 Applications/protocols that use this scheme name:
-This scheme is used for connection requests in SimpleX Agent Protocol,
+This scheme is used for connection requests in POPOPX Agent Protocol,
 a middle layer protocol for managing bi-directional communication via
-redundant unidirectional SimpleX Messaging Protocol queues.
+redundant unidirectional POPOPX Messaging Protocol queues.
 
-Contact: Evgeny Poberezkin <ep@simplex.chat>
+Contact: Evgeny Poberezkin <ep@popopx.chat>
 
-Change controller: Evgeny Poberezkin <ep@simplex.chat>
+Change controller: Evgeny Poberezkin <ep@popopx.chat>
 
 References:
-The syntax for connection requests in the latest version of SimpleX Agent Protocol:
-https://github.com/simplex-chat/simplexmq/blob/master/protocol/agent-protocol.md#connection-request
-SimpleX Messaging Protocol:
-https://github.com/simplex-chat/simplexmq/blob/master/protocol/simplex-messaging.md
+The syntax for connection requests in the latest version of POPOPX Agent Protocol:
+https://github.com/popopx-chat/popopxmq/blob/master/protocol/agent-protocol.md#connection-request
+POPOPX Messaging Protocol:
+https://github.com/popopx-chat/popopxmq/blob/master/protocol/simplex-messaging.md

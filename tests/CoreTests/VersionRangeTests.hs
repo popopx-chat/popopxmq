@@ -9,8 +9,8 @@ module CoreTests.VersionRangeTests where
 import Data.Word (Word16)
 import GHC.Generics (Generic)
 import Generic.Random (genericArbitraryU)
-import Simplex.Messaging.Version
-import Simplex.Messaging.Version.Internal
+import Popopx.Messaging.Version
+import Popopx.Messaging.Version.Internal
 import Test.Hspec hiding (fit, it)
 import Test.Hspec.QuickCheck (modifyMaxSuccess)
 import Test.QuickCheck

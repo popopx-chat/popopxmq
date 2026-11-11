@@ -120,8 +120,8 @@ port: 443
 
 [WEB]
 https: 443
-cert: /etc/opt/simplex/web.cert
-key: /etc/opt/simplex/web.key
+cert: /etc/opt/popopx/web.cert
+key: /etc/opt/popopx/web.key
 
 # Alternatively, with a proper access configuration, the paths can point to the LE creds directly:
 # cert: /etc/letsencrypt/live/smp.hostname.tld/fullchain.pem
@@ -140,8 +140,8 @@ shared_port: 443 ; variant 1: register in TRANSPORT
 
 [WEB]
 https: 443
-cert: /etc/opt/simplex/web.cert
-key: /etc/opt/simplex/web.key
+cert: /etc/opt/popopx/web.cert
+key: /etc/opt/popopx/web.key
 # transport: on ; variant 2:
 ```
 

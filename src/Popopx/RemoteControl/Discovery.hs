@@ -7,7 +7,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE PatternSynonyms #-}
 
-module Simplex.RemoteControl.Discovery
+module Popopx.RemoteControl.Discovery
   ( pattern ANY_ADDR_V4,
     getLocalAddress,
     mkLastLocalHost,
@@ -32,13 +32,13 @@ import Network.Info (IPv4 (..), NetworkInterface (..), getNetworkInterfaces)
 import qualified Network.Socket as N
 import qualified Network.TLS as TLS
 import qualified Network.UDP as UDP
-import Simplex.Messaging.Transport (TransportPeer (..), defaultSupportedParams)
-import qualified Simplex.Messaging.Transport as Transport
-import Simplex.Messaging.Transport.Client (TransportHost (..))
-import Simplex.Messaging.Transport.Server (mkTransportServerConfig, runTransportServerSocket, startTCPServer)
-import Simplex.Messaging.Util (ifM, tshow)
-import Simplex.RemoteControl.Discovery.Multicast (setMembership)
-import Simplex.RemoteControl.Types
+import Popopx.Messaging.Transport (TransportPeer (..), defaultSupportedParams)
+import qualified Popopx.Messaging.Transport as Transport
+import Popopx.Messaging.Transport.Client (TransportHost (..))
+import Popopx.Messaging.Transport.Server (mkTransportServerConfig, runTransportServerSocket, startTCPServer)
+import Popopx.Messaging.Util (ifM, tshow)
+import Popopx.RemoteControl.Discovery.Multicast (setMembership)
+import Popopx.RemoteControl.Types
 import UnliftIO
 
 -- | mDNS multicast group

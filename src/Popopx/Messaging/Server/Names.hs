@@ -4,7 +4,7 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE StrictData #-}
 
-module Simplex.Messaging.Server.Names
+module Popopx.Messaging.Server.Names
   ( NamesConfig (..),
     RpcAuth (..),
     NamesEnv (..),
@@ -21,9 +21,9 @@ import Data.Bifunctor (first)
 import Data.Maybe (fromMaybe)
 import qualified Data.Text as T
 import Data.Text.Encoding (decodeLatin1)
-import Simplex.Messaging.Encoding
-import Simplex.Messaging.Protocol (NameErrorType (..), NameQuery, NameResponse)
-import Simplex.Messaging.Server.Names.HttpResolver
+import Popopx.Messaging.Encoding
+import Popopx.Messaging.Protocol (NameErrorType (..), NameQuery, NameResponse)
+import Popopx.Messaging.Server.Names.HttpResolver
   ( ResolverEnv,
     ResolverError (..),
     RpcAuth (..),

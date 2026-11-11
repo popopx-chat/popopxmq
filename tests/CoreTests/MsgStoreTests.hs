@@ -25,18 +25,18 @@ import Data.ByteString.Char8 (ByteString)
 import Data.Int (Int64)
 import qualified Data.Map.Strict as M
 import Data.Time.Clock.System (SystemTime (..), getSystemTime)
-import Simplex.Messaging.Crypto (pattern MaxLenBS)
-import qualified Simplex.Messaging.Crypto as C
-import Simplex.Messaging.Protocol (EncDataBytes (..), EntityId (..), ErrorType (..), LinkId, Message (..), NotifierId, QueueLinkData, RecipientId, SParty (..), noMsgFlags, randomMsgId)
-import Simplex.Messaging.Server.MsgStore.STM
-import Simplex.Messaging.Server.MsgStore.Types
-import Simplex.Messaging.Server.NtfStore
-import Simplex.Messaging.Server.QueueStore
-import Simplex.Messaging.Server.QueueStore.QueueInfo
-import Simplex.Messaging.Server.QueueStore.STM (STMQueueStore (..))
-import Simplex.Messaging.Server.QueueStore.Types
-import Simplex.Messaging.TMap (TMap)
-import qualified Simplex.Messaging.TMap as TM
+import Popopx.Messaging.Crypto (pattern MaxLenBS)
+import qualified Popopx.Messaging.Crypto as C
+import Popopx.Messaging.Protocol (EncDataBytes (..), EntityId (..), ErrorType (..), LinkId, Message (..), NotifierId, QueueLinkData, RecipientId, SParty (..), noMsgFlags, randomMsgId)
+import Popopx.Messaging.Server.MsgStore.STM
+import Popopx.Messaging.Server.MsgStore.Types
+import Popopx.Messaging.Server.NtfStore
+import Popopx.Messaging.Server.QueueStore
+import Popopx.Messaging.Server.QueueStore.QueueInfo
+import Popopx.Messaging.Server.QueueStore.STM (STMQueueStore (..))
+import Popopx.Messaging.Server.QueueStore.Types
+import Popopx.Messaging.TMap (TMap)
+import qualified Popopx.Messaging.TMap as TM
 import Test.Hspec hiding (fit, it)
 import Util
 
@@ -46,10 +46,10 @@ import Control.Concurrent (forkIO, threadDelay)
 import qualified Control.Exception as E
 import Database.PostgreSQL.Simple (Only (..))
 import qualified Database.PostgreSQL.Simple as DB
-import Simplex.Messaging.Agent.Store.Postgres.Common
-import Simplex.Messaging.Agent.Store.Shared (MigrationConfirmation (..))
-import Simplex.Messaging.Server.MsgStore.Postgres
-import Simplex.Messaging.Server.QueueStore.Postgres
+import Popopx.Messaging.Agent.Store.Postgres.Common
+import Popopx.Messaging.Agent.Store.Shared (MigrationConfirmation (..))
+import Popopx.Messaging.Server.MsgStore.Postgres
+import Popopx.Messaging.Server.QueueStore.Postgres
 import SMPClient (testStoreDBOpts)
 import System.Timeout (timeout)
 #endif

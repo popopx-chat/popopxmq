@@ -25,23 +25,23 @@ import qualified Data.X509.Validation as XV
 import Network.Socket
 import Network.Socket.ByteString (recv)
 import qualified Network.TLS as TLS
-import Simplex.Messaging.Agent.Store.Postgres.Options (DBOpts (..))
-import Simplex.Messaging.Agent.Store.Shared (MigrationConfirmation (..))
-import Simplex.Messaging.Client (NetworkConfig (..), NetworkTimeout (..), ProtocolClientConfig (..), chooseTransportHost, defaultNetworkConfig)
-import Simplex.Messaging.Client.Agent (SMPClientAgentConfig (..), defaultSMPClientAgentConfig)
-import qualified Simplex.Messaging.Crypto as C
-import Simplex.Messaging.Encoding
-import Simplex.Messaging.Protocol
-import Simplex.Messaging.Server (runSMPServerBlocking)
-import Simplex.Messaging.Server.Env.STM
-import Simplex.Messaging.Server.MsgStore.Types (MsgStoreClass (..), SMSType (..), SQSType (..))
-import Simplex.Messaging.Transport
-import Simplex.Messaging.Transport.Client
-import Simplex.Messaging.Transport.Server
-import Simplex.Messaging.Transport.Shared (ChainCertificates (..), chainIdCaCerts)
-import Simplex.Messaging.Util (ifM, unlessM)
-import Simplex.Messaging.Version
-import Simplex.Messaging.Version.Internal
+import Popopx.Messaging.Agent.Store.Postgres.Options (DBOpts (..))
+import Popopx.Messaging.Agent.Store.Shared (MigrationConfirmation (..))
+import Popopx.Messaging.Client (NetworkConfig (..), NetworkTimeout (..), ProtocolClientConfig (..), chooseTransportHost, defaultNetworkConfig)
+import Popopx.Messaging.Client.Agent (SMPClientAgentConfig (..), defaultSMPClientAgentConfig)
+import qualified Popopx.Messaging.Crypto as C
+import Popopx.Messaging.Encoding
+import Popopx.Messaging.Protocol
+import Popopx.Messaging.Server (runSMPServerBlocking)
+import Popopx.Messaging.Server.Env.STM
+import Popopx.Messaging.Server.MsgStore.Types (MsgStoreClass (..), SMSType (..), SQSType (..))
+import Popopx.Messaging.Transport
+import Popopx.Messaging.Transport.Client
+import Popopx.Messaging.Transport.Server
+import Popopx.Messaging.Transport.Shared (ChainCertificates (..), chainIdCaCerts)
+import Popopx.Messaging.Util (ifM, unlessM)
+import Popopx.Messaging.Version
+import Popopx.Messaging.Version.Internal
 import System.Info (os)
 import Test.Hspec hiding (fit, it)
 import UnliftIO.Concurrent
@@ -52,12 +52,12 @@ import Util
 
 #if defined(dbServerPostgres)
 import Database.PostgreSQL.Simple (defaultConnectInfo)
-import Simplex.Messaging.Server.QueueStore.Postgres.Config (PostgresStoreCfg (..))
+import Popopx.Messaging.Server.QueueStore.Postgres.Config (PostgresStoreCfg (..))
 #endif
 
 #if defined(dbPostgres) || defined(dbServerPostgres)
 import Database.PostgreSQL.Simple (ConnectInfo (..))
-import Simplex.Messaging.Agent.Store.Postgres.Util (createDBAndUserIfNotExists, dropDatabaseAndUser)
+import Popopx.Messaging.Agent.Store.Postgres.Util (createDBAndUserIfNotExists, dropDatabaseAndUser)
 #endif
 
 data AServerConfig =

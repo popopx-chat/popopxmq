@@ -1,4 +1,4 @@
-// XFTP upload/download orchestration + URI encoding -- Simplex.FileTransfer.Client.Main
+// XFTP upload/download orchestration + URI encoding -- Popopx.FileTransfer.Client.Main
 //
 // Combines all building blocks: encryption, chunking, XFTP client commands,
 // file descriptions, and DEFLATE-compressed URI encoding.

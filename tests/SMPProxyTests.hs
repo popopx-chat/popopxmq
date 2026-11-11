@@ -27,22 +27,22 @@ import Data.Time.Clock (getCurrentTime)
 import SMPAgentClient
 import SMPClient
 import ServerTests (decryptMsgV3, responseTime, sendRecv)
-import Simplex.Messaging.Agent hiding (createConnection, joinConnection, sendMessage)
-import qualified Simplex.Messaging.Agent as A
-import Simplex.Messaging.Agent.Env.SQLite (AgentConfig (..), InitialAgentServers (..))
-import Simplex.Messaging.Agent.Protocol hiding (CON, CONF, INFO, REQ)
-import qualified Simplex.Messaging.Agent.Protocol as A
-import Simplex.Messaging.Client
-import qualified Simplex.Messaging.Crypto as C
-import Simplex.Messaging.Crypto.Ratchet (pattern PQSupportOn)
-import qualified Simplex.Messaging.Crypto.Ratchet as CR
-import Simplex.Messaging.Protocol (EncRcvMsgBody (..), MsgBody, QueueReqData (..), RcvMessage (..), SubscriptionMode (..), maxMessageLength, noMsgFlags)
-import qualified Simplex.Messaging.Protocol as SMP
-import Simplex.Messaging.Server.Env.STM (AStoreType (..), ServerConfig (..))
-import Simplex.Messaging.Server.MsgStore.Types (SQSType (..))
-import Simplex.Messaging.Transport
-import Simplex.Messaging.Util (bshow, tshow)
-import Simplex.Messaging.Version (mkVersionRange)
+import Popopx.Messaging.Agent hiding (createConnection, joinConnection, sendMessage)
+import qualified Popopx.Messaging.Agent as A
+import Popopx.Messaging.Agent.Env.SQLite (AgentConfig (..), InitialAgentServers (..))
+import Popopx.Messaging.Agent.Protocol hiding (CON, CONF, INFO, REQ)
+import qualified Popopx.Messaging.Agent.Protocol as A
+import Popopx.Messaging.Client
+import qualified Popopx.Messaging.Crypto as C
+import Popopx.Messaging.Crypto.Ratchet (pattern PQSupportOn)
+import qualified Popopx.Messaging.Crypto.Ratchet as CR
+import Popopx.Messaging.Protocol (EncRcvMsgBody (..), MsgBody, QueueReqData (..), RcvMessage (..), SubscriptionMode (..), maxMessageLength, noMsgFlags)
+import qualified Popopx.Messaging.Protocol as SMP
+import Popopx.Messaging.Server.Env.STM (AStoreType (..), ServerConfig (..))
+import Popopx.Messaging.Server.MsgStore.Types (SQSType (..))
+import Popopx.Messaging.Transport
+import Popopx.Messaging.Util (bshow, tshow)
+import Popopx.Messaging.Version (mkVersionRange)
 import System.FilePath (splitExtensions)
 import System.Random (randomRIO)
 import Test.Hspec hiding (fit, it, xit)

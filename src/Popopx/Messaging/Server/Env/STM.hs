@@ -18,7 +18,7 @@
 #endif
 {-# OPTIONS_GHC -fno-warn-ambiguous-fields #-}
 
-module Simplex.Messaging.Server.Env.STM
+module Popopx.Messaging.Server.Env.STM
   ( ServerConfig (..),
     ServerStoreCfg (..),
     -- AServerStoreCfg (..),
@@ -102,31 +102,31 @@ import qualified GHC.TypeLits as TE
 import Network.Socket (ServiceName)
 import qualified Network.TLS as T
 import Numeric.Natural
-import Simplex.Messaging.Agent.Lock
-import Simplex.Messaging.Agent.Store.Shared (MigrationConfirmation (..))
-import Simplex.Messaging.Client.Agent (SMPClientAgent, SMPClientAgentConfig, newSMPClientAgent)
-import Simplex.Messaging.Crypto (KeyHash (..))
-import qualified Simplex.Messaging.Crypto as C
-import Simplex.Messaging.Protocol
-import Simplex.Messaging.Server.Expiration
-import Simplex.Messaging.Server.Information
-import Simplex.Messaging.Server.MsgStore.STM
-import Simplex.Messaging.Server.MsgStore.Types
-import Simplex.Messaging.Server.Names (NamesConfig (..), NamesEnv, newNamesEnv, pingEndpoint)
-import Simplex.Messaging.Server.NtfStore
-import Simplex.Messaging.Server.QueueStore
-import Simplex.Messaging.Server.QueueStore.Postgres.Config
-import Simplex.Messaging.Server.QueueStore.STM (STMQueueStore, setStoreLog)
-import Simplex.Messaging.Server.QueueStore.Types
-import Simplex.Messaging.Server.Stats
-import Simplex.Messaging.Server.StoreLog
-import Simplex.Messaging.Server.StoreLog.ReadWrite
-import Simplex.Messaging.SystemTime
-import Simplex.Messaging.TMap (TMap)
-import qualified Simplex.Messaging.TMap as TM
-import Simplex.Messaging.Transport (ASrvTransport, SMPVersion, THandleParams, TransportPeer (..), VersionRangeSMP)
-import Simplex.Messaging.Transport.Server
-import Simplex.Messaging.Util (ifM, tshow, whenM, ($>>=))
+import Popopx.Messaging.Agent.Lock
+import Popopx.Messaging.Agent.Store.Shared (MigrationConfirmation (..))
+import Popopx.Messaging.Client.Agent (SMPClientAgent, SMPClientAgentConfig, newSMPClientAgent)
+import Popopx.Messaging.Crypto (KeyHash (..))
+import qualified Popopx.Messaging.Crypto as C
+import Popopx.Messaging.Protocol
+import Popopx.Messaging.Server.Expiration
+import Popopx.Messaging.Server.Information
+import Popopx.Messaging.Server.MsgStore.STM
+import Popopx.Messaging.Server.MsgStore.Types
+import Popopx.Messaging.Server.Names (NamesConfig (..), NamesEnv, newNamesEnv, pingEndpoint)
+import Popopx.Messaging.Server.NtfStore
+import Popopx.Messaging.Server.QueueStore
+import Popopx.Messaging.Server.QueueStore.Postgres.Config
+import Popopx.Messaging.Server.QueueStore.STM (STMQueueStore, setStoreLog)
+import Popopx.Messaging.Server.QueueStore.Types
+import Popopx.Messaging.Server.Stats
+import Popopx.Messaging.Server.StoreLog
+import Popopx.Messaging.Server.StoreLog.ReadWrite
+import Popopx.Messaging.SystemTime
+import Popopx.Messaging.TMap (TMap)
+import qualified Popopx.Messaging.TMap as TM
+import Popopx.Messaging.Transport (ASrvTransport, SMPVersion, THandleParams, TransportPeer (..), VersionRangeSMP)
+import Popopx.Messaging.Transport.Server
+import Popopx.Messaging.Util (ifM, tshow, whenM, ($>>=))
 import System.Directory (doesFileExist)
 import System.Exit (exitFailure)
 import System.IO (IOMode (..))
@@ -134,7 +134,7 @@ import System.Mem.Weak (Weak)
 import UnliftIO.STM
 
 #if defined(dbServerPostgres)
-import Simplex.Messaging.Server.MsgStore.Postgres
+import Popopx.Messaging.Server.MsgStore.Postgres
 #endif
 
 data ServerConfig s = ServerConfig

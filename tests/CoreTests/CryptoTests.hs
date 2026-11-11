@@ -36,18 +36,18 @@ import qualified Data.X509.Validation as XV
 import Foreign (FunPtr, allocaBytes, fillBytes, freeHaskellFunPtr, nullPtr)
 import Foreign.C.Types (CInt, CSize (..))
 import qualified SMPClient
-import qualified Simplex.Messaging.Crypto as C
-import qualified Simplex.Messaging.Crypto.Lazy as LC
-import Simplex.Messaging.Crypto.BBS
-import Simplex.Messaging.Crypto.Entitlement
-import Simplex.Messaging.Crypto.SNTRUP761.Bindings
-import Simplex.Messaging.Crypto.SNTRUP761.Bindings.Defines
-import Simplex.Messaging.Crypto.SNTRUP761.Bindings.FFI (c_sntrup761_keypair)
-import Simplex.Messaging.Crypto.SNTRUP761.Bindings.RNG (RNGFunc)
-import Simplex.Messaging.Encoding (Large (..), smpDecode, smpEncode)
-import Simplex.Messaging.Encoding.String (strDecode, strEncode)
-import Simplex.Messaging.Transport.Client
-import Simplex.Messaging.Transport.Credentials (genCredentials)
+import qualified Popopx.Messaging.Crypto as C
+import qualified Popopx.Messaging.Crypto.Lazy as LC
+import Popopx.Messaging.Crypto.BBS
+import Popopx.Messaging.Crypto.Entitlement
+import Popopx.Messaging.Crypto.SNTRUP761.Bindings
+import Popopx.Messaging.Crypto.SNTRUP761.Bindings.Defines
+import Popopx.Messaging.Crypto.SNTRUP761.Bindings.FFI (c_sntrup761_keypair)
+import Popopx.Messaging.Crypto.SNTRUP761.Bindings.RNG (RNGFunc)
+import Popopx.Messaging.Encoding (Large (..), smpDecode, smpEncode)
+import Popopx.Messaging.Encoding.String (strDecode, strEncode)
+import Popopx.Messaging.Transport.Client
+import Popopx.Messaging.Transport.Credentials (genCredentials)
 import System.Timeout (timeout)
 import Test.Hspec hiding (fit, it)
 import Test.Hspec.QuickCheck (modifyMaxSuccess)
@@ -408,7 +408,7 @@ shortSecretKey = B.replicate (c_SNTRUP761_SECRETKEY_SIZE - 1) 's'
 -- BBS+ tests
 
 bbsHeader :: BBSHeader
-bbsHeader = BBSHeader "SimpleX"
+bbsHeader = BBSHeader "POPOPX"
 
 bbsMessages :: [B.ByteString]
 bbsMessages = ["secret_master_key", "2026-07-31", "supporter"]

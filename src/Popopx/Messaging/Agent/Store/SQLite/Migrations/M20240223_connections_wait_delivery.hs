@@ -1,6 +1,6 @@
 {-# LANGUAGE QuasiQuotes #-}
 
-module Simplex.Messaging.Agent.Store.SQLite.Migrations.M20240223_connections_wait_delivery where
+module Popopx.Messaging.Agent.Store.SQLite.Migrations.M20240223_connections_wait_delivery where
 
 import Database.SQLite.Simple (Query)
 import Database.SQLite.Simple.QQ (sql)

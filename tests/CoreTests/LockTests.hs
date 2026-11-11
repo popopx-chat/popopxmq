@@ -7,10 +7,10 @@ import Control.Concurrent.Async (async, wait)
 import Control.Concurrent.STM
 import Control.Monad (forM)
 import qualified Data.Set as S
-import Simplex.Messaging.Agent.Client (withLockMap, withLocksMap)
-import Simplex.Messaging.Agent.Lock (Lock)
-import Simplex.Messaging.TMap (TMap)
-import qualified Simplex.Messaging.TMap as TM
+import Popopx.Messaging.Agent.Client (withLockMap, withLocksMap)
+import Popopx.Messaging.Agent.Lock (Lock)
+import Popopx.Messaging.TMap (TMap)
+import qualified Popopx.Messaging.TMap as TM
 import System.Timeout (timeout)
 import Test.Hspec hiding (fit, it)
 import Util

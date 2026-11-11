@@ -13,13 +13,13 @@ import qualified Data.ByteString.Char8 as B
 import Data.List (foldl')
 import qualified Data.Map as M
 import Data.String (IsString (..))
-import Simplex.Messaging.Agent.Protocol (ConnId, QueueStatus (..), UserId)
-import Simplex.Messaging.Agent.Store (RcvQueueSub (..))
-import qualified Simplex.Messaging.Agent.TSessionSubs as SS
-import Simplex.Messaging.Client (SMPTransportSession, TransportSessionMode (..))
-import qualified Simplex.Messaging.Crypto as C
-import Simplex.Messaging.Protocol (EntityId (..), RecipientId, SMPServer)
-import Simplex.Messaging.Transport (SessionId)
+import Popopx.Messaging.Agent.Protocol (ConnId, QueueStatus (..), UserId)
+import Popopx.Messaging.Agent.Store (RcvQueueSub (..))
+import qualified Popopx.Messaging.Agent.TSessionSubs as SS
+import Popopx.Messaging.Client (SMPTransportSession, TransportSessionMode (..))
+import qualified Popopx.Messaging.Crypto as C
+import Popopx.Messaging.Protocol (EntityId (..), RecipientId, SMPServer)
+import Popopx.Messaging.Transport (SessionId)
 import Test.Hspec hiding (fit, it)
 import UnliftIO
 import Util

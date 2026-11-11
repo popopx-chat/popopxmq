@@ -4,7 +4,7 @@
 {-# LANGUAGE QuasiQuotes #-}
 {-# LANGUAGE TupleSections #-}
 
-module Simplex.Messaging.Agent.Store.Postgres.Migrations
+module Popopx.Messaging.Agent.Store.Postgres.Migrations
   ( initialize,
     run,
     getCurrentMigrations,
@@ -22,9 +22,9 @@ import qualified Database.PostgreSQL.LibPQ as LibPQ
 import Database.PostgreSQL.Simple (Only (..), Query)
 import qualified Database.PostgreSQL.Simple as PSQL
 import Database.PostgreSQL.Simple.Internal (Connection (..))
-import Simplex.Messaging.Agent.Store.Postgres.Common
-import Simplex.Messaging.Agent.Store.Shared
-import Simplex.Messaging.Util (($>>=))
+import Popopx.Messaging.Agent.Store.Postgres.Common
+import Popopx.Messaging.Agent.Store.Shared
+import Popopx.Messaging.Util (($>>=))
 import UnliftIO.MVar
 
 initialize :: DBStore -> Maybe Query -> IO ()

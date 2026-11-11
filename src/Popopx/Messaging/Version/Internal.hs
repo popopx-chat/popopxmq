@@ -1,11 +1,11 @@
-module Simplex.Messaging.Version.Internal
+module Popopx.Messaging.Version.Internal
   ( Version (..),
   ) where
 
 import Data.Aeson (FromJSON (..), ToJSON (..))
 import Data.Word (Word16)
-import Simplex.Messaging.Encoding
-import Simplex.Messaging.Encoding.String
+import Popopx.Messaging.Encoding
+import Popopx.Messaging.Encoding.String
 
 -- Do not use constructor of this type directry
 newtype Version v = Version Word16

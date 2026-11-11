@@ -8,7 +8,7 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE TemplateHaskell #-}
 
-module Simplex.FileTransfer.Transport
+module Popopx.FileTransfer.Transport
   ( supportedFileServerVRange,
     authCmdsXFTPVersion,
     blockedFilesXFTPVersion,
@@ -55,18 +55,18 @@ import qualified Data.ByteString.Lazy.Char8 as LB
 import Data.Functor (($>))
 import Data.Word (Word16, Word32)
 import Network.HTTP2.Client (HTTP2Error)
-import qualified Simplex.Messaging.Crypto as C
-import qualified Simplex.Messaging.Crypto.Lazy as LC
-import Simplex.Messaging.Crypto.Entitlement (EntitlementProof)
-import Simplex.Messaging.Encoding
-import Simplex.Messaging.Encoding.String
-import Simplex.Messaging.Parsers
-import Simplex.Messaging.Protocol (BlockingInfo, CommandError)
-import Simplex.Messaging.Transport (ALPN, CertChainPubKey, ServiceCredentials, SessionId, THandle (..), THandleParams (..), TransportError (..), TransportPeer (..))
-import Simplex.Messaging.Transport.HTTP2.File
-import Simplex.Messaging.Util (bshow, tshow, (<$?>), (<$$>))
-import Simplex.Messaging.Version
-import Simplex.Messaging.Version.Internal
+import qualified Popopx.Messaging.Crypto as C
+import qualified Popopx.Messaging.Crypto.Lazy as LC
+import Popopx.Messaging.Crypto.Entitlement (EntitlementProof)
+import Popopx.Messaging.Encoding
+import Popopx.Messaging.Encoding.String
+import Popopx.Messaging.Parsers
+import Popopx.Messaging.Protocol (BlockingInfo, CommandError)
+import Popopx.Messaging.Transport (ALPN, CertChainPubKey, ServiceCredentials, SessionId, THandle (..), THandleParams (..), TransportError (..), TransportPeer (..))
+import Popopx.Messaging.Transport.HTTP2.File
+import Popopx.Messaging.Util (bshow, tshow, (<$?>), (<$$>))
+import Popopx.Messaging.Version
+import Popopx.Messaging.Version.Internal
 import System.IO (Handle, IOMode (..), withFile)
 
 data XFTPRcvChunkSpec = XFTPRcvChunkSpec

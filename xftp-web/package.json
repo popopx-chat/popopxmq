@@ -1,11 +1,11 @@
 {
-  "name": "@simplex-chat/xftp-web",
+  "name": "@popopx-chat/xftp-web",
   "version": "0.3.0",
   "description": "XFTP file transfer protocol client for web/browser environments",
   "license": "AGPL-3.0-only",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/simplex-chat/simplexmq.git",
+    "url": "git+https://github.com/popopx-chat/popopxmq.git",
     "directory": "xftp-web"
   },
   "type": "module",

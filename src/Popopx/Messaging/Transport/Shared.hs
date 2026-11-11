@@ -2,7 +2,7 @@
 {-# LANGUAGE NamedFieldPuns #-}
 {-# LANGUAGE OverloadedStrings #-}
 
-module Simplex.Messaging.Transport.Shared
+module Popopx.Messaging.Transport.Shared
   ( ChainCertificates (..),
     chainIdCaCerts,
     x509validate,

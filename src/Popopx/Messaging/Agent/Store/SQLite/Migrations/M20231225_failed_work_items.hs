@@ -1,6 +1,6 @@
 {-# LANGUAGE QuasiQuotes #-}
 
-module Simplex.Messaging.Agent.Store.SQLite.Migrations.M20231225_failed_work_items where
+module Popopx.Messaging.Agent.Store.SQLite.Migrations.M20231225_failed_work_items where
 
 import Database.SQLite.Simple (Query)
 import Database.SQLite.Simple.QQ (sql)

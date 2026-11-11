@@ -9,7 +9,7 @@
 -- | FFI bindings to libbbs (BBS+ signatures over BLS12-381, SHA-256 suite).
 -- Values parsed from untrusted input are length-validated; see FixedBS and the
 -- BBSProof StrEncoding instance.
-module Simplex.Messaging.Crypto.BBS
+module Popopx.Messaging.Crypto.BBS
   ( BBSSecretKey (..),
     BBSPublicKey (..),
     BBSKeyPair,
@@ -34,9 +34,9 @@ import Data.Proxy (Proxy (..))
 import Foreign
 import Foreign.C
 import GHC.TypeLits (KnownNat, KnownSymbol, Nat, Symbol, natVal, symbolVal)
-import Simplex.Messaging.Encoding (Encoding (..), Large (..))
-import Simplex.Messaging.Encoding.String
-import Simplex.Messaging.Util ((<$?>))
+import Popopx.Messaging.Encoding (Encoding (..), Large (..))
+import Popopx.Messaging.Encoding.String
+import Popopx.Messaging.Util ((<$?>))
 import System.IO.Unsafe (unsafePerformIO)
 
 -- Note: the data constructors below are unchecked escape hatches for trusted,

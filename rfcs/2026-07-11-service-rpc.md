@@ -91,7 +91,7 @@ The first reply message returns from the request. Later reply messages are deliv
 
 ### Rejection
 
-The service refuses a request with the `AgentRejection` envelope from the [communicating rejection RFC](../../simplex-chat/docs/rfcs/2024-03-22-communicating-reject.md), sent to the reply queue under the ratchet, with an opaque application reason. The same envelope communicates refusal of a connection request, where today it is dropped silently. A rejection ends the exchange like a final reply.
+The service refuses a request with the `AgentRejection` envelope from the [communicating rejection RFC](../../popopx-chat/docs/rfcs/2024-03-22-communicating-reject.md), sent to the reply queue under the ratchet, with an opaque application reason. The same envelope communicates refusal of a connection request, where today it is dropped silently. A rejection ends the exchange like a final reply.
 
 ### Idempotency
 

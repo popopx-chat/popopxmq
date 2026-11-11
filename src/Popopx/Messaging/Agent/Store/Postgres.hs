@@ -4,7 +4,7 @@
 {-# LANGUAGE QuasiQuotes #-}
 {-# LANGUAGE ScopedTypeVariables #-}
 
-module Simplex.Messaging.Agent.Store.Postgres
+module Popopx.Messaging.Agent.Store.Postgres
   ( DBOpts (..),
     Migrations.getCurrentMigrations,
     checkSchemaExists,
@@ -27,12 +27,12 @@ import Database.PostgreSQL.Simple (Only (..))
 import Database.PostgreSQL.Simple.Types (Query (..))
 import qualified Database.PostgreSQL.Simple as PSQL
 import Database.PostgreSQL.Simple.SqlQQ (sql)
-import Simplex.Messaging.Agent.Store.Migrations (DBMigrate (..), sharedMigrateSchema)
-import qualified Simplex.Messaging.Agent.Store.Postgres.Migrations as Migrations
-import Simplex.Messaging.Agent.Store.Postgres.Common
-import qualified Simplex.Messaging.Agent.Store.Postgres.DB as DB
-import Simplex.Messaging.Agent.Store.Shared (Migration (..), MigrationConfig (..), MigrationError (..))
-import Simplex.Messaging.Util (ifM, safeDecodeUtf8)
+import Popopx.Messaging.Agent.Store.Migrations (DBMigrate (..), sharedMigrateSchema)
+import qualified Popopx.Messaging.Agent.Store.Postgres.Migrations as Migrations
+import Popopx.Messaging.Agent.Store.Postgres.Common
+import qualified Popopx.Messaging.Agent.Store.Postgres.DB as DB
+import Popopx.Messaging.Agent.Store.Shared (Migration (..), MigrationConfig (..), MigrationError (..))
+import Popopx.Messaging.Util (ifM, safeDecodeUtf8)
 import System.Exit (exitFailure)
 
 -- | Create a new Postgres DBStore with the given connection string, schema name and migrations.

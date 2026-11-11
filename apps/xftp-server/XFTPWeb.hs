@@ -14,14 +14,14 @@ import Data.FileEmbed (embedDir, embedFile)
 import Data.Maybe (isJust)
 import Data.String (fromString)
 import Web.Embedded (embeddedContent)
-import Simplex.FileTransfer.Server.Env (XFTPServerConfig (..))
-import Simplex.Messaging.Encoding.String (strEncode)
-import Simplex.Messaging.Server.Expiration (ExpirationConfig (..))
-import Simplex.Messaging.Server.Information (ServerPublicInfo)
-import Simplex.Messaging.Server.Main (simplexmqSource)
-import qualified Simplex.Messaging.Server.Web as Web
-import Simplex.Messaging.Server.Web (render, serverInfoSubsts, timedTTLText)
-import Simplex.Messaging.Transport.Client (TransportHost (..))
+import Popopx.FileTransfer.Server.Env (XFTPServerConfig (..))
+import Popopx.Messaging.Encoding.String (strEncode)
+import Popopx.Messaging.Server.Expiration (ExpirationConfig (..))
+import Popopx.Messaging.Server.Information (ServerPublicInfo)
+import Popopx.Messaging.Server.Main (popopxmqSource)
+import qualified Popopx.Messaging.Server.Web as Web
+import Popopx.Messaging.Server.Web (render, serverInfoSubsts, timedTTLText)
+import Popopx.Messaging.Transport.Client (TransportHost (..))
 import System.Directory (createDirectoryIfMissing)
 import System.FilePath ((</>))
 
@@ -55,7 +55,7 @@ xftpServerInformation cfg info onionHost = render (Web.indexHtml embeddedContent
 
 xftpSubsts :: XFTPServerConfig s -> Maybe ServerPublicInfo -> Maybe TransportHost -> [(ByteString, Maybe ByteString)]
 xftpSubsts XFTPServerConfig {fileExpiration, logStatsInterval, allowNewFiles, newFileBasicAuth} information onionHost =
-  [("smpConfig", Nothing), ("xftpConfig", Just "y")] <> substConfig <> serverInfoSubsts simplexmqSource information <> [("onionHost", strEncode <$> onionHost), ("iniFileName", Just "file-server.ini")]
+  [("smpConfig", Nothing), ("xftpConfig", Just "y")] <> substConfig <> serverInfoSubsts popopxmqSource information <> [("onionHost", strEncode <$> onionHost), ("iniFileName", Just "file-server.ini")]
   where
     substConfig =
       [ ("fileExpiration", Just . fromString . timedTTLText . ttl $ fileExpiration),

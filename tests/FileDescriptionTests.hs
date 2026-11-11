@@ -12,16 +12,16 @@ import qualified Data.ByteString.Char8 as B
 import qualified Data.ByteString.Lazy.Char8 as LB
 import Data.Either (isRight)
 import qualified Data.Yaml as Y
-import Simplex.FileTransfer.Chunks (chunkSize0, chunkSize3, serverChunkSizes)
-import Simplex.FileTransfer.Client (prepareChunkSizes)
-import Simplex.FileTransfer.Crypto (sha512HashChunks)
-import Simplex.FileTransfer.Description
-import Simplex.FileTransfer.Protocol
-import qualified Simplex.Messaging.Crypto as C
-import qualified Simplex.Messaging.Crypto.Lazy as LC
-import Simplex.Messaging.Encoding.String (StrEncoding (..))
-import Simplex.Messaging.Protocol (EntityId (..))
-import Simplex.Messaging.ServiceScheme (ServiceScheme (..))
+import Popopx.FileTransfer.Chunks (chunkSize0, chunkSize3, serverChunkSizes)
+import Popopx.FileTransfer.Client (prepareChunkSizes)
+import Popopx.FileTransfer.Crypto (sha512HashChunks)
+import Popopx.FileTransfer.Description
+import Popopx.FileTransfer.Protocol
+import qualified Popopx.Messaging.Crypto as C
+import qualified Popopx.Messaging.Crypto.Lazy as LC
+import Popopx.Messaging.Encoding.String (StrEncoding (..))
+import Popopx.Messaging.Protocol (EntityId (..))
+import Popopx.Messaging.ServiceScheme (ServiceScheme (..))
 import System.Directory (removeFile)
 import Test.Hspec hiding (fit, it)
 import Util
@@ -235,13 +235,13 @@ testSerializeFileDescription = withRemoveTmpFile $ do
 testFileDescriptionURI :: IO ()
 testFileDescriptionURI = do
   vfd <- either fail pure $ validateFileDescription fileDesc
-  let descr = FileDescriptionURI SSSimplex vfd mempty
+  let descr = FileDescriptionURI SSPopopx vfd mempty
   strDecode (strEncode descr) `shouldBe` Right descr
 
 testFileDescriptionURIExtras :: IO ()
 testFileDescriptionURIExtras = do
   vfd <- either fail pure $ validateFileDescription fileDesc
-  let descr = FileDescriptionURI SSSimplex vfd $ Just "{\"something\":\"extra\",\"more\":true}"
+  let descr = FileDescriptionURI SSPopopx vfd $ Just "{\"something\":\"extra\",\"more\":true}"
   strDecode (strEncode descr) `shouldBe` Right descr
 
 testHashChunks :: HasTestEnv => IO ()

@@ -20,18 +20,18 @@
 {-# LANGUAGE TypeFamilies #-}
 
 -- |
--- Module      : Simplex.Messaging.Transport
+-- Module      : Popopx.Messaging.Transport
 -- Copyright   : (c) simplex.chat
 -- License     : AGPL-3
 --
--- Maintainer  : chat@simplex.chat
+-- Maintainer  : chat@popopx.chat
 -- Stability   : experimental
 -- Portability : non-portable
 --
 -- This module defines basic TCP server and client and SMP protocol encrypted transport over TCP.
 --
--- See https://github.com/simplex-chat/simplexmq/blob/master/protocol/simplex-messaging.md#appendix-a
-module Simplex.Messaging.Transport
+-- See https://github.com/popopx-chat/popopxmq/blob/master/protocol/simplex-messaging.md#appendix-a
+module Popopx.Messaging.Transport
   ( -- * SMP transport parameters
     SMPVersion,
     VersionSMP,
@@ -54,7 +54,7 @@ module Simplex.Messaging.Transport
     serverInfoSMPVersion,
     nameAvailSMPVersion,
     fwdNoncesSMPVersion,
-    simplexMQVersion,
+    popopxMQVersion,
     smpBlockSize,
     TransportConfig (..),
 
@@ -134,18 +134,18 @@ import GHC.IO.Handle.Internals (ioe_EOF)
 import Network.Socket
 import qualified Network.TLS as T
 import qualified Network.TLS.Extra as TE
-import qualified Paths_simplexmq as SMQ
-import qualified Simplex.Messaging.Crypto as C
-import Simplex.Messaging.Encoding
-import Simplex.Messaging.Encoding.String
-import Simplex.Messaging.Parsers (dropPrefix, parseRead1, sumTypeJSON)
-import Simplex.Messaging.Server.Information
-import Simplex.Messaging.SystemTime (SystemSeconds)
-import Simplex.Messaging.Transport.Buffer
-import Simplex.Messaging.Transport.Shared
-import Simplex.Messaging.Util (bshow, catchAll, catchAll_, liftEitherWith, stateTVar', (<$$>))
-import Simplex.Messaging.Version
-import Simplex.Messaging.Version.Internal
+import qualified Paths_popopxmq as SMQ
+import qualified Popopx.Messaging.Crypto as C
+import Popopx.Messaging.Encoding
+import Popopx.Messaging.Encoding.String
+import Popopx.Messaging.Parsers (dropPrefix, parseRead1, sumTypeJSON)
+import Popopx.Messaging.Server.Information
+import Popopx.Messaging.SystemTime (SystemSeconds)
+import Popopx.Messaging.Transport.Buffer
+import Popopx.Messaging.Transport.Shared
+import Popopx.Messaging.Util (bshow, catchAll, catchAll_, liftEitherWith, stateTVar', (<$$>))
+import Popopx.Messaging.Version
+import Popopx.Messaging.Version.Internal
 import System.IO.Error (isEOFError)
 import UnliftIO.Exception (Exception)
 import qualified UnliftIO.Exception as E
@@ -257,8 +257,8 @@ proxiedSMPRelayVRange = mkVersionRange minServerSMPRelayVersion proxiedSMPRelayV
 alpnSupportedSMPHandshakes :: [ALPN]
 alpnSupportedSMPHandshakes = ["smp/1"]
 
-simplexMQVersion :: String
-simplexMQVersion = showVersion SMQ.version
+popopxMQVersion :: String
+popopxMQVersion = showVersion SMQ.version
 
 -- * Transport connection class
 
@@ -736,7 +736,7 @@ tGetBlock THandle {connection = c, params = THandleParams {blockSize, encryptBlo
 
 -- | Server SMP transport handshake.
 --
--- See https://github.com/simplex-chat/simplexmq/blob/master/protocol/simplex-messaging.md#appendix-a
+-- See https://github.com/popopx-chat/popopxmq/blob/master/protocol/simplex-messaging.md#appendix-a
 smpServerHandshake ::
   forall c. Transport c =>
   X.CertificateChain ->
@@ -780,7 +780,7 @@ smpServerHandshake srvCert srvSignKey c (k, pk) kh smpVersionRange serverInfoByt
 
 -- | Client SMP transport handshake.
 --
--- See https://github.com/simplex-chat/simplexmq/blob/master/protocol/simplex-messaging.md#appendix-a
+-- See https://github.com/popopx-chat/popopxmq/blob/master/protocol/simplex-messaging.md#appendix-a
 smpClientHandshake :: forall c. Transport c => c 'TClient -> Maybe C.KeyPairX25519 -> C.KeyHash -> VersionRangeSMP -> Bool -> Maybe (ServiceCredentials, C.KeyPairEd25519) -> ExceptT TransportError IO (THandleSMP c 'TClient)
 smpClientHandshake c ks_ keyHash@(C.KeyHash kh) smpVRange proxyServer serviceKeys_ = do
   SMPServerHandshake {sessionId = sessId, smpVersionRange, authPubKey = certKey@(CertChainPubKey chain exact), serverInfoBytes} <- getHandshake th

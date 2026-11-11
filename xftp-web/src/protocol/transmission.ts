@@ -1,4 +1,4 @@
-// XFTP transmission framing -- Simplex.Messaging.Transport + FileTransfer.Protocol
+// XFTP transmission framing -- Popopx.Messaging.Transport + FileTransfer.Protocol
 //
 // Handles block-level pad/unpad, batch encoding, and Ed25519 auth signing.
 

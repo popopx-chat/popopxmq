@@ -4,7 +4,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE TemplateHaskell #-}
 
-module Simplex.FileTransfer.Types
+module Popopx.FileTransfer.Types
   ( RcvFileId,
     SndFileId,
     FileHeader (..),
@@ -37,17 +37,17 @@ import Data.Text (Text)
 import qualified Data.Text as T
 import Data.Text.Encoding (encodeUtf8)
 import Data.Word (Word32)
-import Simplex.FileTransfer.Client (XFTPChunkSpec (..))
-import Simplex.FileTransfer.Description
-import Simplex.FileTransfer.Protocol (GrantedStorageTime (..))
-import Simplex.Messaging.Agent.Store.DB (FromField (..), ToField (..), fromTextField_)
-import qualified Simplex.Messaging.Crypto as C
-import Simplex.Messaging.Crypto.File (CryptoFile (..))
-import Simplex.Messaging.Encoding
-import Simplex.Messaging.Encoding.String
-import Simplex.Messaging.Parsers
-import Simplex.Messaging.Protocol (XFTPServer)
-import Simplex.Messaging.Util (safeDecodeUtf8, (<$$>))
+import Popopx.FileTransfer.Client (XFTPChunkSpec (..))
+import Popopx.FileTransfer.Description
+import Popopx.FileTransfer.Protocol (GrantedStorageTime (..))
+import Popopx.Messaging.Agent.Store.DB (FromField (..), ToField (..), fromTextField_)
+import qualified Popopx.Messaging.Crypto as C
+import Popopx.Messaging.Crypto.File (CryptoFile (..))
+import Popopx.Messaging.Encoding
+import Popopx.Messaging.Encoding.String
+import Popopx.Messaging.Parsers
+import Popopx.Messaging.Protocol (XFTPServer)
+import Popopx.Messaging.Util (safeDecodeUtf8, (<$$>))
 import System.FilePath ((</>))
 
 type RcvFileId = ByteString -- Agent entity ID

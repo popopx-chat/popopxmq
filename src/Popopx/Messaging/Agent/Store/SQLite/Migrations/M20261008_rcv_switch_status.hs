@@ -1,6 +1,6 @@
 {-# LANGUAGE QuasiQuotes #-}
 
-module Simplex.Messaging.Agent.Store.SQLite.Migrations.M20261008_rcv_switch_status where
+module Popopx.Messaging.Agent.Store.SQLite.Migrations.M20261008_rcv_switch_status where
 
 import Database.SQLite.Simple (Query)
 import Database.SQLite.Simple.QQ (sql)

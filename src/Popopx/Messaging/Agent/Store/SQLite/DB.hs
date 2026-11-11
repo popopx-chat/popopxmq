@@ -6,7 +6,7 @@
 {-# LANGUAGE StrictData #-}
 {-# LANGUAGE TemplateHaskell #-}
 
-module Simplex.Messaging.Agent.Store.SQLite.DB
+module Popopx.Messaging.Agent.Store.SQLite.DB
   ( BoolInt (..),
     Binary (..),
     Connection (..),
@@ -45,10 +45,10 @@ import Database.SQLite.Simple.FromField (FieldParser, FromField (..), returnErro
 import Database.SQLite.Simple.Internal (Field (..))
 import Database.SQLite.Simple.Ok (Ok (Ok))
 import Database.SQLite.Simple.ToField (ToField (..))
-import Simplex.Messaging.Parsers (defaultJSON)
-import Simplex.Messaging.TMap (TMap)
-import qualified Simplex.Messaging.TMap as TM
-import Simplex.Messaging.Util (diffToMicroseconds, tshow)
+import Popopx.Messaging.Parsers (defaultJSON)
+import Popopx.Messaging.TMap (TMap)
+import qualified Popopx.Messaging.TMap as TM
+import Popopx.Messaging.Util (diffToMicroseconds, tshow)
 
 newtype BoolInt = BI {unBI :: Bool}
   deriving newtype (FromField, ToField)

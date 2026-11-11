@@ -1,4 +1,4 @@
-// XFTP file description encoding/decoding -- Simplex.FileTransfer.Description
+// XFTP file description encoding/decoding -- Popopx.FileTransfer.Description
 //
 // Handles YAML-encoded file descriptions matching Haskell Data.Yaml output format.
 // Base64url encoding matches Haskell Data.ByteString.Base64.URL.encode (with padding).

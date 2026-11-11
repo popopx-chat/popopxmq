@@ -52,14 +52,14 @@ echo 'root soft nofile unlimited' >> /etc/security/limits.conf
 echo 'root hard nofile unlimited' >> /etc/security/limits.conf
 
 # Download latest release
-bin_dir="/opt/simplex-notifications/bin"
+bin_dir="/opt/popopx-notifications/bin"
 binary="$bin_dir/ntf-server"
 mkdir -p $bin_dir
-curl -L -o $binary https://github.com/simplex-chat/simplexmq/releases/latest/download/ntf-server-ubuntu-20_04-x86-64
+curl -L -o $binary https://github.com/popopx-chat/popopxmq/releases/latest/download/ntf-server-ubuntu-20_04-x86-64
 chmod +x $binary
 
 # / Add to PATH
-cat > /etc/profile.d/simplex.sh << EOF
+cat > /etc/profile.d/popopx.sh << EOF
 #!/bin/bash
 
 export PATH="$PATH:$bin_dir"
@@ -68,7 +68,7 @@ EOF
 # Add to PATH /
 
 # Source and test PATH
-source /etc/profile.d/simplex.sh
+source /etc/profile.d/popopx.sh
 ntf-server --version
 
 # Initialize server
@@ -84,7 +84,7 @@ init_opts+=(--ip $ip_address)
 ntf-server init "${init_opts[@]}"
 
 # Server fingerprint
-fingerprint=$(cat /etc/opt/simplex-notifications/fingerprint)
+fingerprint=$(cat /etc/opt/popopx-notifications/fingerprint)
 
 # Determine server address to specify in welcome script and Linode tag
 if [[ -n "$FQDN" ]]; then
@@ -94,7 +94,7 @@ else
 fi
 
 # Set up welcome script
-on_login_script="/opt/simplex-notifications/on_login.sh"
+on_login_script="/opt/popopx-notifications/on_login.sh"
 
 # / Welcome script
 cat > $on_login_script << EOF
@@ -106,14 +106,14 @@ server_address=\$2
 cat << EOF2
 ********************************************************************************
 
-SimpleX notifications server address: ntf://\$fingerprint@\$server_address
+POPOPX notifications server address: ntf://\$fingerprint@\$server_address
 Check server status with: systemctl status ntf-server
 
 To keep this server secure, the UFW firewall is enabled.
 All ports are BLOCKED except 22 (SSH), 443 (HTTPS), 5223 (notifications server).
 
 ********************************************************************************
-To stop seeing this message delete line - bash /opt/simplex-notifications/on_login.sh - from /root/.bashrc
+To stop seeing this message delete line - bash /opt/popopx-notifications/on_login.sh - from /root/.bashrc
 EOF2
 
 EOF
@@ -149,13 +149,13 @@ fi
 # / Create systemd service
 cat > /etc/systemd/system/ntf-server.service << EOF
 [Unit]
-Description=SimpleX notifications server
+Description=POPOPX notifications server
 
 [Service]
-Environment="APNS_KEY_FILE=/etc/opt/simplex-notifications/AuthKey.p8"
+Environment="APNS_KEY_FILE=/etc/opt/popopx-notifications/AuthKey.p8"
 Environment="APNS_KEY_ID=$APNS_KEY_ID"
 Type=simple
-ExecStart=/bin/sh -c "exec $binary start >> /var/opt/simplex-notifications/ntf-server.log 2>&1"
+ExecStart=/bin/sh -c "exec $binary start >> /var/opt/popopx-notifications/ntf-server.log 2>&1"
 KillSignal=SIGINT
 Restart=always
 RestartSec=10

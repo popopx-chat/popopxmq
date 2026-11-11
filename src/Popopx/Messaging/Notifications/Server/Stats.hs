@@ -2,7 +2,7 @@
 {-# LANGUAGE NamedFieldPuns #-}
 {-# LANGUAGE OverloadedStrings #-}
 
-module Simplex.Messaging.Notifications.Server.Stats
+module Popopx.Messaging.Notifications.Server.Stats
   ( NtfServerStats (..),
     NtfServerStatsData (..),
     StatsByServer,
@@ -24,10 +24,10 @@ import Data.IORef
 import qualified Data.Map.Strict as M
 import Data.Text (Text)
 import Data.Time.Clock (UTCTime)
-import Simplex.Messaging.Encoding.String
-import Simplex.Messaging.Server.Stats
-import Simplex.Messaging.TMap (TMap)
-import qualified Simplex.Messaging.TMap as TM
+import Popopx.Messaging.Encoding.String
+import Popopx.Messaging.Server.Stats
+import Popopx.Messaging.TMap (TMap)
+import qualified Popopx.Messaging.TMap as TM
 
 data NtfServerStats = NtfServerStats
   { fromTime :: IORef UTCTime,

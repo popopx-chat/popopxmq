@@ -1,4 +1,4 @@
-// XFTP handshake encoding/decoding -- Simplex.FileTransfer.Transport
+// XFTP handshake encoding/decoding -- Popopx.FileTransfer.Transport
 //
 // Handles XFTP client/server handshake messages and version negotiation.
 

@@ -1,7 +1,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE ScopedTypeVariables #-}
 
-module Simplex.Messaging.Agent.Store.Postgres.DB
+module Popopx.Messaging.Agent.Store.Postgres.DB
   ( BoolInt (..),
     PSQL.Binary (..),
     PSQL.Connection,

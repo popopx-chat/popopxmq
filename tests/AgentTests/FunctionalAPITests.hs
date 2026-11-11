@@ -89,40 +89,40 @@ import Data.Word (Word16)
 import GHC.Stack (withFrozenCallStack)
 import SMPAgentClient
 import SMPClient
-import Simplex.Messaging.Agent hiding (acceptContact, createConnection, deleteConnection, deleteConnections, getConnShortLink, joinConnection, sendMessage, setConnShortLink, subscribeConnection, suspendConnection)
-import qualified Simplex.Messaging.Agent as A
-import Simplex.Messaging.Agent.Client (AgentOpState (..), ProtocolTestFailure (..), ProtocolTestStep (..), ServerQueueInfo (..), UserNetworkInfo (..), UserNetworkType (..), sendAgentMessage, waitForUserNetwork)
-import Simplex.Messaging.Agent.Env.SQLite (AgentConfig (..), Env (..), InitialAgentServers (..), createAgentStore)
-import Simplex.Messaging.Agent.Protocol hiding (CON, CONF, INFO, REQ, SENT)
-import qualified Simplex.Messaging.Agent.Protocol as A
-import Simplex.Messaging.Agent.Store (Connection' (..), SomeConn' (..), StoredRcvQueue (..))
-import Simplex.Messaging.Agent.Store.AgentStore (deleteRatchetKeyHashesExpired, getConn, getConnIds, getRatchetX3dhKeys)
-import Simplex.Messaging.Agent.Store.Common (DBStore (..), withTransaction)
-import Simplex.Messaging.Agent.Store.Interface
-import qualified Simplex.Messaging.Agent.Store.DB as DB
-import Simplex.Messaging.Agent.Store.Shared (MigrationConfig (..), MigrationConfirmation (..), MigrationError (..))
-import Simplex.Messaging.Client (pattern NRMInteractive, NetworkConfig (..), ProtocolClientConfig (..), TransportSessionMode (..), defaultClientConfig, defaultSMPClientConfig, getProtocolClient, sendSMPMessage)
-import qualified Simplex.Messaging.Crypto as C
-import Simplex.Messaging.Crypto.File (CryptoFile (..))
-import Simplex.Messaging.Crypto.Ratchet (InitialKeys (..), PQEncryption (..), PQSupport (..), pattern IKPQOff, pattern IKPQOn, pattern PQEncOff, pattern PQEncOn, pattern PQSupportOff, pattern PQSupportOn)
-import qualified Simplex.Messaging.Crypto.Ratchet as CR
-import Simplex.Messaging.Encoding
-import Simplex.Messaging.Encoding.String
-import Simplex.Messaging.Protocol (BasicAuth, ErrorType (..), MsgBody, NetworkError (..), ProtocolServer (..), SubscriptionMode (..), supportedSMPClientVRange)
-import qualified Simplex.Messaging.Protocol as SMP
-import Simplex.Messaging.Protocol.Types
-import Simplex.Messaging.Server.Env.STM (AStoreType (..), ServerConfig (..), ServerStoreCfg (..), StorePaths (..))
-import Simplex.Messaging.Server.Expiration
-import Simplex.Messaging.Server.Information (ServerPublicInfo (..))
-import Simplex.Messaging.Server.MsgStore.Types (SMSType (..), SQSType (..))
-import Simplex.Messaging.Server.QueueStore.QueueInfo
-import Simplex.Messaging.Server.StoreLog (StoreLogRecord (..))
-import Simplex.Messaging.Transport (ASrvTransport, SMPVersion, VersionSMP, currentServerSMPRelayVersion, minClientSMPRelayVersion, minServerSMPRelayVersion, alpnSupportedSMPHandshakes)
-import Simplex.Messaging.Transport.Server (TransportServerConfig (..))
-import Simplex.Messaging.Util (bshow, diffToMicroseconds)
-import Simplex.Messaging.Version (VersionRange (..))
-import qualified Simplex.Messaging.Version as V
-import Simplex.Messaging.Version.Internal (Version (..))
+import Popopx.Messaging.Agent hiding (acceptContact, createConnection, deleteConnection, deleteConnections, getConnShortLink, joinConnection, sendMessage, setConnShortLink, subscribeConnection, suspendConnection)
+import qualified Popopx.Messaging.Agent as A
+import Popopx.Messaging.Agent.Client (AgentOpState (..), ProtocolTestFailure (..), ProtocolTestStep (..), ServerQueueInfo (..), UserNetworkInfo (..), UserNetworkType (..), sendAgentMessage, waitForUserNetwork)
+import Popopx.Messaging.Agent.Env.SQLite (AgentConfig (..), Env (..), InitialAgentServers (..), createAgentStore)
+import Popopx.Messaging.Agent.Protocol hiding (CON, CONF, INFO, REQ, SENT)
+import qualified Popopx.Messaging.Agent.Protocol as A
+import Popopx.Messaging.Agent.Store (Connection' (..), SomeConn' (..), StoredRcvQueue (..))
+import Popopx.Messaging.Agent.Store.AgentStore (deleteRatchetKeyHashesExpired, getConn, getConnIds, getRatchetX3dhKeys)
+import Popopx.Messaging.Agent.Store.Common (DBStore (..), withTransaction)
+import Popopx.Messaging.Agent.Store.Interface
+import qualified Popopx.Messaging.Agent.Store.DB as DB
+import Popopx.Messaging.Agent.Store.Shared (MigrationConfig (..), MigrationConfirmation (..), MigrationError (..))
+import Popopx.Messaging.Client (pattern NRMInteractive, NetworkConfig (..), ProtocolClientConfig (..), TransportSessionMode (..), defaultClientConfig, defaultSMPClientConfig, getProtocolClient, sendSMPMessage)
+import qualified Popopx.Messaging.Crypto as C
+import Popopx.Messaging.Crypto.File (CryptoFile (..))
+import Popopx.Messaging.Crypto.Ratchet (InitialKeys (..), PQEncryption (..), PQSupport (..), pattern IKPQOff, pattern IKPQOn, pattern PQEncOff, pattern PQEncOn, pattern PQSupportOff, pattern PQSupportOn)
+import qualified Popopx.Messaging.Crypto.Ratchet as CR
+import Popopx.Messaging.Encoding
+import Popopx.Messaging.Encoding.String
+import Popopx.Messaging.Protocol (BasicAuth, ErrorType (..), MsgBody, NetworkError (..), ProtocolServer (..), SubscriptionMode (..), supportedSMPClientVRange)
+import qualified Popopx.Messaging.Protocol as SMP
+import Popopx.Messaging.Protocol.Types
+import Popopx.Messaging.Server.Env.STM (AStoreType (..), ServerConfig (..), ServerStoreCfg (..), StorePaths (..))
+import Popopx.Messaging.Server.Expiration
+import Popopx.Messaging.Server.Information (ServerPublicInfo (..))
+import Popopx.Messaging.Server.MsgStore.Types (SMSType (..), SQSType (..))
+import Popopx.Messaging.Server.QueueStore.QueueInfo
+import Popopx.Messaging.Server.StoreLog (StoreLogRecord (..))
+import Popopx.Messaging.Transport (ASrvTransport, SMPVersion, VersionSMP, currentServerSMPRelayVersion, minClientSMPRelayVersion, minServerSMPRelayVersion, alpnSupportedSMPHandshakes)
+import Popopx.Messaging.Transport.Server (TransportServerConfig (..))
+import Popopx.Messaging.Util (bshow, diffToMicroseconds)
+import Popopx.Messaging.Version (VersionRange (..))
+import qualified Popopx.Messaging.Version as V
+import Popopx.Messaging.Version.Internal (Version (..))
 import System.Directory (copyFile, removeFile, renameFile)
 import System.FilePath ((</>))
 import Test.Hspec hiding (fit, it)
@@ -132,17 +132,17 @@ import XFTPClient (testXFTPServer, withXFTPServerThreadOn)
 
 #if defined(dbPostgres)
 import Fixtures
-import Simplex.Messaging.Agent.Store (RcvQueue, RcvQueueSub (..), ServiceAssoc)
-import Simplex.Messaging.Agent.Store.AgentStore (deleteClientService, getSubscriptionService, getUserServerRcvQueueSubs, removeRcvServiceAssocs, setRcvServiceAssocs)
+import Popopx.Messaging.Agent.Store (RcvQueue, RcvQueueSub (..), ServiceAssoc)
+import Popopx.Messaging.Agent.Store.AgentStore (deleteClientService, getSubscriptionService, getUserServerRcvQueueSubs, removeRcvServiceAssocs, setRcvServiceAssocs)
 #endif
 #if defined(dbServerPostgres)
 import qualified Database.PostgreSQL.Simple as PSQL
-import qualified Simplex.Messaging.Agent.Store.Postgres as Postgres
-import qualified Simplex.Messaging.Agent.Store.Postgres.Common as Postgres
-import Simplex.Messaging.Server.MsgStore.Postgres (PostgresQueue)
-import Simplex.Messaging.Server.QueueStore.Postgres
-import Simplex.Messaging.Server.QueueStore.Postgres.Migrations
-import Simplex.Messaging.Server.QueueStore.Types (QueueStoreClass (..))
+import qualified Popopx.Messaging.Agent.Store.Postgres as Postgres
+import qualified Popopx.Messaging.Agent.Store.Postgres.Common as Postgres
+import Popopx.Messaging.Server.MsgStore.Postgres (PostgresQueue)
+import Popopx.Messaging.Server.QueueStore.Postgres
+import Popopx.Messaging.Server.QueueStore.Postgres.Migrations
+import Popopx.Messaging.Server.QueueStore.Types (QueueStoreClass (..))
 #endif
 
 type AEntityTransmission e = (ACorrId, ConnId, AEvent e)
@@ -4414,7 +4414,7 @@ testSMPServerConnectionTest (t, msType) newQueueBasicAuth srv =
 testServerInformation :: ServerPublicInfo
 testServerInformation =
   ServerPublicInfo
-    { sourceCode = "https://github.com/simplex-chat/simplexmq",
+    { sourceCode = "https://github.com/popopx-chat/popopxmq",
       usageConditions = Nothing,
       operator = Nothing,
       website = Nothing,

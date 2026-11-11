@@ -4,7 +4,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE ScopedTypeVariables #-}
 
-module Simplex.FileTransfer.Crypto
+module Popopx.FileTransfer.Crypto
   ( encryptFile,
     decryptChunks,
     sha512HashChunks,
@@ -23,14 +23,14 @@ import qualified Data.ByteString.Char8 as B
 import qualified Data.ByteString.Lazy.Char8 as LB
 import Data.Int (Int64)
 import Data.Text (Text)
-import Simplex.FileTransfer.Types (FileHeader (..), authTagSize)
-import qualified Simplex.Messaging.Crypto as C
-import Simplex.Messaging.Crypto.File (CryptoFile (..), FTCryptoError (..))
-import qualified Simplex.Messaging.Crypto.File as CF
-import Simplex.Messaging.Crypto.Lazy (LazyByteString)
-import qualified Simplex.Messaging.Crypto.Lazy as LC
-import Simplex.Messaging.Encoding
-import Simplex.Messaging.Util (liftEitherWith)
+import Popopx.FileTransfer.Types (FileHeader (..), authTagSize)
+import qualified Popopx.Messaging.Crypto as C
+import Popopx.Messaging.Crypto.File (CryptoFile (..), FTCryptoError (..))
+import qualified Popopx.Messaging.Crypto.File as CF
+import Popopx.Messaging.Crypto.Lazy (LazyByteString)
+import qualified Popopx.Messaging.Crypto.Lazy as LC
+import Popopx.Messaging.Encoding
+import Popopx.Messaging.Util (liftEitherWith)
 import UnliftIO
 import UnliftIO.Directory (removeFile)
 

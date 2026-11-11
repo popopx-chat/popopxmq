@@ -15,7 +15,7 @@
 {-# LANGUAGE TypeApplications #-}
 {-# OPTIONS_GHC -fno-warn-ambiguous-fields #-}
 
-module Simplex.Messaging.Server.Main
+module Popopx.Messaging.Server.Main
   ( EmbeddedWebParams (..),
     WebHttpsParams (..),
     CliCommand (..),
@@ -29,7 +29,7 @@ module Simplex.Messaging.Server.Main
     exportDatabaseToStoreLog,
 #endif
     getServerSourceCode,
-    simplexmqSource,
+    popopxmqSource,
     serverPublicInfo,
     validCountryValue,
     validateUrl,
@@ -57,29 +57,29 @@ import qualified Data.Text as T
 import Data.Text.Encoding (decodeLatin1, encodeUtf8)
 import qualified Data.Text.IO as T
 import Options.Applicative
-import Simplex.Messaging.Agent.Protocol (ConnectionLink (..), ConnectionMode (..), connReqUriP')
-import Simplex.Messaging.Agent.Store.Postgres.Options (DBOpts (..))
-import Simplex.Messaging.Client (HostMode (..), NetworkConfig (..), ProtocolClientConfig (..), SMPWebPortServers (..), SocksMode (..), defaultNetworkConfig, textToHostMode)
-import Simplex.Messaging.Client.Agent (SMPClientAgentConfig (..), defaultSMPClientAgentConfig)
-import qualified Simplex.Messaging.Crypto as C
-import Simplex.Messaging.Encoding.String
-import Simplex.Messaging.Parsers (parseAll)
+import Popopx.Messaging.Agent.Protocol (ConnectionLink (..), ConnectionMode (..), connReqUriP')
+import Popopx.Messaging.Agent.Store.Postgres.Options (DBOpts (..))
+import Popopx.Messaging.Client (HostMode (..), NetworkConfig (..), ProtocolClientConfig (..), SMPWebPortServers (..), SocksMode (..), defaultNetworkConfig, textToHostMode)
+import Popopx.Messaging.Client.Agent (SMPClientAgentConfig (..), defaultSMPClientAgentConfig)
+import qualified Popopx.Messaging.Crypto as C
+import Popopx.Messaging.Encoding.String
+import Popopx.Messaging.Parsers (parseAll)
 import Network.URI (URI (..), URIAuth (..), parseAbsoluteURI)
-import Simplex.Messaging.Protocol (BasicAuth (..), ProtoServerWithAuth (ProtoServerWithAuth), pattern SMPServer)
-import Simplex.Messaging.Server (AttachHTTP, runSMPServer)
-import Simplex.Messaging.Server.CLI
-import Simplex.Messaging.Server.Env.STM
-import Simplex.Messaging.Server.Expiration
-import Simplex.Messaging.Server.Information
-import Simplex.Messaging.Server.Main.Init
-import Simplex.Messaging.Server.Web (EmbeddedWebParams (..), WebHttpsParams (..))
-import Simplex.Messaging.Server.MsgStore.Types (SQSType (..), SMSType (..))
-import Simplex.Messaging.Server.Names (NamesConfig (..), RpcAuth (..))
-import Simplex.Messaging.Transport (supportedProxyClientSMPRelayVRange, alpnSupportedSMPHandshakes, supportedServerSMPRelayVRange)
-import Simplex.Messaging.Transport.Client (TransportHost (..), defaultSocksProxy)
-import Simplex.Messaging.Transport.HTTP2 (httpALPN11)
-import Simplex.Messaging.Transport.Server (ServerCredentials (..), mkTransportServerConfig)
-import Simplex.Messaging.Util (eitherToMaybe, safeDecodeUtf8)
+import Popopx.Messaging.Protocol (BasicAuth (..), ProtoServerWithAuth (ProtoServerWithAuth), pattern SMPServer)
+import Popopx.Messaging.Server (AttachHTTP, runSMPServer)
+import Popopx.Messaging.Server.CLI
+import Popopx.Messaging.Server.Env.STM
+import Popopx.Messaging.Server.Expiration
+import Popopx.Messaging.Server.Information
+import Popopx.Messaging.Server.Main.Init
+import Popopx.Messaging.Server.Web (EmbeddedWebParams (..), WebHttpsParams (..))
+import Popopx.Messaging.Server.MsgStore.Types (SQSType (..), SMSType (..))
+import Popopx.Messaging.Server.Names (NamesConfig (..), RpcAuth (..))
+import Popopx.Messaging.Transport (supportedProxyClientSMPRelayVRange, alpnSupportedSMPHandshakes, supportedServerSMPRelayVRange)
+import Popopx.Messaging.Transport.Client (TransportHost (..), defaultSocksProxy)
+import Popopx.Messaging.Transport.HTTP2 (httpALPN11)
+import Popopx.Messaging.Transport.Server (ServerCredentials (..), mkTransportServerConfig)
+import Popopx.Messaging.Util (eitherToMaybe, safeDecodeUtf8)
 import System.Directory (createDirectoryIfMissing, doesDirectoryExist, doesFileExist)
 import System.Exit (exitFailure)
 import System.FilePath (combine)
@@ -91,17 +91,17 @@ import Control.Exception (SomeException, try)
 import Data.Int (Int64)
 import qualified Data.Map.Strict as M
 import Data.Semigroup (Sum (..))
-import Simplex.Messaging.Agent.Store.Postgres (checkSchemaExists)
-import Simplex.Messaging.Agent.Store.Shared (MigrationConfirmation (..))
-import Simplex.Messaging.Server.MsgStore.Postgres
-import Simplex.Messaging.Server.MsgStore.STM (STMStoreConfig (..))
-import Simplex.Messaging.Server.MsgStore.Types (MsgStoreClass (..), newMsgStore)
-import Simplex.Messaging.Server.QueueStore.Postgres.Config
-import Simplex.Messaging.Server.QueueStore.Postgres (PostgresQueueStore, batchInsertQueues, batchInsertServices, foldQueueRecs, foldServiceRecs)
-import Simplex.Messaging.Server.QueueStore.STM (STMQueueStore (..))
-import Simplex.Messaging.Server.QueueStore.Types
-import Simplex.Messaging.Server.StoreLog (closeStoreLog, logNewService, logCreateQueue, openWriteStoreLog)
-import Simplex.Messaging.Util (ifM)
+import Popopx.Messaging.Agent.Store.Postgres (checkSchemaExists)
+import Popopx.Messaging.Agent.Store.Shared (MigrationConfirmation (..))
+import Popopx.Messaging.Server.MsgStore.Postgres
+import Popopx.Messaging.Server.MsgStore.STM (STMStoreConfig (..))
+import Popopx.Messaging.Server.MsgStore.Types (MsgStoreClass (..), newMsgStore)
+import Popopx.Messaging.Server.QueueStore.Postgres.Config
+import Popopx.Messaging.Server.QueueStore.Postgres (PostgresQueueStore, batchInsertQueues, batchInsertServices, foldQueueRecs, foldServiceRecs)
+import Popopx.Messaging.Server.QueueStore.STM (STMQueueStore (..))
+import Popopx.Messaging.Server.QueueStore.Types
+import Popopx.Messaging.Server.StoreLog (closeStoreLog, logNewService, logCreateQueue, openWriteStoreLog)
+import Popopx.Messaging.Util (ifM)
 import System.Directory (renameFile)
 import System.IO (IOMode (..), withFile)
 #endif
@@ -278,7 +278,7 @@ smpServerCLI_ generateSite serveStaticFiles attachStaticFiles cfgPath logPath =
         Nothing -> putStrLn "Store log disabled, see `[STORE_LOG] enable`" >> exitFailure
 #endif
     iniFile = combine cfgPath "smp-server.ini"
-    serverVersion = "SMP server v" <> simplexmqVersionCommit
+    serverVersion = "SMP server v" <> popopxmqVersionCommit
     executableName = "smp-server"
     storeLogFilePath = combine logPath "smp-server-store.log"
     storeMsgsFilePath = combine logPath "smp-server-messages.log"
@@ -319,7 +319,7 @@ smpServerCLI_ generateSite serveStaticFiles attachStaticFiles cfgPath logPath =
           password <- withPrompt "'r' for random (default), 'n' - no password (recommended for public servers), or enter password: " serverPassword
           let host = fromMaybe ip fqdn
           host' <- withPrompt ("Enter server FQDN or IP address for certificate (" <> host <> "): ") getLine
-          sourceCode' <- withPrompt ("Enter server source code URI (" <> maybe simplexmqSource T.unpack src' <> "): ") getServerSourceCode
+          sourceCode' <- withPrompt ("Enter server source code URI (" <> maybe popopxmqSource T.unpack src' <> "): ") getServerSourceCode
           staticPath' <- withPrompt ("Enter path to store generated server pages to show connection links (" <> fromMaybe defaultStaticPath sp' <> "): ") getLine
           initialize
             opts
@@ -327,7 +327,7 @@ smpServerCLI_ generateSite serveStaticFiles attachStaticFiles cfgPath logPath =
                 logStats,
                 fqdn = if null host' then fqdn else Just host',
                 password,
-                sourceCode = (T.pack <$> sourceCode') <|> src' <|> Just (T.pack simplexmqSource),
+                sourceCode = (T.pack <$> sourceCode') <|> src' <|> Just (T.pack popopxmqSource),
                 webStaticPath = if null staticPath' then sp' else Just staticPath',
                 disableWeb = noWeb'
               }
@@ -672,8 +672,8 @@ getServerSourceCode =
     s | "https://" `isPrefixOf` s || "http://" `isPrefixOf` s -> pure $ Just s
     _ -> putStrLn "Invalid source code. URI should start from http:// or https://" >> getServerSourceCode
 
-simplexmqSource :: String
-simplexmqSource = "https://github.com/simplex-chat/simplexmq"
+popopxmqSource :: String
+popopxmqSource = "https://github.com/popopx-chat/popopxmq"
 
 serverPublicInfo :: Ini -> Maybe ServerPublicInfo
 serverPublicInfo ini = serverInfo <$!> infoValue "source_code"
@@ -687,8 +687,8 @@ serverPublicInfo ini = serverInfo <$!> infoValue "source_code"
           serverCountry = countryValue "server_country",
           operator = iniEntity "operator" "operator_country",
           website = infoValue "website",
-          adminContacts = iniContacts "admin_simplex" "admin_email" "admin_pgp" "admin_pgp_fingerprint",
-          complaintsContacts = iniContacts "complaints_simplex" "complaints_email" "complaints_pgp" "complaints_pgp_fingerprint",
+          adminContacts = iniContacts "admin_popopx" "admin_email" "admin_pgp" "admin_pgp_fingerprint",
+          complaintsContacts = iniContacts "complaints_popopx" "complaints_email" "complaints_pgp" "complaints_pgp_fingerprint",
           hosting = iniEntity "hosting" "hosting_country",
           hostingType = either error id <$!> strDecodeIni "INFORMATION" "hosting_type" ini
         }
@@ -697,9 +697,9 @@ serverPublicInfo ini = serverInfo <$!> infoValue "source_code"
       (\name -> Entity {name, country = countryValue countryField})
         <$!> infoValue nameField
     countryValue field = (either error id . validCountryValue (T.unpack field) . T.unpack) <$!> infoValue field
-    iniContacts simplexField emailField pgpKeyUriField pgpKeyFingerprintField =
-      let addr :: Maybe (ConnectionLink 'CMContact) = either error id . parseAll linkP . encodeUtf8 <$!> eitherToMaybe (lookupValue "INFORMATION" simplexField ini)
-          simplex = safeDecodeUtf8 . strEncode <$> addr
+    iniContacts popopxField emailField pgpKeyUriField pgpKeyFingerprintField =
+      let addr :: Maybe (ConnectionLink 'CMContact) = either error id . parseAll linkP . encodeUtf8 <$!> eitherToMaybe (lookupValue "INFORMATION" popopxField ini)
+          popopx = safeDecodeUtf8 . strEncode <$> addr
           linkP = CLFull <$> connReqUriP' Nothing <|> CLShort <$> strP
           email = infoValue emailField
           pkURI_ = infoValue pgpKeyUriField
@@ -707,7 +707,7 @@ serverPublicInfo ini = serverInfo <$!> infoValue "source_code"
        in case (addr, email, pkURI_, pkFingerprint_) of
             (Nothing, Nothing, Nothing, _) -> Nothing
             (Nothing, Nothing, _, Nothing) -> Nothing
-            (_, _, pkURI, pkFingerprint) -> Just ServerContactAddress {simplex, email, pgp = PGPKey <$> pkURI <*> pkFingerprint}
+            (_, _, pkURI, pkFingerprint) -> Just ServerContactAddress {popopx, email, pgp = PGPKey <$> pkURI <*> pkFingerprint}
 
 validCountryValue :: String -> String -> Either String Text
 validCountryValue field s
@@ -888,7 +888,7 @@ cliCommandP cfgPath logPath iniFile =
               <> value Nothing
           )
       sourceCode <-
-        flag' (Just simplexmqSource) (long "source-code" <> help ("Server source code (default: " <> simplexmqSource <> ")"))
+        flag' (Just popopxmqSource) (long "source-code" <> help ("Server source code (default: " <> popopxmqSource <> ")"))
           <|> (optional . strOption) (long "source-code" <> metavar "URI" <> help "Server source code")
       operator_ <- entityP "operator" "OPERATOR" "Server operator"
       hosting_ <- entityP "hosting" "HOSTING" "Hosting provider"
@@ -939,7 +939,7 @@ cliCommandP cfgPath logPath iniFile =
             sourceCode = T.pack <$> sourceCode,
             serverInfo =
               ServerPublicInfo
-                { sourceCode = T.pack $ fromMaybe simplexmqSource sourceCode,
+                { sourceCode = T.pack $ fromMaybe popopxmqSource sourceCode,
                   usageConditions = Nothing,
                   operator = fst operator_,
                   website,

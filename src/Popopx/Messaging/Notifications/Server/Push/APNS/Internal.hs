@@ -1,6 +1,6 @@
 {-# LANGUAGE OverloadedStrings #-}
 
-module Simplex.Messaging.Notifications.Server.Push.APNS.Internal
+module Popopx.Messaging.Notifications.Server.Push.APNS.Internal
   ( hApnsTopic,
     hApnsPushType,
     hApnsPriority,
@@ -10,7 +10,7 @@ module Simplex.Messaging.Notifications.Server.Push.APNS.Internal
 import qualified Data.Aeson as J
 import qualified Data.CaseInsensitive as CI
 import Network.HTTP.Types (HeaderName)
-import Simplex.Messaging.Parsers (defaultJSON)
+import Popopx.Messaging.Parsers (defaultJSON)
 
 hApnsTopic :: HeaderName
 hApnsTopic = CI.mk "apns-topic"

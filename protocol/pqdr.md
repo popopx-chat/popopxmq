@@ -26,7 +26,7 @@ Version 1, 2024-06-22
 
 It is a reasonable assumption that "record-now-decrypt-later" attacks are ongoing, so the users want to use cryptographic schemes for end-to-end encryption that are augmented with some post-quantum algorithm that is believed to be resistant to quantum computers.
 
-SimpleX Chat uses [double-ratchet with header encryption](https://signal.org/docs/specifications/doubleratchet/#double-ratchet-with-header-encryption) to provide end-to-end encryption to messages and files. This document describes augmented algorithm with post-quantum key encapsulation mechanism (KEM) making it resistant to quantum computers.
+POPOPX Chat uses [double-ratchet with header encryption](https://signal.org/docs/specifications/doubleratchet/#double-ratchet-with-header-encryption) to provide end-to-end encryption to messages and files. This document describes augmented algorithm with post-quantum key encapsulation mechanism (KEM) making it resistant to quantum computers.
 
 Double-ratchet algorithm is a state of the art solution for end to end encryption offering a set of qualities that is not present in any other algorithm:
 
@@ -198,7 +198,7 @@ It is worth noting that while DH agreements work as ping-pong, when the new rece
 
 ## Ratchet message wire format
 
-The pseudocode above describes the algorithm. This section specifies the actual binary encoding used in SimpleX implementation with Curve448 DH keys, sntrup761 KEM and AES-256-GCM AEAD.
+The pseudocode above describes the algorithm. This section specifies the actual binary encoding used in POPOPX implementation with Curve448 DH keys, sntrup761 KEM and AES-256-GCM AEAD.
 
 The ratchet-encrypted message has three encoding layers, from outermost to innermost:
 
@@ -212,7 +212,7 @@ The outer envelope contains the encrypted header (used as associated data for bo
 
 The message body is encrypted with AES-256-GCM using the message key derived from the sending chain key (`KDF_CK`). The associated data for body encryption is the concatenation of the ratchet associated data and the encoded encrypted header.
 
-`KDF_CK(CK)` is HKDF-SHA512 with empty salt, `CK` as input key material and info `"SimpleXChainRatchet"`, producing 96 bytes split into the next chain key (32 bytes), the message key (32 bytes), the message body IV (16 bytes, not transmitted) and `headerIV` (16 bytes). Both IVs are used as 16-byte AES-256-GCM IVs, not the 12-byte IVs recommended by NIST SP 800-38D, so the initial counter block is J0 = GHASH(IV || 0^64 || [128]_64) as defined there for non-96-bit IVs. WebCrypto and other conforming implementations compute it when given the full 16-byte IV; truncating the IV to 12 bytes produces different ciphertext.
+`KDF_CK(CK)` is HKDF-SHA512 with empty salt, `CK` as input key material and info `"POPOPXChainRatchet"`, producing 96 bytes split into the next chain key (32 bytes), the message key (32 bytes), the message body IV (16 bytes, not transmitted) and `headerIV` (16 bytes). Both IVs are used as 16-byte AES-256-GCM IVs, not the 12-byte IVs recommended by NIST SP 800-38D, so the initial counter block is J0 = GHASH(IV || 0^64 || [128]_64) as defined there for non-96-bit IVs. WebCrypto and other conforming implementations compute it when given the full 16-byte IV; truncating the IV to 12 bytes produces different ciphertext.
 
 ```abnf
 encRatchetMessage = versionedLength encMessageHeader msgAuthTag encMsgBody
@@ -272,11 +272,11 @@ PQ encryption can be enabled or disabled during a connection's lifetime. The KEM
 
 The transition from Proposed to Accepted happens when a party receives a message containing KEM parameters (either Proposed or Accepted) and responds with its own Accepted parameters. Once both parties are in Accepted state, the double PQ KEM augmentation described in the algorithm above operates in each DH ratchet step.
 
-## Implementation considerations for SimpleX Messaging Protocol
+## Implementation considerations for POPOPX Messaging Protocol
 
-As SimpleX Messaging Protocol pads messages to a fixed size, using 16kb transport blocks, the size increase introduced by this scheme can be compensated for by using ZSTD encryption of JSON bodies and image previews encoded as base64. While there may be some rare cases of random texts that would fail to compress, in all real scenarios it would not cause the message size reduction.
+As POPOPX Messaging Protocol pads messages to a fixed size, using 16kb transport blocks, the size increase introduced by this scheme can be compensated for by using ZSTD encryption of JSON bodies and image previews encoded as base64. While there may be some rare cases of random texts that would fail to compress, in all real scenarios it would not cause the message size reduction.
 
-Sharing the initial keys in case of SimpleX Chat it is equivalent to sharing the invitation link. As encapsulation key is large, it may be inconvenient to share it in the link in some contexts, e.g. when QR codes are used.
+Sharing the initial keys in case of POPOPX Chat it is equivalent to sharing the invitation link. As encapsulation key is large, it may be inconvenient to share it in the link in some contexts, e.g. when QR codes are used.
 
 It is possible to postpone sharing the encapsulation key until the first message from the joining party (confirmation message in SMP protocol). The upside here is that the invitation link size would not increase. The downside is that the user profile shared in this confirmation will not be encrypted with PQ-resistant algorithm.
 

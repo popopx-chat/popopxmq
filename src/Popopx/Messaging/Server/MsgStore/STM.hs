@@ -11,7 +11,7 @@
 {-# LANGUAGE TypeFamilies #-}
 {-# LANGUAGE TupleSections #-}
 
-module Simplex.Messaging.Server.MsgStore.STM
+module Popopx.Messaging.Server.MsgStore.STM
   ( STMMsgStore (..),
     STMStoreConfig (..),
     STMQueue,
@@ -31,12 +31,12 @@ import Data.Int (Int64)
 import qualified Data.Map.Strict as M
 import Data.Maybe (catMaybes)
 import Data.Time.Clock.System (SystemTime (systemSeconds))
-import Simplex.Messaging.Protocol
-import Simplex.Messaging.Server.MsgStore.Types
-import Simplex.Messaging.Server.QueueStore
-import Simplex.Messaging.Server.QueueStore.STM
-import Simplex.Messaging.Server.QueueStore.Types
-import Simplex.Messaging.Util ((<$$>), ($>>=))
+import Popopx.Messaging.Protocol
+import Popopx.Messaging.Server.MsgStore.Types
+import Popopx.Messaging.Server.QueueStore
+import Popopx.Messaging.Server.QueueStore.STM
+import Popopx.Messaging.Server.QueueStore.Types
+import Popopx.Messaging.Util ((<$$>), ($>>=))
 
 data STMMsgStore = STMMsgStore
   { storeConfig :: STMStoreConfig,

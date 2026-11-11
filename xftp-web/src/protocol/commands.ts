@@ -1,4 +1,4 @@
-// Protocol commands and responses -- Simplex.FileTransfer.Protocol
+// Protocol commands and responses -- Popopx.FileTransfer.Protocol
 //
 // Commands (client -> server): FNEW, FADD, FPUT, FDEL, FGET, FACK, PING
 // Responses (server -> client): SIDS, RIDS, FILE, OK, ERR, PONG

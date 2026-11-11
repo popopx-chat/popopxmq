@@ -35,7 +35,7 @@ The project uses **fourmolu** for Haskell code formatting. Configuration is in `
 
 ```bash
 # Format a single file
-fourmolu -i src/Simplex/Messaging/Protocol.hs
+fourmolu -i src/Popopx/Messaging/Protocol.hs
 ```
 
 Some files that use CPP language extension cannot be formatted as a whole, so individual code fragments need to be formatted.
@@ -106,6 +106,6 @@ cabal list-bin exe:smp-server
 ## External Dependencies
 
 Custom forks specified in `cabal.project`:
-- `aeson`, `hs-socks` (SimpleX forks)
+- `aeson`, `hs-socks` (POPOPX forks)
 - `direct-sqlcipher`, `sqlcipher-simple` (encrypted SQLite)
 - `warp`, `warp-tls` (HTTP server)

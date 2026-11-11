@@ -2,7 +2,7 @@
 {-# LANGUAGE NamedFieldPuns #-}
 {-# LANGUAGE OverloadedStrings #-}
 
-module Simplex.FileTransfer.Server.Stats
+module Popopx.FileTransfer.Server.Stats
   ( FileServerStats (..),
     FileServerStatsData (..),
     newFileServerStats,
@@ -16,8 +16,8 @@ import qualified Data.ByteString.Char8 as B
 import Data.IORef
 import Data.Int (Int64)
 import Data.Time.Clock (UTCTime)
-import Simplex.Messaging.Encoding.String
-import Simplex.Messaging.Server.Stats (PeriodStats, PeriodStatsData, getPeriodStatsData, newPeriodStats, setPeriodStats)
+import Popopx.Messaging.Encoding.String
+import Popopx.Messaging.Server.Stats (PeriodStats, PeriodStatsData, getPeriodStatsData, newPeriodStats, setPeriodStats)
 
 data FileServerStats = FileServerStats
   { fromTime :: IORef UTCTime,

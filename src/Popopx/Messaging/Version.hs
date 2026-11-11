@@ -7,7 +7,7 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# LANGUAGE TypeFamilies #-}
 
-module Simplex.Messaging.Version
+module Popopx.Messaging.Version
   ( Version,
     VersionRange (minVersion, maxVersion),
     VersionScope,
@@ -34,9 +34,9 @@ import qualified Data.Aeson.Encoding as JE
 import Data.Aeson.Types ((.:), (.=))
 import qualified Data.Aeson.Types as JT
 import qualified Data.Attoparsec.ByteString.Char8 as A
-import Simplex.Messaging.Encoding
-import Simplex.Messaging.Encoding.String
-import Simplex.Messaging.Version.Internal (Version (..))
+import Popopx.Messaging.Encoding
+import Popopx.Messaging.Encoding.String
+import Popopx.Messaging.Version.Internal (Version (..))
 
 pattern VersionRange :: Version v -> Version v -> VersionRange v
 pattern VersionRange v1 v2 <- VRange v1 v2

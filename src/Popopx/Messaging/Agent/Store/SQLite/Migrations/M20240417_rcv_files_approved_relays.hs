@@ -1,6 +1,6 @@
 {-# LANGUAGE QuasiQuotes #-}
 
-module Simplex.Messaging.Agent.Store.SQLite.Migrations.M20240417_rcv_files_approved_relays where
+module Popopx.Messaging.Agent.Store.SQLite.Migrations.M20240417_rcv_files_approved_relays where
 
 import Database.SQLite.Simple (Query)
 import Database.SQLite.Simple.QQ (sql)

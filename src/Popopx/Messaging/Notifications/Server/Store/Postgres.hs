@@ -16,7 +16,7 @@
 {-# LANGUAGE TypeOperators #-}
 {-# OPTIONS_GHC -fno-warn-orphans -fno-warn-ambiguous-fields #-}
 
-module Simplex.Messaging.Notifications.Server.Store.Postgres
+module Popopx.Messaging.Notifications.Server.Store.Postgres
   ( NtfPostgresStore (..),
     NtfEntityRec (..),
     mkNtfTknRec,
@@ -81,32 +81,32 @@ import Database.PostgreSQL.Simple.SqlQQ (sql)
 import Database.PostgreSQL.Simple.ToField (ToField (..))
 import Network.Socket (ServiceName)
 import qualified Network.TLS as TLS
-import Simplex.Messaging.Agent.Store.AgentStore ()
-import Simplex.Messaging.Agent.Store.Postgres (closeDBStore, createDBStore)
-import Simplex.Messaging.Agent.Store.Postgres.Common
-import Simplex.Messaging.Agent.Store.Postgres.DB (fromTextField_)
-import Simplex.Messaging.Agent.Store.Shared (MigrationConfig (..))
-import Simplex.Messaging.Client (ProtocolClientError (..), SMPClientError)
-import Simplex.Messaging.Encoding
-import Simplex.Messaging.Encoding.String
-import qualified Simplex.Messaging.Crypto as C
-import Simplex.Messaging.Notifications.Protocol
-import Simplex.Messaging.Notifications.Server.Store.Migrations
-import Simplex.Messaging.Notifications.Server.Store.Types
-import Simplex.Messaging.Protocol (EntityId (..), EncNMsgMeta, ErrorType (..), IdsHash (..), NotifierId, NtfPrivateAuthKey, NtfPublicAuthKey, ProtocolServer (..), SMPServer, ServiceId, ServiceSub (..), pattern SMPServer)
-import Simplex.Messaging.Server.QueueStore.Postgres (handleDuplicate)
-import Simplex.Messaging.Server.QueueStore.Postgres.Config (PostgresStoreCfg (..))
-import Simplex.Messaging.SystemTime
-import Simplex.Messaging.Transport.Client (TransportHost)
-import Simplex.Messaging.Util (firstRow, maybeFirstRow, tshow)
+import Popopx.Messaging.Agent.Store.AgentStore ()
+import Popopx.Messaging.Agent.Store.Postgres (closeDBStore, createDBStore)
+import Popopx.Messaging.Agent.Store.Postgres.Common
+import Popopx.Messaging.Agent.Store.Postgres.DB (fromTextField_)
+import Popopx.Messaging.Agent.Store.Shared (MigrationConfig (..))
+import Popopx.Messaging.Client (ProtocolClientError (..), SMPClientError)
+import Popopx.Messaging.Encoding
+import Popopx.Messaging.Encoding.String
+import qualified Popopx.Messaging.Crypto as C
+import Popopx.Messaging.Notifications.Protocol
+import Popopx.Messaging.Notifications.Server.Store.Migrations
+import Popopx.Messaging.Notifications.Server.Store.Types
+import Popopx.Messaging.Protocol (EntityId (..), EncNMsgMeta, ErrorType (..), IdsHash (..), NotifierId, NtfPrivateAuthKey, NtfPublicAuthKey, ProtocolServer (..), SMPServer, ServiceId, ServiceSub (..), pattern SMPServer)
+import Popopx.Messaging.Server.QueueStore.Postgres (handleDuplicate)
+import Popopx.Messaging.Server.QueueStore.Postgres.Config (PostgresStoreCfg (..))
+import Popopx.Messaging.SystemTime
+import Popopx.Messaging.Transport.Client (TransportHost)
+import Popopx.Messaging.Util (firstRow, maybeFirstRow, tshow)
 import System.Exit (exitFailure)
 import Text.Hex (decodeHex)
 
 #if !defined(dbPostgres)
 import qualified Data.X509 as X
-import Simplex.Messaging.Agent.Store.Postgres.DB (blobFieldDecoder)
-import Simplex.Messaging.Parsers (parseAll)
-import Simplex.Messaging.Util (eitherToMaybe)
+import Popopx.Messaging.Agent.Store.Postgres.DB (blobFieldDecoder)
+import Popopx.Messaging.Parsers (parseAll)
+import Popopx.Messaging.Util (eitherToMaybe)
 #endif
 
 data NtfPostgresStore = NtfPostgresStore

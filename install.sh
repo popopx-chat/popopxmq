@@ -2,27 +2,27 @@
 set -eu
 
 # Links to scripts/configs
-scripts="https://raw.githubusercontent.com/simplex-chat/simplexmq/stable/scripts/main"
+scripts="https://raw.githubusercontent.com/popopx-chat/popopxmq/stable/scripts/main"
 scripts_systemd_smp="$scripts/smp-server.service"
 scripts_systemd_xftp="$scripts/xftp-server.service"
-scripts_update="$scripts/simplex-servers-update"
-scripts_uninstall="$scripts/simplex-servers-uninstall"
-scripts_stopscript="$scripts/simplex-servers-stopscript"
+scripts_update="$scripts/popopx-servers-update"
+scripts_uninstall="$scripts/popopx-servers-uninstall"
+scripts_stopscript="$scripts/popopx-servers-stopscript"
 
 # Default installation paths
 path_bin="/usr/local/bin"
 path_bin_smp="$path_bin/smp-server"
 path_bin_xftp="$path_bin/xftp-server"
-path_bin_update="$path_bin/simplex-servers-update"
-path_bin_uninstall="$path_bin/simplex-servers-uninstall"
-path_bin_stopscript="$path_bin/simplex-servers-stopscript"
+path_bin_update="$path_bin/popopx-servers-update"
+path_bin_uninstall="$path_bin/popopx-servers-uninstall"
+path_bin_stopscript="$path_bin/popopx-servers-stopscript"
 
 path_conf_etc="/etc/opt"
 path_conf_var="/var/opt"
-path_conf_smp="$path_conf_etc/simplex $path_conf_var/simplex"
-path_conf_xftp="$path_conf_etc/simplex-xftp $path_conf_var/simplex-xftp /srv/xftp"
+path_conf_smp="$path_conf_etc/popopx $path_conf_var/popopx"
+path_conf_xftp="$path_conf_etc/popopx-xftp $path_conf_var/popopx-xftp /srv/xftp"
 
-path_conf_info="$path_conf_etc/simplex-info"
+path_conf_info="$path_conf_etc/popopx-info"
 
 path_systemd="/etc/systemd/system"
 path_systemd_smp="$path_systemd/smp-server.service"
@@ -73,10 +73,10 @@ Selection: "
 end="Installtion is complete!
 
 Please checkout our server guides:
-- smp: ${GRN}https://simplex.chat/docs/server.html${NC}
-- xftp: ${GRN}https://simplex.chat/docs/xftp-server.html${NC}
+- smp: ${GRN}https://popopx.chat/docs/server.html${NC}
+- xftp: ${GRN}https://popopx.chat/docs/xftp-server.html${NC}
 
-To uninstall with full clean-up, simply run: ${YLW}sudo /usr/local/bin/simplex-servers-uninstall${NC}
+To uninstall with full clean-up, simply run: ${YLW}sudo /usr/local/bin/popopx-servers-uninstall${NC}
 "
 
 set_version() {
@@ -84,11 +84,11 @@ set_version() {
 
   case "$ver" in 
     latest)
-      bin="https://github.com/simplex-chat/simplexmq/releases/latest/download"
-      remote_version="$(curl --proto '=https' --tlsv1.2 -sSf -L https://api.github.com/repos/simplex-chat/simplexmq/releases/latest | grep -i "tag_name" | awk -F \" '{print $4}')"
+      bin="https://github.com/popopx-chat/popopxmq/releases/latest/download"
+      remote_version="$(curl --proto '=https' --tlsv1.2 -sSf -L https://api.github.com/repos/popopx-chat/popopxmq/releases/latest | grep -i "tag_name" | awk -F \" '{print $4}')"
       ;;
     *)
-      bin="https://github.com/simplex-chat/simplexmq/releases/download/${ver}"
+      bin="https://github.com/popopx-chat/popopxmq/releases/download/${ver}"
       remote_version="${ver}"
       ;;
   esac
@@ -100,7 +100,7 @@ os_test() {
  case "$VERSION_ID" in
   20.04|22.04) : ;;
   24.04) VERSION_ID='22.04' ;;
-  *) printf "${RED}Unsupported Ubuntu version!${NC}\nPlease file Github issue with request to support Ubuntu %s: https://github.com/simplex-chat/simplexmq/issues/new\n" "$VERSION_ID" && exit 1 ;;
+  *) printf "${RED}Unsupported Ubuntu version!${NC}\nPlease file Github issue with request to support Ubuntu %s: https://github.com/popopx-chat/popopxmq/issues/new\n" "$VERSION_ID" && exit 1 ;;
  esac
 
  version="$(printf '%s' "$VERSION_ID" | tr '.' '_')"
@@ -108,7 +108,7 @@ os_test() {
 
  case "$arch" in
   x86_64) arch="$(printf '%s' "$arch" | tr '_' '-')" ;;
-  *)  printf "${RED}Unsupported architecture!${NC}\nPlease file Github issue with request to support %s architecture: https://github.com/simplex-chat/simplexmq/issues/new" "$arch" && exit 1 ;;
+  *)  printf "${RED}Unsupported architecture!${NC}\nPlease file Github issue with request to support %s architecture: https://github.com/popopx-chat/popopxmq/issues/new" "$arch" && exit 1 ;;
  esac
 
  bin_smp="$bin/smp-server-ubuntu-${version}-${arch}"

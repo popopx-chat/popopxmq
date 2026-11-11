@@ -35,26 +35,26 @@ import qualified Network.HTTP.Types as N
 import qualified Network.HTTP2.Server as H
 import Network.Socket
 import SMPClient (defaultStartOptions, ntfTestPort, ntfTestServerCredentials, prevRange, serverBracket)
-import Simplex.Messaging.Agent.Store.Postgres.Options (DBOpts (..))
-import Simplex.Messaging.Agent.Store.Shared (MigrationConfirmation (..))
-import Simplex.Messaging.Client (ProtocolClientConfig (..), chooseTransportHost, defaultNetworkConfig)
-import Simplex.Messaging.Client.Agent (SMPClientAgentConfig (..), defaultSMPClientAgentConfig)
-import qualified Simplex.Messaging.Crypto as C
-import Simplex.Messaging.Encoding
-import Simplex.Messaging.Notifications.Protocol (DeviceToken (..), NtfResponse)
-import Simplex.Messaging.Notifications.Server (runNtfServerBlocking)
-import Simplex.Messaging.Notifications.Server.Env
-import Simplex.Messaging.Notifications.Server.Push.APNS
-import Simplex.Messaging.Notifications.Server.Push.APNS.Internal
-import Simplex.Messaging.Notifications.Transport
-import Simplex.Messaging.Protocol
-import Simplex.Messaging.Server.QueueStore.Postgres.Config (PostgresStoreCfg (..))
-import qualified Simplex.Messaging.TMap as TM
-import Simplex.Messaging.Transport
-import Simplex.Messaging.Transport.Client
-import Simplex.Messaging.Transport.HTTP2 (HTTP2Body (..), http2TLSParams)
-import Simplex.Messaging.Transport.HTTP2.Server
-import Simplex.Messaging.Transport.Server
+import Popopx.Messaging.Agent.Store.Postgres.Options (DBOpts (..))
+import Popopx.Messaging.Agent.Store.Shared (MigrationConfirmation (..))
+import Popopx.Messaging.Client (ProtocolClientConfig (..), chooseTransportHost, defaultNetworkConfig)
+import Popopx.Messaging.Client.Agent (SMPClientAgentConfig (..), defaultSMPClientAgentConfig)
+import qualified Popopx.Messaging.Crypto as C
+import Popopx.Messaging.Encoding
+import Popopx.Messaging.Notifications.Protocol (DeviceToken (..), NtfResponse)
+import Popopx.Messaging.Notifications.Server (runNtfServerBlocking)
+import Popopx.Messaging.Notifications.Server.Env
+import Popopx.Messaging.Notifications.Server.Push.APNS
+import Popopx.Messaging.Notifications.Server.Push.APNS.Internal
+import Popopx.Messaging.Notifications.Transport
+import Popopx.Messaging.Protocol
+import Popopx.Messaging.Server.QueueStore.Postgres.Config (PostgresStoreCfg (..))
+import qualified Popopx.Messaging.TMap as TM
+import Popopx.Messaging.Transport
+import Popopx.Messaging.Transport.Client
+import Popopx.Messaging.Transport.HTTP2 (HTTP2Body (..), http2TLSParams)
+import Popopx.Messaging.Transport.HTTP2.Server
+import Popopx.Messaging.Transport.Server
 import Test.Hspec hiding (fit, it)
 import UnliftIO.Async
 import UnliftIO.Concurrent

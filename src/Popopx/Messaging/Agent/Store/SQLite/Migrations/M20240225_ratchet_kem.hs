@@ -1,6 +1,6 @@
 {-# LANGUAGE QuasiQuotes #-}
 
-module Simplex.Messaging.Agent.Store.SQLite.Migrations.M20240225_ratchet_kem where
+module Popopx.Messaging.Agent.Store.SQLite.Migrations.M20240225_ratchet_kem where
 
 import Database.SQLite.Simple (Query)
 import Database.SQLite.Simple.QQ (sql)

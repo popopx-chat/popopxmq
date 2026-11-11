@@ -49,8 +49,8 @@ Recipient only. The sender is unchanged.
   - `ackQueueMessage`.
   - `cleanupManager`: `expireEndedRcvQueues`.
 - Apps:
-  - `apps/ios/SimpleXChat/APITypes.swift`
-  - `apps/multiplatform/common/src/commonMain/kotlin/chat/simplex/common/model/SimpleXAPI.kt`
+  - `apps/ios/POPOPXChat/APITypes.swift`
+  - `apps/multiplatform/common/src/commonMain/kotlin/chat/popopx/common/model/POPOPXAPI.kt`
 
 ## Tests
 

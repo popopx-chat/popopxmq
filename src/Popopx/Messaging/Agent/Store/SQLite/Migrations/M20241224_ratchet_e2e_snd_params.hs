@@ -1,6 +1,6 @@
 {-# LANGUAGE QuasiQuotes #-}
 
-module Simplex.Messaging.Agent.Store.SQLite.Migrations.M20241224_ratchet_e2e_snd_params where
+module Popopx.Messaging.Agent.Store.SQLite.Migrations.M20241224_ratchet_e2e_snd_params where
 
 import Database.SQLite.Simple (Query)
 import Database.SQLite.Simple.QQ (sql)

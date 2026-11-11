@@ -25,7 +25,7 @@ The server-side hash covers the common case, when the retry arrives before the m
 
 ## Design
 
-Syntax uses [ABNF][1] with [case-sensitive strings extension][2]. `senderAuthPublicKey`, `msgFlags` and `smpEncMessage` are as in the [SMP protocol](../protocol/simplex-messaging.md).
+Syntax uses [ABNF][1] with [case-sensitive strings extension][2]. `senderAuthPublicKey`, `msgFlags` and `smpEncMessage` are as in the [SMP protocol](../protocol/popopx-messaging.md).
 
 ```abnf
 secureSend = %s"SSND " senderAuthPublicKey SP msgFlags SP smpEncMessage

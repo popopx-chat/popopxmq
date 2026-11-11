@@ -31,7 +31,7 @@ Server → empty                                                   → Client
 
 **Why both steps 3 and 4**: Native clients verify `signedPubKey` using the TLS peer certificate (`serverKey` from `getServerVerifyKey`), which is the XFTP identity cert in non-SNI connections — TLS provides this binding. Web clients cannot access TLS peer certificate data (browser API limitation; TLS presents the web CA cert but provides no API to extract it). So web clients must verify at the application layer using `authPubKey.certChain`, which always contains the XFTP identity chain regardless of which cert TLS used. Step 3 proves the router holds its identity key *right now* (freshness via random challenge). Step 4 proves the DH session key was signed by the identity key holder (prevents MITM key substitution). Together they give web clients some assurance native clients get from TLS, except channel binding for commands.
 
-## 2. Type Changes — `src/Simplex/FileTransfer/Transport.hs`
+## 2. Type Changes — `src/Popopx/FileTransfer/Transport.hs`
 
 ### `XFTPServerHandshake` (line 114)
 
@@ -56,7 +56,7 @@ Same `Tail compat` pattern as server handshake.
 
 Both types use `(..)` export — new fields auto-exported.
 
-## 3. Router Changes — `src/Simplex/FileTransfer/Server.hs`
+## 3. Router Changes — `src/Popopx/FileTransfer/Server.hs`
 
 ### `XFTPTransportRequest` (line 88)
 
@@ -93,7 +93,7 @@ Add field: `sniUsed :: SNICredentialUsed` (`Bool` from `Transport.Server`). Add 
 - Add: `unless (challenge_ == webChallenge) $ throwE HANDSHAKE`
   (standard: both `Nothing` → passes)
 
-## 4. Native Client — `src/Simplex/FileTransfer/Client.hs`
+## 4. Native Client — `src/Popopx/FileTransfer/Client.hs`
 
 ### `xftpClientHandshakeV1` (line 142)
 

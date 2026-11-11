@@ -25,18 +25,18 @@
 {-# OPTIONS_GHC -fno-warn-unticked-promoted-constructors #-}
 
 -- |
--- Module      : Simplex.Messaging.Agent.Protocol
+-- Module      : Popopx.Messaging.Agent.Protocol
 -- Copyright   : (c) simplex.chat
 -- License     : AGPL-3
 --
--- Maintainer  : chat@simplex.chat
+-- Maintainer  : chat@popopx.chat
 -- Stability   : experimental
 -- Portability : non-portable
 --
 -- Types, parsers, serializers and functions to send and receive SMP agent protocol commands and responses.
 --
--- See https://github.com/simplex-chat/simplexmq/blob/master/protocol/agent-protocol.md
-module Simplex.Messaging.Agent.Protocol
+-- See https://github.com/popopx-chat/popopxmq/blob/master/protocol/agent-protocol.md
+module Popopx.Messaging.Agent.Protocol
   ( -- * Protocol parameters
     VersionSMPA,
     VersionRangeSMPA,
@@ -130,10 +130,10 @@ module Simplex.Messaging.Agent.Protocol
     OwnerId,
     ConnectionLink (..),
     AConnectionLink (..),
-    SimplexNameInfo (..),
-    SimplexDomain (..),
-    SimplexTLD (..),
-    SimplexNameType (..),
+    PopopxNameInfo (..),
+    PopopxDomain (..),
+    PopopxTLD (..),
+    PopopxNameType (..),
     ConnShortLink (..),
     AConnShortLink (..),
     CreatedConnLink (..),
@@ -148,10 +148,10 @@ module Simplex.Messaging.Agent.Protocol
     sameConnShortLink,
     sameShortLinkContact,
     sameShortLinkInv,
-    simplexChat,
+    popopxChat,
     connReqUriP',
-    simplexConnReqUri,
-    simplexShortLink,
+    popopxConnReqUri,
+    popopxShortLink,
     fullDomainName,
     shortNameInfoStr,
     AgentErrorType (..),
@@ -230,15 +230,15 @@ import Data.Time.Clock.System (SystemTime)
 import Data.Type.Equality
 import Data.Typeable (Typeable)
 import Data.Word (Word16, Word32)
-import Simplex.FileTransfer.Description
-import Simplex.FileTransfer.Protocol (FileParty (..), GrantedStorageTime)
-import Simplex.FileTransfer.Transport (XFTPErrorType)
-import Simplex.FileTransfer.Types (FileErrorType)
-import Simplex.Messaging.Agent.QueryString
-import Simplex.Messaging.Agent.Store.DB (Binary (..), FromField (..), ToField (..), blobFieldDecoder, fromTextField_)
-import Simplex.Messaging.Client (ProxyClientError)
-import qualified Simplex.Messaging.Crypto as C
-import Simplex.Messaging.Crypto.Ratchet
+import Popopx.FileTransfer.Description
+import Popopx.FileTransfer.Protocol (FileParty (..), GrantedStorageTime)
+import Popopx.FileTransfer.Transport (XFTPErrorType)
+import Popopx.FileTransfer.Types (FileErrorType)
+import Popopx.Messaging.Agent.QueryString
+import Popopx.Messaging.Agent.Store.DB (Binary (..), FromField (..), ToField (..), blobFieldDecoder, fromTextField_)
+import Popopx.Messaging.Client (ProxyClientError)
+import qualified Popopx.Messaging.Crypto as C
+import Popopx.Messaging.Crypto.Ratchet
   ( InitialKeys (..),
     PQEncryption (..),
     PQSupport,
@@ -249,11 +249,11 @@ import Simplex.Messaging.Crypto.Ratchet
     pattern PQSupportOff,
     pattern PQSupportOn,
   )
-import Simplex.Messaging.Encoding
-import Simplex.Messaging.Encoding.String
-import Simplex.Messaging.SimplexName (SimplexDomain (..), SimplexNameInfo (..), SimplexNameType (..), SimplexTLD (..), fullDomainName, shortNameInfoStr)
-import Simplex.Messaging.Parsers
-import Simplex.Messaging.Protocol
+import Popopx.Messaging.Encoding
+import Popopx.Messaging.Encoding.String
+import Popopx.Messaging.PopopxName (PopopxDomain (..), PopopxNameInfo (..), PopopxNameType (..), PopopxTLD (..), fullDomainName, shortNameInfoStr)
+import Popopx.Messaging.Parsers
+import Popopx.Messaging.Protocol
   ( AProtocolType,
     BrokerErrorType (..),
     ErrorType,
@@ -285,13 +285,13 @@ import Simplex.Messaging.Protocol
     pattern ProtoServerWithAuth,
     pattern SMPServer,
   )
-import qualified Simplex.Messaging.Protocol as SMP
-import Simplex.Messaging.ServiceScheme
-import Simplex.Messaging.Transport.Client (TransportHost, TransportHosts_ (..))
-import Simplex.Messaging.Util
-import Simplex.Messaging.Version
-import Simplex.Messaging.Version.Internal
-import Simplex.RemoteControl.Types
+import qualified Popopx.Messaging.Protocol as SMP
+import Popopx.Messaging.ServiceScheme
+import Popopx.Messaging.Transport.Client (TransportHost, TransportHosts_ (..))
+import Popopx.Messaging.Util
+import Popopx.Messaging.Version
+import Popopx.Messaging.Version.Internal
+import Popopx.RemoteControl.Types
 import UnliftIO.Exception (Exception)
 
 -- SMP agent protocol version history:
@@ -1096,7 +1096,7 @@ instance Encoding AMsgType where
 
 -- | Messages sent between SMP agents once SMP queue is secured.
 --
--- https://github.com/simplex-chat/simplexmq/blob/master/protocol/agent-protocol.md#messages-between-smp-agents
+-- https://github.com/popopx-chat/popopxmq/blob/master/protocol/agent-protocol.md#messages-between-smp-agents
 data AMessage
   = -- | the first message in the queue to validate it is secured
     HELLO
@@ -1123,7 +1123,7 @@ data AMessage
 aMessageType :: AMessage -> AgentMessageType
 aMessageType = \case
   -- HELLO is used both in v1 and in v2, but differently.
-  -- - in v1 (and, possibly, in v2 for simplex connections) can be sent multiple times,
+  -- - in v1 (and, possibly, in v2 for popopx connections) can be sent multiple times,
   --   until the queue is secured - the OK response from the server instead of initial AUTH errors confirms it.
   -- - in v2 duplexHandshake it is sent only once, when it is known that the queue was secured.
   HELLO -> AM_HELLO_
@@ -1232,7 +1232,7 @@ instance ConnectionModeI m => StrEncoding (ConnectionRequestUri m) where
                 <> maybe [] (\e2e -> [("e2e", strEncode e2e)]) e2eParams
                 <> maybe [] (\k -> [("rk", strEncode k)]) rk
                 <> maybe [] (\cd -> [("data", encodeUtf8 cd)]) crClientData
-  strP = connReqUriP' (Just SSSimplex)
+  strP = connReqUriP' (Just SSPopopx)
 
 instance ConnectionModeI m => Encoding (BinaryConnectionRequestUri m) where
   smpEncode = \case
@@ -1258,7 +1258,7 @@ instance Encoding ConnReqUriData where
     -- until min SMP client version is >= 3 (sndAuthKeySMPClientVersion).
     -- This is possible because SMP encoding of ConnReqUriData was not used prior to SMP client version 4.
     let crSmpQueues = L.map patchQueueMode smpQueues
-    pure ConnReqUriData {crScheme = SSSimplex, crAgentVRange, crSmpQueues, crClientData = safeDecodeUtf8 . unLarge <$> clientData}
+    pure ConnReqUriData {crScheme = SSPopopx, crAgentVRange, crSmpQueues, crClientData = safeDecodeUtf8 . unLarge <$> clientData}
     where
       patchQueueMode q@SMPQueueUri {queueAddress = a} = case a of
         SMPQueueAddress {queueMode = Nothing} -> q {queueAddress = a {queueMode = Just QMContact}} :: SMPQueueUri
@@ -1273,7 +1273,7 @@ connReqUriP' overrideScheme = do
 
 instance StrEncoding AConnectionRequestUri where
   strEncode (ACR _ cr) = strEncode cr
-  strP = connReqUriP (Just SSSimplex)
+  strP = connReqUriP (Just SSPopopx)
 
 connReqUriP :: Maybe ServiceScheme -> Parser AConnectionRequestUri
 connReqUriP overrideScheme = do
@@ -1399,12 +1399,12 @@ data ContactRequestBinding = CRBRatchet ConnVerifyCodes | CRBRequest ByteString
 extraSMPServerHosts :: Map TransportHost TransportHost
 extraSMPServerHosts =
   M.fromList
-    [ ("smp4.simplex.im", "o5vmywmrnaxalvz6wi3zicyftgio6psuvyniis6gco6bp6ekl4cqj4id.onion"),
-      ("smp5.simplex.im", "jjbyvoemxysm7qxap7m5d5m35jzv5qq6gnlv7s4rsn7tdwwmuqciwpid.onion"),
-      ("smp6.simplex.im", "bylepyau3ty4czmn77q4fglvperknl4bi2eb2fdy2bh4jxtf32kf73yd.onion"),
-      ("smp8.simplex.im", "beccx4yfxxbvyhqypaavemqurytl6hozr47wfc7uuecacjqdvwpw2xid.onion"),
-      ("smp9.simplex.im", "jssqzccmrcws6bhmn77vgmhfjmhwlyr3u7puw4erkyoosywgl67slqqd.onion"),
-      ("smp10.simplex.im", "rb2pbttocvnbrngnwziclp2f4ckjq65kebafws6g4hy22cdaiv5dwjqd.onion")
+    [ ("smp4.popopx.im", "o5vmywmrnaxalvz6wi3zicyftgio6psuvyniis6gco6bp6ekl4cqj4id.onion"),
+      ("smp5.popopx.im", "jjbyvoemxysm7qxap7m5d5m35jzv5qq6gnlv7s4rsn7tdwwmuqciwpid.onion"),
+      ("smp6.popopx.im", "bylepyau3ty4czmn77q4fglvperknl4bi2eb2fdy2bh4jxtf32kf73yd.onion"),
+      ("smp8.popopx.im", "beccx4yfxxbvyhqypaavemqurytl6hozr47wfc7uuecacjqdvwpw2xid.onion"),
+      ("smp9.popopx.im", "jssqzccmrcws6bhmn77vgmhfjmhwlyr3u7puw4erkyoosywgl67slqqd.onion"),
+      ("smp10.popopx.im", "rb2pbttocvnbrngnwziclp2f4ckjq65kebafws6g4hy22cdaiv5dwjqd.onion")
     ]
 
 updateSMPServerHosts :: SMPServer -> SMPServer
@@ -1463,7 +1463,7 @@ instance VersionRangeI SMPClientVersion SMPQueueUri where
 
 -- | SMP queue information sent out-of-band.
 --
--- https://github.com/simplex-chat/simplexmq/blob/master/protocol/simplex-messaging.md#out-of-band-messages
+-- https://github.com/popopx-chat/popopxmq/blob/master/protocol/simplex-messaging.md#out-of-band-messages
 data SMPQueueUri = SMPQueueUri {clientVRange :: VersionRangeSMPC, queueAddress :: SMPQueueAddress}
   deriving (Eq, Show)
 
@@ -1572,10 +1572,10 @@ data ConnectionRequestUri (m :: ConnectionMode) where
   -- optional contact address DR keys for double ratchet e2e from message 1
   CRContactUri :: ConnReqUriData -> Maybe AddressRatchetKeys -> ConnectionRequestUri CMContact
 
-simplexConnReqUri :: ConnectionRequestUri m -> ConnectionRequestUri m
-simplexConnReqUri = \case
-  CRInvitationUri crData e2eParams -> CRInvitationUri crData {crScheme = SSSimplex} e2eParams
-  CRContactUri crData rk -> CRContactUri crData {crScheme = SSSimplex} rk
+popopxConnReqUri :: ConnectionRequestUri m -> ConnectionRequestUri m
+popopxConnReqUri = \case
+  CRInvitationUri crData e2eParams -> CRInvitationUri crData {crScheme = SSPopopx} e2eParams
+  CRContactUri crData rk -> CRContactUri crData {crScheme = SSPopopx} rk
 
 binaryConnReq :: ConnectionRequestUri m -> BinaryConnectionRequestUri m
 binaryConnReq = \case
@@ -1604,7 +1604,7 @@ data ShortLinkCreds = ShortLinkCreds
   }
   deriving (Show)
 
-data ShortLinkScheme = SLSSimplex | SLSServer deriving (Eq, Show)
+data ShortLinkScheme = SLSPopopx | SLSServer deriving (Eq, Show)
 
 data ConnShortLink (m :: ConnectionMode) where
   CSLInvitation :: ShortLinkScheme -> SMPServer -> SMP.LinkId -> LinkKey -> ConnShortLink 'CMInvitation
@@ -1614,10 +1614,10 @@ deriving instance Eq (ConnShortLink m)
 
 deriving instance Show (ConnShortLink m)
 
-simplexShortLink :: ConnShortLink m -> ConnShortLink m
-simplexShortLink = \case
-  CSLInvitation _ srv lnkId k -> CSLInvitation SLSSimplex srv lnkId k
-  CSLContact _ ct srv k -> CSLContact SLSSimplex ct srv k
+popopxShortLink :: ConnShortLink m -> ConnShortLink m
+popopxShortLink = \case
+  CSLInvitation _ srv lnkId k -> CSLInvitation SLSPopopx srv lnkId k
+  CSLContact _ ct srv k -> CSLContact SLSPopopx ct srv k
 
 newtype LinkKey = LinkKey ByteString -- sha3-256(fixed_data)
   deriving (Eq, Show)
@@ -1729,7 +1729,7 @@ instance ConnectionModeI m => StrEncoding (ConnShortLink m) where
         B.concat [authority, "/", B.singleton linkType, "#", lnkIdStr, B64.encodeUnpadded k, queryStr]
         where
           (authority, paramHosts) = case sch of
-            SLSSimplex -> ("simplex:", h : hs)
+            SLSPopopx -> ("popopx:", h : hs)
             SLSServer -> ("https://" <> strEncode h, hs)
           lnkIdStr = if B.null lnkId then "" else B64.encodeUnpadded lnkId <> "/"
           queryStr = if B.null query then "" else "?" <> query
@@ -1759,7 +1759,7 @@ instance StrEncoding AConnShortLink where
         pure $ ACSL SCMContact $ CSLContact sch ct srv (LinkKey k)
     where
       authorityP =
-        "simplex:" $> (SLSSimplex, Nothing)
+        "popopx:" $> (SLSPopopx, Nothing)
           <|> "https://" *> ((SLSServer,) . Just <$> strP)
           <|> fail "bad short link scheme"
       contactTypeP = do
@@ -2213,8 +2213,8 @@ data ConnectionErrorType
     NOT_FOUND
   | -- | connection already exists
     DUPLICATE
-  | -- | connection is simplex, but operation requires another queue
-    SIMPLEX
+  | -- | connection is popopx, but operation requires another queue
+    POPOPX
   | -- | connection not accepted on join HELLO after timeout
     NOT_ACCEPTED
   | -- | connection not available on reply confirmation/HELLO after timeout

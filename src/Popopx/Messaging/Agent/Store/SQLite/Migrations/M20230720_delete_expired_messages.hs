@@ -1,6 +1,6 @@
 {-# LANGUAGE QuasiQuotes #-}
 
-module Simplex.Messaging.Agent.Store.SQLite.Migrations.M20230720_delete_expired_messages where
+module Popopx.Messaging.Agent.Store.SQLite.Migrations.M20230720_delete_expired_messages where
 
 import Database.SQLite.Simple (Query)
 import Database.SQLite.Simple.QQ (sql)

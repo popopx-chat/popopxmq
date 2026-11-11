@@ -1,7 +1,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE QuasiQuotes #-}
 
-module Simplex.Messaging.Agent.Store.Postgres.Migrations.M20261008_rcv_switch_status where
+module Popopx.Messaging.Agent.Store.Postgres.Migrations.M20261008_rcv_switch_status where
 
 import Data.Text (Text)
 import Text.RawString.QQ (r)

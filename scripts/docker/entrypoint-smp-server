@@ -1,7 +1,7 @@
 #!/usr/bin/env sh
 set -e
 
-confd='/etc/opt/simplex'
+confd='/etc/opt/popopx'
 cert_path='/certificates'
 
 # Check if server has been initialized
@@ -73,14 +73,14 @@ if [ ! -f "${confd}/smp-server.ini" ]; then
            -e 's|^port = .*|port = 5223|' \
            "${confd}/smp-server.ini"
   else
-    sed -i -e "s|cert = /etc/opt/simplex/web.crt|cert = $cert_path/$ADDR.crt|" \
-           -e "s|key = /etc/opt/simplex/web.key|key = $cert_path/$ADDR.key|" \
+    sed -i -e "s|cert = /etc/opt/popopx/web.crt|cert = $cert_path/$ADDR.crt|" \
+           -e "s|key = /etc/opt/popopx/web.key|key = $cert_path/$ADDR.key|" \
            "${confd}/smp-server.ini"
   fi
 fi
 
 # Backup store log just in case
-DOCKER=true /usr/local/bin/simplex-servers-stopscript smp-server
+DOCKER=true /usr/local/bin/popopx-servers-stopscript smp-server
 
 # Finally, run smp-sever. Notice that "exec" here is important:
 # smp-server replaces our helper script, so that it can catch INT signal

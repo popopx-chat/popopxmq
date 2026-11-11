@@ -5,7 +5,7 @@
 {-# LANGUAGE NumericUnderscores #-}
 {-# LANGUAGE OverloadedStrings #-}
 
-module Simplex.FileTransfer.Client.Agent
+module Popopx.FileTransfer.Client.Agent
   ( XFTPClientVar,
     XFTPClientAgent (..),
     XFTPClientAgentConfig (..),
@@ -27,14 +27,14 @@ import qualified Data.ByteString.Char8 as B
 import Data.Text (Text)
 import Data.Text.Encoding (decodeUtf8)
 import Data.Time.Clock (UTCTime, getCurrentTime)
-import Simplex.FileTransfer.Client
-import Simplex.Messaging.Agent.RetryInterval
-import Simplex.Messaging.Client (NetworkConfig (..), NetworkRequestMode (..), ProtocolClientError (..), netTimeoutInt, temporaryClientError)
-import Simplex.Messaging.Encoding.String
-import Simplex.Messaging.Protocol (ProtocolServer (..), XFTPServer)
-import Simplex.Messaging.TMap (TMap)
-import qualified Simplex.Messaging.TMap as TM
-import Simplex.Messaging.Util (catchAll_)
+import Popopx.FileTransfer.Client
+import Popopx.Messaging.Agent.RetryInterval
+import Popopx.Messaging.Client (NetworkConfig (..), NetworkRequestMode (..), ProtocolClientError (..), netTimeoutInt, temporaryClientError)
+import Popopx.Messaging.Encoding.String
+import Popopx.Messaging.Protocol (ProtocolServer (..), XFTPServer)
+import Popopx.Messaging.TMap (TMap)
+import qualified Popopx.Messaging.TMap as TM
+import Popopx.Messaging.Util (catchAll_)
 import UnliftIO
 
 type XFTPClientVar = TMVar (Either XFTPClientAgentError XFTPClient)

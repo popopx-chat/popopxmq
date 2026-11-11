@@ -8,7 +8,7 @@
 {-# LANGUAGE StandaloneDeriving #-}
 {-# LANGUAGE TypeApplications #-}
 
-module Simplex.Messaging.Agent.Store.Entity
+module Popopx.Messaging.Agent.Store.Entity
   ( DBStored (..),
     SDBStored (..),
     DBStoredI (..),
@@ -22,7 +22,7 @@ import qualified Data.Aeson as J
 import qualified Data.Aeson.Encoding as JE
 import Data.Int (Int64)
 import Data.Scientific (floatingOrInteger)
-import Simplex.Messaging.Agent.Store.DB (FromField (..), ToField (..))
+import Popopx.Messaging.Agent.Store.DB (FromField (..), ToField (..))
 
 data DBStored = DBStored | DBNew
 

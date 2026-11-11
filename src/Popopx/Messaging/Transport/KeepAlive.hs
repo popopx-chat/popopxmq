@@ -4,7 +4,7 @@
 {-# LANGUAGE NamedFieldPuns #-}
 {-# LANGUAGE TemplateHaskell #-}
 
-module Simplex.Messaging.Transport.KeepAlive
+module Popopx.Messaging.Transport.KeepAlive
   ( KeepAliveOpts (..),
     defaultKeepAliveOpts,
     setSocketKeepAlive,
@@ -13,7 +13,7 @@ module Simplex.Messaging.Transport.KeepAlive
 import qualified Data.Aeson.TH as J
 import Foreign.C (CInt (..))
 import Network.Socket
-import Simplex.Messaging.Parsers (defaultJSON)
+import Popopx.Messaging.Parsers (defaultJSON)
 
 data KeepAliveOpts = KeepAliveOpts
   { keepIdle :: Int,

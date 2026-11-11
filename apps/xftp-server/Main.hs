@@ -1,16 +1,16 @@
 module Main where
 
 import Control.Logger.Simple
-import Simplex.FileTransfer.Server.Main (xftpServerCLI_)
-import Simplex.Messaging.Server.CLI (getEnvPath)
-import Simplex.Messaging.Server.Web (serveStaticFiles)
+import Popopx.FileTransfer.Server.Main (xftpServerCLI_)
+import Popopx.Messaging.Server.CLI (getEnvPath)
+import Popopx.Messaging.Server.Web (serveStaticFiles)
 import XFTPWeb (xftpGenerateSite)
 
 defaultCfgPath :: FilePath
-defaultCfgPath = "/etc/opt/simplex-xftp"
+defaultCfgPath = "/etc/opt/popopx-xftp"
 
 defaultLogPath :: FilePath
-defaultLogPath = "/var/opt/simplex-xftp"
+defaultLogPath = "/var/opt/popopx-xftp"
 
 logCfg :: LogConfig
 logCfg = LogConfig {lc_file = Nothing, lc_stderr = True}

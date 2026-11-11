@@ -1,12 +1,12 @@
 {-# LANGUAGE TupleSections #-}
 
-module Simplex.Messaging.TMap
+module Popopx.Messaging.TMap
   ( TMap,
     emptyIO,
     singleton,
     clear,
-    Simplex.Messaging.TMap.null,
-    Simplex.Messaging.TMap.lookup,
+    Popopx.Messaging.TMap.null,
+    Popopx.Messaging.TMap.lookup,
     lookupIO,
     member,
     memberIO,
@@ -27,7 +27,7 @@ where
 import Control.Concurrent.STM
 import Data.Map.Strict (Map)
 import qualified Data.Map.Strict as M
-import Simplex.Messaging.Util (stateTVar')
+import Popopx.Messaging.Util (stateTVar')
 
 type TMap k a = TVar (Map k a)
 

@@ -1,4 +1,4 @@
-module Simplex.Messaging.Agent.Store.Postgres.Options
+module Popopx.Messaging.Agent.Store.Postgres.Options
   ( DBOpts (..),
   ) where
 

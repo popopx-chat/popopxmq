@@ -2,7 +2,7 @@
 
 module WebTests where
 
-import Simplex.Messaging.Server.Web (render, section_, item_, timedTTLText)
+import Popopx.Messaging.Server.Web (render, section_, item_, timedTTLText)
 import Test.Hspec
 
 webTests :: Spec

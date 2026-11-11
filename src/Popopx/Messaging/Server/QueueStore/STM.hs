@@ -14,7 +14,7 @@
 {-# LANGUAGE TypeFamilies #-}
 {-# LANGUAGE UndecidableInstances #-}
 
-module Simplex.Messaging.Server.QueueStore.STM
+module Popopx.Messaging.Server.QueueStore.STM
   ( STMQueueStore (..),
     STMService (..),
     foldRcvServiceQueues,
@@ -40,15 +40,15 @@ import Data.Set (Set)
 import qualified Data.Set as S
 import Data.Text (Text)
 import qualified Data.X509.Validation as XV
-import Simplex.Messaging.Protocol
-import Simplex.Messaging.Server.QueueStore
-import Simplex.Messaging.Server.QueueStore.Types
-import Simplex.Messaging.Server.StoreLog
-import Simplex.Messaging.SystemTime
-import Simplex.Messaging.TMap (TMap)
-import qualified Simplex.Messaging.TMap as TM
-import Simplex.Messaging.Transport (SMPServiceRole (..))
-import Simplex.Messaging.Util (anyM, ifM, stateTVar', tshow, ($>>), ($>>=), (<$$), (<$$>))
+import Popopx.Messaging.Protocol
+import Popopx.Messaging.Server.QueueStore
+import Popopx.Messaging.Server.QueueStore.Types
+import Popopx.Messaging.Server.StoreLog
+import Popopx.Messaging.SystemTime
+import Popopx.Messaging.TMap (TMap)
+import qualified Popopx.Messaging.TMap as TM
+import Popopx.Messaging.Transport (SMPServiceRole (..))
+import Popopx.Messaging.Util (anyM, ifM, stateTVar', tshow, ($>>), ($>>=), (<$$), (<$$>))
 import System.IO
 import UnliftIO.STM
 

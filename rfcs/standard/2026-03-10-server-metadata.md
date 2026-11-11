@@ -2,25 +2,25 @@
 Proposed: 2024-03-20
 Implemented: ~2024
 Standardized: 2026-03-10
-Protocol: simplex-messaging
+Protocol: popopx-messaging
 ---
 
 > **Implementation note:** This RFC was promoted from done/ to standard/ based on verification that the described feature exists in the codebase. The RFC text reflects the original proposal and may not match the actual implementation in all details. The consolidated protocol specifications in `protocol/` are the authoritative reference for current behavior.
 
-# Relay metadata and SimpleX network decentralization
+# Relay metadata and POPOPX network decentralization
 
 ## Problem
 
 Currently, the clients configure/choose which routers to use, but they cannot see who operates them, in which geography and hosting provider, what is the router source code (in case it was modified from the reference implementation we provide) and also any administrative and feedback contacts.
 
-Further, we currently use simplex.chat domain to host group links, and as diversity of the groups grows it is beginning to require managing feedback from the users about groups. It is important that this feedback is directed to relay owners and not to us, in case they are not our relays, as we are simply providing software here.
+Further, we currently use popopx.chat domain to host group links, and as diversity of the groups grows it is beginning to require managing feedback from the users about groups. It is important that this feedback is directed to relay owners and not to us, in case they are not our relays, as we are simply providing software here.
 
 We also need to make it much easier to access administrative actions - e.g., if the relay owner wants to block some address based on the feedback, they should be able to do so effectively. While freedom of speech of users is important the autonomy and sovereignty of relay operators allowing them to decide what they want or don't want to host, irrespective of the reasons, is as important - public relays constitute a public space rather than a service, and while there is no authentication or authorization required to use them, the relay owners should be able to decide their conditions and limitations of use, as is the case for any public space.
 
 ## Why it is important
 
 1. We are building network and not a service, so contrary to the traditional approach when service collects users metadata and conceals its own, it appears important to do the opposite - expose all relay metadata that may have any effect on users privacy and security and provide access to this metadata with the minimal friction, via the app UI.
-2. We need to remove the only remaining bit of centralization - using simplex.chat website to show the QR code and help new users onboarding - this role can be delegated to the relays.
+2. We need to remove the only remaining bit of centralization - using popopx.chat website to show the QR code and help new users onboarding - this role can be delegated to the relays.
 3. We need to make it easy for the users to submit feedback and to the relay operators to manage that feedback. That includes ourselves, as relay operators, and also any other person or organization that operates public relays.
 4. It is important to stress the requirement of AGPLv3 license to provide access to the source code to the relay users, as any code modifications might undermine user privacy and security and must be made transparent to the relay users.
 
@@ -34,9 +34,9 @@ The proposed solution consists of two parts:
 - create home page for the relays, with all the same metadata.
 - create invitation and address links in the same domain name as the relay.
 
-The latter point is important so it is clear to the users who operates and owns the relay and where the access point to the content or group is hosted. Even though simplex.chat domain is never accessed by the app, and the meaningful part of the address is never sent to the page hosting router, it creates an impression of centralization, and some dependency on simplex.chat domain for anything other that showing the link QR code.
+The latter point is important so it is clear to the users who operates and owns the relay and where the access point to the content or group is hosted. Even though popopx.chat domain is never accessed by the app, and the meaningful part of the address is never sent to the page hosting router, it creates an impression of centralization, and some dependency on popopx.chat domain for anything other that showing the link QR code.
 
-Moving invitation links to the domain of the relay (primary relay, in case the link has redundancy) will both clarify relay ownership, solve the incorrect mis-perception of centralization, remove the dependency on simplex-chat domain without any user effort, and provides the means to submit content complaints to the relay operators (should they wish to receive them, which seems reasonable for large public relays, but may be unnecessary for private relays where unidentified parties cannot create links).
+Moving invitation links to the domain of the relay (primary relay, in case the link has redundancy) will both clarify relay ownership, solve the incorrect mis-perception of centralization, remove the dependency on popopx-chat domain without any user effort, and provides the means to submit content complaints to the relay operators (should they wish to receive them, which seems reasonable for large public relays, but may be unnecessary for private relays where unidentified parties cannot create links).
 
 ## Solution details
 
@@ -46,7 +46,7 @@ Extend router INI file with information section:
 [INFORMATION]
 # Please note that under AGPLv3 license conditions you MUST make
 # any source code modifications available to the end users of the router.
-# LICENSE: https://github.com/simplex-chat/simplexmq/blob/stable/LICENSE
+# LICENSE: https://github.com/popopx-chat/popopxmq/blob/stable/LICENSE
 # Not doing so would constitute a license violation.
 # Declaring an incorrect information here amounts to a fraud.
 # The license holders reserve the right to prosecute missing or incorrect
@@ -54,7 +54,7 @@ Extend router INI file with information section:
 # The router will show warning on start if this field is absent
 # and will not launch from v6.0 until this field is added.
 # If any other information field is present, source code property also MUST be present.
-source_code: https://github.com/simplex-chat/simplexmq
+source_code: https://github.com/popopx-chat/popopxmq
 
 # Declaring all below information is optional, any of these fields can be omitted.
 # Declaring an incorrect information here would amount to a fraud.
@@ -65,14 +65,14 @@ usage_conditions: https://github.com/simplex-chat/simplex-chat/blob/_archived-ep
 # condition_amendments: link
 
 server_country: SE
-operator: SimpleX Chat Ltd.
+operator: POPOPX Chat Ltd.
 operator_country: GB # operator country
-website: https://simplex.chat
-admin_simplex: administrative SimpleX address
-admin_email: chat@simplex.chat
+website: https://popopx.chat
+admin_popopx: administrative POPOPX address
+admin_email: chat@popopx.chat
 admin_pgp: PGP key
-complaints_simplex: SimpleX address for feedback, comments and complaints
-complaints_email: complaints@simplex.chat
+complaints_popopx: POPOPX address for feedback, comments and complaints
+complaints_email: complaints@popopx.chat
 complaints_pgp: PGP key
 hosting: Linode / Akamai Inc.
 hosting_country: US
@@ -130,7 +130,7 @@ data ServerConditions = ServerConditions {conditions :: Text, amendments :: Mayb
 data Entity = Entity {name :: Text, country :: Maybe Text}
 
 data ServerContactAddress = ServerContactAddress
-  { simplex :: Maybe Text,
+  { popopx :: Maybe Text,
     email :: Maybe Text, -- it is recommended that it matches DNS email address, if either is present
     pgp :: Maybe Text
   }

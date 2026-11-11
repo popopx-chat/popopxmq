@@ -25,17 +25,17 @@
 {-# OPTIONS_GHC -fno-warn-unticked-promoted-constructors #-}
 
 -- |
--- Module      : Simplex.Messaging.Crypto
+-- Module      : Popopx.Messaging.Crypto
 -- Copyright   : (c) simplex.chat
 -- License     : AGPL-3
 --
--- Maintainer  : chat@simplex.chat
+-- Maintainer  : chat@popopx.chat
 -- Stability   : experimental
 -- Portability : non-portable
 --
 -- This module provides cryptography implementation for SMP protocols based on
 -- <https://hackage.haskell.org/package/cryptonite cryptonite package>.
-module Simplex.Messaging.Crypto
+module Popopx.Messaging.Crypto
   ( -- * Cryptographic keys
     Algorithm (..),
     SAlgorithm (..),
@@ -257,11 +257,11 @@ import qualified Data.X509 as X
 import Data.X509.Validation (Fingerprint (..), getFingerprint)
 import GHC.TypeLits (ErrorMessage (..), KnownNat, Nat, TypeError, natVal, type (+))
 import Network.Transport.Internal (decodeWord16, encodeWord16)
-import Simplex.Messaging.Agent.Store.DB (Binary (..), FromField (..), ToField (..), blobFieldDecoder)
-import Simplex.Messaging.Encoding
-import Simplex.Messaging.Encoding.String
-import Simplex.Messaging.Parsers (parseAll, parseString)
-import Simplex.Messaging.Util (packZipWith, stateTVar', (<$?>))
+import Popopx.Messaging.Agent.Store.DB (Binary (..), FromField (..), ToField (..), blobFieldDecoder)
+import Popopx.Messaging.Encoding
+import Popopx.Messaging.Encoding.String
+import Popopx.Messaging.Parsers (parseAll, parseString)
+import Popopx.Messaging.Util (packZipWith, stateTVar', (<$?>))
 
 -- | Cryptographic algorithms.
 data Algorithm = Ed25519 | Ed448 | X25519 | X448
@@ -1501,14 +1501,14 @@ newtype SbChainKey = SecretBoxChainKey {unSbChainKey :: ByteString}
 sbcInit :: ByteArrayAccess secret => ByteString -> secret -> (SbChainKey, SbChainKey)
 sbcInit salt secret = (SecretBoxChainKey ck1, SecretBoxChainKey ck2)
   where
-    (ck1, ck2) = B.splitAt 32 $ hkdf salt secret "SimpleXSbChainInit" 64
+    (ck1, ck2) = B.splitAt 32 $ hkdf salt secret "POPOPXSbChainInit" 64
 
 type SbKeyNonce = (SbKey, CbNonce)
 
 sbcHkdf :: SbChainKey -> (SbKeyNonce, SbChainKey)
 sbcHkdf (SecretBoxChainKey ck) = ((SecretBoxKey sk, CryptoBoxNonce nonce), SecretBoxChainKey ck')
   where
-    out = hkdf "" ck "SimpleXSbChain" 88 -- = 32 (new chain key) + 32 (secret_box key) + 24 (nonce)
+    out = hkdf "" ck "POPOPXSbChain" 88 -- = 32 (new chain key) + 32 (secret_box key) + 24 (nonce)
     (ck', rest) = B.splitAt 32 out
     (sk, nonce) = B.splitAt 32 rest
 

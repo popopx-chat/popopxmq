@@ -1,7 +1,7 @@
 #!/usr/bin/env sh
 set -eu
 
-confd='/etc/opt/simplex-xftp'
+confd='/etc/opt/popopx-xftp'
 
 # Check if server has been initialized
 if [ ! -f "${confd}/file-server.ini" ]; then
@@ -83,7 +83,7 @@ fi
 
 # Backup store log just in case
 
-DOCKER=true /usr/local/bin/simplex-servers-stopscript xftp-server
+DOCKER=true /usr/local/bin/popopx-servers-stopscript xftp-server
 
 # Finally, run xftp-sever. Notice that "exec" here is important:
 # smp-server replaces our helper script, so that it can catch INT signal

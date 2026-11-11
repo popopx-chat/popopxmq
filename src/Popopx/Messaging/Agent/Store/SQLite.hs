@@ -24,7 +24,7 @@
 {-# OPTIONS_GHC -fno-warn-ambiguous-fields #-}
 {-# OPTIONS_GHC -fno-warn-orphans #-}
 
-module Simplex.Messaging.Agent.Store.SQLite
+module Popopx.Messaging.Agent.Store.SQLite
   ( DBOpts (..),
     Migrations.getCurrentMigrations,
     migrateDBSchema,
@@ -32,7 +32,7 @@ module Simplex.Messaging.Agent.Store.SQLite
     closeDBStore,
     reopenDBStore,
     execSQL,
-    -- used in Simplex.Chat.Archive
+    -- used in Popopx.Chat.Archive
     sqlString,
     keyString,
     storeKey,
@@ -62,14 +62,14 @@ import qualified Database.SQLite3 as SQLite3
 import Database.SQLite3.Bindings
 import Foreign.C.Types
 import Foreign.Ptr
-import Simplex.Messaging.Agent.Store.Migrations (DBMigrate (..), sharedMigrateSchema)
-import qualified Simplex.Messaging.Agent.Store.SQLite.Migrations as Migrations
-import Simplex.Messaging.Agent.Store.SQLite.Common
-import qualified Simplex.Messaging.Agent.Store.SQLite.DB as DB
-import Simplex.Messaging.Agent.Store.SQLite.Util
-import Simplex.Messaging.Agent.Store.Shared (Migration (..), MigrationConfig (..), MigrationError (..))
-import qualified Simplex.Messaging.Crypto as C
-import Simplex.Messaging.Util (ifM, packZipWith, safeDecodeUtf8)
+import Popopx.Messaging.Agent.Store.Migrations (DBMigrate (..), sharedMigrateSchema)
+import qualified Popopx.Messaging.Agent.Store.SQLite.Migrations as Migrations
+import Popopx.Messaging.Agent.Store.SQLite.Common
+import qualified Popopx.Messaging.Agent.Store.SQLite.DB as DB
+import Popopx.Messaging.Agent.Store.SQLite.Util
+import Popopx.Messaging.Agent.Store.Shared (Migration (..), MigrationConfig (..), MigrationError (..))
+import qualified Popopx.Messaging.Crypto as C
+import Popopx.Messaging.Util (ifM, packZipWith, safeDecodeUtf8)
 import System.Directory (copyFile, createDirectoryIfMissing, doesFileExist)
 import System.FilePath (takeDirectory, takeFileName, (</>))
 

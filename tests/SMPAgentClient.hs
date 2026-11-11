@@ -17,13 +17,13 @@ import qualified Data.List.NonEmpty as L
 import Data.Map.Strict (Map)
 import qualified Data.Map.Strict as M
 import SMPClient (ntfTestPort, ntfTestPort2, testHost, testHost2, testKeyHash, testPort, testPort2)
-import Simplex.Messaging.Agent.Env.SQLite
-import Simplex.Messaging.Agent.Protocol
-import Simplex.Messaging.Agent.RetryInterval
-import Simplex.Messaging.Client (NetworkTimeout (..), ProtocolClientConfig (..), SMPProxyFallback (..), SMPProxyMode (..), defaultNetworkConfig, defaultSMPClientConfig)
-import Simplex.Messaging.Notifications.Client (defaultNTFClientConfig)
-import Simplex.Messaging.Protocol (NtfServer, ProtoServerWithAuth (..), ProtocolServer, pattern NtfServer)
-import Simplex.Messaging.Transport
+import Popopx.Messaging.Agent.Env.SQLite
+import Popopx.Messaging.Agent.Protocol
+import Popopx.Messaging.Agent.RetryInterval
+import Popopx.Messaging.Client (NetworkTimeout (..), ProtocolClientConfig (..), SMPProxyFallback (..), SMPProxyMode (..), defaultNetworkConfig, defaultSMPClientConfig)
+import Popopx.Messaging.Notifications.Client (defaultNTFClientConfig)
+import Popopx.Messaging.Protocol (NtfServer, ProtoServerWithAuth (..), ProtocolServer, pattern NtfServer)
+import Popopx.Messaging.Transport
 import Util
 import XFTPClient (testXFTPServer)
 

@@ -11,7 +11,7 @@
 {-# LANGUAGE TupleSections #-}
 {-# LANGUAGE TypeApplications #-}
 
-module Simplex.Messaging.Client.Agent
+module Popopx.Messaging.Client.Agent
   ( SMPClientAgent (..),
     SMPClientAgentConfig (..),
     SMPClientAgentEvent (..),
@@ -57,11 +57,11 @@ import qualified Data.Set as S
 import Data.Text.Encoding
 import Data.Time.Clock (NominalDiffTime, UTCTime, addUTCTime, getCurrentTime)
 import Numeric.Natural
-import Simplex.Messaging.Agent.RetryInterval
-import Simplex.Messaging.Client
-import qualified Simplex.Messaging.Crypto as C
-import Simplex.Messaging.Encoding.String
-import Simplex.Messaging.Protocol
+import Popopx.Messaging.Agent.RetryInterval
+import Popopx.Messaging.Client
+import qualified Popopx.Messaging.Crypto as C
+import Popopx.Messaging.Encoding.String
+import Popopx.Messaging.Protocol
   ( BrokerMsg,
     ErrorType,
     NotifierId,
@@ -78,11 +78,11 @@ import Simplex.Messaging.Protocol
     partyServiceRole,
     queueIdsHash,
   )
-import Simplex.Messaging.Session
-import Simplex.Messaging.TMap (TMap)
-import qualified Simplex.Messaging.TMap as TM
-import Simplex.Messaging.Transport
-import Simplex.Messaging.Util (catchAll_, ifM, safeDecodeUtf8, stateTVar', toChunks, tshow, whenM, ($>>=), (<$$>))
+import Popopx.Messaging.Session
+import Popopx.Messaging.TMap (TMap)
+import qualified Popopx.Messaging.TMap as TM
+import Popopx.Messaging.Transport
+import Popopx.Messaging.Util (catchAll_, ifM, safeDecodeUtf8, stateTVar', toChunks, tshow, whenM, ($>>=), (<$$>))
 import System.Timeout (timeout)
 import UnliftIO (async)
 import UnliftIO.STM

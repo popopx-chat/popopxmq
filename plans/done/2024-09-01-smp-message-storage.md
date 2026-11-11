@@ -167,14 +167,14 @@ To solve this problem we could use recipient queue ID in base64url format not as
 
 Currently, queue ID is 24 bytes random number, thus allowing 2^192 possible queue IDs. If we assume that a router must hold 1b queues, it means that we have ~2^162 possible addresses for each existing queue. 24 bytes in base64 is 32 characters that can be split into say 8 fragments with 4 characters each, so that queue folder path for queue with ID `abcdefghijklmnopqrstuvwxyz012345` would be:
 
-`/var/opt/simplex/messages/abcd/efgh/ijkl/mnop/qrst/uvwx/yz01/2345`
+`/var/opt/popopx/messages/abcd/efgh/ijkl/mnop/qrst/uvwx/yz01/2345`
 
 The maximum theoretic number of the folders on the 1st level is 64^4, or 2^24 ~ 16m - this is probably still a large number of subfolders for EXT4. Given that addresses are random, all the possible combinations in the first folder can be used with a large number of queues.
 
 So we could use an unequal split of path, two letters each and the last being long:
 
-`/var/opt/simplex/messages/ab/cd/ef/ghijklmnopqrstuvwxyz012345`
+`/var/opt/popopx/messages/ab/cd/ef/ghijklmnopqrstuvwxyz012345`
 
 The first three levels in this case can have 4096 subfolders each, and it gives 68b possible subfolders (64^2^3), so the last level will be sparse in case of 1b queues on the router. So we could make it 4 levels with 2 letters to never think about it, accounting for a large variance of the random numbers distribution:
 
-`/var/opt/simplex/messages/ab/cd/ef/gh/ijklmnopqrstuvwxyz012345`
+`/var/opt/popopx/messages/ab/cd/ef/gh/ijklmnopqrstuvwxyz012345`

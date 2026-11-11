@@ -1,6 +1,6 @@
 Version 1, 2024-06-22
 
-# SimpleX Remote Control Protocol
+# POPOPX Remote Control Protocol
 
 ## Table of contents
 
@@ -16,7 +16,7 @@ Version 1, 2024-06-22
 
 ## Abstract
 
-The SimpleX Remote Control Protocol is a client-server protocol designed to transform application UIs into thin clients, enabling remote control from another device. This approach allows users to remotely access and utilize chat profiles without the complexities of master-master replication for end-to-end encryption states.
+The POPOPX Remote Control Protocol is a client-server protocol designed to transform application UIs into thin clients, enabling remote control from another device. This approach allows users to remotely access and utilize chat profiles without the complexities of master-master replication for end-to-end encryption states.
 
 Like SMP and XFTP, XRCP leverages out-of-band invitations to mitigate MITM attacks and employs multiple cryptographic layers to safeguard application data.
 
@@ -56,7 +56,7 @@ Protocol consists of four phases:
 
 The invitation to the first session between host and controller pair MUST be shared out-of-band, to establish a long term identity keys/certificates of the controller to host device.
 
-The subsequent sessions can be announced via an application-defined site-local multicast group, e.g. `224.0.0.251` (also used in mDNS/bonjour) and an application-defined port (SimpleX Chat uses 5227).
+The subsequent sessions can be announced via an application-defined site-local multicast group, e.g. `224.0.0.251` (also used in mDNS/bonjour) and an application-defined port (POPOPX Chat uses 5227).
 
 The session invitation contains this data:
 - supported version range for remote control protocol.
@@ -127,7 +127,7 @@ To verify the session, the user matches the codes (e.g., visually or via QR code
 
 The user MUST verify the first session with a new controller. The host stores the long-term identity of the controller (CA fingerprint and Ed25519 public key) only after this session is verified. A controller with the stored long-term identity is a known controller.
 
-The user MAY verify the subsequent sessions with a known controller. In a session that the host confirms without user action, the controller is authenticated only by its long-term identity stored in the first session (see [Threat model](#threat-model)). SimpleX Chat mobile apps require user verification of sessions with known controllers only when the user enables the "Verify connections" option.
+The user MAY verify the subsequent sessions with a known controller. In a session that the host confirms without user action, the controller is authenticated only by its long-term identity stored in the first session (see [Threat model](#threat-model)). POPOPX Chat mobile apps require user verification of sessions with known controllers only when the user enables the "Verify connections" option.
 
 Once the session is confirmed, the host sends HELLO block to the controller.
 
@@ -214,7 +214,7 @@ Once the controller replies HELLO to the valid host HELLO block, it should stop 
 
 The protocol for communication during the session is out of scope of this protocol.
 
-SimpleX Chat uses HTTP2 encoding, where host device acts as a server and controller acts as a client (these roles are reversed compared with TLS connection, restoring client-server semantics in HTTP).
+POPOPX Chat uses HTTP2 encoding, where host device acts as a server and controller acts as a client (these roles are reversed compared with TLS connection, restoring client-server semantics in HTTP).
 
 Payloads in the protocol must be encrypted using NaCL secret_box using the hybrid shared secret agreed during session establishment.
 
@@ -280,8 +280,8 @@ To decrypt a multicast announcement, the host should try to decrypt it using the
 Once sessionSecret is agreed for the session, it is used to derive two chain keys, to receive and to send messages:
 
 ```
-controller: sndKey, rcvKey = HKDF(sessionSecret, "SimpleXSbChainInit", 64)
-host: rcvKey, sndKey = HKDF(sessionSecret, "SimpleXSbChainInit", 64)
+controller: sndKey, rcvKey = HKDF(sessionSecret, "POPOPXSbChainInit", 64)
+host: rcvKey, sndKey = HKDF(sessionSecret, "POPOPXSbChainInit", 64)
 ```
 
 where HKDF is based on SHA512, with empty salt.
@@ -289,8 +289,8 @@ where HKDF is based on SHA512, with empty salt.
 Actual keys and nonces to encrypt and decrypt messages are derived from these chain keys:
 
 ```
-to send: (sndKey', sk, nonce) = HKDF(sndKey, "SimpleXSbChain", 88)
-to receive: (rcvKey', sk, nonce) = HKDF(rcvKey, "SimpleXSbChain", 88)
+to send: (sndKey', sk, nonce) = HKDF(sndKey, "POPOPXSbChain", 88)
+to receive: (rcvKey', sk, nonce) = HKDF(rcvKey, "POPOPXSbChain", 88)
 ```
 
 ## Threat model

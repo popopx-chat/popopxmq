@@ -2,7 +2,7 @@
 {-# LANGUAGE NamedFieldPuns #-}
 {-# LANGUAGE ScopedTypeVariables #-}
 
-module Simplex.Messaging.Session
+module Popopx.Messaging.Session
   ( SessionVar (..),
     getSessVar,
     getSessVarIO,
@@ -17,9 +17,9 @@ import Control.Monad.Except (ExceptT (..), runExceptT)
 import Control.Monad.IO.Class (liftIO)
 import Control.Monad.IO.Unlift (MonadUnliftIO)
 import Data.Time (UTCTime)
-import Simplex.Messaging.TMap (TMap)
-import qualified Simplex.Messaging.TMap as TM
-import Simplex.Messaging.Util (stateTVar', whenM, ($>>=))
+import Popopx.Messaging.TMap (TMap)
+import qualified Popopx.Messaging.TMap as TM
+import Popopx.Messaging.Util (stateTVar', whenM, ($>>=))
 import UnliftIO.Exception (bracketOnError)
 
 data SessionVar a = SessionVar

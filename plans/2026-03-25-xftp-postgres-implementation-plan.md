@@ -15,20 +15,20 @@
 ## File Structure
 
 **Existing files modified:**
-- `src/Simplex/FileTransfer/Server/Store.hs` — rewritten: becomes typeclass + shared types
-- `src/Simplex/FileTransfer/Server/Env.hs` — polymorphic `XFTPEnv s`, `XFTPStoreConfig` GADT
-- `src/Simplex/FileTransfer/Server.hs` — polymorphic over `FileStoreClass s`
-- `src/Simplex/FileTransfer/Server/StoreLog.hs` — update for IO store functions
-- `src/Simplex/FileTransfer/Server/Main.hs` — INI config, dispatch, CLI commands
-- `simplexmq.cabal` — new modules
+- `src/Popopx/FileTransfer/Server/Store.hs` — rewritten: becomes typeclass + shared types
+- `src/Popopx/FileTransfer/Server/Env.hs` — polymorphic `XFTPEnv s`, `XFTPStoreConfig` GADT
+- `src/Popopx/FileTransfer/Server.hs` — polymorphic over `FileStoreClass s`
+- `src/Popopx/FileTransfer/Server/StoreLog.hs` — update for IO store functions
+- `src/Popopx/FileTransfer/Server/Main.hs` — INI config, dispatch, CLI commands
+- `popopxmq.cabal` — new modules
 - `tests/XFTPClient.hs` — Postgres test fixtures
 - `tests/Test.hs` — Postgres test group
 
 **New files created:**
-- `src/Simplex/FileTransfer/Server/Store/STM.hs` — `STMFileStore` (extracted from current `Store.hs`)
-- `src/Simplex/FileTransfer/Server/Store/Postgres.hs` — `PostgresFileStore` [CPP-guarded]
-- `src/Simplex/FileTransfer/Server/Store/Postgres/Config.hs` — `PostgresFileStoreCfg` [CPP-guarded]
-- `src/Simplex/FileTransfer/Server/Store/Postgres/Migrations.hs` — schema SQL [CPP-guarded]
+- `src/Popopx/FileTransfer/Server/Store/STM.hs` — `STMFileStore` (extracted from current `Store.hs`)
+- `src/Popopx/FileTransfer/Server/Store/Postgres.hs` — `PostgresFileStore` [CPP-guarded]
+- `src/Popopx/FileTransfer/Server/Store/Postgres/Config.hs` — `PostgresFileStoreCfg` [CPP-guarded]
+- `src/Popopx/FileTransfer/Server/Store/Postgres/Migrations.hs` — schema SQL [CPP-guarded]
 - `tests/CoreTests/XFTPStoreTests.hs` — Postgres store unit tests [CPP-guarded]
 
 ---
@@ -36,9 +36,9 @@
 ## Task 1: Move `usedStorage` from `FileStore` to `XFTPEnv`
 
 **Files:**
-- Modify: `src/Simplex/FileTransfer/Server/Store.hs`
-- Modify: `src/Simplex/FileTransfer/Server/Env.hs`
-- Modify: `src/Simplex/FileTransfer/Server.hs`
+- Modify: `src/Popopx/FileTransfer/Server/Store.hs`
+- Modify: `src/Popopx/FileTransfer/Server/Env.hs`
+- Modify: `src/Popopx/FileTransfer/Server.hs`
 
 - [ ] **Step 1: Remove `usedStorage` from `FileStore` in `Store.hs`**
 
@@ -82,8 +82,8 @@
 - [ ] **Step 6: Format and commit**
 
   ```bash
-  fourmolu -i src/Simplex/FileTransfer/Server/Store.hs src/Simplex/FileTransfer/Server/Env.hs src/Simplex/FileTransfer/Server.hs
-  git add src/Simplex/FileTransfer/Server/Store.hs src/Simplex/FileTransfer/Server/Env.hs src/Simplex/FileTransfer/Server.hs
+  fourmolu -i src/Popopx/FileTransfer/Server/Store.hs src/Popopx/FileTransfer/Server/Env.hs src/Popopx/FileTransfer/Server.hs
+  git add src/Popopx/FileTransfer/Server/Store.hs src/Popopx/FileTransfer/Server/Env.hs src/Popopx/FileTransfer/Server.hs
   git commit -m "refactor(xftp): move usedStorage from FileStore to XFTPEnv"
   ```
 
@@ -92,14 +92,14 @@
 ## Task 2: Add `getUsedStorage`, `getFileCount`, `expiredFiles` functions
 
 **Files:**
-- Modify: `src/Simplex/FileTransfer/Server/Store.hs`
-- Modify: `src/Simplex/FileTransfer/Server/Env.hs`
-- Modify: `src/Simplex/FileTransfer/Server.hs`
+- Modify: `src/Popopx/FileTransfer/Server/Store.hs`
+- Modify: `src/Popopx/FileTransfer/Server/Env.hs`
+- Modify: `src/Popopx/FileTransfer/Server.hs`
 
 - [ ] **Step 1: Add three new functions to `Store.hs`**
 
   1. Add to exports: `getUsedStorage`, `getFileCount`, `expiredFiles`.
-  2. Remove `expiredFilePath` from exports AND delete the function definition (dead code → `-Wunused-binds` error). Also remove `($>>=)` from import `Simplex.Messaging.Util (ifM, ($>>=))` → `Simplex.Messaging.Util (ifM)` — `$>>=` was only used by `expiredFilePath`.
+  2. Remove `expiredFilePath` from exports AND delete the function definition (dead code → `-Wunused-binds` error). Also remove `($>>=)` from import `Popopx.Messaging.Util (ifM, ($>>=))` → `Popopx.Messaging.Util (ifM)` — `$>>=` was only used by `expiredFilePath`.
   3. Add import: `qualified Data.Map.Strict as M` (needed for `M.foldl'` in `getUsedStorage` and `M.toList` in `expiredFiles`).
   4. Implement:
      ```haskell
@@ -149,8 +149,8 @@
 - [ ] **Step 7: Format and commit**
 
   ```bash
-  fourmolu -i src/Simplex/FileTransfer/Server/Store.hs src/Simplex/FileTransfer/Server/Env.hs src/Simplex/FileTransfer/Server.hs
-  git add src/Simplex/FileTransfer/Server/Store.hs src/Simplex/FileTransfer/Server/Env.hs src/Simplex/FileTransfer/Server.hs
+  fourmolu -i src/Popopx/FileTransfer/Server/Store.hs src/Popopx/FileTransfer/Server/Env.hs src/Popopx/FileTransfer/Server.hs
+  git add src/Popopx/FileTransfer/Server/Store.hs src/Popopx/FileTransfer/Server/Env.hs src/Popopx/FileTransfer/Server.hs
   git commit -m "refactor(xftp): add getUsedStorage, getFileCount, expiredFiles store functions"
   ```
 
@@ -159,9 +159,9 @@
 ## Task 3: Change `Store.hs` functions from STM to IO
 
 **Files:**
-- Modify: `src/Simplex/FileTransfer/Server/Store.hs`
-- Modify: `src/Simplex/FileTransfer/Server.hs`
-- Modify: `src/Simplex/FileTransfer/Server/StoreLog.hs`
+- Modify: `src/Popopx/FileTransfer/Server/Store.hs`
+- Modify: `src/Popopx/FileTransfer/Server.hs`
+- Modify: `src/Popopx/FileTransfer/Server/StoreLog.hs`
 
 - [ ] **Step 1: Change all Store.hs function signatures from STM to IO**
 
@@ -200,8 +200,8 @@
 - [ ] **Step 6: Format and commit**
 
   ```bash
-  fourmolu -i src/Simplex/FileTransfer/Server/Store.hs src/Simplex/FileTransfer/Server.hs src/Simplex/FileTransfer/Server/StoreLog.hs
-  git add src/Simplex/FileTransfer/Server/Store.hs src/Simplex/FileTransfer/Server.hs src/Simplex/FileTransfer/Server/StoreLog.hs
+  fourmolu -i src/Popopx/FileTransfer/Server/Store.hs src/Popopx/FileTransfer/Server.hs src/Popopx/FileTransfer/Server/StoreLog.hs
+  git add src/Popopx/FileTransfer/Server/Store.hs src/Popopx/FileTransfer/Server.hs src/Popopx/FileTransfer/Server/StoreLog.hs
   git commit -m "refactor(xftp): change file store operations from STM to IO"
   ```
 
@@ -210,20 +210,20 @@
 ## Task 4: Extract `FileStoreClass` typeclass, move STM impl to `Store/STM.hs`
 
 **Files:**
-- Rewrite: `src/Simplex/FileTransfer/Server/Store.hs`
-- Create: `src/Simplex/FileTransfer/Server/Store/STM.hs`
-- Modify: `src/Simplex/FileTransfer/Server/StoreLog.hs`
-- Modify: `src/Simplex/FileTransfer/Server/Env.hs`
-- Modify: `src/Simplex/FileTransfer/Server.hs`
-- Modify: `simplexmq.cabal`
+- Rewrite: `src/Popopx/FileTransfer/Server/Store.hs`
+- Create: `src/Popopx/FileTransfer/Server/Store/STM.hs`
+- Modify: `src/Popopx/FileTransfer/Server/StoreLog.hs`
+- Modify: `src/Popopx/FileTransfer/Server/Env.hs`
+- Modify: `src/Popopx/FileTransfer/Server.hs`
+- Modify: `popopxmq.cabal`
 
 - [ ] **Step 1: Create `Store/STM.hs` — move all implementation code**
 
-  1. Create directory `src/Simplex/FileTransfer/Server/Store/`.
-  2. Create `src/Simplex/FileTransfer/Server/Store/STM.hs`.
+  1. Create directory `src/Popopx/FileTransfer/Server/Store/`.
+  2. Create `src/Popopx/FileTransfer/Server/Store/STM.hs`.
   3. Move from `Store.hs`: `FileStore` data type (rename to `STMFileStore`), all function implementations, internal helpers (`withFile`, `newFileRec`), all STM-specific imports.
   4. Rename all `FileStore` references to `STMFileStore` in the new file.
-  5. Module declaration: `module Simplex.FileTransfer.Server.Store.STM` exporting only `STMFileStore (..)` — do NOT export standalone functions (`addFile`, `setFilePath`, etc.) to avoid name collisions with the typeclass methods from `Store.hs`.
+  5. Module declaration: `module Popopx.FileTransfer.Server.Store.STM` exporting only `STMFileStore (..)` — do NOT export standalone functions (`addFile`, `setFilePath`, etc.) to avoid name collisions with the typeclass methods from `Store.hs`.
 
 - [ ] **Step 2: Rewrite `Store.hs` as the typeclass module**
 
@@ -260,7 +260,7 @@
 
 - [ ] **Step 3: Add `FileStoreClass` instance in `Store/STM.hs`**
 
-  1. Import `FileStoreClass` from `Simplex.FileTransfer.Server.Store`.
+  1. Import `FileStoreClass` from `Popopx.FileTransfer.Server.Store`.
   2. Inline all implementations directly in the instance body (do NOT delegate to standalone functions — the standalone names collide with typeclass method names, causing ambiguous occurrences for importers):
      ```haskell
      instance FileStoreClass STMFileStore where
@@ -278,13 +278,13 @@
 
 - [ ] **Step 4: Update importers**
 
-  1. `Env.hs`: add `import Simplex.FileTransfer.Server.Store.STM (STMFileStore (..))`. Change `FileStore` → `STMFileStore` in `XFTPEnv` type and `newXFTPServerEnv`. Change `store <- newFileStore` to `store <- newFileStore ()` (typeclass method now takes `FileStoreConfig STMFileStore` which is `()`). Keep `import Simplex.FileTransfer.Server.Store` for `FileRec`, `FileRecipient`, `FileStoreClass`, etc.
-  2. `Server.hs`: add `import Simplex.FileTransfer.Server.Store.STM`. Change `FileStore` → `STMFileStore` in any explicit type annotations. Import `FileStoreClass` from `Simplex.FileTransfer.Server.Store`.
-  3. `StoreLog.hs`: add `import Simplex.FileTransfer.Server.Store.STM` to access concrete `STMFileStore` type and store functions used during log replay. Change `FileStore` → `STMFileStore` in `readWriteFileStore` and `writeFileStore` parameter types.
+  1. `Env.hs`: add `import Popopx.FileTransfer.Server.Store.STM (STMFileStore (..))`. Change `FileStore` → `STMFileStore` in `XFTPEnv` type and `newXFTPServerEnv`. Change `store <- newFileStore` to `store <- newFileStore ()` (typeclass method now takes `FileStoreConfig STMFileStore` which is `()`). Keep `import Popopx.FileTransfer.Server.Store` for `FileRec`, `FileRecipient`, `FileStoreClass`, etc.
+  2. `Server.hs`: add `import Popopx.FileTransfer.Server.Store.STM`. Change `FileStore` → `STMFileStore` in any explicit type annotations. Import `FileStoreClass` from `Popopx.FileTransfer.Server.Store`.
+  3. `StoreLog.hs`: add `import Popopx.FileTransfer.Server.Store.STM` to access concrete `STMFileStore` type and store functions used during log replay. Change `FileStore` → `STMFileStore` in `readWriteFileStore` and `writeFileStore` parameter types.
 
 - [ ] **Step 5: Update cabal file**
 
-  Add `Simplex.FileTransfer.Server.Store.STM` to `exposed-modules` in the `!flag(client_library)` section, alongside existing XFTP server modules.
+  Add `Popopx.FileTransfer.Server.Store.STM` to `exposed-modules` in the `!flag(client_library)` section, alongside existing XFTP server modules.
 
 - [ ] **Step 6: Build and verify**
 
@@ -297,8 +297,8 @@
 - [ ] **Step 8: Format and commit**
 
   ```bash
-  fourmolu -i src/Simplex/FileTransfer/Server/Store.hs src/Simplex/FileTransfer/Server/Store/STM.hs src/Simplex/FileTransfer/Server/Env.hs src/Simplex/FileTransfer/Server.hs src/Simplex/FileTransfer/Server/StoreLog.hs
-  git add src/Simplex/FileTransfer/Server/Store.hs src/Simplex/FileTransfer/Server/Store/STM.hs src/Simplex/FileTransfer/Server/Env.hs src/Simplex/FileTransfer/Server.hs src/Simplex/FileTransfer/Server/StoreLog.hs simplexmq.cabal
+  fourmolu -i src/Popopx/FileTransfer/Server/Store.hs src/Popopx/FileTransfer/Server/Store/STM.hs src/Popopx/FileTransfer/Server/Env.hs src/Popopx/FileTransfer/Server.hs src/Popopx/FileTransfer/Server/StoreLog.hs
+  git add src/Popopx/FileTransfer/Server/Store.hs src/Popopx/FileTransfer/Server/Store/STM.hs src/Popopx/FileTransfer/Server/Env.hs src/Popopx/FileTransfer/Server.hs src/Popopx/FileTransfer/Server/StoreLog.hs popopxmq.cabal
   git commit -m "refactor(xftp): extract FileStoreClass typeclass, move STM impl to Store.STM"
   ```
 
@@ -307,9 +307,9 @@
 ## Task 5: Make `XFTPEnv` and `Server.hs` polymorphic over `FileStoreClass`
 
 **Files:**
-- Modify: `src/Simplex/FileTransfer/Server/Env.hs`
-- Modify: `src/Simplex/FileTransfer/Server.hs`
-- Modify: `src/Simplex/FileTransfer/Server/Main.hs`
+- Modify: `src/Popopx/FileTransfer/Server/Env.hs`
+- Modify: `src/Popopx/FileTransfer/Server.hs`
+- Modify: `src/Popopx/FileTransfer/Server/Main.hs`
 - Modify: `tests/XFTPClient.hs` (if it calls `runXFTPServerBlocking` directly)
 
 - [ ] **Step 1: Make `XFTPEnv` polymorphic in `Env.hs`**
@@ -342,7 +342,7 @@
 
 - [ ] **Step 5: Build and verify**
 
-  Run: `cabal build && cabal build test:simplexmq-test`
+  Run: `cabal build && cabal build test:popopxmq-test`
 
 - [ ] **Step 6: Run existing tests**
 
@@ -351,8 +351,8 @@
 - [ ] **Step 7: Format and commit**
 
   ```bash
-  fourmolu -i src/Simplex/FileTransfer/Server/Env.hs src/Simplex/FileTransfer/Server.hs src/Simplex/FileTransfer/Server/Main.hs
-  git add src/Simplex/FileTransfer/Server/Env.hs src/Simplex/FileTransfer/Server.hs src/Simplex/FileTransfer/Server/Main.hs tests/XFTPClient.hs simplexmq.cabal
+  fourmolu -i src/Popopx/FileTransfer/Server/Env.hs src/Popopx/FileTransfer/Server.hs src/Popopx/FileTransfer/Server/Main.hs
+  git add src/Popopx/FileTransfer/Server/Env.hs src/Popopx/FileTransfer/Server.hs src/Popopx/FileTransfer/Server/Main.hs tests/XFTPClient.hs popopxmq.cabal
   git commit -m "refactor(xftp): make XFTPEnv and server polymorphic over FileStoreClass"
   ```
 
@@ -361,23 +361,23 @@
 ## Task 6: Add Postgres config, migrations, and store skeleton
 
 **Files:**
-- Create: `src/Simplex/FileTransfer/Server/Store/Postgres/Config.hs`
-- Create: `src/Simplex/FileTransfer/Server/Store/Postgres/Migrations.hs`
-- Create: `src/Simplex/FileTransfer/Server/Store/Postgres.hs`
-- Modify: `src/Simplex/FileTransfer/Server/Env.hs`
-- Modify: `simplexmq.cabal`
+- Create: `src/Popopx/FileTransfer/Server/Store/Postgres/Config.hs`
+- Create: `src/Popopx/FileTransfer/Server/Store/Postgres/Migrations.hs`
+- Create: `src/Popopx/FileTransfer/Server/Store/Postgres.hs`
+- Modify: `src/Popopx/FileTransfer/Server/Env.hs`
+- Modify: `popopxmq.cabal`
 
 - [ ] **Step 1: Create `Store/Postgres/Config.hs`**
 
   ```haskell
-  module Simplex.FileTransfer.Server.Store.Postgres.Config
+  module Popopx.FileTransfer.Server.Store.Postgres.Config
     ( PostgresFileStoreCfg (..),
       defaultXFTPDBOpts,
     )
   where
 
-  import Simplex.Messaging.Agent.Store.Postgres.Options (DBOpts (..))
-  import Simplex.Messaging.Agent.Store.Shared (MigrationConfirmation)
+  import Popopx.Messaging.Agent.Store.Postgres.Options (DBOpts (..))
+  import Popopx.Messaging.Agent.Store.Shared (MigrationConfirmation)
 
   data PostgresFileStoreCfg = PostgresFileStoreCfg
     { dbOpts :: DBOpts,
@@ -409,8 +409,8 @@
 
   ```haskell
   #if defined(dbServerPostgres)
-  import Simplex.FileTransfer.Server.Store.Postgres (PostgresFileStore)
-  import Simplex.FileTransfer.Server.Store.Postgres.Config (PostgresFileStoreCfg)
+  import Popopx.FileTransfer.Server.Store.Postgres (PostgresFileStore)
+  import Popopx.FileTransfer.Server.Store.Postgres.Config (PostgresFileStoreCfg)
   #endif
 
   data XFTPStoreConfig s where
@@ -424,9 +424,9 @@
 
   Add to existing `if flag(server_postgres)` block:
   ```
-  Simplex.FileTransfer.Server.Store.Postgres
-  Simplex.FileTransfer.Server.Store.Postgres.Config
-  Simplex.FileTransfer.Server.Store.Postgres.Migrations
+  Popopx.FileTransfer.Server.Store.Postgres
+  Popopx.FileTransfer.Server.Store.Postgres.Config
+  Popopx.FileTransfer.Server.Store.Postgres.Migrations
   ```
 
 - [ ] **Step 6: Build both ways**
@@ -436,8 +436,8 @@
 - [ ] **Step 7: Format and commit**
 
   ```bash
-  fourmolu -i src/Simplex/FileTransfer/Server/Store/Postgres.hs src/Simplex/FileTransfer/Server/Store/Postgres/Config.hs src/Simplex/FileTransfer/Server/Env.hs
-  git add src/Simplex/FileTransfer/Server/Store/Postgres.hs src/Simplex/FileTransfer/Server/Store/Postgres/Config.hs src/Simplex/FileTransfer/Server/Store/Postgres/Migrations.hs src/Simplex/FileTransfer/Server/Env.hs simplexmq.cabal
+  fourmolu -i src/Popopx/FileTransfer/Server/Store/Postgres.hs src/Popopx/FileTransfer/Server/Store/Postgres/Config.hs src/Popopx/FileTransfer/Server/Env.hs
+  git add src/Popopx/FileTransfer/Server/Store/Postgres.hs src/Popopx/FileTransfer/Server/Store/Postgres/Config.hs src/Popopx/FileTransfer/Server/Store/Postgres/Migrations.hs src/Popopx/FileTransfer/Server/Env.hs popopxmq.cabal
   git commit -m "feat(xftp): add PostgreSQL store skeleton with schema migration"
   ```
 
@@ -446,7 +446,7 @@
 ## Task 7: Implement `PostgresFileStore` operations
 
 **Files:**
-- Modify: `src/Simplex/FileTransfer/Server/Store/Postgres.hs`
+- Modify: `src/Popopx/FileTransfer/Server/Store/Postgres.hs`
 
 - [ ] **Step 1: Implement `addFile`**
 
@@ -496,8 +496,8 @@
 - [ ] **Step 11: Format and commit**
 
   ```bash
-  fourmolu -i src/Simplex/FileTransfer/Server/Store/Postgres.hs
-  git add src/Simplex/FileTransfer/Server/Store/Postgres.hs
+  fourmolu -i src/Popopx/FileTransfer/Server/Store/Postgres.hs
+  git add src/Popopx/FileTransfer/Server/Store/Postgres.hs
   git commit -m "feat(xftp): implement PostgresFileStore operations"
   ```
 
@@ -506,8 +506,8 @@
 ## Task 8: Add INI config, Main.hs dispatch, startup validation
 
 **Files:**
-- Modify: `src/Simplex/FileTransfer/Server/Main.hs`
-- Modify: `src/Simplex/FileTransfer/Server/Env.hs`
+- Modify: `src/Popopx/FileTransfer/Server/Main.hs`
+- Modify: `src/Popopx/FileTransfer/Server/Env.hs`
 
 - [ ] **Step 1: Update `iniFileContent` in `Main.hs`**
 
@@ -541,8 +541,8 @@
 - [ ] **Step 7: Format and commit**
 
   ```bash
-  fourmolu -i src/Simplex/FileTransfer/Server/Main.hs src/Simplex/FileTransfer/Server/Env.hs
-  git add src/Simplex/FileTransfer/Server/Main.hs src/Simplex/FileTransfer/Server/Env.hs
+  fourmolu -i src/Popopx/FileTransfer/Server/Main.hs src/Popopx/FileTransfer/Server/Env.hs
+  git add src/Popopx/FileTransfer/Server/Main.hs src/Popopx/FileTransfer/Server/Env.hs
   git commit -m "feat(xftp): add PostgreSQL INI config, store dispatch, startup validation"
   ```
 
@@ -551,7 +551,7 @@
 ## Task 9: Add database import/export CLI commands
 
 **Files:**
-- Modify: `src/Simplex/FileTransfer/Server/Main.hs`
+- Modify: `src/Popopx/FileTransfer/Server/Main.hs`
 
 - [ ] **Step 1: Add `Database` CLI command (CPP-guarded)**
 
@@ -583,8 +583,8 @@
 - [ ] **Step 5: Format and commit**
 
   ```bash
-  fourmolu -i src/Simplex/FileTransfer/Server/Main.hs
-  git add src/Simplex/FileTransfer/Server/Main.hs
+  fourmolu -i src/Popopx/FileTransfer/Server/Main.hs
+  git add src/Popopx/FileTransfer/Server/Main.hs
   git commit -m "feat(xftp): add database import/export CLI commands"
   ```
 
@@ -635,7 +635,7 @@
 - [ ] **Step 5: Build and run tests**
 
   ```bash
-  cabal build -fserver_postgres test:simplexmq-test
+  cabal build -fserver_postgres test:popopxmq-test
   cabal test --test-show-details=streaming --test-option=--match="/XFTP/" -fserver_postgres
   ```
 

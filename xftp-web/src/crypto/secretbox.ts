@@ -1,4 +1,4 @@
-// Streaming XSalsa20-Poly1305 -- Simplex.Messaging.Crypto / Crypto.Lazy
+// Streaming XSalsa20-Poly1305 -- Popopx.Messaging.Crypto / Crypto.Lazy
 //
 // Libsodium-wrappers-sumo does not expose crypto_stream_xsalsa20_xor_ic,
 // so the Salsa20/20 stream cipher core is implemented here.

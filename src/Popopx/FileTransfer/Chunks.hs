@@ -1,4 +1,4 @@
-module Simplex.FileTransfer.Chunks
+module Popopx.FileTransfer.Chunks
   ( serverChunkSizes,
     chunkSize0,
     chunkSize1,

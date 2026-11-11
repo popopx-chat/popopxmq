@@ -15,7 +15,7 @@
 {-# LANGUAGE TupleSections #-}
 {-# OPTIONS_GHC -fno-warn-ambiguous-fields #-}
 
-module Simplex.Messaging.Notifications.Server
+module Popopx.Messaging.Notifications.Server
   ( runNtfServer,
     runNtfServerBlocking,
     restoreServerLastNtfs,
@@ -55,33 +55,33 @@ import GHC.IORef (atomicSwapIORef)
 import GHC.Stats (getRTSStats)
 import Network.Socket (ServiceName, Socket, socketToHandle)
 import Numeric.Natural (Natural)
-import Simplex.Messaging.Client (ProtocolClientError (..), SMPClientError, ServerTransmission (..))
-import Simplex.Messaging.Client.Agent
-import qualified Simplex.Messaging.Crypto as C
-import Simplex.Messaging.Encoding.String
-import Simplex.Messaging.Notifications.Protocol
-import Simplex.Messaging.Notifications.Server.Control
-import Simplex.Messaging.Notifications.Server.Env
-import Simplex.Messaging.Notifications.Server.Prometheus
-import Simplex.Messaging.Notifications.Server.Push.APNS (PushNotification (..), PushProviderError (..))
-import Simplex.Messaging.Notifications.Server.Stats
-import Simplex.Messaging.Notifications.Server.Store (NtfSTMStore, TokenNtfMessageRecord (..), stmStoreTokenLastNtf)
-import Simplex.Messaging.Notifications.Server.Store.Postgres
-import Simplex.Messaging.Notifications.Server.Store.Types
-import Simplex.Messaging.Notifications.Transport
-import Simplex.Messaging.Protocol (EntityId (..), ErrorType (..), NotifierId, Party (..), ProtocolServer (host), SMPServer, ServiceSub (..), SignedTransmission, Transmission, pattern NoEntity, pattern SMPServer, encodeTransmission, tGetServer, tPut)
-import qualified Simplex.Messaging.Protocol as SMP
-import Simplex.Messaging.Server
-import Simplex.Messaging.Server.Control (CPClientRole (..))
-import Simplex.Messaging.Server.Env.STM (StartOptions (..))
-import Simplex.Messaging.Server.Stats (PeriodStats (..), PeriodStatCounts (..), periodStatCounts, periodStatDataCounts, updatePeriodStats)
-import Simplex.Messaging.Session
-import Simplex.Messaging.SystemTime
-import Simplex.Messaging.TMap (TMap)
-import Simplex.Messaging.Transport (ASrvTransport, ATransport (..), THandle (..), THandleAuth (..), THandleParams (..), TProxy, Transport (..), TransportPeer (..), defaultSupportedParams)
-import Simplex.Messaging.Transport.Buffer (trimCR)
-import Simplex.Messaging.Transport.Server (AddHTTP, runTransportServer, runLocalTCPServer)
-import Simplex.Messaging.Util
+import Popopx.Messaging.Client (ProtocolClientError (..), SMPClientError, ServerTransmission (..))
+import Popopx.Messaging.Client.Agent
+import qualified Popopx.Messaging.Crypto as C
+import Popopx.Messaging.Encoding.String
+import Popopx.Messaging.Notifications.Protocol
+import Popopx.Messaging.Notifications.Server.Control
+import Popopx.Messaging.Notifications.Server.Env
+import Popopx.Messaging.Notifications.Server.Prometheus
+import Popopx.Messaging.Notifications.Server.Push.APNS (PushNotification (..), PushProviderError (..))
+import Popopx.Messaging.Notifications.Server.Stats
+import Popopx.Messaging.Notifications.Server.Store (NtfSTMStore, TokenNtfMessageRecord (..), stmStoreTokenLastNtf)
+import Popopx.Messaging.Notifications.Server.Store.Postgres
+import Popopx.Messaging.Notifications.Server.Store.Types
+import Popopx.Messaging.Notifications.Transport
+import Popopx.Messaging.Protocol (EntityId (..), ErrorType (..), NotifierId, Party (..), ProtocolServer (host), SMPServer, ServiceSub (..), SignedTransmission, Transmission, pattern NoEntity, pattern SMPServer, encodeTransmission, tGetServer, tPut)
+import qualified Popopx.Messaging.Protocol as SMP
+import Popopx.Messaging.Server
+import Popopx.Messaging.Server.Control (CPClientRole (..))
+import Popopx.Messaging.Server.Env.STM (StartOptions (..))
+import Popopx.Messaging.Server.Stats (PeriodStats (..), PeriodStatCounts (..), periodStatCounts, periodStatDataCounts, updatePeriodStats)
+import Popopx.Messaging.Session
+import Popopx.Messaging.SystemTime
+import Popopx.Messaging.TMap (TMap)
+import Popopx.Messaging.Transport (ASrvTransport, ATransport (..), THandle (..), THandleAuth (..), THandleParams (..), TProxy, Transport (..), TransportPeer (..), defaultSupportedParams)
+import Popopx.Messaging.Transport.Buffer (trimCR)
+import Popopx.Messaging.Transport.Server (AddHTTP, runTransportServer, runLocalTCPServer)
+import Popopx.Messaging.Util
 import System.Environment (lookupEnv)
 import System.Exit (exitFailure, exitSuccess)
 import System.IO (BufferMode (..), hClose, hPrint, hPutStrLn, hSetBuffering, hSetNewlineMode, universalNewlineMode)
@@ -596,7 +596,7 @@ ntfSubscriber NtfSubscriber {smpAgent = ca@SMPClientAgent {msgQ = msgQ_, agentQ}
               msg = "SMP server service subscribed " <> showService srv serviceSub
           CAServiceSubError srv serviceSub e ->
             -- Errors that require re-subscribing queues directly are reported as CAServiceUnavailable.
-            -- See smpSubscribeService in Simplex.Messaging.Client.Agent
+            -- See smpSubscribeService in Popopx.Messaging.Client.Agent
             logError $ "SMP server service subscription error " <> showService srv serviceSub <> ": " <> tshow e
           CAServiceUnavailable srv serviceSub -> do
             logError $ "SMP server service unavailable: " <> showService srv serviceSub

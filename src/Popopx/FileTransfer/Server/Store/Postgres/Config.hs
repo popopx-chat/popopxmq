@@ -1,13 +1,13 @@
 {-# LANGUAGE OverloadedStrings #-}
 
-module Simplex.FileTransfer.Server.Store.Postgres.Config
+module Popopx.FileTransfer.Server.Store.Postgres.Config
   ( PostgresFileStoreCfg (..),
     defaultXFTPDBOpts,
   )
 where
 
-import Simplex.Messaging.Agent.Store.Postgres.Options (DBOpts (..))
-import Simplex.Messaging.Agent.Store.Shared (MigrationConfirmation)
+import Popopx.Messaging.Agent.Store.Postgres.Options (DBOpts (..))
+import Popopx.Messaging.Agent.Store.Shared (MigrationConfirmation)
 
 data PostgresFileStoreCfg = PostgresFileStoreCfg
   { dbOpts :: DBOpts,

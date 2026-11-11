@@ -1,4 +1,4 @@
-module Simplex.Messaging.Crypto.SNTRUP761.Bindings.Defines where
+module Popopx.Messaging.Crypto.SNTRUP761.Bindings.Defines where
 
 #include "sntrup761.h"
 

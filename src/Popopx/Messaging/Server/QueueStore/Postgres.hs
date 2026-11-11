@@ -18,7 +18,7 @@
 {-# LANGUAGE TypeOperators #-}
 {-# OPTIONS_GHC -fno-warn-orphans #-}
 
-module Simplex.Messaging.Server.QueueStore.Postgres
+module Popopx.Messaging.Server.QueueStore.Postgres
   ( PostgresQueueStore (..),
     PostgresStoreCfg (..),
     batchInsertServices,
@@ -68,34 +68,34 @@ import Database.PostgreSQL.Simple.ToField (Action (..), ToField (..))
 import Database.PostgreSQL.Simple.Errors (ConstraintViolation (..), constraintViolation)
 import Database.PostgreSQL.Simple.SqlQQ (sql)
 import GHC.IO (catchAny)
-import Simplex.Messaging.Agent.Client (withLockMap)
-import Simplex.Messaging.Agent.Lock (Lock)
-import Simplex.Messaging.Agent.Store.AgentStore ()
-import Simplex.Messaging.Agent.Store.Postgres (createDBStore, closeDBStore)
-import Simplex.Messaging.Agent.Store.Postgres.Common
-import Simplex.Messaging.Agent.Store.Postgres.DB (blobFieldDecoder, fromTextField_)
-import Simplex.Messaging.Agent.Store.Shared (MigrationConfig (..))
-import qualified Simplex.Messaging.Crypto as C
-import Simplex.Messaging.Encoding
-import Simplex.Messaging.Parsers (parseAll)
-import Simplex.Messaging.Protocol
-import Simplex.Messaging.Server.QueueStore
-import Simplex.Messaging.Server.QueueStore.Postgres.Config
-import Simplex.Messaging.Server.QueueStore.Postgres.Migrations (serverMigrations)
-import Simplex.Messaging.Server.QueueStore.STM (STMService (..), readQueueRecIO)
-import Simplex.Messaging.Server.QueueStore.Types
-import Simplex.Messaging.Server.StoreLog
-import Simplex.Messaging.SystemTime
-import Simplex.Messaging.TMap (TMap)
-import qualified Simplex.Messaging.TMap as TM
-import Simplex.Messaging.Transport (SMPServiceRole (..))
-import Simplex.Messaging.Util (eitherToMaybe, firstRow, maybeFirstRow, maybeFirstRow', tshow, (<$$>), ($>>=))
+import Popopx.Messaging.Agent.Client (withLockMap)
+import Popopx.Messaging.Agent.Lock (Lock)
+import Popopx.Messaging.Agent.Store.AgentStore ()
+import Popopx.Messaging.Agent.Store.Postgres (createDBStore, closeDBStore)
+import Popopx.Messaging.Agent.Store.Postgres.Common
+import Popopx.Messaging.Agent.Store.Postgres.DB (blobFieldDecoder, fromTextField_)
+import Popopx.Messaging.Agent.Store.Shared (MigrationConfig (..))
+import qualified Popopx.Messaging.Crypto as C
+import Popopx.Messaging.Encoding
+import Popopx.Messaging.Parsers (parseAll)
+import Popopx.Messaging.Protocol
+import Popopx.Messaging.Server.QueueStore
+import Popopx.Messaging.Server.QueueStore.Postgres.Config
+import Popopx.Messaging.Server.QueueStore.Postgres.Migrations (serverMigrations)
+import Popopx.Messaging.Server.QueueStore.STM (STMService (..), readQueueRecIO)
+import Popopx.Messaging.Server.QueueStore.Types
+import Popopx.Messaging.Server.StoreLog
+import Popopx.Messaging.SystemTime
+import Popopx.Messaging.TMap (TMap)
+import qualified Popopx.Messaging.TMap as TM
+import Popopx.Messaging.Transport (SMPServiceRole (..))
+import Popopx.Messaging.Util (eitherToMaybe, firstRow, maybeFirstRow, maybeFirstRow', tshow, (<$$>), ($>>=))
 import System.Exit (exitFailure)
 import System.IO (IOMode (..), hFlush, stdout)
 import UnliftIO.STM
 
 #if !defined(dbPostgres)
-import Simplex.Messaging.Encoding.String
+import Popopx.Messaging.Encoding.String
 #endif
 
 data PostgresQueueStore q = PostgresQueueStore

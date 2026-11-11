@@ -14,11 +14,11 @@ import Control.Monad.Except
 import Crypto.Random (ChaChaDRG)
 import qualified Data.ByteString.Base64.URL as B64
 import qualified Data.ByteString.Char8 as B
-import Simplex.Messaging.Agent.Protocol
-import qualified Simplex.Messaging.Crypto as C
-import qualified Simplex.Messaging.Crypto.ShortLink as SL
-import Simplex.Messaging.Encoding.String
-import Simplex.Messaging.Protocol (EncFixedDataBytes)
+import Popopx.Messaging.Agent.Protocol
+import qualified Popopx.Messaging.Crypto as C
+import qualified Popopx.Messaging.Crypto.ShortLink as SL
+import Popopx.Messaging.Encoding.String
+import Popopx.Messaging.Protocol (EncFixedDataBytes)
 import Test.Hspec hiding (fit, it)
 import Util
 

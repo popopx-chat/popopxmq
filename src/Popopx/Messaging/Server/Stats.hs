@@ -6,7 +6,7 @@
 {-# LANGUAGE TupleSections #-}
 {-# LANGUAGE TypeApplications #-}
 
-module Simplex.Messaging.Server.Stats
+module Popopx.Messaging.Server.Stats
   ( ServerStats (..),
     ServerStatsData (..),
     PeriodStats (..),
@@ -65,10 +65,10 @@ import Data.Time.Calendar.Month (pattern MonthDay)
 import Data.Time.Calendar.OrdinalDate (mondayStartWeek)
 import Data.Time.Clock (UTCTime (..))
 import GHC.IORef (atomicSwapIORef)
-import Simplex.Messaging.Encoding.String
-import Simplex.Messaging.Protocol (EntityId (..))
-import Simplex.Messaging.SystemTime
-import Simplex.Messaging.Util (atomicModifyIORef'_, tshow, unlessM)
+import Popopx.Messaging.Encoding.String
+import Popopx.Messaging.Protocol (EntityId (..))
+import Popopx.Messaging.SystemTime
+import Popopx.Messaging.Util (atomicModifyIORef'_, tshow, unlessM)
 
 data ServerStats = ServerStats
   { fromTime :: IORef UTCTime,

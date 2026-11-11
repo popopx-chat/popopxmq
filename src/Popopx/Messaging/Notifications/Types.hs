@@ -4,7 +4,7 @@
 {-# LANGUAGE NamedFieldPuns #-}
 {-# LANGUAGE OverloadedStrings #-}
 
-module Simplex.Messaging.Notifications.Types
+module Popopx.Messaging.Notifications.Types
   ( NtfTknAction (..),
     NtfToken (..),
     NtfSubAction (..),
@@ -21,14 +21,14 @@ module Simplex.Messaging.Notifications.Types
 import qualified Data.Attoparsec.ByteString.Char8 as A
 import Data.Text.Encoding (decodeLatin1, encodeUtf8)
 import Data.Time (UTCTime)
-import Simplex.Messaging.Agent.Protocol (ConnId, NotificationsMode (..), UserId)
-import Simplex.Messaging.Agent.Store.DB (Binary (..), FromField (..), ToField (..), blobFieldDecoder, fromTextField_)
-import qualified Simplex.Messaging.Crypto as C
-import Simplex.Messaging.Encoding
-import Simplex.Messaging.Encoding.String
-import Simplex.Messaging.Notifications.Protocol
-import Simplex.Messaging.Protocol (NotifierId, NtfServer, SMPServer)
-import Simplex.Messaging.Util (eitherToMaybe)
+import Popopx.Messaging.Agent.Protocol (ConnId, NotificationsMode (..), UserId)
+import Popopx.Messaging.Agent.Store.DB (Binary (..), FromField (..), ToField (..), blobFieldDecoder, fromTextField_)
+import qualified Popopx.Messaging.Crypto as C
+import Popopx.Messaging.Encoding
+import Popopx.Messaging.Encoding.String
+import Popopx.Messaging.Notifications.Protocol
+import Popopx.Messaging.Protocol (NotifierId, NtfServer, SMPServer)
+import Popopx.Messaging.Util (eitherToMaybe)
 
 data NtfTknAction
   = NTARegister

@@ -78,9 +78,9 @@ PGHOST=/tmp/pgsocket python3 tests/manual/xftp-test.py
 Expected output (abbreviated):
 
 ```
-XFTP server: /project/git/simplexmq-4/dist-newstyle/.../xftp-server
-XFTP client: /project/git/simplexmq-4/dist-newstyle/.../xftp
-Test dir:    /project/git/simplexmq-4/xftp-test
+XFTP server: /project/git/popopxmq-4/dist-newstyle/.../xftp-server
+XFTP client: /project/git/popopxmq-4/dist-newstyle/.../xftp
+Test dir:    /project/git/popopxmq-4/xftp-test
 PGHOST:      /tmp/pgsocket
 
 === 1. Basic send/receive (memory) ===

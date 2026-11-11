@@ -7,7 +7,7 @@
 {-# LANGUAGE TupleSections #-}
 {-# LANGUAGE TypeFamilies #-}
 
-module Simplex.FileTransfer.Server.Store
+module Popopx.FileTransfer.Server.Store
   ( FSType (..),
     SFSType (..),
     FileStoreClass (..),
@@ -30,18 +30,18 @@ import Data.Maybe (catMaybes, isJust)
 import Data.Set (Set)
 import qualified Data.Set as S
 import Data.Word (Word32)
-import Simplex.FileTransfer.Protocol (FileInfo (..), SFileParty (..), XFTPFileId)
-import Simplex.FileTransfer.Transport (XFTPErrorType (..))
-import qualified Simplex.Messaging.Crypto as C
-import Simplex.Messaging.Encoding.String
-import Simplex.Messaging.Protocol (BlockingInfo, RcvPublicAuthKey, RecipientId, SenderId)
-import Simplex.Messaging.Server.QueueStore (ServerEntityStatus (..))
-import Simplex.Messaging.Server.StoreLog (StoreLog, closeStoreLog)
+import Popopx.FileTransfer.Protocol (FileInfo (..), SFileParty (..), XFTPFileId)
+import Popopx.FileTransfer.Transport (XFTPErrorType (..))
+import qualified Popopx.Messaging.Crypto as C
+import Popopx.Messaging.Encoding.String
+import Popopx.Messaging.Protocol (BlockingInfo, RcvPublicAuthKey, RecipientId, SenderId)
+import Popopx.Messaging.Server.QueueStore (ServerEntityStatus (..))
+import Popopx.Messaging.Server.StoreLog (StoreLog, closeStoreLog)
 import System.IO (IOMode (..))
-import Simplex.Messaging.SystemTime
-import Simplex.Messaging.TMap (TMap)
-import qualified Simplex.Messaging.TMap as TM
-import Simplex.Messaging.Util (ifM)
+import Popopx.Messaging.SystemTime
+import Popopx.Messaging.TMap (TMap)
+import qualified Popopx.Messaging.TMap as TM
+import Popopx.Messaging.Util (ifM)
 
 data FSType = FSMemory | FSPostgres
 

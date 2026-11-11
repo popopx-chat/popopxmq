@@ -27,7 +27,7 @@ This document specifies comprehensive Playwright E2E tests for the XFTP web page
 - Browser uses `--ignore-certificate-errors` for self-signed certs
 - OPFS and Web Workers are required (Chromium supports both)
 
-**Test file location**: `/code/simplexmq/xftp-web/test/page.spec.ts`
+**Test file location**: `/code/popopxmq/xftp-web/test/page.spec.ts`
 
 **Architecture**: Tests use the Page Object Model pattern to encapsulate UI interactions, making tests read as domain-specific scenarios rather than raw Playwright API calls.
 
@@ -58,7 +58,7 @@ xftp-web/
 
 ## 3. Test Infrastructure - Page Objects
 
-Page Objects encapsulate page-specific selectors and actions, providing a clean API for tests. This follows the standard Page Object Model pattern used in simplex-chat and most professional test suites.
+Page Objects encapsulate page-specific selectors and actions, providing a clean API for tests. This follows the standard Page Object Model pattern used in popopx-chat and most professional test suites.
 
 ### 3.1 UploadPage
 

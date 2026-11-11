@@ -1,4 +1,4 @@
-// XFTP server address parsing/formatting -- Simplex.Messaging.Protocol (ProtocolServer)
+// XFTP server address parsing/formatting -- Popopx.Messaging.Protocol (ProtocolServer)
 //
 // Parses/formats server address strings of the form:
 //   xftp://<keyhash>@<host>[,<host2>,...][:<port>]

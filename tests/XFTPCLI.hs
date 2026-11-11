@@ -3,13 +3,13 @@ module XFTPCLI (xftpCLIFileTests, xftpCLI) where
 import Control.Exception (try)
 import qualified Data.ByteString as LB
 import Data.List (isInfixOf, isPrefixOf, isSuffixOf)
-import Simplex.FileTransfer.Client.Main
+import Popopx.FileTransfer.Client.Main
   ( prepareChunkSizes,
     xftpClientCLI,
     xftpClientDeprecationNotice,
   )
-import Simplex.FileTransfer.Description (kb, mb)
-import Simplex.FileTransfer.Util (safeFileNameStr, uniqueCombine)
+import Popopx.FileTransfer.Description (kb, mb)
+import Popopx.FileTransfer.Util (safeFileNameStr, uniqueCombine)
 import System.Directory (getFileSize, listDirectory)
 import System.Environment (withArgs)
 import System.Exit (ExitCode (ExitSuccess))
@@ -17,7 +17,7 @@ import System.FilePath (takeFileName, (</>))
 import System.IO.Silently (capture, capture_)
 import Test.Hspec hiding (fit, it)
 import Util
-import Simplex.FileTransfer.Server.Env (AFStoreType)
+import Popopx.FileTransfer.Server.Env (AFStoreType)
 import XFTPClient (cfgFS, cfgFS2, withXFTPServer, withXFTPServerConfigOn, testXFTPServerStr, testXFTPServerStr2, xftpServerFiles, xftpServerFiles2)
 
 xftpCLIFileTests :: SpecWith AFStoreType

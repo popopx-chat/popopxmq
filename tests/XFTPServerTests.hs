@@ -34,25 +34,25 @@ import qualified Network.HTTP2.Client as H2
 import qualified Network.TLS as T
 import SMPClient (withStallingServerOn')
 import ServerTests (logSize)
-import Simplex.FileTransfer.Client hiding (createXFTPChunk)
-import qualified Simplex.FileTransfer.Client as A
-import Simplex.FileTransfer.Description (kb)
-import Simplex.FileTransfer.Protocol (FileCmd (..), FileCommand (..), FileInfo (..), SFileParty (..), XFTPFileId, xftpBlockSize, xftpEncodeAuthTransmission)
-import Simplex.FileTransfer.Server.Env (AFStoreType, XFTPServerConfig (..))
-import Simplex.FileTransfer.Transport (XFTPClientHandshake (..), XFTPClientHello (..), XFTPErrorType (..), XFTPRcvChunkSpec (..), XFTPServerHandshake (..), pattern VersionXFTP)
-import Simplex.Messaging.Client (NetworkConfig (..), NetworkTimeout (..), ProtocolClientError (..), defaultNetworkConfig)
-import qualified Simplex.Messaging.Crypto as C
-import qualified Simplex.Messaging.Crypto.Lazy as LC
-import Simplex.Messaging.Encoding (smpDecode, smpEncode)
-import Simplex.Messaging.Protocol (BasicAuth, EntityId (..), RecipientId, SenderId, pattern NoEntity)
-import Simplex.Messaging.Server.Expiration (ExpirationConfig (..))
-import Simplex.Messaging.Transport (CertChainPubKey (..), TLS (..), TransportPeer (..), defaultSupportedParams, defaultSupportedParamsHTTPS)
-import Simplex.Messaging.Transport.Client (TransportClientConfig (..), TransportHost (..), defaultTransportClientConfig, runTLSTransportClient)
-import Simplex.Messaging.Transport.HTTP2 (HTTP2Body (..))
-import qualified Simplex.Messaging.Transport.HTTP2.Client as HC
-import Simplex.Messaging.Transport.Server (loadFileFingerprint, loadServerCredential)
-import Simplex.Messaging.Transport.Shared (ChainCertificates (..), chainIdCaCerts)
-import Simplex.Messaging.Version (mkVersionRange)
+import Popopx.FileTransfer.Client hiding (createXFTPChunk)
+import qualified Popopx.FileTransfer.Client as A
+import Popopx.FileTransfer.Description (kb)
+import Popopx.FileTransfer.Protocol (FileCmd (..), FileCommand (..), FileInfo (..), SFileParty (..), XFTPFileId, xftpBlockSize, xftpEncodeAuthTransmission)
+import Popopx.FileTransfer.Server.Env (AFStoreType, XFTPServerConfig (..))
+import Popopx.FileTransfer.Transport (XFTPClientHandshake (..), XFTPClientHello (..), XFTPErrorType (..), XFTPRcvChunkSpec (..), XFTPServerHandshake (..), pattern VersionXFTP)
+import Popopx.Messaging.Client (NetworkConfig (..), NetworkTimeout (..), ProtocolClientError (..), defaultNetworkConfig)
+import qualified Popopx.Messaging.Crypto as C
+import qualified Popopx.Messaging.Crypto.Lazy as LC
+import Popopx.Messaging.Encoding (smpDecode, smpEncode)
+import Popopx.Messaging.Protocol (BasicAuth, EntityId (..), RecipientId, SenderId, pattern NoEntity)
+import Popopx.Messaging.Server.Expiration (ExpirationConfig (..))
+import Popopx.Messaging.Transport (CertChainPubKey (..), TLS (..), TransportPeer (..), defaultSupportedParams, defaultSupportedParamsHTTPS)
+import Popopx.Messaging.Transport.Client (TransportClientConfig (..), TransportHost (..), defaultTransportClientConfig, runTLSTransportClient)
+import Popopx.Messaging.Transport.HTTP2 (HTTP2Body (..))
+import qualified Popopx.Messaging.Transport.HTTP2.Client as HC
+import Popopx.Messaging.Transport.Server (loadFileFingerprint, loadServerCredential)
+import Popopx.Messaging.Transport.Shared (ChainCertificates (..), chainIdCaCerts)
+import Popopx.Messaging.Version (mkVersionRange)
 import System.Directory (listDirectory, removeFile)
 import System.FilePath ((</>))
 import Test.Hspec hiding (fit, it)

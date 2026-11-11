@@ -2,7 +2,7 @@
 Proposed: 2023-09-12
 Implemented: 2024-06-21
 Standardized: 2026-03-09
-Protocol: simplex-messaging v8
+Protocol: popopx-messaging v8
 ---
 
 # Protecting IP addresses of the users from their contacts
@@ -11,7 +11,7 @@ Protocol: simplex-messaging v8
 
 SMP protocol relays are chosen and can be controlled by the message recipients. It means that the recipients can find out IP addresses of message senders by modifying SMP relay code (or by using proxies and timing correlation), unless the senders use VPN or some overlay network. Tor is an adequate solution in most cases to mitigate it, but it requires additional technical knowledge to install and configure (even installing Orbot on Android is seen as "complex" by many users), and reduces usability because of higher latency.
 
-The lack of in-built IP address protection is the main concern of many users, particularly given that most people do not realize that it is lacking by default - without transport protection SimpleX is not perceived as a "whole product".
+The lack of in-built IP address protection is the main concern of many users, particularly given that most people do not realize that it is lacking by default - without transport protection POPOPX is not perceived as a "whole product".
 
 Similarly, XFTP protocol relays are chosen by senders, and they can be used to detect file recipients' IP addresses.
 
@@ -63,7 +63,7 @@ Cons:
 - design and development cost
 - can undermine delivery stability
 
-This seems an attractive option, both from technical (reasonable complexity) and positioning (moving SimpleX closer to mix networks, while still avoiding server list visibility) points of view, and it is in the middle between embedding Tor, which would make the product more niche and has downsides and development costs too, and thin clients, which is 10x+ more work, and also creates a different threat model, that is not very attractive for the current stage and users.
+This seems an attractive option, both from technical (reasonable complexity) and positioning (moving POPOPX closer to mix networks, while still avoiding server list visibility) points of view, and it is in the middle between embedding Tor, which would make the product more niche and has downsides and development costs too, and thin clients, which is 10x+ more work, and also creates a different threat model, that is not very attractive for the current stage and users.
 
 Below considers this design.
 
@@ -299,4 +299,4 @@ This decision is made because the argument for protection against collusion betw
 
 - learn a sender's IP address, track them through other IP addresses they use to access the same queue, and infer information (e.g. employer) based on the IP addresses, even if Tor is not used.
 
-The rest of the threat model for SMP relays remains the same as in [overview](../protocol/overview-tjr.md#simplex-messaging-protocol-server).
+The rest of the threat model for SMP relays remains the same as in [overview](../protocol/overview-tjr.md#popopx-messaging-protocol-server).

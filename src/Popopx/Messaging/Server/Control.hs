@@ -1,14 +1,14 @@
 {-# LANGUAGE LambdaCase #-}
 {-# LANGUAGE OverloadedStrings #-}
 
-module Simplex.Messaging.Server.Control
+module Popopx.Messaging.Server.Control
   ( CPClientRole (..),
     ControlProtocol (..),
   ) where
 
 import qualified Data.Attoparsec.ByteString.Char8 as A
-import Simplex.Messaging.Encoding.String
-import Simplex.Messaging.Protocol (BasicAuth, BlockingInfo, SenderId)
+import Popopx.Messaging.Encoding.String
+import Popopx.Messaging.Protocol (BasicAuth, BlockingInfo, SenderId)
 
 data CPClientRole = CPRNone | CPRUser | CPRAdmin
   deriving (Eq, Show)

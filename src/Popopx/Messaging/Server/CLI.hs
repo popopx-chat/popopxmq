@@ -11,7 +11,7 @@
 {-# LANGUAGE TupleSections #-}
 {-# LANGUAGE TypeApplications #-}
 
-module Simplex.Messaging.Server.CLI
+module Popopx.Messaging.Server.CLI
   ( SignAlgorithm (..),
     X509Config (..),
     CertOptions (..),
@@ -20,8 +20,8 @@ module Simplex.Messaging.Server.CLI
     confirmOrExit,
     defaultX509Config,
     getCliCommand',
-    simplexmqVersionCommit,
-    simplexmqCommit,
+    popopxmqVersionCommit,
+    popopxmqCommit,
     createServerX509,
     createServerX509_,
     certOptionsP,
@@ -69,17 +69,17 @@ import qualified Data.X509.File as XF
 import Data.X509.Validation (Fingerprint (..))
 import Network.Socket (HostName, ServiceName)
 import Options.Applicative
-import Simplex.Messaging.Agent.Store.Postgres.Options (DBOpts (..))
-import Simplex.Messaging.Agent.Store.Shared (MigrationConfirmation (..))
-import Simplex.Messaging.Encoding.String
-import Simplex.Messaging.Protocol (ProtoServerWithAuth (..), ProtocolServer (..), ProtocolTypeI)
-import Simplex.Messaging.Server.Env.STM (ServerStoreCfg (..), StartOptions (..), dbStoreCfg, storeLogFile')
-import Simplex.Messaging.Server.Main.GitCommit
-import Simplex.Messaging.Server.QueueStore.Postgres.Config (PostgresStoreCfg (..))
-import Simplex.Messaging.Transport (ASrvTransport, ATransport (..), TLS, Transport (..), simplexMQVersion)
-import Simplex.Messaging.Transport.Server (AddHTTP, loadFileFingerprint)
-import Simplex.Messaging.Transport.WebSockets (WS)
-import Simplex.Messaging.Util (eitherToMaybe, whenM)
+import Popopx.Messaging.Agent.Store.Postgres.Options (DBOpts (..))
+import Popopx.Messaging.Agent.Store.Shared (MigrationConfirmation (..))
+import Popopx.Messaging.Encoding.String
+import Popopx.Messaging.Protocol (ProtoServerWithAuth (..), ProtocolServer (..), ProtocolTypeI)
+import Popopx.Messaging.Server.Env.STM (ServerStoreCfg (..), StartOptions (..), dbStoreCfg, storeLogFile')
+import Popopx.Messaging.Server.Main.GitCommit
+import Popopx.Messaging.Server.QueueStore.Postgres.Config (PostgresStoreCfg (..))
+import Popopx.Messaging.Transport (ASrvTransport, ATransport (..), TLS, Transport (..), popopxMQVersion)
+import Popopx.Messaging.Transport.Server (AddHTTP, loadFileFingerprint)
+import Popopx.Messaging.Transport.WebSockets (WS)
+import Popopx.Messaging.Util (eitherToMaybe, whenM)
 import System.Directory (doesDirectoryExist, listDirectory, removeDirectoryRecursive, removePathForcibly)
 import System.Environment (lookupEnv)
 import System.Exit (exitFailure)
@@ -139,11 +139,11 @@ getCliCommand' cmdP version =
   where
     versionOption = infoOption version (long "version" <> short 'v' <> help "Show version")
 
-simplexmqVersionCommit :: String
-simplexmqVersionCommit = simplexMQVersion <> " / " <> take 7 simplexmqCommit
+popopxmqVersionCommit :: String
+popopxmqVersionCommit = popopxMQVersion <> " / " <> take 7 popopxmqCommit
 
-simplexmqCommit :: String
-simplexmqCommit = $(gitCommit)
+popopxmqCommit :: String
+popopxmqCommit = $(gitCommit)
 
 createServerX509 :: FilePath -> X509Config -> IO ByteString
 createServerX509 = createServerX509_ True
@@ -173,7 +173,7 @@ createServerX509_ createCA cfgPath x509cfg = do
         \prompt = no\n\n\
         \[req_distinguished_name]\n\
         \CN = SMP server CA\n\
-        \O = SimpleX\n\n\
+        \O = POPOPX\n\n\
         \[v3]\n\
         \subjectKeyIdentifier = hash\n\
         \authorityKeyIdentifier = keyid:always\n\

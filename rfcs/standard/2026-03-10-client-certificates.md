@@ -2,7 +2,7 @@
 Proposed: 2025-05-05
 Implemented: ~2025 (SMP v16)
 Standardized: 2026-03-10
-Protocol: simplex-messaging
+Protocol: popopx-messaging
 ---
 
 > **Implementation note:** This RFC was promoted from done/ to standard/ based on verification that the described feature exists in the codebase. The RFC text reflects the original proposal and may not match the actual implementation in all details. The consolidated protocol specifications in `protocol/` are the authoritative reference for current behavior.
@@ -31,7 +31,7 @@ Not only these subscriptions take a lot of time, they also consume a large amoun
 
 ## Solution
 
-High volume "clients" (operators' chat relays, directory service, SimpleX Chat team support client, SimpleX Status bot, etc.) that don't need privacy will identify themselves to the messaging routers at a point of connection by providing client certificate, both in TLS handshake and in SMP handshake (the same certificate must be provided).
+High volume "clients" (operators' chat relays, directory service, POPOPX Chat team support client, POPOPX Status bot, etc.) that don't need privacy will identify themselves to the messaging routers at a point of connection by providing client certificate, both in TLS handshake and in SMP handshake (the same certificate must be provided).
 
 All the new queues and subscriptions made in this session will be creating a permanent association of the messaging queue with the client, and on subsequent reconnections the client can "subscribe" to all their queues with a single client subscription command.
 
@@ -88,7 +88,7 @@ serviceCertKey :: Maybe (X.CertificateChain, X.SignedExact X.PubKey)
 
 Certificate here defines client identity. The actual key to be used to sign commands is session-scoped, and is signed by the certificate key. In case of notification router it MUST be the same certificate that is used for router TLS connections.
 
-For operators' clients we may optionally include operators' certificate in the chain, and that would allow routers to identify operators if either wants to. This would improve end-user security, as not only the router would validate that its certificate matches the address, but it would also validate that it is operated by SimpleX Chat or by Flux, preventing any router impersonation (e.g., via DNS manipulations) - the client could then report that the files are hosted on SimpleX Chat routers, but then can stop and show additional warning in case certificate does not match the domain - same as the browsers do with CA stores in the client.
+For operators' clients we may optionally include operators' certificate in the chain, and that would allow routers to identify operators if either wants to. This would improve end-user security, as not only the router would validate that its certificate matches the address, but it would also validate that it is operated by POPOPX Chat or by Flux, preventing any router impersonation (e.g., via DNS manipulations) - the client could then report that the files are hosted on POPOPX Chat routers, but then can stop and show additional warning in case certificate does not match the domain - same as the browsers do with CA stores in the client.
 
 ## Protocol transmissions
 

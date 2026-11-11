@@ -4,7 +4,7 @@
 {-# LANGUAGE TypeFamilies #-}
 {-# LANGUAGE TypeFamilyDependencies #-}
 
-module Simplex.Messaging.Server.QueueStore.Types
+module Popopx.Messaging.Server.QueueStore.Types
   ( StoreQueueClass (..),
     QueueStoreClass (..),
     EntityCounts (..),
@@ -14,9 +14,9 @@ import Control.Concurrent.STM
 import Data.Int (Int64)
 import Data.List.NonEmpty (NonEmpty)
 import Data.Map.Strict (Map)
-import Simplex.Messaging.Protocol
-import Simplex.Messaging.Server.QueueStore
-import Simplex.Messaging.SystemTime
+import Popopx.Messaging.Protocol
+import Popopx.Messaging.Server.QueueStore
+import Popopx.Messaging.SystemTime
 
 class StoreQueueClass q where
   recipientId :: q -> RecipientId

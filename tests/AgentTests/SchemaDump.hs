@@ -10,13 +10,13 @@ import Data.Maybe (fromJust, isJust)
 import Data.Text (Text)
 import Database.SQLite.Simple (Only (..))
 import qualified Database.SQLite.Simple as SQL
-import Simplex.Messaging.Agent.Store.Migrations.App (appMigrations)
-import Simplex.Messaging.Agent.Store.SQLite
-import Simplex.Messaging.Agent.Store.SQLite.Common (withTransaction')
-import Simplex.Messaging.Agent.Store.SQLite.DB (TrackQueries (..))
-import qualified Simplex.Messaging.Agent.Store.SQLite.Migrations as Migrations
-import Simplex.Messaging.Agent.Store.Shared (Migration (..), MigrationConfig (..), MigrationConfirmation (..), MigrationsToRun (..), toDownMigration)
-import Simplex.Messaging.Util (ifM)
+import Popopx.Messaging.Agent.Store.Migrations.App (appMigrations)
+import Popopx.Messaging.Agent.Store.SQLite
+import Popopx.Messaging.Agent.Store.SQLite.Common (withTransaction')
+import Popopx.Messaging.Agent.Store.SQLite.DB (TrackQueries (..))
+import qualified Popopx.Messaging.Agent.Store.SQLite.Migrations as Migrations
+import Popopx.Messaging.Agent.Store.Shared (Migration (..), MigrationConfig (..), MigrationConfirmation (..), MigrationsToRun (..), toDownMigration)
+import Popopx.Messaging.Util (ifM)
 import System.Directory (doesFileExist, removeFile)
 import System.Process (readCreateProcess, shell)
 import Test.Hspec hiding (fit, it)
@@ -26,7 +26,7 @@ testDB :: FilePath
 testDB = "tests/tmp/test_agent_schema.db"
 
 appSchema :: FilePath
-appSchema = "src/Simplex/Messaging/Agent/Store/SQLite/Migrations/agent_schema.sql"
+appSchema = "src/Popopx/Messaging/Agent/Store/SQLite/Migrations/agent_schema.sql"
 
 -- Some indexes found by `.lint fkey-indexes` are not added to schema, explanation:
 --
@@ -35,7 +35,7 @@ appSchema = "src/Simplex/Messaging/Agent/Store/SQLite/Migrations/agent_schema.sq
 --   EXPLAIN QUERY PLAN DELETE FROM connections;
 --   (uses conn_id for ratchets table)
 appLint :: FilePath
-appLint = "src/Simplex/Messaging/Agent/Store/SQLite/Migrations/agent_lint.sql"
+appLint = "src/Popopx/Messaging/Agent/Store/SQLite/Migrations/agent_lint.sql"
 
 testSchema :: FilePath
 testSchema = "tests/tmp/test_agent_schema.sql"

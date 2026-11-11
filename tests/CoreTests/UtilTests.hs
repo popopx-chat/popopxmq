@@ -7,7 +7,7 @@ import Control.Exception (AllocationLimitExceeded (..), AsyncException (..), Exc
 import Control.Monad.Except
 import Control.Monad.IO.Class
 import Data.IORef
-import Simplex.Messaging.Util
+import Popopx.Messaging.Util
 import Test.Hspec hiding (fit, it)
 import qualified UnliftIO.Exception as UE
 import Util

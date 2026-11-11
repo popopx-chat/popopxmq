@@ -6,7 +6,7 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE TypeApplications #-}
 
-module Simplex.Messaging.SystemTime
+module Popopx.Messaging.SystemTime
   ( RoundedSystemTime (..),
     SystemDate,
     SystemSeconds,
@@ -22,8 +22,8 @@ import Data.Time.Clock (UTCTime)
 import Data.Time.Clock.System (SystemTime (..), getSystemTime, systemToUTCTime)
 import Data.Typeable (Proxy (..))
 import GHC.TypeLits (KnownNat, Nat, natVal)
-import Simplex.Messaging.Agent.Store.DB (FromField (..), ToField (..))
-import Simplex.Messaging.Encoding.String
+import Popopx.Messaging.Agent.Store.DB (FromField (..), ToField (..))
+import Popopx.Messaging.Encoding.String
 
 newtype RoundedSystemTime (t :: Nat) = RoundedSystemTime {roundedSeconds :: Int64}
   deriving (Eq, Ord, Show)

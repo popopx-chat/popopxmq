@@ -1,6 +1,6 @@
 {-# LANGUAGE QuasiQuotes #-}
 
-module Simplex.Messaging.Agent.Store.SQLite.Migrations.M20230120_delete_errors where
+module Popopx.Messaging.Agent.Store.SQLite.Migrations.M20230120_delete_errors where
 
 import Database.SQLite.Simple (Query)
 import Database.SQLite.Simple.QQ (sql)

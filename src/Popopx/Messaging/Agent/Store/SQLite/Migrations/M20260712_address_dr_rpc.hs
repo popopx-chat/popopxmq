@@ -1,6 +1,6 @@
 {-# LANGUAGE QuasiQuotes #-}
 
-module Simplex.Messaging.Agent.Store.SQLite.Migrations.M20260712_address_dr_rpc where
+module Popopx.Messaging.Agent.Store.SQLite.Migrations.M20260712_address_dr_rpc where
 
 import Database.SQLite.Simple (Query)
 import Database.SQLite.Simple.QQ (sql)

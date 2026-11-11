@@ -3,14 +3,14 @@ Scheme name: smp
 Status: Provisional
 
 Applications/protocols that use this scheme name:
-This scheme is used for URIs of message queues in SimpleX Messaging Protocol,
+This scheme is used for URIs of message queues in POPOPX Messaging Protocol,
 a client-server protocol for asynchronous distributed unidirectional
 message transmission via persistent message queues.
 
-Contact: Evgeny Poberezkin <ep@simplex.chat>
+Contact: Evgeny Poberezkin <ep@popopx.chat>
 
-Change controller: Evgeny Poberezkin <ep@simplex.chat>
+Change controller: Evgeny Poberezkin <ep@popopx.chat>
 
 References:
-The syntax for message queue URIs in the latest version of SimpleX Messaging Protocol:
-https://github.com/simplex-chat/simplexmq/blob/master/protocol/simplex-messaging.md#smp-queue-uri
+The syntax for message queue URIs in the latest version of POPOPX Messaging Protocol:
+https://github.com/popopx-chat/popopxmq/blob/master/protocol/simplex-messaging.md#smp-queue-uri

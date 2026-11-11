@@ -390,7 +390,7 @@ Note: With the redesign in 3.5, the cache key fix is inherent — the `connectio
 
 ### 3.7 Phase 2: Multi-router upload with router selection and failover
 
-**Problem:** Current upload (`agent.ts:105-157`) takes a single `server: XFTPServer` and uploads ALL data packets to it. The 12 preset routers (6 SimpleX + 6 Flux) are pointless — only one is ever used.
+**Problem:** Current upload (`agent.ts:105-157`) takes a single `server: XFTPServer` and uploads ALL data packets to it. The 12 preset routers (6 POPOPX + 6 Flux) are pointless — only one is ever used.
 
 **Design goal:** Distribute data packets across routers. Retry FNEW on a different router if one fails. Once working routers are found, prefer them (heuristic: router unlikely to fail mid-process, more likely to be broken initially due to maintenance/downtime).
 
@@ -919,12 +919,12 @@ Tests must be added alongside their implementation step:
 - `page.spec.ts` — Playwright page tests
 
 **Haskell (reference for multi-router):**
-- `src/Simplex/FileTransfer/Agent.hs` — `createChunk` (lines 457-486, allocate stage), `runXFTPSndPrepareWorker` (lines 391-430, serial allocate in Haskell), `runXFTPSndWorker` (lines 494-548, per-router upload worker)
-- `src/Simplex/Messaging/Agent/Client.hs` — `getNextServer_` (lines 2335-2350), `withNextSrv` (lines 2366-2385), `pickServer` (lines 2309-2314)
+- `src/Popopx/FileTransfer/Agent.hs` — `createChunk` (lines 457-486, allocate stage), `runXFTPSndPrepareWorker` (lines 391-430, serial allocate in Haskell), `runXFTPSndWorker` (lines 494-548, per-router upload worker)
+- `src/Popopx/Messaging/Agent/Client.hs` — `getNextServer_` (lines 2335-2350), `withNextSrv` (lines 2366-2385), `pickServer` (lines 2309-2314)
 
 **Haskell (router):**
-- `src/Simplex/FileTransfer/Server.hs` — `xftpServerHandshakeV1` (lines 165-244), `processRequest` (lines 403-435)
-- `src/Simplex/Messaging/Protocol.hs` — `tDecodeServer` (lines 2239-2265) — sessionId verification at line 2242
+- `src/Popopx/FileTransfer/Server.hs` — `xftpServerHandshakeV1` (lines 165-244), `processRequest` (lines 403-435)
+- `src/Popopx/Messaging/Protocol.hs` — `tDecodeServer` (lines 2239-2265) — sessionId verification at line 2242
 
 ### Key design constraints
 

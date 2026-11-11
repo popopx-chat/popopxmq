@@ -1,6 +1,6 @@
 {-# LANGUAGE QuasiQuotes #-}
 
-module Simplex.Messaging.Agent.Store.Postgres.Migrations.Util where
+module Popopx.Messaging.Agent.Store.Postgres.Migrations.Util where
 
 import Data.Text (Text)
 import qualified Data.Text as T

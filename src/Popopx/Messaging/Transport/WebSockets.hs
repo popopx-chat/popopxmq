@@ -7,7 +7,7 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE TypeApplications #-}
 
-module Simplex.Messaging.Transport.WebSockets (WS (..)) where
+module Popopx.Messaging.Transport.WebSockets (WS (..)) where
 
 import qualified Control.Exception as E
 import Data.ByteString.Char8 (ByteString)
@@ -18,7 +18,7 @@ import qualified Network.TLS as T
 import Network.WebSockets
 import Network.WebSockets.Stream (Stream)
 import qualified Network.WebSockets.Stream as S
-import Simplex.Messaging.Transport
+import Popopx.Messaging.Transport
   ( ALPN,
     Transport (..),
     TransportConfig (..),
@@ -30,7 +30,7 @@ import Simplex.Messaging.Transport
     smpBlockSize,
     withTlsUnique,
   )
-import Simplex.Messaging.Transport.Buffer (trimCR)
+import Popopx.Messaging.Transport.Buffer (trimCR)
 import System.IO.Error (isEOFError)
 
 data WS (p :: TransportPeer) = WS

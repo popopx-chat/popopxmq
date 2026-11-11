@@ -24,15 +24,15 @@ import Data.ByteString.Char8 (ByteString)
 import qualified Data.ByteString.Char8 as B
 import qualified Data.Map.Strict as M
 import Data.Type.Equality
-import Simplex.Messaging.Crypto (Algorithm (..), AlgorithmI, CryptoError, DhAlgorithm)
-import qualified Simplex.Messaging.Crypto as C
-import Simplex.Messaging.Crypto.Ratchet
-import Simplex.Messaging.Crypto.SNTRUP761.Bindings
-import Simplex.Messaging.Encoding
-import Simplex.Messaging.Encoding.String (Str (..))
-import Simplex.Messaging.Parsers (parseAll)
-import Simplex.Messaging.Util ((<$$>))
-import Simplex.Messaging.Version
+import Popopx.Messaging.Crypto (Algorithm (..), AlgorithmI, CryptoError, DhAlgorithm)
+import qualified Popopx.Messaging.Crypto as C
+import Popopx.Messaging.Crypto.Ratchet
+import Popopx.Messaging.Crypto.SNTRUP761.Bindings
+import Popopx.Messaging.Encoding
+import Popopx.Messaging.Encoding.String (Str (..))
+import Popopx.Messaging.Parsers (parseAll)
+import Popopx.Messaging.Util ((<$$>))
+import Popopx.Messaging.Version
 import Test.Hspec hiding (fit, it)
 import Util
 

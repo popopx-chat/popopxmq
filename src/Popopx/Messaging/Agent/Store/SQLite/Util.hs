@@ -1,4 +1,4 @@
-module Simplex.Messaging.Agent.Store.SQLite.Util
+module Popopx.Messaging.Agent.Store.SQLite.Util
   ( SQLiteFunc,
     SQLiteFuncFinal,
     mkSQLiteFunc,

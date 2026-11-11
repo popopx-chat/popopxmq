@@ -1,7 +1,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE QuasiQuotes #-}
 
-module Simplex.Messaging.Agent.Store.Postgres.Migrations.M20250203_msg_bodies where
+module Popopx.Messaging.Agent.Store.Postgres.Migrations.M20250203_msg_bodies where
 
 import Data.Text (Text)
 import Text.RawString.QQ (r)

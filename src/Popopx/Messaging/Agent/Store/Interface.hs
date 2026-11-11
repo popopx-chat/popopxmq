@@ -1,14 +1,14 @@
 {-# LANGUAGE CPP #-}
 
-module Simplex.Messaging.Agent.Store.Interface
+module Popopx.Messaging.Agent.Store.Interface
 #if defined(dbPostgres)
-  ( module Simplex.Messaging.Agent.Store.Postgres,
+  ( module Popopx.Messaging.Agent.Store.Postgres,
   )
   where
-import Simplex.Messaging.Agent.Store.Postgres
+import Popopx.Messaging.Agent.Store.Postgres
 #else
-  ( module Simplex.Messaging.Agent.Store.SQLite,
+  ( module Popopx.Messaging.Agent.Store.SQLite,
   )
   where
-import Simplex.Messaging.Agent.Store.SQLite
+import Popopx.Messaging.Agent.Store.SQLite
 #endif

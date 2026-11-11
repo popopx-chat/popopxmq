@@ -51,14 +51,14 @@ echo 'root soft nofile unlimited' >> /etc/security/limits.conf
 echo 'root hard nofile unlimited' >> /etc/security/limits.conf
 
 # Download latest release
-bin_dir="/opt/simplex/bin"
+bin_dir="/opt/popopx/bin"
 binary="$bin_dir/smp-server"
 mkdir -p $bin_dir
-curl -L -o $binary https://github.com/simplex-chat/simplexmq/releases/latest/download/smp-server-ubuntu-20_04-x86-64
+curl -L -o $binary https://github.com/popopx-chat/popopxmq/releases/latest/download/smp-server-ubuntu-20_04-x86-64
 chmod +x $binary
 
 # / Add to PATH
-cat > /etc/profile.d/simplex.sh << EOF
+cat > /etc/profile.d/popopx.sh << EOF
 #!/bin/bash
 
 export PATH="$PATH:$bin_dir"
@@ -67,7 +67,7 @@ EOF
 # Add to PATH /
 
 # Source and test PATH
-source /etc/profile.d/simplex.sh
+source /etc/profile.d/popopx.sh
 smp-server --version
 
 # Initialize server
@@ -75,7 +75,7 @@ init_opts=()
 
 [[ $ENABLE_STORE_LOG == "on" ]] && init_opts+=(-l)
 
-# This script does not provision /etc/opt/simplex/web.crt or web.key.
+# This script does not provision /etc/opt/popopx/web.crt or web.key.
 init_opts+=(--disable-web)
 
 ip_address=$(curl ifconfig.me)
@@ -86,7 +86,7 @@ init_opts+=(--ip $ip_address)
 smp-server init "${init_opts[@]}"
 
 # Server fingerprint
-fingerprint=$(cat /etc/opt/simplex/fingerprint)
+fingerprint=$(cat /etc/opt/popopx/fingerprint)
 
 # Determine server address to specify in welcome script and Linode tag
 if [[ -n "$FQDN" ]]; then
@@ -96,7 +96,7 @@ else
 fi
 
 # Set up welcome script
-on_login_script="/opt/simplex/on_login.sh"
+on_login_script="/opt/popopx/on_login.sh"
 
 # / Welcome script
 cat > $on_login_script << EOF
@@ -115,12 +115,12 @@ To keep this server secure, the UFW firewall is enabled.
 All ports are BLOCKED except 22 (SSH), 443 (HTTPS), 5223 (SMP server).
 
 Embedded HTTPS web is disabled because this script does not provision
-/etc/opt/simplex/web.crt or /etc/opt/simplex/web.key. To enable it, provision
-those files, uncomment WEB https/cert/key in /etc/opt/simplex/smp-server.ini,
+/etc/opt/popopx/web.crt or /etc/opt/popopx/web.key. To enable it, provision
+those files, uncomment WEB https/cert/key in /etc/opt/popopx/smp-server.ini,
 and restart smp-server.
 
 ********************************************************************************
-To stop seeing this message delete line - bash /opt/simplex/on_login.sh - from /root/.bashrc
+To stop seeing this message delete line - bash /opt/popopx/on_login.sh - from /root/.bashrc
 EOF2
 
 EOF
@@ -160,7 +160,7 @@ Description=SMP server
 
 [Service]
 Type=simple
-ExecStart=/bin/sh -c "exec $binary start >> /var/opt/simplex/smp-server.log 2>&1"
+ExecStart=/bin/sh -c "exec $binary start >> /var/opt/popopx/smp-server.log 2>&1"
 KillSignal=SIGINT
 TimeoutStopSec=infinity
 Restart=always

@@ -20,7 +20,7 @@ Key properties:
 
 ## 3. Detailed Technical Design
 
-### 3.1 Router change: parameterize `processHello` (`src/Simplex/FileTransfer/Server.hs`)
+### 3.1 Router change: parameterize `processHello` (`src/Popopx/FileTransfer/Server.hs`)
 
 The entire router change is parameterizing the existing `processHello` with `Maybe C.PrivateKeyX25519`. Zero new functions.
 
@@ -172,7 +172,7 @@ The only difference from `testWebHandshake`: the second `helloReq2` passes `[("x
 
 ### Step 1: Router — parameterize `processHello`
 
-Apply the diff from Section 3.1 to `src/Simplex/FileTransfer/Server.hs`.
+Apply the diff from Section 3.1 to `src/Popopx/FileTransfer/Server.hs`.
 
 ### Step 2: Test — add `testWebReHandshake`
 

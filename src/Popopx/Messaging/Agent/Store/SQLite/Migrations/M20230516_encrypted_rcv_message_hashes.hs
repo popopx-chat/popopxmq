@@ -1,6 +1,6 @@
 {-# LANGUAGE QuasiQuotes #-}
 
-module Simplex.Messaging.Agent.Store.SQLite.Migrations.M20230516_encrypted_rcv_message_hashes where
+module Popopx.Messaging.Agent.Store.SQLite.Migrations.M20230516_encrypted_rcv_message_hashes where
 
 import Database.SQLite.Simple (Query)
 import Database.SQLite.Simple.QQ (sql)

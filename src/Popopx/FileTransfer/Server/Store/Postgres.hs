@@ -7,7 +7,7 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE TypeFamilies #-}
 
-module Simplex.FileTransfer.Server.Store.Postgres
+module Popopx.FileTransfer.Server.Store.Postgres
   ( PostgresFileStore (..),
     importFileStore,
     exportFileStore,
@@ -39,24 +39,24 @@ import qualified Database.PostgreSQL.Simple.Copy as DB
 import Database.PostgreSQL.Simple.Errors (ConstraintViolation (..), constraintViolation)
 import Database.PostgreSQL.Simple.ToField (Action (..), ToField (..))
 import GHC.IO (catchAny)
-import Simplex.FileTransfer.Protocol (FileInfo (..), SFileParty (..))
-import Simplex.FileTransfer.Server.Store
-import Simplex.FileTransfer.Server.Store.Postgres.Config
-import Simplex.FileTransfer.Server.Store.Postgres.Migrations (xftpServerMigrations)
-import Simplex.FileTransfer.Server.StoreLog
-import Simplex.FileTransfer.Transport (XFTPErrorType (..))
-import Simplex.Messaging.Agent.Store.Postgres (closeDBStore, createDBStore)
-import Simplex.Messaging.Agent.Store.Postgres.Common (DBStore, withTransaction)
-import Simplex.Messaging.Agent.Store.Postgres.Options (DBOpts (..))
-import Simplex.Messaging.Agent.Store.Shared (MigrationConfig (..), MigrationConfirmation (..))
-import qualified Simplex.Messaging.Crypto as C
-import Simplex.Messaging.Protocol (RcvPublicAuthKey, RecipientId, SenderId)
-import Simplex.Messaging.Transport (EntityId (..))
-import Simplex.Messaging.Server.QueueStore (ServerEntityStatus (..))
-import Simplex.Messaging.Server.QueueStore.Postgres ()
-import Simplex.Messaging.Server.StoreLog (openWriteStoreLog)
-import Simplex.Messaging.SystemTime (roundedSeconds)
-import Simplex.Messaging.Util (firstRow, tshow)
+import Popopx.FileTransfer.Protocol (FileInfo (..), SFileParty (..))
+import Popopx.FileTransfer.Server.Store
+import Popopx.FileTransfer.Server.Store.Postgres.Config
+import Popopx.FileTransfer.Server.Store.Postgres.Migrations (xftpServerMigrations)
+import Popopx.FileTransfer.Server.StoreLog
+import Popopx.FileTransfer.Transport (XFTPErrorType (..))
+import Popopx.Messaging.Agent.Store.Postgres (closeDBStore, createDBStore)
+import Popopx.Messaging.Agent.Store.Postgres.Common (DBStore, withTransaction)
+import Popopx.Messaging.Agent.Store.Postgres.Options (DBOpts (..))
+import Popopx.Messaging.Agent.Store.Shared (MigrationConfig (..), MigrationConfirmation (..))
+import qualified Popopx.Messaging.Crypto as C
+import Popopx.Messaging.Protocol (RcvPublicAuthKey, RecipientId, SenderId)
+import Popopx.Messaging.Transport (EntityId (..))
+import Popopx.Messaging.Server.QueueStore (ServerEntityStatus (..))
+import Popopx.Messaging.Server.QueueStore.Postgres ()
+import Popopx.Messaging.Server.StoreLog (openWriteStoreLog)
+import Popopx.Messaging.SystemTime (roundedSeconds)
+import Popopx.Messaging.Util (firstRow, tshow)
 import System.Directory (renameFile)
 import System.Exit (exitFailure)
 import System.IO (IOMode (..), hFlush, stdout)

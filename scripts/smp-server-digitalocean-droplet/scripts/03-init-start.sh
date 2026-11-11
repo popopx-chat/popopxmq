@@ -1,6 +1,6 @@
 #!/bin/bash
 
-chmod +x /opt/simplex/server_bootstrap.sh
+chmod +x /opt/popopx/server_bootstrap.sh
 
 # / Create systemd service for server bootstrap script
 cat > /etc/systemd/system/server-bootstrap.service << EOF
@@ -9,7 +9,7 @@ Description=Server bootstrap script that downloads and initializes SMP server fr
 
 [Service]
 Type=oneshot
-ExecStart=/opt/simplex/server_bootstrap.sh
+ExecStart=/opt/popopx/server_bootstrap.sh
 
 [Install]
 WantedBy=multi-user.target

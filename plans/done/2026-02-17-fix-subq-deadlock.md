@@ -351,7 +351,7 @@ ackMessage' c connId msgId rcptInfo_ = do
         t_ <- ack
         del
         pure t_
-      SndConnection {} -> throwE $ CONN SIMPLEX "ackMessage"
+      SndConnection {} -> throwE $ CONN POPOPX "ackMessage"
       ContactConnection {} -> throwE $ CMD PROHIBITED "ackMessage: ContactConnection"
       NewConnection _ -> throwE $ CMD PROHIBITED "ackMessage: NewConnection"
   -- subQ write is OUTSIDE connLock

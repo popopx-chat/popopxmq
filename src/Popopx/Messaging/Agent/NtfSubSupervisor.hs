@@ -9,7 +9,7 @@
 {-# LANGUAGE TupleSections #-}
 {-# OPTIONS_GHC -fno-warn-ambiguous-fields #-}
 
-module Simplex.Messaging.Agent.NtfSubSupervisor
+module Popopx.Messaging.Agent.NtfSubSupervisor
   ( runNtfSupervisor,
     nsUpdateToken,
     nsRemoveNtfToken,
@@ -39,21 +39,21 @@ import qualified Data.Set as S
 import qualified Data.Text as T
 import Data.Time (UTCTime, addUTCTime, getCurrentTime)
 import Data.Time.Clock (diffUTCTime)
-import Simplex.Messaging.Agent.Client
-import Simplex.Messaging.Agent.Env.SQLite
-import Simplex.Messaging.Agent.Protocol
-import Simplex.Messaging.Agent.RetryInterval
-import Simplex.Messaging.Agent.Stats
-import Simplex.Messaging.Agent.Store
-import Simplex.Messaging.Agent.Store.AgentStore
-import qualified Simplex.Messaging.Agent.Store.DB as DB
-import Simplex.Messaging.Client (NetworkRequestMode (..), nonBlockingWriteTBQueue)
-import qualified Simplex.Messaging.Crypto as C
-import Simplex.Messaging.Notifications.Protocol
-import Simplex.Messaging.Notifications.Types
-import Simplex.Messaging.Protocol (NtfServer, sameSrvAddr)
-import qualified Simplex.Messaging.Protocol as SMP
-import Simplex.Messaging.Util (catchAllErrors, catchAllErrors', diffToMicroseconds, stateTVar', threadDelay', tryAllErrors, tshow, whenM)
+import Popopx.Messaging.Agent.Client
+import Popopx.Messaging.Agent.Env.SQLite
+import Popopx.Messaging.Agent.Protocol
+import Popopx.Messaging.Agent.RetryInterval
+import Popopx.Messaging.Agent.Stats
+import Popopx.Messaging.Agent.Store
+import Popopx.Messaging.Agent.Store.AgentStore
+import qualified Popopx.Messaging.Agent.Store.DB as DB
+import Popopx.Messaging.Client (NetworkRequestMode (..), nonBlockingWriteTBQueue)
+import qualified Popopx.Messaging.Crypto as C
+import Popopx.Messaging.Notifications.Protocol
+import Popopx.Messaging.Notifications.Types
+import Popopx.Messaging.Protocol (NtfServer, sameSrvAddr)
+import qualified Popopx.Messaging.Protocol as SMP
+import Popopx.Messaging.Util (catchAllErrors, catchAllErrors', diffToMicroseconds, stateTVar', threadDelay', tryAllErrors, tshow, whenM)
 import System.Random (randomR)
 import UnliftIO
 import UnliftIO.Concurrent (forkIO)

@@ -17,7 +17,7 @@ const ENCRYPT_MIN_DISPLAY_MS = 1000
 export function initUpload(app: HTMLElement) {
   app.innerHTML = `
     <div class="card">
-      <h1>${t('title', 'SimpleX File Transfer')}</h1>
+      <h1>${t('title', 'POPOPX File Transfer')}</h1>
       <div id="drop-zone" class="drop-zone">
         <p>${t('dropZone', 'Drag & drop a file here')}</p>
         <p class="hint">${t('dropZoneHint', 'or')}</p>
@@ -40,7 +40,7 @@ export function initUpload(app: HTMLElement) {
         <div class="security-note">
           <p>${t('securityNote1', 'Your file was encrypted in the browser before upload \u2014 the server never sees file contents.')}</p>
           <p>${t('securityNote2', 'The link contains the decryption key in the hash fragment, which the browser never sends to any server.')}</p>
-          <p>${t('securityNote3', 'For maximum security, use the <a href="https://simplex.chat" target="_blank" rel="noopener">SimpleX app</a>.')}</p>
+          <p>${t('securityNote3', 'For maximum security, use the <a href="https://popopx.chat" target="_blank" rel="noopener">POPOPX app</a>.')}</p>
         </div>
       </div>
       <div id="upload-error" class="stage" hidden>
@@ -107,7 +107,7 @@ export function initUpload(app: HTMLElement) {
     aborted = false
 
     if (file.size > MAX_SIZE) {
-      showError(t('fileTooLarge', 'File too large (%size%). Maximum is 100 MB. The SimpleX app supports files up to 1 GB.').replace('%size%', formatSize(file.size)))
+      showError(t('fileTooLarge', 'File too large (%size%). Maximum is 100 MB. The POPOPX app supports files up to 1 GB.').replace('%size%', formatSize(file.size)))
       return
     }
     if (file.size === 0) {

@@ -51,7 +51,7 @@
   - `NMSG` notifier IDs compared as a set;
   - at most 2 `NMSG` per received block;
   - a queue subscriber, and a service subscriber (`testNtfServiceClient`).
-- simplex-chat `tests/ChatClient.hs:671`: `ntfDeliveryChunk = 1000`, added with the next simplexmq update.
+- popopx-chat `tests/ChatClient.hs:671`: `ntfDeliveryChunk = 1000`, added with the next popopxmq update.
 
 ## Benchmark
 

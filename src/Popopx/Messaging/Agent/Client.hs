@@ -22,7 +22,7 @@
 {-# LANGUAGE TypeApplications #-}
 {-# LANGUAGE TypeFamilyDependencies #-}
 
-module Simplex.Messaging.Agent.Client
+module Popopx.Messaging.Agent.Client
   ( AgentClient (..),
     ProtocolTestFailure (..),
     ProtocolTestStep (..),
@@ -234,39 +234,39 @@ import Data.Time.Clock.System (getSystemTime)
 import Data.Word (Word16, Word32)
 import qualified Data.X509.Validation as XV
 import Network.Socket (HostName)
-import Simplex.FileTransfer.Client (XFTPChunkSpec (..), XFTPClient, XFTPClientConfig (..), XFTPClientError)
-import qualified Simplex.FileTransfer.Client as X
-import Simplex.FileTransfer.Description (ChunkReplicaId (..), FileDigest (..), kb)
-import Simplex.FileTransfer.Protocol (FileInfo (..), FileResponse)
-import Simplex.FileTransfer.Transport (XFTPErrorType (DIGEST), XFTPRcvChunkSpec (..), XFTPVersion)
-import qualified Simplex.FileTransfer.Transport as XFTP
-import Simplex.FileTransfer.Types (DeletedSndChunkReplica (..), NewSndChunkReplica (..), RcvFileChunkReplica (..), SndFileChunk (..), SndFileChunkReplica (..), SndFileId)
-import Simplex.FileTransfer.Util (uniqueCombine)
-import Simplex.Messaging.Agent.Env.SQLite
-import Simplex.Messaging.Agent.Lock
-import Simplex.Messaging.Agent.Protocol
-import Simplex.Messaging.Agent.RetryInterval
-import Simplex.Messaging.Agent.Stats
-import Simplex.Messaging.Agent.Store
-import Simplex.Messaging.Agent.Store.AgentStore
-import Simplex.Messaging.Agent.Store.Common (DBStore)
-import Simplex.Messaging.Agent.Store.DB (SQLError)
-import qualified Simplex.Messaging.Agent.Store.DB as DB
-import Simplex.Messaging.Agent.Store.Entity
-import Simplex.Messaging.Agent.TSessionSubs (TSessionSubs)
-import qualified Simplex.Messaging.Agent.TSessionSubs as SS
-import Simplex.Messaging.Client
-import qualified Simplex.Messaging.Crypto as C
-import Simplex.Messaging.Crypto.BBS (BBSPresHeader (..), BBSPublicKey)
-import Simplex.Messaging.Crypto.Entitlement (EntitlementCredential, EntitlementProof, generateEntitlementProof)
-import Simplex.Messaging.Encoding
-import Simplex.Messaging.Encoding.String
-import Simplex.Messaging.Notifications.Client
-import Simplex.Messaging.Notifications.Protocol
-import Simplex.Messaging.Notifications.Transport (NTFVersion)
-import Simplex.Messaging.Notifications.Types
-import Simplex.Messaging.Parsers (defaultJSON, dropPrefix, enumJSON, parse, sumTypeJSON)
-import Simplex.Messaging.Protocol
+import Popopx.FileTransfer.Client (XFTPChunkSpec (..), XFTPClient, XFTPClientConfig (..), XFTPClientError)
+import qualified Popopx.FileTransfer.Client as X
+import Popopx.FileTransfer.Description (ChunkReplicaId (..), FileDigest (..), kb)
+import Popopx.FileTransfer.Protocol (FileInfo (..), FileResponse)
+import Popopx.FileTransfer.Transport (XFTPErrorType (DIGEST), XFTPRcvChunkSpec (..), XFTPVersion)
+import qualified Popopx.FileTransfer.Transport as XFTP
+import Popopx.FileTransfer.Types (DeletedSndChunkReplica (..), NewSndChunkReplica (..), RcvFileChunkReplica (..), SndFileChunk (..), SndFileChunkReplica (..), SndFileId)
+import Popopx.FileTransfer.Util (uniqueCombine)
+import Popopx.Messaging.Agent.Env.SQLite
+import Popopx.Messaging.Agent.Lock
+import Popopx.Messaging.Agent.Protocol
+import Popopx.Messaging.Agent.RetryInterval
+import Popopx.Messaging.Agent.Stats
+import Popopx.Messaging.Agent.Store
+import Popopx.Messaging.Agent.Store.AgentStore
+import Popopx.Messaging.Agent.Store.Common (DBStore)
+import Popopx.Messaging.Agent.Store.DB (SQLError)
+import qualified Popopx.Messaging.Agent.Store.DB as DB
+import Popopx.Messaging.Agent.Store.Entity
+import Popopx.Messaging.Agent.TSessionSubs (TSessionSubs)
+import qualified Popopx.Messaging.Agent.TSessionSubs as SS
+import Popopx.Messaging.Client
+import qualified Popopx.Messaging.Crypto as C
+import Popopx.Messaging.Crypto.BBS (BBSPresHeader (..), BBSPublicKey)
+import Popopx.Messaging.Crypto.Entitlement (EntitlementCredential, EntitlementProof, generateEntitlementProof)
+import Popopx.Messaging.Encoding
+import Popopx.Messaging.Encoding.String
+import Popopx.Messaging.Notifications.Client
+import Popopx.Messaging.Notifications.Protocol
+import Popopx.Messaging.Notifications.Transport (NTFVersion)
+import Popopx.Messaging.Notifications.Types
+import Popopx.Messaging.Parsers (defaultJSON, dropPrefix, enumJSON, parse, sumTypeJSON)
+import Popopx.Messaging.Protocol
   ( AProtocolType (..),
     BrokerMsg,
     EntityId (..),
@@ -307,19 +307,19 @@ import Simplex.Messaging.Protocol
     senderCanSecure,
     serviceSubResult,
   )
-import qualified Simplex.Messaging.Protocol as SMP
-import Simplex.Messaging.Protocol.Types
-import Simplex.Messaging.Server.QueueStore.QueueInfo
-import Simplex.Messaging.Server.Information (ServerPublicInfo)
-import Simplex.Messaging.Session
-import Simplex.Messaging.SystemTime
-import Simplex.Messaging.TMap (TMap)
-import qualified Simplex.Messaging.TMap as TM
-import Simplex.Messaging.Transport (HandshakeError (..), SMPServiceRole (..), SMPVersion, ServiceCredentials (..), SessionId, THClientService' (..), THandleAuth (..), THandleParams (sessionId, thAuth, thVersion, serverInfo), TransportError (..), newNtfCredsSMPVersion)
-import Simplex.Messaging.Transport.Client (TransportHost (..))
-import Simplex.Messaging.Transport.Credentials
-import Simplex.Messaging.Util
-import Simplex.Messaging.Version
+import qualified Popopx.Messaging.Protocol as SMP
+import Popopx.Messaging.Protocol.Types
+import Popopx.Messaging.Server.QueueStore.QueueInfo
+import Popopx.Messaging.Server.Information (ServerPublicInfo)
+import Popopx.Messaging.Session
+import Popopx.Messaging.SystemTime
+import Popopx.Messaging.TMap (TMap)
+import qualified Popopx.Messaging.TMap as TM
+import Popopx.Messaging.Transport (HandshakeError (..), SMPServiceRole (..), SMPVersion, ServiceCredentials (..), SessionId, THClientService' (..), THandleAuth (..), THandleParams (sessionId, thAuth, thVersion, serverInfo), TransportError (..), newNtfCredsSMPVersion)
+import Popopx.Messaging.Transport.Client (TransportHost (..))
+import Popopx.Messaging.Transport.Credentials
+import Popopx.Messaging.Util
+import Popopx.Messaging.Version
 import System.Mem.Weak (Weak, deRefWeak)
 import System.Random (randomR)
 import UnliftIO (mapConcurrently, timeout)
@@ -643,7 +643,7 @@ getServiceCredentials c userId srv =
           getClientServiceCredentials db userId srv >>= \case
             Just service -> pure service
             Nothing -> do
-              cred <- genCredentials g Nothing (25, 24 * 999999) "simplex"
+              cred <- genCredentials g Nothing (25, 24 * 999999) "popopx"
               createClientService db userId srv $ tlsCredentials [cred]
       serviceSignKey <- liftEitherWith INTERNAL $ C.x509ToPrivate' $ snd serviceCreds
       let creds = ServiceCredentials {serviceRole = SRMessaging, serviceCreds, serviceCertHash = XV.Fingerprint kh, serviceSignKey}
@@ -2027,7 +2027,7 @@ getQueueLink c nm userId server lnkId =
 -- resolver) and falls back to a direct send when the proxy is unavailable
 -- (faster but exposes the client IP). Mode selection is delegated to
 -- `sendOrProxySMPCommand`, which honours the network config (SPMNever etc.).
-resolveName :: AgentClient -> NetworkRequestMode -> UserId -> SMPServer -> SimplexDomain -> AM NameResponse
+resolveName :: AgentClient -> NetworkRequestMode -> UserId -> SMPServer -> PopopxDomain -> AM NameResponse
 resolveName c nm userId server domain =
   snd <$> sendOrProxySMPCommand c nm userId server True "" "RSLV" NoEntity resolveViaProxy resolveDirectly
   where
@@ -2530,8 +2530,8 @@ storeError = \case
   SERatchetNotFound -> CONN NOT_FOUND ""
   SEConnDuplicate -> CONN DUPLICATE ""
   SESndQueueExists -> CONN DUPLICATE ""
-  SEBadConnType cxt CRcv -> CONN SIMPLEX cxt
-  SEBadConnType cxt CSnd -> CONN SIMPLEX cxt
+  SEBadConnType cxt CRcv -> CONN POPOPX cxt
+  SEBadConnType cxt CSnd -> CONN POPOPX cxt
   SEInvitationNotFound cxt invId -> CMD PROHIBITED $ "SEInvitationNotFound " <> cxt <> ", invitationId = " <> show invId
   -- this error is never reported as store error,
   -- it is used to wrap agent operations when "transaction-like" store access is needed

@@ -2,7 +2,7 @@
 Proposed: 2025-03-16
 Implemented: ~2025 (SMP v15)
 Standardized: 2026-03-10
-Protocol: simplex-messaging + agent-protocol
+Protocol: popopx-messaging + agent-protocol
 ---
 
 > **Implementation note:** This RFC was promoted from done/ to standard/ based on verification that the described feature exists in the codebase. The RFC text reflects the original proposal and may not match the actual implementation in all details. The consolidated protocol specifications in `protocol/` are the authoritative reference for current behavior.
@@ -255,7 +255,7 @@ The syntax:
 
 ```abnf
 shortConnectionLink = uriAuthority "/" linkUri [ "?" param *( "&" param ) ]
-uriAuthority = %s"https://" smpServerHost / "simplex:" ; using simplex: scheme requires including host in the parameter hostParam
+uriAuthority = %s"https://" smpServerHost / "popopx:" ; using popopx: scheme requires including host in the parameter hostParam
 smpServerHost = <hostname> ; RFC1123, RFC5891
 linkUri = %s"i#" oneTimeLink / contactType "#" contactLink
 contactType = %s"a" / %s"g" / %s"c" ; contact / group / channel address, respectively
@@ -275,13 +275,13 @@ To have shorter links fingerprint and additional router hostnames do not need to
 Example one-time link for preset router (104 characters):
 
 ```
-https://smp12.simplex.im/i#abcdefghij0123456789abcdefghij01/23456789abcdefghij0123456789abcdefghij01234
+https://smp12.popopx.im/i#abcdefghij0123456789abcdefghij01/23456789abcdefghij0123456789abcdefghij01234
 ```
 
 Example contact link for preset router (71 characters):
 
 ```
-https://smp12.simplex.im/c#abcdefghij0123456789abcdefghij0123456789abc
+https://smp12.popopx.im/c#abcdefghij0123456789abcdefghij0123456789abc
 ```
 
 Example contact link for user-defined router (with fingerprint, but without onion hostname - 117 characters):

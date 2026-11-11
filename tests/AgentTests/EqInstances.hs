@@ -5,10 +5,10 @@
 module AgentTests.EqInstances where
 
 import Data.Type.Equality
-import Simplex.Messaging.Agent.Protocol (ABinaryConnectionRequestUri (..), AMessage (..), AMessageReceipt (..), AgentMessage (..), APrivHeader (..), ShortLinkCreds (..))
-import Simplex.Messaging.Agent.Store
-import Simplex.Messaging.Client (ProxiedRelay (..))
-import Simplex.Messaging.Server.Information
+import Popopx.Messaging.Agent.Protocol (ABinaryConnectionRequestUri (..), AMessage (..), AMessageReceipt (..), AgentMessage (..), APrivHeader (..), ShortLinkCreds (..))
+import Popopx.Messaging.Agent.Store
+import Popopx.Messaging.Client (ProxiedRelay (..))
+import Popopx.Messaging.Server.Information
 
 instance (Eq rq, Eq sq) => Eq (SomeConn' rq sq) where
   SomeConn d c == SomeConn d' c' = case testEquality d d' of

@@ -77,4 +77,4 @@ the tree concurrently in one process with `parallel` and `--jobs`.
 - `tests/SMPClient.hs`, `tests/SMPAgentClient.hs`, `tests/NtfClient.hs`,
   `tests/XFTPClient.hs`, `tests/Fixtures.hs`: fixtures from the environment.
 - Test modules: signatures, literal paths and ports, removed hooks.
-- `simplexmq.cabal`: `-N`.
+- `popopxmq.cabal`: `-N`.

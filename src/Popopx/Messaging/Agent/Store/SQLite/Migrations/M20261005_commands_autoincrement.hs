@@ -1,6 +1,6 @@
 {-# LANGUAGE QuasiQuotes #-}
 
-module Simplex.Messaging.Agent.Store.SQLite.Migrations.M20261005_commands_autoincrement where
+module Popopx.Messaging.Agent.Store.SQLite.Migrations.M20261005_commands_autoincrement where
 
 import Database.SQLite.Simple (Query)
 import Database.SQLite.Simple.QQ (sql)

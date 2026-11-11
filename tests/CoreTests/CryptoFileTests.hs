@@ -9,9 +9,9 @@ import Control.Monad.IO.Class
 import Crypto.Random (ChaChaDRG)
 import qualified Data.ByteString.Lazy as LB
 import GHC.IO.IOMode (IOMode (..))
-import qualified Simplex.Messaging.Crypto as C
-import Simplex.Messaging.Crypto.File (CryptoFile (..), FTCryptoError (..))
-import qualified Simplex.Messaging.Crypto.File as CF
+import qualified Popopx.Messaging.Crypto as C
+import Popopx.Messaging.Crypto.File (CryptoFile (..), FTCryptoError (..))
+import qualified Popopx.Messaging.Crypto.File as CF
 import System.Directory (getFileSize)
 import Test.Hspec hiding (fit, it)
 import Util

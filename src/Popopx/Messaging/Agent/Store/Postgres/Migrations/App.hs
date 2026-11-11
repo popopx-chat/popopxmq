@@ -1,24 +1,24 @@
 {-# LANGUAGE NamedFieldPuns #-}
 
-module Simplex.Messaging.Agent.Store.Postgres.Migrations.App (appMigrations) where
+module Popopx.Messaging.Agent.Store.Postgres.Migrations.App (appMigrations) where
 
 import Data.List (sortOn)
 import Data.Text (Text)
-import Simplex.Messaging.Agent.Store.Postgres.Migrations.M20241210_initial
-import Simplex.Messaging.Agent.Store.Postgres.Migrations.M20250203_msg_bodies
-import Simplex.Messaging.Agent.Store.Postgres.Migrations.M20250322_short_links
-import Simplex.Messaging.Agent.Store.Postgres.Migrations.M20250702_conn_invitations_remove_cascade_delete
-import Simplex.Messaging.Agent.Store.Postgres.Migrations.M20251009_queue_to_subscribe
-import Simplex.Messaging.Agent.Store.Postgres.Migrations.M20251010_client_notices
-import Simplex.Messaging.Agent.Store.Postgres.Migrations.M20251230_strict_tables
-import Simplex.Messaging.Agent.Store.Postgres.Migrations.M20260410_receive_attempts
-import Simplex.Messaging.Agent.Store.Postgres.Migrations.M20260411_service_certs
-import Simplex.Messaging.Agent.Store.Postgres.Migrations.M20260712_address_dr_rpc
-import Simplex.Messaging.Agent.Store.Postgres.Migrations.M20260823_snd_files_entitlement
-import Simplex.Messaging.Agent.Store.Postgres.Migrations.M20260919_ratchet_verify_codes
-import Simplex.Messaging.Agent.Store.Postgres.Migrations.M20260929_ratchet_indexes
-import Simplex.Messaging.Agent.Store.Postgres.Migrations.M20261008_rcv_switch_status
-import Simplex.Messaging.Agent.Store.Shared (Migration (..))
+import Popopx.Messaging.Agent.Store.Postgres.Migrations.M20241210_initial
+import Popopx.Messaging.Agent.Store.Postgres.Migrations.M20250203_msg_bodies
+import Popopx.Messaging.Agent.Store.Postgres.Migrations.M20250322_short_links
+import Popopx.Messaging.Agent.Store.Postgres.Migrations.M20250702_conn_invitations_remove_cascade_delete
+import Popopx.Messaging.Agent.Store.Postgres.Migrations.M20251009_queue_to_subscribe
+import Popopx.Messaging.Agent.Store.Postgres.Migrations.M20251010_client_notices
+import Popopx.Messaging.Agent.Store.Postgres.Migrations.M20251230_strict_tables
+import Popopx.Messaging.Agent.Store.Postgres.Migrations.M20260410_receive_attempts
+import Popopx.Messaging.Agent.Store.Postgres.Migrations.M20260411_service_certs
+import Popopx.Messaging.Agent.Store.Postgres.Migrations.M20260712_address_dr_rpc
+import Popopx.Messaging.Agent.Store.Postgres.Migrations.M20260823_snd_files_entitlement
+import Popopx.Messaging.Agent.Store.Postgres.Migrations.M20260919_ratchet_verify_codes
+import Popopx.Messaging.Agent.Store.Postgres.Migrations.M20260929_ratchet_indexes
+import Popopx.Messaging.Agent.Store.Postgres.Migrations.M20261008_rcv_switch_status
+import Popopx.Messaging.Agent.Store.Shared (Migration (..))
 
 schemaMigrations :: [(String, Text, Maybe Text)]
 schemaMigrations =

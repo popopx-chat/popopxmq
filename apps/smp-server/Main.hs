@@ -1,16 +1,16 @@
 module Main where
 
 import Control.Logger.Simple
-import Simplex.Messaging.Server.CLI (getEnvPath)
-import Simplex.Messaging.Server.Main (smpServerCLI_)
-import Simplex.Messaging.Server.Web (serveStaticFiles, attachStaticFiles)
+import Popopx.Messaging.Server.CLI (getEnvPath)
+import Popopx.Messaging.Server.Main (smpServerCLI_)
+import Popopx.Messaging.Server.Web (serveStaticFiles, attachStaticFiles)
 import SMPWeb (smpGenerateSite)
 
 defaultCfgPath :: FilePath
-defaultCfgPath = "/etc/opt/simplex"
+defaultCfgPath = "/etc/opt/popopx"
 
 defaultLogPath :: FilePath
-defaultLogPath = "/var/opt/simplex"
+defaultLogPath = "/var/opt/popopx"
 
 logCfg :: LogConfig
 logCfg = LogConfig {lc_file = Nothing, lc_stderr = True}

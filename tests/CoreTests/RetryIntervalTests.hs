@@ -7,7 +7,7 @@ import Control.Concurrent.Async (concurrently_)
 import Control.Concurrent.STM
 import Control.Monad (when)
 import Data.Time.Clock (UTCTime, diffUTCTime, getCurrentTime, nominalDiffTimeToSeconds)
-import Simplex.Messaging.Agent.RetryInterval
+import Popopx.Messaging.Agent.RetryInterval
 import Test.Hspec hiding (fit, it)
 import Util
 

@@ -1,7 +1,7 @@
 {-# LANGUAGE DataKinds #-}
 {-# LANGUAGE NamedFieldPuns #-}
 
-module Simplex.Messaging.Transport.HTTP2.Server where
+module Popopx.Messaging.Transport.HTTP2.Server where
 
 import Control.Concurrent.Async (Async, async, uninterruptibleCancel)
 import Control.Concurrent.STM
@@ -13,11 +13,11 @@ import qualified Network.HTTP2.Server as H
 import Network.Socket
 import qualified Network.TLS as T
 import Numeric.Natural (Natural)
-import Simplex.Messaging.Server.Expiration
-import Simplex.Messaging.Transport (ALPN, SessionId, TLS, tlsALPN, tlsUniq)
-import Simplex.Messaging.Transport.HTTP2
-import Simplex.Messaging.Transport.Server (SNICredentialUsed, ServerCredentials, TLSServerCredential (..), TransportServerConfig (..), loadServerCredential, newSocketState, runTransportServerState_)
-import Simplex.Messaging.Util (threadDelay')
+import Popopx.Messaging.Server.Expiration
+import Popopx.Messaging.Transport (ALPN, SessionId, TLS, tlsALPN, tlsUniq)
+import Popopx.Messaging.Transport.HTTP2
+import Popopx.Messaging.Transport.Server (SNICredentialUsed, ServerCredentials, TLSServerCredential (..), TransportServerConfig (..), loadServerCredential, newSocketState, runTransportServerState_)
+import Popopx.Messaging.Util (threadDelay')
 import UnliftIO (finally)
 import UnliftIO.Concurrent (forkIO, killThread, myThreadId)
 

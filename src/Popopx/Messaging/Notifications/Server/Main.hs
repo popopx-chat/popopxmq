@@ -8,7 +8,7 @@
 {-# LANGUAGE PatternSynonyms #-}
 {-# OPTIONS_GHC -fno-warn-ambiguous-fields #-}
 
-module Simplex.Messaging.Notifications.Server.Main
+module Popopx.Messaging.Notifications.Server.Main
   ( ntfServerCLI,
   )
 where
@@ -25,26 +25,26 @@ import Data.Text.Encoding (encodeUtf8)
 import qualified Data.Text.IO as T
 import Network.Socket (HostName, ServiceName)
 import Options.Applicative
-import Simplex.Messaging.Agent.Store.Postgres.Options (DBOpts (..))
-import Simplex.Messaging.Agent.Store.Shared (MigrationConfirmation (..))
-import Simplex.Messaging.Client (HostMode (..), NetworkConfig (..), ProtocolClientConfig (..), SMPWebPortServers (..), SocksMode (..), defaultNetworkConfig, textToHostMode)
-import Simplex.Messaging.Client.Agent (SMPClientAgentConfig (..), defaultSMPClientAgentConfig)
-import qualified Simplex.Messaging.Crypto as C
-import Simplex.Messaging.Notifications.Server (runNtfServer)
-import Simplex.Messaging.Notifications.Server.Env (NtfServerConfig (..), defaultInactiveClientExpiration)
-import Simplex.Messaging.Notifications.Server.Push.APNS (defaultAPNSPushClientConfig)
-import Simplex.Messaging.Notifications.Transport (alpnSupportedNTFHandshakes, supportedServerNTFVRange)
-import Simplex.Messaging.Protocol (ProtoServerWithAuth (..), pattern NtfServer)
-import Simplex.Messaging.Server.CLI
-import Simplex.Messaging.Server.Env.STM (StartOptions (..))
-import Simplex.Messaging.Server.Expiration
-import Simplex.Messaging.Server.Main.Init (iniDbOpts)
-import Simplex.Messaging.Server.QueueStore.Postgres.Config (PostgresStoreCfg (..))
-import Simplex.Messaging.Transport (ASrvTransport)
-import Simplex.Messaging.Transport.Client (TransportHost (..))
-import Simplex.Messaging.Transport.HTTP2 (httpALPN)
-import Simplex.Messaging.Transport.Server (AddHTTP, ServerCredentials (..), mkTransportServerConfig)
-import Simplex.Messaging.Util (eitherToMaybe, tshow)
+import Popopx.Messaging.Agent.Store.Postgres.Options (DBOpts (..))
+import Popopx.Messaging.Agent.Store.Shared (MigrationConfirmation (..))
+import Popopx.Messaging.Client (HostMode (..), NetworkConfig (..), ProtocolClientConfig (..), SMPWebPortServers (..), SocksMode (..), defaultNetworkConfig, textToHostMode)
+import Popopx.Messaging.Client.Agent (SMPClientAgentConfig (..), defaultSMPClientAgentConfig)
+import qualified Popopx.Messaging.Crypto as C
+import Popopx.Messaging.Notifications.Server (runNtfServer)
+import Popopx.Messaging.Notifications.Server.Env (NtfServerConfig (..), defaultInactiveClientExpiration)
+import Popopx.Messaging.Notifications.Server.Push.APNS (defaultAPNSPushClientConfig)
+import Popopx.Messaging.Notifications.Transport (alpnSupportedNTFHandshakes, supportedServerNTFVRange)
+import Popopx.Messaging.Protocol (ProtoServerWithAuth (..), pattern NtfServer)
+import Popopx.Messaging.Server.CLI
+import Popopx.Messaging.Server.Env.STM (StartOptions (..))
+import Popopx.Messaging.Server.Expiration
+import Popopx.Messaging.Server.Main.Init (iniDbOpts)
+import Popopx.Messaging.Server.QueueStore.Postgres.Config (PostgresStoreCfg (..))
+import Popopx.Messaging.Transport (ASrvTransport)
+import Popopx.Messaging.Transport.Client (TransportHost (..))
+import Popopx.Messaging.Transport.HTTP2 (httpALPN)
+import Popopx.Messaging.Transport.Server (AddHTTP, ServerCredentials (..), mkTransportServerConfig)
+import Popopx.Messaging.Util (eitherToMaybe, tshow)
 import System.Directory (createDirectoryIfMissing, doesFileExist)
 import System.FilePath (combine)
 import System.IO (BufferMode (..), hSetBuffering, stderr, stdout)
@@ -72,7 +72,7 @@ ntfServerCLI cfgPath logPath =
         True -> readIniFile iniFile >>= either exitError a
         _ -> exitError $ "Error: server is not initialized (" <> iniFile <> " does not exist).\nRun `" <> executableName <> " init`."
     iniFile = combine cfgPath "ntf-server.ini"
-    serverVersion = "SMP notifications server v" <> simplexmqVersionCommit
+    serverVersion = "SMP notifications server v" <> popopxmqVersionCommit
     defaultServerPort = "443"
     executableName = "ntf-server"
     storeLogFilePath = combine logPath "ntf-server-store.log"

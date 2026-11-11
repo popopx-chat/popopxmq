@@ -7,7 +7,7 @@
 {-# LANGUAGE OverloadedLists #-}
 {-# LANGUAGE OverloadedStrings #-}
 
-module Simplex.Messaging.Notifications.Server.Env
+module Popopx.Messaging.Notifications.Server.Env
   ( NtfServerConfig (..),
     NtfEnv (..),
     NtfSubscriber (..),
@@ -36,7 +36,7 @@ import Control.Monad.Trans.Except
 import Crypto.Random
 import Data.Functor (($>))
 import Data.Int (Int64)
-import Simplex.Messaging.Agent.RetryInterval
+import Popopx.Messaging.Agent.RetryInterval
 import Data.List.NonEmpty (NonEmpty)
 import qualified Data.Text as T
 import Data.Time.Clock (getCurrentTime)
@@ -45,27 +45,27 @@ import qualified Data.X509.Validation as XV
 import Network.Socket
 import qualified Network.TLS as TLS
 import Numeric.Natural
-import Simplex.Messaging.Client (ProtocolClientError (..), SMPClientError)
-import Simplex.Messaging.Client.Agent
-import qualified Simplex.Messaging.Crypto as C
-import Simplex.Messaging.Notifications.Protocol
-import Simplex.Messaging.Notifications.Server.Push.APNS
-import Simplex.Messaging.Notifications.Server.Stats
-import Simplex.Messaging.Notifications.Server.Store.Postgres
-import Simplex.Messaging.Notifications.Server.Store.Types
-import Simplex.Messaging.Notifications.Transport (NTFVersion, VersionRangeNTF)
-import Simplex.Messaging.Protocol (BasicAuth, CorrId, Party (..), SMPServer, SParty (..), ServiceId, Transmission)
-import Simplex.Messaging.Server.Env.STM (StartOptions (..))
-import Simplex.Messaging.Server.Expiration
-import Simplex.Messaging.Server.QueueStore.Postgres.Config (PostgresStoreCfg (..))
-import Simplex.Messaging.Session
-import Simplex.Messaging.TMap (TMap)
-import qualified Simplex.Messaging.TMap as TM
-import Simplex.Messaging.Transport (ASrvTransport, SMPServiceRole (..), ServiceCredentials (..), THandleParams, TransportPeer (..))
-import Simplex.Messaging.Transport.Credentials (genCredentials, tlsCredentials)
-import Simplex.Messaging.Transport.Server (AddHTTP, ServerCredentials, TransportServerConfig, loadFingerprint, loadServerCredential)
-import Simplex.Messaging.Util (liftEitherWith, tshow)
-import Simplex.Messaging.Util ()
+import Popopx.Messaging.Client (ProtocolClientError (..), SMPClientError)
+import Popopx.Messaging.Client.Agent
+import qualified Popopx.Messaging.Crypto as C
+import Popopx.Messaging.Notifications.Protocol
+import Popopx.Messaging.Notifications.Server.Push.APNS
+import Popopx.Messaging.Notifications.Server.Stats
+import Popopx.Messaging.Notifications.Server.Store.Postgres
+import Popopx.Messaging.Notifications.Server.Store.Types
+import Popopx.Messaging.Notifications.Transport (NTFVersion, VersionRangeNTF)
+import Popopx.Messaging.Protocol (BasicAuth, CorrId, Party (..), SMPServer, SParty (..), ServiceId, Transmission)
+import Popopx.Messaging.Server.Env.STM (StartOptions (..))
+import Popopx.Messaging.Server.Expiration
+import Popopx.Messaging.Server.QueueStore.Postgres.Config (PostgresStoreCfg (..))
+import Popopx.Messaging.Session
+import Popopx.Messaging.TMap (TMap)
+import qualified Popopx.Messaging.TMap as TM
+import Popopx.Messaging.Transport (ASrvTransport, SMPServiceRole (..), ServiceCredentials (..), THandleParams, TransportPeer (..))
+import Popopx.Messaging.Transport.Credentials (genCredentials, tlsCredentials)
+import Popopx.Messaging.Transport.Server (AddHTTP, ServerCredentials, TransportServerConfig, loadFingerprint, loadServerCredential)
+import Popopx.Messaging.Util (liftEitherWith, tshow)
+import Popopx.Messaging.Util ()
 import System.Exit (exitFailure)
 import System.Mem.Weak (Weak)
 import UnliftIO.STM
@@ -144,7 +144,7 @@ newNtfServerEnv config@NtfServerConfig {pushQSize, smpAgentCfg, apnsConfig, dbSt
         mkServiceCreds db = \case
           (_, Just tlsCreds) -> pure tlsCreds
           (srvId, Nothing) -> do
-            cred <- genCredentials g Nothing (25, 24 * 999999) "simplex"
+            cred <- genCredentials g Nothing (25, 24 * 999999) "popopx"
             let tlsCreds = tlsCredentials [cred]
             setNtfServiceCredentials db srvId tlsCreds
             pure tlsCreds

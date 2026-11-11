@@ -14,7 +14,7 @@
 {-# LANGUAGE StandaloneDeriving #-}
 {-# OPTIONS_GHC -fno-warn-unticked-promoted-constructors #-}
 
-module Simplex.Messaging.Agent.Store
+module Popopx.Messaging.Agent.Store
   ( RcvQueue,
     NewRcvQueue,
     StoredRcvQueue (..),
@@ -101,18 +101,18 @@ import qualified Data.List.NonEmpty as L
 import Data.Maybe (isJust)
 import Data.Time (UTCTime)
 import Data.Type.Equality
-import Simplex.Messaging.Agent.Protocol
-import Simplex.Messaging.Agent.RetryInterval (RI2State)
-import Simplex.Messaging.Agent.Store.Common
-import Simplex.Messaging.Agent.Store.DB (SQLError)
-import Simplex.Messaging.Agent.Store.Entity
-import Simplex.Messaging.Agent.Store.Interface (createDBStore)
-import Simplex.Messaging.Agent.Store.Migrations.App (appMigrations)
-import Simplex.Messaging.Agent.Store.Shared (MigrationConfig (..), MigrationError (..))
-import qualified Simplex.Messaging.Crypto as C
-import Simplex.Messaging.Crypto.Ratchet (MsgEncryptKeyX448, PQEncryption, PQSupport, RatchetX448)
-import Simplex.Messaging.Encoding.String
-import Simplex.Messaging.Protocol
+import Popopx.Messaging.Agent.Protocol
+import Popopx.Messaging.Agent.RetryInterval (RI2State)
+import Popopx.Messaging.Agent.Store.Common
+import Popopx.Messaging.Agent.Store.DB (SQLError)
+import Popopx.Messaging.Agent.Store.Entity
+import Popopx.Messaging.Agent.Store.Interface (createDBStore)
+import Popopx.Messaging.Agent.Store.Migrations.App (appMigrations)
+import Popopx.Messaging.Agent.Store.Shared (MigrationConfig (..), MigrationError (..))
+import qualified Popopx.Messaging.Crypto as C
+import Popopx.Messaging.Crypto.Ratchet (MsgEncryptKeyX448, PQEncryption, PQSupport, RatchetX448)
+import Popopx.Messaging.Encoding.String
+import Popopx.Messaging.Protocol
   ( MsgBody,
     MsgFlags,
     MsgId,
@@ -126,8 +126,8 @@ import Simplex.Messaging.Protocol
     SndPrivateAuthKey,
     VersionSMPC,
   )
-import qualified Simplex.Messaging.Protocol as SMP
-import Simplex.Messaging.Util (AnyError (..), bshow)
+import qualified Popopx.Messaging.Protocol as SMP
+import Popopx.Messaging.Util (AnyError (..), bshow)
 
 createStore :: DBOpts -> MigrationConfig -> IO (Either MigrationError DBStore)
 createStore dbOpts = createDBStore dbOpts appMigrations

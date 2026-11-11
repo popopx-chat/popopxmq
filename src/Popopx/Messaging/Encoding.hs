@@ -7,7 +7,7 @@
 {-# LANGUAGE TypeFamilies #-}
 {-# LANGUAGE UndecidableInstances #-}
 
-module Simplex.Messaging.Encoding
+module Popopx.Messaging.Encoding
   ( Encoding (..),
     Tail (..),
     Large (..),
@@ -32,8 +32,8 @@ import qualified Data.List.NonEmpty as L
 import Data.Time.Clock.System (SystemTime (..))
 import Data.Word (Word16, Word32)
 import Network.Transport.Internal (decodeWord16, decodeWord32, encodeWord16, encodeWord32)
-import Simplex.Messaging.Parsers (parseAll)
-import Simplex.Messaging.Util ((<$?>))
+import Popopx.Messaging.Parsers (parseAll)
+import Popopx.Messaging.Util ((<$?>))
 
 -- | SMP protocol encoding
 class Encoding a where

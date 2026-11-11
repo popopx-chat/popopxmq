@@ -11,7 +11,7 @@
 {-# LANGUAGE StrictData #-}
 {-# LANGUAGE TypeFamilies #-}
 
-module Simplex.FileTransfer.Server.Env
+module Popopx.FileTransfer.Server.Env
   ( XFTPServerConfig (..),
     XFTPStoreConfig (..),
     XFTPEnv (..),
@@ -45,33 +45,33 @@ import Data.Word (Word16, Word32)
 import Data.X509.Validation (Fingerprint (..))
 import Network.Socket
 import qualified Network.TLS as T
-import Simplex.FileTransfer.Protocol (FileCmd, FileInfo (..), XFTPFileId)
-import Simplex.FileTransfer.Server.Stats
+import Popopx.FileTransfer.Protocol (FileCmd, FileInfo (..), XFTPFileId)
+import Popopx.FileTransfer.Server.Stats
 import Data.Either (fromRight)
 import Data.Ini (Ini, lookupValue)
 import qualified Data.Text as T
-import Simplex.FileTransfer.Server.Store
-import Simplex.Messaging.Agent.Store.Shared (MigrationConfirmation)
+import Popopx.FileTransfer.Server.Store
+import Popopx.Messaging.Agent.Store.Shared (MigrationConfirmation)
 import Data.Functor (($>))
-import Simplex.Messaging.Server.CLI (settingIsOn)
+import Popopx.Messaging.Server.CLI (settingIsOn)
 import System.Exit (exitFailure)
 #if defined(dbServerPostgres)
 import Data.Maybe (isNothing)
-import Simplex.FileTransfer.Server.Store.Postgres (PostgresFileStore, importFileStore, exportFileStore)
-import Simplex.FileTransfer.Server.Store.Postgres.Config (PostgresFileStoreCfg (..), defaultXFTPDBOpts)
-import Simplex.Messaging.Server.CLI (iniDBOptions)
+import Popopx.FileTransfer.Server.Store.Postgres (PostgresFileStore, importFileStore, exportFileStore)
+import Popopx.FileTransfer.Server.Store.Postgres.Config (PostgresFileStoreCfg (..), defaultXFTPDBOpts)
+import Popopx.Messaging.Server.CLI (iniDBOptions)
 import System.Directory (doesFileExist)
 #endif
-import Simplex.FileTransfer.Server.StoreLog
-import Simplex.FileTransfer.Transport (VersionRangeXFTP)
-import qualified Simplex.Messaging.Crypto as C
-import Simplex.Messaging.Crypto.BBS (BBSPublicKey)
-import Simplex.Messaging.Protocol (BasicAuth, RcvPublicAuthKey)
-import Simplex.Messaging.Server.Expiration
-import Simplex.Messaging.Server.Information (ServerPublicInfo)
-import Simplex.Messaging.Transport (EntitlementConfig (..))
-import Simplex.Messaging.Transport.Server (ServerCredentials (..), TransportServerConfig (..), loadFingerprint, loadServerCredential)
-import Simplex.Messaging.Util (tshow)
+import Popopx.FileTransfer.Server.StoreLog
+import Popopx.FileTransfer.Transport (VersionRangeXFTP)
+import qualified Popopx.Messaging.Crypto as C
+import Popopx.Messaging.Crypto.BBS (BBSPublicKey)
+import Popopx.Messaging.Protocol (BasicAuth, RcvPublicAuthKey)
+import Popopx.Messaging.Server.Expiration
+import Popopx.Messaging.Server.Information (ServerPublicInfo)
+import Popopx.Messaging.Transport (EntitlementConfig (..))
+import Popopx.Messaging.Transport.Server (ServerCredentials (..), TransportServerConfig (..), loadFingerprint, loadServerCredential)
+import Popopx.Messaging.Util (tshow)
 import System.IO (IOMode (..))
 import UnliftIO.STM
 

@@ -1,10 +1,10 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE QuasiQuotes #-}
 
-module Simplex.Messaging.Agent.Store.Postgres.Migrations.M20260411_service_certs where
+module Popopx.Messaging.Agent.Store.Postgres.Migrations.M20260411_service_certs where
 
 import Data.Text (Text)
-import Simplex.Messaging.Agent.Store.Postgres.Migrations.Util
+import Popopx.Messaging.Agent.Store.Postgres.Migrations.Util
 import Text.RawString.QQ (r)
 
 m20260411_service_certs :: Text

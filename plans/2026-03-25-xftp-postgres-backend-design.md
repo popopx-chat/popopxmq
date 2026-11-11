@@ -239,7 +239,7 @@ Following SMP's `checkMsgStoreMode` pattern, `Main.hs` validates config before s
 ## Module Structure
 
 ```
-src/Simplex/FileTransfer/Server/
+src/Popopx/FileTransfer/Server/
   Store.hs                    -- FileStoreClass typeclass + shared types (FileRec, FileRecipient, etc.)
   Store/
     STM.hs                    -- STMFileStore (extracted from current Store.hs)
@@ -293,14 +293,14 @@ CREATE INDEX idx_files_created_at ON files (created_at);
 Following SMP's `QueueStore/Postgres/Migrations.hs` pattern:
 
 ```haskell
-module Simplex.FileTransfer.Server.Store.Postgres.Migrations
+module Popopx.FileTransfer.Server.Store.Postgres.Migrations
   ( xftpServerMigrations,
   )
 where
 
 import Data.List (sortOn)
 import Data.Text (Text)
-import Simplex.Messaging.Agent.Store.Shared
+import Popopx.Messaging.Agent.Store.Shared
 import Text.RawString.QQ (r)
 
 xftpSchemaMigrations :: [(String, Text, Maybe Text)]
@@ -323,7 +323,7 @@ CREATE TABLE files (
   |]
 ```
 
-The `Migration` type (from `Simplex.Messaging.Agent.Store.Shared`) has fields `{name :: String, up :: Text, down :: Maybe Text}`. Initial migration has `Nothing` for `down`. Future migrations should include `Just down_migration` for rollback support. Called via `createDBStore dbOpts xftpServerMigrations (MigrationConfig confirmMigrations Nothing)`.
+The `Migration` type (from `Popopx.Messaging.Agent.Store.Shared`) has fields `{name :: String, up :: Text, down :: Maybe Text}`. Initial migration has `Nothing` for `down`. Future migrations should include `Just down_migration` for rollback support. Called via `createDBStore dbOpts xftpServerMigrations (MigrationConfig confirmMigrations Nothing)`.
 
 ### Postgres Operations
 
@@ -379,7 +379,7 @@ store_files: memory
 expire_files_hours: 48
 ```
 
-Reuses `iniDBOptions` from `Simplex.Messaging.Server.CLI` for runtime parsing (falls back to defaults when keys are commented out or missing). `enableDbStoreLog'` pattern (`settingIsOn "STORE_LOG" "db_store_log"`) controls `dbStoreLogPath`.
+Reuses `iniDBOptions` from `Popopx.Messaging.Server.CLI` for runtime parsing (falls back to defaults when keys are commented out or missing). `enableDbStoreLog'` pattern (`settingIsOn "STORE_LOG" "db_store_log"`) controls `dbStoreLogPath`.
 
 ### PostgresFileStoreCfg
 
@@ -417,7 +417,7 @@ xftp-server database export [--database DB_CONN] [--schema DB_SCHEMA] [--pool-si
 
 No `--table` flag needed (unlike SMP which has queues/messages/all) — XFTP has a single entity type (files + recipients, always migrated together).
 
-CLI options reuse `dbOptsP` parser from `Simplex.Messaging.Server.CLI`.
+CLI options reuse `dbOptsP` parser from `Popopx.Messaging.Server.CLI`.
 
 ### Import (StoreLog -> PostgreSQL)
 
@@ -451,9 +451,9 @@ if flag(server_postgres)
   cpp-options: -DdbServerPostgres
   exposed-modules:
     ...existing SMP modules...
-    Simplex.FileTransfer.Server.Store.Postgres
-    Simplex.FileTransfer.Server.Store.Postgres.Migrations
-    Simplex.FileTransfer.Server.Store.Postgres.Config
+    Popopx.FileTransfer.Server.Store.Postgres
+    Popopx.FileTransfer.Server.Store.Postgres.Migrations
+    Popopx.FileTransfer.Server.Store.Postgres.Config
 ```
 
 CPP guards (`#if defined(dbServerPostgres)`) in:

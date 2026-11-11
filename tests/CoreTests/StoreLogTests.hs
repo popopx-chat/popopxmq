@@ -20,29 +20,29 @@ import qualified Data.Map.Strict as M
 import qualified Data.X509 as X
 import qualified Data.X509.Validation as XV
 import SMPClient
-import Simplex.FileTransfer.Protocol (FileInfo (..))
-import Simplex.FileTransfer.Server.Store (FileRec (..), FileRecipient (..), FileStoreClass (..), RoundedFileTime, STMFileStore (..))
-import Simplex.FileTransfer.Server.StoreLog (FileStoreLogRecord (..), readWriteFileStore, serverFileName)
-import qualified Simplex.Messaging.Crypto as C
-import Simplex.Messaging.Encoding.String
-import Simplex.Messaging.Protocol
-import Simplex.Messaging.Protocol.Types (ClientNotice (..))
-import Simplex.Messaging.Server.Env.STM (readWriteQueueStore)
-import Simplex.Messaging.Server.MsgStore.STM (STMMsgStore (..))
-import Simplex.Messaging.Server.MsgStore.Types
-import Simplex.Messaging.Server.QueueStore
-import Simplex.Messaging.Server.QueueStore.STM (STMQueueStore (..))
-import Simplex.Messaging.Server.QueueStore.Types
-import Simplex.Messaging.Server.StoreLog
-import Simplex.Messaging.SystemTime
-import Simplex.Messaging.Transport (SMPServiceRole (..))
-import Simplex.Messaging.Transport.Credentials (genCredentials)
+import Popopx.FileTransfer.Protocol (FileInfo (..))
+import Popopx.FileTransfer.Server.Store (FileRec (..), FileRecipient (..), FileStoreClass (..), RoundedFileTime, STMFileStore (..))
+import Popopx.FileTransfer.Server.StoreLog (FileStoreLogRecord (..), readWriteFileStore, serverFileName)
+import qualified Popopx.Messaging.Crypto as C
+import Popopx.Messaging.Encoding.String
+import Popopx.Messaging.Protocol
+import Popopx.Messaging.Protocol.Types (ClientNotice (..))
+import Popopx.Messaging.Server.Env.STM (readWriteQueueStore)
+import Popopx.Messaging.Server.MsgStore.STM (STMMsgStore (..))
+import Popopx.Messaging.Server.MsgStore.Types
+import Popopx.Messaging.Server.QueueStore
+import Popopx.Messaging.Server.QueueStore.STM (STMQueueStore (..))
+import Popopx.Messaging.Server.QueueStore.Types
+import Popopx.Messaging.Server.StoreLog
+import Popopx.Messaging.SystemTime
+import Popopx.Messaging.Transport (SMPServiceRole (..))
+import Popopx.Messaging.Transport.Credentials (genCredentials)
 import System.FilePath ((</>))
 import Test.Hspec hiding (fit, it)
 import Util
 
 #if defined(dbServerPostgres)
-import Simplex.Messaging.Server.Main
+import Popopx.Messaging.Server.Main
 #endif
 
 testPublicAuthKey :: C.APublicAuthKey
