@@ -185,6 +185,23 @@ jobs:
         if: matrix.should_run == true && env.release != 'true'
         run: echo "week=$(date -u +%G-W%V)" >> "$GITHUB_OUTPUT"
 
+      - name: Check build cache availability
+        id: cache_ready
+        if: matrix.should_run == true && env.release != 'true'
+        shell: bash
+        env:
+          CACHE_REF: ${{ env.image_cache }}-${{ steps.week.outputs.week }}
+        run: |
+          # Importing a registry cache ref that does not exist fails the build,
+          # it is not treated as a miss. The cache package only appears once a
+          # cache-to of this same ref has run, so probe it and build cold until then.
+          if docker buildx imagetools inspect "$CACHE_REF" >/dev/null 2>&1; then
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "::notice::no build cache at $CACHE_REF yet; building without cache-from"
+            echo "exists=false" >> "$GITHUB_OUTPUT"
+          fi
+
       - name: Build and cache Docker image
         if: matrix.should_run == true
         uses: simplex-chat/docker-build-push-action@v6
@@ -196,7 +213,7 @@ jobs:
           build-args: |
             TAG=${{ matrix.os }}
             GHC=${{ matrix.ghc }}
-          cache-from: ${{ env.release != 'true' && format('type=registry,ref={0}-{1}', env.image_cache, steps.week.outputs.week) || '' }}
+          cache-from: ${{ steps.cache_ready.outputs.exists == 'true' && format('type=registry,ref={0}-{1}', env.image_cache, steps.week.outputs.week) || '' }}
           cache-to: ${{ github.event_name == 'push' && github.ref == 'refs/heads/master' && format('type=registry,ref={0}-{1},mode=max,ignore-error=true', env.image_cache, steps.week.outputs.week) || '' }}
 
       - name: Start container
