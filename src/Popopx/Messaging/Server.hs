@@ -19,6 +19,9 @@
 -- |
 -- Module      : Popopx.Messaging.Server
 -- Copyright   : (c) simplex.chat
+-- Modifications: Copyright (c) 2026 POPOPX - this file was modified on
+--                 2026-11-11 and 2026-11-12; the upstream notice above is
+--                 retained, changes and the source offer are in ./NOTICE
 -- License     : AGPL-3
 --
 -- Maintainer  : chat@popopx.chat
@@ -28,7 +31,7 @@
 -- This module defines SMP protocol server with in-memory persistence
 -- and optional append only log of SMP queue records.
 --
--- See https://github.com/popopx-chat/popopxmq/blob/master/protocol/simplex-messaging.md
+-- See https://github.com/popopx-chat/popopxmq/blob/master/protocol/popopx-messaging.md
 module Popopx.Messaging.Server
   ( runSMPServer,
     runSMPServerBlocking,

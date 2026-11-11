@@ -17,6 +17,9 @@
 -- |
 -- Module      : Popopx.Messaging.Client
 -- Copyright   : (c) simplex.chat
+-- Modifications: Copyright (c) 2026 POPOPX - this file was modified on
+--                 2026-11-11 and 2026-11-12; the upstream notice above is
+--                 retained, changes and the source offer are in ./NOTICE
 -- License     : AGPL-3
 --
 -- Maintainer  : chat@popopx.chat
@@ -25,7 +28,7 @@
 --
 -- This module provides a functional client API for SMP protocol.
 --
--- See https://github.com/popopx-chat/popopxmq/blob/master/protocol/simplex-messaging.md
+-- See https://github.com/popopx-chat/popopxmq/blob/master/protocol/popopx-messaging.md
 module Popopx.Messaging.Client
   ( -- * Connect (disconnect) client to (from) SMP server
     TransportSession,
@@ -835,7 +838,7 @@ smpErrorClientNotice = \case
 
 -- | Create a new SMP queue.
 --
--- https://github.com/popopx-chat/popopxmq/blob/master/protocol/simplex-messaging.md#create-queue-command
+-- https://github.com/popopx-chat/popopxmq/blob/master/protocol/popopx-messaging.md#create-queue-command
 createSMPQueue ::
   SMPClient ->
   NetworkRequestMode ->
@@ -854,7 +857,7 @@ createSMPQueue c nm nonce_ (rKey, rpKey) dhKey auth subMode qrd ntfCreds =
 
 -- | Subscribe to the SMP queue.
 --
--- https://github.com/popopx-chat/popopxmq/blob/master/protocol/simplex-messaging.md#subscribe-to-queue
+-- https://github.com/popopx-chat/popopxmq/blob/master/protocol/popopx-messaging.md#subscribe-to-queue
 -- This command is always sent in background request mode
 subscribeSMPQueue :: SMPClient -> RcvPrivateAuthKey -> RecipientId -> ExceptT SMPClientError IO (Maybe ServiceId)
 subscribeSMPQueue c rpKey rId = do
@@ -907,7 +910,7 @@ getSMPMessage c rpKey rId =
 
 -- | Subscribe to the SMP queue notifications.
 --
--- https://github.com/popopx-chat/popopxmq/blob/master/protocol/simplex-messaging.md#subscribe-to-queue-notifications
+-- https://github.com/popopx-chat/popopxmq/blob/master/protocol/popopx-messaging.md#subscribe-to-queue-notifications
 -- This command is always sent in background request mode
 subscribeSMPQueueNotifications :: SMPClient -> NtfPrivateAuthKey -> NotifierId -> ExceptT SMPClientError IO (Maybe ServiceId)
 subscribeSMPQueueNotifications c npKey nId = do
@@ -963,7 +966,7 @@ enablePings ProtocolClient {client_ = PClient {sendPings}} = atomically $ writeT
 
 -- | Secure the SMP queue by adding a sender public key.
 --
--- https://github.com/popopx-chat/popopxmq/blob/master/protocol/simplex-messaging.md#secure-queue-command
+-- https://github.com/popopx-chat/popopxmq/blob/master/protocol/popopx-messaging.md#secure-queue-command
 secureSMPQueue :: SMPClient -> NetworkRequestMode -> RcvPrivateAuthKey -> RecipientId -> SndPublicAuthKey -> ExceptT SMPClientError IO ()
 secureSMPQueue c nm rpKey rId senderKey = okSMPCommand (KEY senderKey) c nm rpKey rId
 {-# INLINE secureSMPQueue #-}
@@ -1018,7 +1021,7 @@ proxyGetSMPQueueLink c nm proxiedRelay lnkId =
 
 -- | Enable notifications for the queue for push notifications server.
 --
--- https://github.com/popopx-chat/popopxmq/blob/master/protocol/simplex-messaging.md#enable-notifications-command
+-- https://github.com/popopx-chat/popopxmq/blob/master/protocol/popopx-messaging.md#enable-notifications-command
 enableSMPQueueNotifications :: SMPClient -> RcvPrivateAuthKey -> RecipientId -> NtfPublicAuthKey -> RcvNtfPublicDhKey -> ExceptT SMPClientError IO (NotifierId, RcvNtfPublicDhKey)
 enableSMPQueueNotifications c rpKey rId notifierKey rcvNtfPublicDhKey =
   sendSMPCommand c NRMBackground (Just rpKey) rId (NKEY notifierKey rcvNtfPublicDhKey) >>= \case
@@ -1038,7 +1041,7 @@ enableSMPQueuesNtfs c qs = L.map process <$> sendProtocolCommands c NRMBackgroun
 
 -- | Disable notifications for the queue for push notifications server.
 --
--- https://github.com/popopx-chat/popopxmq/blob/master/protocol/simplex-messaging.md#disable-notifications-command
+-- https://github.com/popopx-chat/popopxmq/blob/master/protocol/popopx-messaging.md#disable-notifications-command
 -- This command is always sent in background request mode
 disableSMPQueueNotifications :: SMPClient -> RcvPrivateAuthKey -> RecipientId -> ExceptT SMPClientError IO ()
 disableSMPQueueNotifications c = okSMPCommand NDEL c NRMBackground
@@ -1052,7 +1055,7 @@ disableSMPQueuesNtfs c = okSMPCommands NDEL c NRMBackground
 
 -- | Send SMP message.
 --
--- https://github.com/popopx-chat/popopxmq/blob/master/protocol/simplex-messaging.md#send-message
+-- https://github.com/popopx-chat/popopxmq/blob/master/protocol/popopx-messaging.md#send-message
 sendSMPMessage :: SMPClient -> NetworkRequestMode -> Maybe SndPrivateAuthKey -> SenderId -> MsgFlags -> MsgBody -> ExceptT SMPClientError IO ()
 sendSMPMessage c nm spKey sId flags msg =
   sendSMPCommand c nm spKey sId (SEND flags msg) >>= \case
@@ -1098,7 +1101,7 @@ type QueueDrained = Bool
 
 -- | Acknowledge message delivery (server deletes the message).
 --
--- https://github.com/popopx-chat/popopxmq/blob/master/protocol/simplex-messaging.md#acknowledge-message-delivery
+-- https://github.com/popopx-chat/popopxmq/blob/master/protocol/popopx-messaging.md#acknowledge-message-delivery
 -- This command is always sent in background request mode
 ackSMPMessage :: SMPClient -> RcvPrivateAuthKey -> QueueId -> MsgId -> ExceptT SMPClientError IO QueueDrained
 ackSMPMessage c rpKey rId msgId =
@@ -1110,14 +1113,14 @@ ackSMPMessage c rpKey rId msgId =
 -- | Irreversibly suspend SMP queue.
 -- The existing messages from the queue will still be delivered.
 --
--- https://github.com/popopx-chat/popopxmq/blob/master/protocol/simplex-messaging.md#suspend-queue
+-- https://github.com/popopx-chat/popopxmq/blob/master/protocol/popopx-messaging.md#suspend-queue
 suspendSMPQueue :: SMPClient -> NetworkRequestMode -> RcvPrivateAuthKey -> QueueId -> ExceptT SMPClientError IO ()
 suspendSMPQueue = okSMPCommand OFF
 {-# INLINE suspendSMPQueue #-}
 
 -- | Irreversibly delete SMP queue and all messages in it.
 --
--- https://github.com/popopx-chat/popopxmq/blob/master/protocol/simplex-messaging.md#delete-queue
+-- https://github.com/popopx-chat/popopxmq/blob/master/protocol/popopx-messaging.md#delete-queue
 deleteSMPQueue :: SMPClient -> NetworkRequestMode -> RcvPrivateAuthKey -> RecipientId -> ExceptT SMPClientError IO ()
 deleteSMPQueue = okSMPCommand DEL
 {-# INLINE deleteSMPQueue #-}

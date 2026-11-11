@@ -21,6 +21,9 @@
 -- |
 -- Module      : Popopx.Messaging.Agent
 -- Copyright   : (c) simplex.chat
+-- Modifications: Copyright (c) 2026 POPOPX - this file was modified on
+--                 2026-11-11 and 2026-11-12; the upstream notice above is
+--                 retained, changes and the source offer are in ./NOTICE
 -- License     : AGPL-3
 --
 -- Maintainer  : chat@popopx.chat

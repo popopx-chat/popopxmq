@@ -7,7 +7,7 @@ description:    This package includes <./docs/Popopx-Messaging-Server.html serve
                 <./docs/Popopx-Messaging-Client.html client> and
                 <./docs/Popopx-Messaging-Agent.html agent> for SMP protocols:
                 .
-                * <https://github.com/popopx-chat/popopxmq/blob/master/protocol/simplex-messaging.md SMP protocol>
+                * <https://github.com/popopx-chat/popopxmq/blob/master/protocol/popopx-messaging.md SMP protocol>
                 * <https://github.com/popopx-chat/popopxmq/blob/master/protocol/agent-protocol.md SMP agent protocol>
                 .
                 See <https://github.com/simplex-chat/simplex-chat terminal chat prototype> built with POPOPXMQ broker.
@@ -22,6 +22,7 @@ build-type:     Simple
 extra-source-files:
     README.md
     CHANGELOG.md
+    NOTICE
     cbits/sha512.h
     cbits/sntrup761.h
     cbits/blst/**/*.c

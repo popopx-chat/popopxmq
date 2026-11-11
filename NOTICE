@@ -1,0 +1,112 @@
+POPOPXMQ notices
+================
+
+This repository is a modified version of the upstream project `simplexmq`,
+Copyright (c) simplex.chat, licensed under the GNU Affero General Public
+License version 3 only (AGPL-3.0-only).
+
+Upstream project: https://github.com/simplex-chat/simplexmq
+Upstream version at the point this fork was created: 7.1.0.17
+Upstream snapshot in this history: commit 839f1871abd10d693103243667f0e849d41ad7b8
+("Initial commit for secondary development", 2026-11-11)
+
+
+1. License
+
+The license is AGPL-3.0-only and the license text in ./LICENSE is unmodified.
+No further restrictions are imposed on recipients of this work
+(AGPL-3.0 sections 10 and 12).
+
+
+2. Notices retained
+
+All copyright notices and legal notices of the upstream work are retained
+verbatim, as required by AGPL-3.0 section 5(d):
+
+- ./LICENSE - the unmodified AGPL-3.0 text.
+- popopxmq.cabal - the `author`, `maintainer` and `copyright` fields naming
+  simplex.chat are left as upstream wrote them.
+- Module headers `-- Copyright   : (c) simplex.chat` in:
+    src/Popopx/Messaging/Agent.hs
+    src/Popopx/Messaging/Agent/Protocol.hs
+    src/Popopx/Messaging/Client.hs
+    src/Popopx/Messaging/Crypto.hs
+    src/Popopx/Messaging/Protocol.hs
+    src/Popopx/Messaging/Server.hs
+    src/Popopx/Messaging/Transport.hs
+- Third-party notices kept in place, including the vendored Swiper assets
+  (apps/common/Web/static/media/swiper-bundle.min.js and .css - MIT,
+  Copyright 2014-2022 Vladimir Kharlampidi) and the terms of the pinned
+  dependencies in cabal.project and the cbits/libbbs and cbits/blst submodules.
+- Prose that records upstream history and authorship - CHANGELOG.md, README.md,
+  protocol/, rfcs/, plans/, contributing/ - is kept as written, including links
+  to github.com/simplex-chat repositories. Those links name upstream work and
+  are deliberately not rewritten.
+
+
+3. Modifications (AGPL-3.0 section 5(b))
+
+This is a rebranded derivation named POPOPX. The complete change history of
+this repository records every modification; the material steps are:
+
+- 2026-11-11, commit e9ca9df6 - 241 paths renamed: source directories and
+  Haskell modules (`src/Simplex` to `src/Popopx`), protocol documents, scripts,
+  packaging files and the package name (`simplexmq` to `popopxmq`).
+- 2026-11-11, commit d1ae1af4 - 412 files, 4071 lines: brand strings replaced
+  (simplex -> popopx, Simplex -> Popopx, SimpleX -> POPOPX, SIMPLEX -> POPOPX),
+  excluding GitHub URLs to the upstream organisation, ./LICENSE and the notices
+  listed in section 2.
+- 2026-11-12 - 23 links into this repository's own renamed documents repaired;
+  application identifiers updated (apple-app-site-association appID, assetlinks
+  package name, APNs topic and team defaults, Play Store links); the xftp web
+  bundle rebuilt from source; this notice added.
+
+Modifications that change behaviour or interoperability, not just names:
+
+- Service URI scheme is `popopx:` instead of the upstream scheme
+  (src/Popopx/Messaging/ServiceScheme.hs).
+- Key-derivation label strings were changed to `POPOPX*` - `POPOPXSbChainInit`,
+  `POPOPXSbChain`, `POPOPXX3DH`, `POPOPXVerifyCode`, `POPOPXRootRatchet`,
+  `POPOPXChainRatchet`, `POPOPXContactLink`, `POPOPXInvLink`, `POPOPXService` -
+  and the BBS badge header to `POPOPX badges v1`. These derivations do NOT
+  interoperate with upstream servers or agents, and data produced under the
+  upstream labels cannot be decrypted by this version, or the reverse.
+- Prometheus metric names are `popopx_smp_*`.
+- Preset server hostnames are `smp*.popopx.im` and `xftp*.popopx.im`. The
+  server public keys and .onion addresses embedded with those hostnames are
+  still the upstream ones, so the presets do not resolve to POPOPX-operated
+  services yet.
+- Docker image organisation is `popopxchat`; installation paths are
+  `/etc/popopx`, `/etc/popopx-xftp` and `/var/lib/popopx`, and the server
+  management scripts are `popopx-servers-*`.
+
+Intentionally not changed: the SQLite user-defined function
+`simplex_xor_md5_combine` (src/Popopx/Messaging/Agent/Store/SQLite.hs). Its name
+is persisted inside existing database triggers, so renaming it would break
+databases that were already created.
+
+
+4. Corresponding source (AGPL-3.0 section 13)
+
+Users who interact remotely with a modified server offered by this work are
+provided the complete corresponding source, which is this repository:
+
+  https://github.com/popopx-chat/popopxmq
+
+This includes the build scripts and the sources of generated artifacts that are
+distributed with the binaries. The xftp web bundle served by xftp-server
+(apps/xftp-server/static/xftp-web-bundle/) is generated, never hand-edited: it is
+produced from xftp-web/ with
+
+  npm install && npm run build && npm run build:prod
+
+and the files `index.js`, `crypto.worker.js` and `index.css` from
+xftp-web/dist-web/assets/ are copied into the bundle directory.
+
+
+5. Names
+
+SimpleX, simplex.chat and simplexmq are the names of the upstream project and
+its authors. This modified version is not affiliated with, sponsored or endorsed
+by them, and they are not responsible for it. Nothing in this notice transfers
+any right to use the upstream names.

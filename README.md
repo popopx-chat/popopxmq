@@ -315,3 +315,5 @@ smp-server init [-l] -n <fqdn>
 ## License
 
 [AGPL v3](./LICENSE)
+
+POPOPXMQ is a modified version of [simplexmq](https://github.com/simplex-chat/simplexmq), Copyright (c) simplex.chat, distributed under the same AGPL-3.0-only license. All upstream notices are retained. [./NOTICE](./NOTICE) records what was changed and when, the interoperability consequences of those changes, and the corresponding-source offer required by AGPL-3.0 section 13 for anyone running this server for others over a network.
