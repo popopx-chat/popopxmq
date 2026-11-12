@@ -11,6 +11,6 @@ m20220811_onion_hosts =
 ALTER TABLE conn_confirmations ADD COLUMN smp_client_version INTEGER;
 
 UPDATE ntf_servers
-SET ntf_host = 'ntf2.popopx.im,ntg7jdjy2i3qbib3sykiho3enekwiaqg3icctliqhtqcg6jmoh6cxiad.onion'
-WHERE ntf_host = 'ntf2.popopx.im';
+SET ntf_host = 'ntf2.simplex.im,ntg7jdjy2i3qbib3sykiho3enekwiaqg3icctliqhtqcg6jmoh6cxiad.onion'
+WHERE ntf_host = 'ntf2.simplex.im';
 |]

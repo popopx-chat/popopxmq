@@ -60,6 +60,9 @@ this repository records every modification; the material steps are:
   application identifiers updated (apple-app-site-association appID, assetlinks
   package name, APNs topic and team defaults, Play Store links, App Store
   record ID); the xftp web bundle rebuilt from source; this notice added.
+- 2026-11-12, commit - 14 lines, 3 files: the preset SMP, XFTP and notification
+  server hostnames reverted to the upstream ones they were changed from, because
+  the keys embedded with them were never changed (see section 3).
 
 Modifications that change behaviour or interoperability, not just names:
 
@@ -72,10 +75,18 @@ Modifications that change behaviour or interoperability, not just names:
   interoperate with upstream servers or agents, and data produced under the
   upstream labels cannot be decrypted by this version, or the reverse.
 - Prometheus metric names are `popopx_smp_*`.
-- Preset server hostnames are `smp*.popopx.im` and `xftp*.popopx.im`. The
-  server public keys and .onion addresses embedded with those hostnames are
-  still the upstream ones, so the presets do not resolve to POPOPX-operated
-  services yet.
+- Preset server hostnames are NOT changed: `smp*.simplex.im`, `xftp*.simplex.im`
+  and `ntf*.simplex.im`, together with the public keys and .onion addresses
+  embedded with them. This fork does not operate servers, and a hostname paired
+  with a key that is not that server's makes the preset unusable rather than
+  neutral: file transfers could not verify any XFTP server, and
+  `extraSMPServerHosts` (src/Popopx/Messaging/Agent/Protocol.hs) plus the
+  m20220811 migration, which are both keyed on the host, stopped matching any
+  stored row. These values move only in the change that installs this fork's own
+  server keys. The xftp web bundle
+  (apps/xftp-server/static/xftp-web-bundle/index.js) still carries the renamed
+  hostnames; it is generated from a source tree that is not in this repository,
+  so it belongs to whoever rebuilds it.
 - Docker image organisation is `popopxchat`; installation paths are
   `/etc/popopx`, `/etc/popopx-xftp` and `/var/lib/popopx`, and the server
   management scripts are `popopx-servers-*`.
