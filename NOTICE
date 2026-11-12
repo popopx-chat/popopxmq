@@ -63,6 +63,16 @@ this repository records every modification; the material steps are:
 - 2026-11-12, commit - 14 lines, 3 files: the preset SMP, XFTP and notification
   server hostnames reverted to the upstream ones they were changed from, because
   the keys embedded with them were never changed (see section 3).
+- 2026-11-12, commit - 19 lines, 6 files: the same revert extended past Haskell
+  to the non-Haskell holders of those pairs - xftp-web/web/servers.json (12
+  addresses and the `presets` member), xftp-web/vite.config.ts (its one reader),
+  the four contact links served by a relay of this distribution, and the rebuilt
+  xftp web bundle (6). The previous revision of this notice claimed the bundle
+  "is generated from a source tree that is not in this repository": that is
+  wrong, servers.json is tracked and hand-editable, so the bundle was rebuilt
+  here with `npm run build && npm run build:prod`. The rebuild is otherwise
+  reproducible - the new file equals the old one with exactly those 6 hostnames
+  substituted, verified byte for byte.
 
 Modifications that change behaviour or interoperability, not just names:
 
@@ -77,16 +87,27 @@ Modifications that change behaviour or interoperability, not just names:
 - Prometheus metric names are `popopx_smp_*`.
 - Preset server hostnames are NOT changed: `smp*.simplex.im`, `xftp*.simplex.im`
   and `ntf*.simplex.im`, together with the public keys and .onion addresses
-  embedded with them. This fork does not operate servers, and a hostname paired
-  with a key that is not that server's makes the preset unusable rather than
-  neutral: file transfers could not verify any XFTP server, and
-  `extraSMPServerHosts` (src/Popopx/Messaging/Agent/Protocol.hs) plus the
-  m20220811 migration, which are both keyed on the host, stopped matching any
-  stored row. These values move only in the change that installs this fork's own
-  server keys. The xftp web bundle
-  (apps/xftp-server/static/xftp-web-bundle/index.js) still carries the renamed
-  hostnames; it is generated from a source tree that is not in this repository,
-  so it belongs to whoever rebuilds it.
+  embedded with them, in every place those pairs appear. The Haskell half is
+  src/Popopx/FileTransfer/Client/Presets.hs,
+  src/Popopx/Messaging/Agent/Protocol.hs (`extraSMPServerHosts`) and the
+  m20220811 migration; the non-Haskell half of the same values is
+  xftp-web/web/servers.json with the `presets` member read by
+  xftp-web/vite.config.ts, the build product
+  apps/xftp-server/static/xftp-web-bundle/index.js, and the four contact links
+  a server of this distribution serves in
+  apps/common/Web/static/{index,link}.html and
+  apps/xftp-server/static/file.html. In the last three, only the relay host
+  inside the address moved back: the `popopx.chat` link domain on the same lines
+  is this fork's own (see below).
+  This fork does not operate servers, and a hostname paired with a key that is
+  not that server's makes the preset unusable rather than neutral: file
+  transfers could not verify any XFTP server, and
+  `extraSMPServerHosts` plus the m20220811 migration, which are both keyed on
+  the host, stopped matching any stored row. The Flux list in servers.json is
+  reverted for a related reason: those servers belong to Flux, and taking over
+  their hostname routes Flux's service under this fork's name.
+  These values move only in the change that installs this fork's own server
+  keys.
 - Docker image organisation is `popopxchat`; installation paths are
   `/etc/popopx`, `/etc/popopx-xftp` and `/var/lib/popopx`, and the server
   management scripts are `popopx-servers-*`.
