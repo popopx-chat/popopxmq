@@ -46,27 +46,20 @@ jobs:
         with:
           submodules: recursive
 
-      - name: Build changelog
-        id: build_changelog
-        if: startsWith(github.ref, 'refs/tags/v')
-        uses: simplex-chat/release-changelog-builder-action@v5
-        with:
-          configuration: .github/changelog_conf.json
-          failOnError: true
-          ignorePreReleases: true
-          commitMode: true
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
       - name: Create release
         if: startsWith(github.ref, 'refs/tags/v')
         uses: simplex-chat/action-gh-release@v2
         with:
+          # Hand-written rather than generated: this is the repository's first tag, it shares no
+          # ancestor with the inherited upstream tags and there is no earlier release here, so the
+          # changelog builder had nothing to diff and failed the job every build leg depends on.
           body: |
-            See full changelog [here](https://github.com/popopx-chat/popopxmq/blob/master/CHANGELOG.md).
+            popopxmq 7.1.0.17, built by this repository's CI from the tagged commit.
 
-            Commits:
-            ${{ steps.build_changelog.outputs.changelog }}
+            popopxmq is a fork of simplexmq (AGPL-3.0, SimpleX Chat Ltd). The source of this
+            release is upstream commit `71179c4d` with POPOPX's identity and branding changes
+            applied; the upstream change history is in CHANGELOG.md. Each build job appends its
+            own SHA-256 lines below.
           prerelease: true
           files: |
             LICENSE
