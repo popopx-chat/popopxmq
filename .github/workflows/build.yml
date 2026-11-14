@@ -30,6 +30,11 @@ jobs:
 # On pull requests/commits push, this job will always complete.
 
   maybe-release:
+    # This repository's default workflow token is read-only (actions/permissions/workflow = read),
+    # so without this grant the Create release step below answers 403 Resource not accessible by
+    # integration - measured on run 43575140034 - and a red maybe-release skips every build leg.
+    permissions:
+      contents: write
     runs-on: ubuntu-latest
     outputs:
       reduced: ${{ github.event_name == 'workflow_dispatch' || github.event.pull_request.draft == true || (github.event_name == 'push' && github.ref_type == 'branch' && github.repository != 'popopx-chat/popopxmq') }}
