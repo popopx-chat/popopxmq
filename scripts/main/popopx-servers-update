@@ -211,8 +211,9 @@ check_distro() {
   . /etc/os-release
 
   case "$VERSION_ID" in
-    20.04|22.04) : ;;
-    24.04) VERSION_ID='22.04' ;;
+    # Releases publish only 22_04 and 24_04 assets, so both neighbours fall back to the 22.04 binary.
+    22.04) : ;;
+    20.04|24.04) VERSION_ID='22.04' ;;
     *) printf "${RED}Unsupported Ubuntu version!${NC}\nPlease file Github issue with request to support Ubuntu %s: https://github.com/popopx-chat/popopxmq/issues/new\n" "$VERSION_ID" && exit 1 ;;
   esac
 

@@ -258,56 +258,6 @@ On Linux, you can build smp server using Docker.
 
 See [this section](#smp-server) for more information. Run `smp-server -h` and `smp-server init -h` for explanation of commands and options.
 
-[<img alt="Linode" src="./img/linode.svg" align="right" width="200">](https://cloud.linode.com/stackscripts/748014)
-
-## Deploy SMP server on Linode
-
-\* You can use free credit Linode offers when [creating a new account](https://www.linode.com/) to deploy an SMP server.
-
-Deployment on Linode is performed via StackScripts, which serve as recipes for Linode instances, also called Linodes. To deploy SMP server on Linode:
-
-- Create a Linode account or login with an already existing one.
-- Open [SMP server StackScript](https://cloud.linode.com/stackscripts/748014) and click "Deploy New Linode".
-- You can optionally configure the following parameters:
-  - SMP Server store log flag for queue persistence on server restart, recommended.
-  - [Linode API token](https://www.linode.com/docs/guides/getting-started-with-the-linode-api#get-an-access-token) to attach server address etc. as tags to Linode and to add A record to your 2nd level domain (e.g. `example.com` [domain should be created](https://cloud.linode.com/domains/create) in your account prior to deployment). The API token access scopes:
-    - read/write for "linodes"
-    - read/write for "domains"
-  - Domain name to use instead of Linode IP address, e.g. `smp1.example.com`.
-- Choose the region and plan, Shared CPU Nanode with 1Gb is sufficient.
-- Provide ssh key to be able to connect to your Linode via ssh. If you haven't provided a Linode API token this step is required to login to your Linode and get the server's fingerprint either from the welcome message or from the file `/etc/opt/popopx/fingerprint` after server starts. See [Linode's guide on ssh](https://www.linode.com/docs/guides/use-public-key-authentication-with-ssh/) .
-- Deploy your Linode. After it starts wait for SMP server to start and for tags to appear (if a Linode API token was provided). It may take up to 5 minutes depending on the connection speed on the Linode. Connecting Linode IP address to provided domain name may take some additional time.
-- Get `address` and `fingerprint` either from Linode tags (click on a tag and copy it's value from the browser search panel) or via ssh.
-- Great, your own SMP server is ready! If you provided FQDN use `smp://<fingerprint>@<fqdn>` as SMP server address in the client, otherwise use `smp://<fingerprint>@<ip_address>`.
-
-Please submit an [issue](https://github.com/popopx-chat/popopxmq/issues) if any problems occur.
-
-[<img alt="DigitalOcean" src="/img/digitalocean.png" align="right" width="300">](https://marketplace.digitalocean.com/apps/popopx-server)
-
-## Deploy SMP server on DigitalOcean
-
-> 🚧 DigitalOcean snapshot is currently not up to date, it will soon be updated 🏗️
-
-\* When creating a DigitalOcean account you can use [this link](https://try.digitalocean.com/freetrialoffer/) to get free credit. (You would still be required either to provide your credit card details or make a confirmation pre-payment with PayPal)
-
-To deploy SMP server use [POPOPX Server 1-click app](https://marketplace.digitalocean.com/apps/popopx-server) from DigitalOcean marketplace:
-
-- Create a DigitalOcean account or login with an already existing one.
-- Click 'Create POPOPX server Droplet' button.
-- Choose the region and plan according to your requirements (Basic plan should be sufficient).
-- Finalize Droplet creation.
-- Open "Console" on your Droplet management page to get SMP server fingerprint - either from the welcome message or from `/etc/opt/popopx/fingerprint`. Alternatively you can manually SSH to created Droplet, see [DigitalOcean instruction](https://docs.digitalocean.com/products/droplets/how-to/connect-with-ssh/).
-- Great, your own SMP server is ready! Use `smp://<fingerprint>@<ip_address>` as SMP server address in the client.
-
-Please submit an [issue](https://github.com/popopx-chat/popopxmq/issues) if any problems occur.
-
-> **Please note:** SMP server uses server address as a Common Name for server certificate generated during initialization. If you would like your server address to be FQDN instead of IP address, you can log in to your Droplet and run the commands below to re-initialize the server. Alternatively you can use [Linode StackScript](https://cloud.linode.com/stackscripts/748014) which allows this parameterization.
-
-```sh
-smp-server delete
-smp-server init [-l] -n <fqdn>
-```
-
 ## SMP agent design
 
 ![SMP agent design](./design/agent2.svg)

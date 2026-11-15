@@ -85,7 +85,6 @@ cliTests = do
       it "no store log, no password" $ smpServerTest False False
       it "with store log, no password" $ smpServerTest True False
       it "static files" smpServerTestStatic
-      it "cloud scripts disable embedded web without certificates" smpCloudScriptsDisableWeb
 #if defined(dbServerPostgres)
   around_ (postgressBracket ntfTestServerDBConnectInfo) $ before_ (createNtfSchema ntfTestServerDBConnectInfo ntfTestServerDBOpts) $
     describe "Ntf server CLI" $ do
@@ -215,23 +214,6 @@ smpServerTestStatic = do
           getLn tls >>= \case
             "" -> pure []
             h -> (h :) <$> getHeaders
-
-smpCloudScriptsDisableWeb :: HasCallStack => IO ()
-smpCloudScriptsDisableWeb = do
-  linode <- readFile "scripts/smp-server-linode.sh"
-  digitalOceanInit <-
-    readFile "scripts/smp-server-digitalocean-droplet/files/opt/popopx/initialize_server.sh"
-  digitalOceanLogin <-
-    readFile "scripts/smp-server-digitalocean-droplet/files/opt/popopx/on_login.sh"
-  linode `shouldSatisfy` ("init_opts+=(--disable-web)" `isInfixOf`)
-  linode `shouldSatisfy` ("web.crt" `isInfixOf`)
-  linode `shouldSatisfy` ("web.key" `isInfixOf`)
-  linode `shouldSatisfy` ("uncomment WEB https/cert/key" `isInfixOf`)
-  digitalOceanInit
-    `shouldSatisfy` ("smp-server init -l --disable-web --ip $ip_address" `isInfixOf`)
-  digitalOceanLogin `shouldSatisfy` ("web.crt" `isInfixOf`)
-  digitalOceanLogin `shouldSatisfy` ("web.key" `isInfixOf`)
-  digitalOceanLogin `shouldSatisfy` ("uncomment WEB https/cert/key" `isInfixOf`)
 
 #if defined(dbServerPostgres)
 createNtfSchema :: PSQL.ConnectInfo -> DBOpts -> IO ()
