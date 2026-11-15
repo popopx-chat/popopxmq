@@ -64,8 +64,10 @@ postgresSchemaDumpTest migrations skipComparisonForDownMigrations testDBOpts@DBO
               <> schemaPath
       void $ readCreateProcess (shell cmd) ""
       threadDelay 20000
+      -- The 24.04 leg dumps with the image's own client (build.yml gates the PG15 install to 22.04), and newer pg_dump
+      -- emits per-cluster "SET (pg_attver=N)" statements the committed dumps never had - which this test overwrites.
       let sed = (if os == "linux" then "sed -i" else "sed -i ''")
-      void $ readCreateProcess (shell $ sed <> " '/^--/d; /^\\\\restrict/d; /^\\\\unrestrict/d' " <> schemaPath) ""
+      void $ readCreateProcess (shell $ sed <> " '/^--/d; /^\\\\restrict/d; /^\\\\unrestrict/d; / SET (pg_attver=[0-9]*);$/d' " <> schemaPath) ""
       sch <- unlines . dropWhileEnd null . dropWhile null . lines <$> readFile schemaPath
       sch `deepseq` writeFile schemaPath sch
       pure sch
