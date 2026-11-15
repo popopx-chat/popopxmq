@@ -268,7 +268,8 @@ jobs:
           cabal build --builddir=${{ env.postgres_dist }} --jobs=$(nproc) --enable-tests -fserver_postgres ${{ env.ghc_options }}
           mkdir -p /out
           for i in smp-server xftp-server ntf-server popopxmq-test; do
-            bin=$(find /project/${{ env.postgres_dist }} -name "$i" -type f -executable)
+            # Must repeat the build line's --builddir and flags: list-bin resolves against the plan, so anything else names a path that was never built.
+            bin=$(cabal list-bin -v0 --builddir=${{ env.postgres_dist }} --enable-tests -fserver_postgres "$i")
             chmod +x "$bin"
             cp "$bin" /out/
           done
@@ -312,7 +313,7 @@ jobs:
           cabal build --jobs=$(nproc) ${{ env.ghc_options }}
           mkdir -p /out
           for i in smp-server xftp-server xftp; do
-            bin=$(find /project/dist-newstyle -name "$i" -type f -executable)
+            bin=$(cabal list-bin -v0 "$i")
             strip "$bin"
             chmod +x "$bin"
             cp "$bin" /out/
