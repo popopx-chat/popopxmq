@@ -7,7 +7,10 @@ tempdir="$(mktemp -d)"
 init_dir="$PWD"
 
 repo_name="popopxmq"
-repo="https://github.com/simplex-chat/${repo_name}"
+# One value, three readers: the clone below and the two releases/download calls. The assets it
+# compares against - smp-server-postgres-ubuntu-<os>-x86-64 and the four apps - are the ten names
+# published on popopx-chat/popopxmq's v7.1.0.17, so this is our repository, not upstream's.
+repo="https://github.com/popopx-chat/${repo_name}"
 export DOCKER_BUILDKIT=1
 
 cleanup() {
