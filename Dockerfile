@@ -66,11 +66,22 @@ RUN bin="$(find /project/dist-newstyle -name "$APP" -type f -executable)" && \
 ### Final stage
 FROM ubuntu:${TAG}
 
+# AGPL-3.0 sections 13 and 6(b): identify the work and where its source is,
+# so the image itself carries the offer rather than only the repository.
+LABEL org.opencontainers.image.title="popopxmq" \
+      org.opencontainers.image.description="POPOPXMQ server - message broker of the POPOPX distribution" \
+      org.opencontainers.image.source="https://github.com/popopx-chat/popopxmq" \
+      org.opencontainers.image.licenses="AGPL-3.0-only"
+
 # Install OpenSSL dependency
 RUN apt-get update && apt-get install -y openssl libnuma-dev
 
 # Copy compiled app from build stage
 COPY --from=build /final /usr/local/bin/
+
+# Convey the license text and the notices next to the binary they apply to
+# (AGPL-3.0 sections 4 and 5(d)); the build stage copy is discarded with it.
+COPY LICENSE NOTICE /usr/share/doc/popopxmq/
 
 # Open app listening port
 ARG APP_PORT

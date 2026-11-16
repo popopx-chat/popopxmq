@@ -65,6 +65,11 @@ jobs:
             release is upstream commit `71179c4d` with POPOPX's identity and branding changes
             applied; the upstream change history is in CHANGELOG.md. Each build job appends its
             own SHA-256 lines below.
+
+            Complete corresponding source for these binaries (AGPL-3.0 sections 6 and 13):
+            https://github.com/popopx-chat/popopxmq - this repository at this release tag,
+            including the build scripts and the sources of the generated artifacts. NOTICE
+            records the retained upstream notices and every modification applied here.
           prerelease: true
           files: |
             LICENSE

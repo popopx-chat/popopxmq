@@ -25,6 +25,9 @@
 --                 2026-11-11 and 2026-11-12; the upstream notice above is
 --                 retained, changes and the source offer are in ./NOTICE
 -- License     : AGPL-3
+--                 This distribution conveys the work under AGPL-3.0-only, which is
+--                 the text in ./LICENSE; ./NOTICE records the retained notices and
+--                 the modifications applied to it.
 --
 -- Maintainer  : chat@popopx.chat
 -- Stability   : experimental

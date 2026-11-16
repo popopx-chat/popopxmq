@@ -37,7 +37,7 @@ xftpFilePageHtml = $(embedFile "apps/xftp-server/static/file.html")
 xftpGenerateSite :: XFTPServerConfig s -> Maybe ServerPublicInfo -> Maybe TransportHost -> FilePath -> IO ()
 xftpGenerateSite cfg info onionHost path = do
   let substs = xftpSubsts cfg info onionHost
-  Web.generateSite embeddedContent (render (Web.indexHtml embeddedContent) substs) [] path
+  Web.generateSite embeddedContent (render (Web.indexHtml embeddedContent) substs) (render (Web.linkHtml embeddedContent) substs) [] path
   let xftpDir = path </> "xftp-web-bundle"
       mediaDir = path </> "media"
       fileDir = path </> "file"

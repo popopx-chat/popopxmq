@@ -141,8 +141,8 @@ withGzipFiles canonRoot app req respond
         _ -> app req respond
   | otherwise = app req respond
 
-generateSite :: EmbeddedContent -> ByteString -> [String] -> FilePath -> IO ()
-generateSite embedded indexContent linkPages sitePath = do
+generateSite :: EmbeddedContent -> ByteString -> ByteString -> [String] -> FilePath -> IO ()
+generateSite embedded indexContent linkContent linkPages sitePath = do
   createDirectoryIfMissing True sitePath
   B.writeFile (sitePath </> "index.html") indexContent
   copyDir "media" $ mediaContent embedded
@@ -157,7 +157,7 @@ generateSite embedded indexContent linkPages sitePath = do
       forM_ content $ \(path, s) -> B.writeFile (sitePath </> dir </> path) s
     createLinkPage path = do
       createDirectoryIfMissing True $ sitePath </> path
-      B.writeFile (sitePath </> path </> "index.html") $ linkHtml embedded
+      B.writeFile (sitePath </> path </> "index.html") linkContent
 
 -- | Serve static files via HTTP/2 directly (without WAI).
 -- Path traversal protection: resolved path must stay under canonicalRoot.

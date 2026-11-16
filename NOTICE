@@ -37,7 +37,29 @@ verbatim, as required by AGPL-3.0 section 5(d):
 - Third-party notices kept in place, including the vendored Swiper assets
   (apps/common/Web/static/media/swiper-bundle.min.js and .css - MIT,
   Copyright 2014-2022 Vladimir Kharlampidi) and the terms of the pinned
-  dependencies in cabal.project and the cbits/libbbs and cbits/blst submodules.
+  dependencies in cabal.project.
+- The C sources of the two cbits submodules are conveyed by this package - they are
+  listed in `extra-source-files`, so a source distribution includes them - and their
+  own license texts are distributed beside them, copied byte for byte from the pinned
+  commit of each:
+    cbits/LICENSE-blst
+      Apache License 2.0, Copyright Supranational LLC.
+      cbits/blst @ db3defd0d501cc2bb1cdd59cb955d1a421821441
+      (https://github.com/supranational/blst), sha256 of the text
+      c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4.
+      Of the 142 files this package conveys from it, 42 carry
+      `SPDX-License-Identifier: Apache-2.0` and `Copyright Supranational LLC` in their
+      own header; the rest are covered by the project license above.
+    cbits/LICENSE-libbbs
+      Apache License 2.0. cbits/libbbs @ 59a0f4bf32e195cb6883de8374825c0f4764c717
+      (https://github.com/simplex-chat/libbbs), sha256 of the text
+      504a36ac204f0c6f712b994a6121305e976cf16de774e0f55ffb935c7ce2917a. The license
+      file names "Copyright 2020 SAS / Development"; the sources this package conveys
+      - all 23 of them - carry `SPDX-License-Identifier: Apache-2.0`, and one also
+      carries `(C) 2025 Fraunhofer AISEC`. Both attributions are reproduced here as
+      found.
+  Neither project ships a NOTICE file, so Apache-2.0 section 4(d) requires nothing
+  further, and no file of either project was modified, so section 4(b) does not apply.
 - Prose that records upstream history and authorship - CHANGELOG.md, README.md,
   protocol/, rfcs/, plans/, contributing/ - is kept as written, including links
   to github.com/simplex-chat repositories. Those links name upstream work and
@@ -73,6 +95,23 @@ this repository records every modification; the material steps are:
   here with `npm run build && npm run build:prod`. The rebuild is otherwise
   reproducible - the new file equals the old one with exactly those 6 hostnames
   substituted, verified byte for byte.
+- 2026-11-16 - 15 files besides this notice, source delivery only, no protocol or wire
+  change: the
+  `xftp-server init` configuration template writes `source_code` uncommented, where it
+  shipped commented out and so a default XFTP relay conveyed no source in its handshake;
+  `generateSite` renders the link pages as it already rendered the index page, and
+  `link.html` and `file.html` gained a footer line giving the source of the running
+  commit; the runtime Docker image carries ./LICENSE and ./NOTICE and sets the OCI
+  `source` and `licenses` labels; a GitHub release body states the corresponding-source
+  offer; the 7 module headers that read `License: AGPL-3` now add that this distribution
+  conveys the work under AGPL-3.0-only.
+- 2026-11-16, same day - 4 files besides this notice, source completeness: `xftp-web/.gitignore` no longer
+  ignores `package-lock.json`, which is now tracked, so the shipped xftp web bundle can
+  be resolved to the dependency versions that built it; the Apache-2.0 license texts of
+  the two vendored C trees were taken from the pinned commit of each submodule and are
+  distributed as `cbits/LICENSE-blst` and `cbits/LICENSE-libbbs`, added to
+  `extra-source-files` so a source distribution conveys them together with the sources
+  they cover (see section 2).
 
 Modifications that change behaviour or interoperability, not just names:
 
@@ -134,6 +173,31 @@ produced from xftp-web/ with
 
 and the files `index.js`, `crypto.worker.js` and `index.css` from
 xftp-web/dist-web/assets/ are copied into the bundle directory.
+
+Where this offer is made from, as of 2026-11-16:
+
+- a server that has `source_code` in its `[INFORMATION]` section sends it in the
+  handshake, for SMP and for XFTP, when the negotiated protocol version carries
+  server information; both `smp-server init` and `xftp-server init` write that
+  field uncommented;
+- the static pages a relay serves - `index.html`, `link.html`, `file.html` - print
+  the source address together with the commit the binary was built from;
+- an image built from ./Dockerfile carries ./LICENSE and ./NOTICE under
+  /usr/share/doc/popopxmq/ and sets `org.opencontainers.image.source` and
+  `org.opencontainers.image.licenses`;
+- a GitHub release of this repository states the offer in its body.
+
+Closed the same day, in the same change: the dependency versions behind the shipped
+xftp web bundle are now in the repository, because `xftp-web/package-lock.json` is no
+longer gitignored; and the license terms of the vendored `cbits/blst` and
+`cbits/libbbs` sources travel with the package, as `cbits/LICENSE-blst` and
+`cbits/LICENSE-libbbs` (see section 2).
+
+One gap remains, and it is not a file change: `install.sh`, README.md and the
+`blob/stable/` links that the served pages and the generated configuration print all
+name a `stable` branch. A branch of that name now exists in this repository's history,
+but it reaches the outside world only once it is published; until then this offer is
+reachable through `master` and the release tags.
 
 
 5. Names

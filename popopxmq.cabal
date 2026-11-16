@@ -32,6 +32,8 @@ extra-source-files:
     cbits/blst/**/*.asm
     cbits/libbbs/**/*.c
     cbits/libbbs/**/*.h
+    cbits/LICENSE-blst
+    cbits/LICENSE-libbbs
     apps/common/Web/static/index.html
     apps/common/Web/static/link.html
     apps/common/Web/static/media/apk_icon.png
