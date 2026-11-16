@@ -61,9 +61,21 @@ verbatim, as required by AGPL-3.0 section 5(d):
   Neither project ships a NOTICE file, so Apache-2.0 section 4(d) requires nothing
   further, and no file of either project was modified, so section 4(b) does not apply.
 - Prose that records upstream history and authorship - CHANGELOG.md, README.md,
-  protocol/, rfcs/, plans/, contributing/ - is kept as written, including links
-  to github.com/simplex-chat repositories. Those links name upstream work and
-  are deliberately not rewritten.
+  protocol/, rfcs/, plans/, contributing/ - keeps the events, the people and the
+  reasoning as upstream wrote them, but it is not verbatim: the brand substitution of
+  section 3 rewrote names inside it, measured against the pristine upstream snapshot as
+  360 lines in protocol/, 318 in rfcs/, 352 in plans/, 50 in contributing/ and 30 in
+  CHANGELOG.md. Two kinds of text in it are not left bearing this fork's name. Links to
+  github.com/simplex-chat repositories name upstream work and stay upstream's. And the
+  name of upstream's company, which is the one string the sweep got wrong: `SimpleX Chat
+  Ltd` was swept to `POPOPX Chat Ltd` in 5 places on 2026-11-12 (rfcs/README.md:106,107,
+  114,116 and rfcs/standard/2026-03-10-server-metadata.md:68) and was restored on
+  2026-11-16, because that string is not the name of a product but the legal entity said
+  to have governed the protocol from 2022 and to hold its IP - leaving it swept would
+  have claimed upstream's authorship for this fork. Not restored, and named here so no
+  reader infers it: the governance bodies in those same sentences still carry this fork's
+  name, so rfcs/README.md reads `POPOPX Network Consortium` where upstream records the
+  body it formed; that consortium is upstream's and this fork is not a party to it.
 
 
 3. Modifications (AGPL-3.0 section 5(b))
@@ -78,16 +90,19 @@ this repository records every modification; the material steps are:
   (simplex -> popopx, Simplex -> Popopx, SimpleX -> POPOPX, SIMPLEX -> POPOPX),
   excluding GitHub URLs to the upstream organisation, ./LICENSE and the notices
   listed in section 2.
-- 2026-11-12 - 23 links into this repository's own renamed documents repaired;
-  application identifiers updated (apple-app-site-association appID, assetlinks
+- 2026-11-12 - 6 links into this repository's own renamed protocol documents repointed,
+  in two commits (af9953b2: 5 lines in 5 files; 374c4b5f: 1 line in 1 file); application
+  identifiers updated (apple-app-site-association appID, assetlinks
   package name, APNs topic and team defaults, Play Store links, App Store
-  record ID); the xftp web bundle rebuilt from source; this notice added.
+  record ID); the xftp web bundle rebuilt from source; this notice added (c2c9c4da).
+  An earlier revision of this bullet said 23 links; 6 is what these two commits contain.
 - 2026-11-12, commit - 14 lines, 3 files: the preset SMP, XFTP and notification
   server hostnames reverted to the upstream ones they were changed from, because
   the keys embedded with them were never changed (see section 3).
 - 2026-11-12, commit - 19 lines, 6 files: the same revert extended past Haskell
   to the non-Haskell holders of those pairs - xftp-web/web/servers.json (12
-  addresses and the `presets` member), xftp-web/vite.config.ts (its one reader),
+  addresses, 6 in its `simplex` member and 6 in its `flux` member),
+  xftp-web/vite.config.ts (its one reader),
   the four contact links served by a relay of this distribution, and the rebuilt
   xftp web bundle (6). The previous revision of this notice claimed the bundle
   "is generated from a source tree that is not in this repository": that is
@@ -100,12 +115,13 @@ this repository records every modification; the material steps are:
   `xftp-server init` configuration template writes `source_code` uncommented, where it
   shipped commented out and so a default XFTP relay conveyed no source in its handshake;
   `generateSite` renders the link pages as it already rendered the index page, and
-  `link.html` and `file.html` gained a footer line giving the source of the running
-  commit; the runtime Docker image carries ./LICENSE and ./NOTICE and sets the OCI
+  `link.html` and `file.html` gained a footer line naming the source repository of the
+  work they run from - the commit itself is printed only by `index.html`, in its version
+  row; the runtime Docker image carries ./LICENSE and ./NOTICE and sets the OCI
   `source` and `licenses` labels; a GitHub release body states the corresponding-source
   offer; the 7 module headers that read `License: AGPL-3` now add that this distribution
   conveys the work under AGPL-3.0-only.
-- 2026-11-16, same day - 4 files besides this notice, source completeness: `xftp-web/.gitignore` no longer
+- 2026-11-16, commit 5294add6 - 5 files besides this notice, source completeness: `xftp-web/.gitignore` no longer
   ignores `package-lock.json`, which is now tracked, so the shipped xftp web bundle can
   be resolved to the dependency versions that built it; the Apache-2.0 license texts of
   the two vendored C trees were taken from the pinned commit of each submodule and are
@@ -158,6 +174,18 @@ this repository records every modification; the material steps are:
   English text is republished; the file's `docs/lang/{fr,cs,pl}/CLI.md` row still points at
   upstream, which is the only place those translations are kept.
 
+- 2026-11-16, same day - 5 lines in 2 files, authorship: upstream's company name restored, so
+  `SimpleX Chat Ltd` stands again in rfcs/README.md and in the recommended-policy example of
+  rfcs/standard/2026-03-10-server-metadata.md (see section 2 for why a name sweep must not
+  reach a legal entity). The same pass corrected six statements in this notice that had
+  overstated the fork: prose the sweep did change described as "kept as written"; a
+  link-repair count the two commits do not contain; a file count for the source-completeness
+  change; the name of a JSON member that is in fact an import alias; what each served page
+  prints; and the release-body offer written as delivered when the only published release
+  predates the sentence. The counts quoted now are measured against the pristine upstream
+  snapshot and against git history, not remembered: this notice is the document a recipient
+  is meant to rely on, and an inaccurate one is worse than a short one.
+
 Modifications that change behaviour or interoperability, not just names:
 
 - Service URI scheme is `popopx:` instead of the upstream scheme
@@ -175,8 +203,9 @@ Modifications that change behaviour or interoperability, not just names:
   src/Popopx/FileTransfer/Client/Presets.hs,
   src/Popopx/Messaging/Agent/Protocol.hs (`extraSMPServerHosts`) and the
   m20220811 migration; the non-Haskell half of the same values is
-  xftp-web/web/servers.json with the `presets` member read by
-  xftp-web/vite.config.ts, the build product
+  xftp-web/web/servers.json - the `simplex` member, imported by
+  xftp-web/vite.config.ts as `presets` and read there as `presets.simplex` -
+  the build product
   apps/xftp-server/static/xftp-web-bundle/index.js, and the four contact links
   a server of this distribution serves in
   apps/common/Web/static/{index,link}.html and
@@ -229,13 +258,21 @@ Where this offer is made from, as of 2026-11-16:
   handshake, for SMP and for XFTP, when the negotiated protocol version carries
   server information; both `smp-server init` and `xftp-server init` write that
   field uncommented;
-- the static pages a relay serves - `index.html`, `link.html`, `file.html` - print
-  the source address together with the commit the binary was built from;
+- the static pages a relay serves name the source: `link.html` and `file.html` print the
+  repository URL in a footer, and `index.html` prints that URL together with the short
+  commit its binary was built from;
 - an image built from ./Dockerfile carries ./LICENSE and ./NOTICE under
   /usr/share/doc/popopxmq/, the Apache-2.0 texts of the C it embeds under
   /usr/share/doc/popopxmq/third-party/, and sets
-  `org.opencontainers.image.source` and `org.opencontainers.image.licenses`;
-- a GitHub release of this repository states the offer in its body.
+  `org.opencontainers.image.source` and `org.opencontainers.image.licenses` - as a recipe
+  only: no CI leg builds ./Dockerfile, and no container package is published for this
+  repository, so those labels have never been read off a distributed config;
+- the workflow that publishes a GitHub release writes the offer into the release body.
+  That sentence is forward-looking, not delivered: the one published release, v7.1.0.17,
+  was cut from `606b98d7` on 2026-11-14, two days before the text existed, and `install.sh`
+  downloads the binaries a user runs from that page - so the offer reaches whoever
+  installs today only through the server handshake, the served pages, README.md and this
+  notice, until a release is cut from a commit at or after 5294add6.
 
 Closed the same day, in the same change: the dependency versions behind the shipped
 xftp web bundle are now in the repository, because `xftp-web/package-lock.json` is no

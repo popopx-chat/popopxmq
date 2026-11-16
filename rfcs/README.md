@@ -103,17 +103,17 @@ POPOPX Network follows the Netscape-to-W3C evolution path, with ratcheted rather
 | Phase | Period | Governance | Development process |
 |-------|--------|-----------|-------------------|
 | Protocol invented | 2020 | Two people | Prototype developed |
-| POPOPX Chat Ltd | 2022 | One company | Product-first: code leads, specs follow |
-| POPOPX Network Consortium | 2026 | Agreement of POPOPX Chat Ltd and non-profit entities | Product-first for standard; standards-first for core |
+| SimpleX Chat Ltd | 2022 | One company | Product-first: code leads, specs follow |
+| POPOPX Network Consortium | 2026 | Agreement of SimpleX Chat Ltd and non-profit entities | Product-first for standard; standards-first for core |
 | Decentralized governance | Future | TBD (DAO research ongoing) | Standards-first |
 
 ### Current: product-first development
 
 POPOPX protocols currently follow a product-first development process: requirements drive code, code drives specification. RFCs are written as design proposals before implementation, but implementation details are figured out in code. Consolidated protocol specifications in `protocol/` are then amended to match the implementation.
 
-This process is governed by POPOPX Chat Ltd as the IP Holding Party under the Consortium Agreement.
+This process is governed by SimpleX Chat Ltd as the IP Holding Party under the Consortium Agreement.
 
-Any Specification Author (as defined in the Consortium Agreement) may propose RFCs. Acceptance and standardization decisions are made by POPOPX Chat Ltd during the current product-first phase.
+Any Specification Author (as defined in the Consortium Agreement) may propose RFCs. Acceptance and standardization decisions are made by SimpleX Chat Ltd during the current product-first phase.
 
 ### Standard vs Core specifications
 

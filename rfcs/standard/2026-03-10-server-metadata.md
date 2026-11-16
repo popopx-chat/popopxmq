@@ -65,7 +65,7 @@ usage_conditions: https://github.com/simplex-chat/simplex-chat/blob/_archived-ep
 # condition_amendments: link
 
 server_country: SE
-operator: POPOPX Chat Ltd.
+operator: SimpleX Chat Ltd.
 operator_country: GB # operator country
 website: https://popopx.chat
 admin_popopx: administrative POPOPX address
