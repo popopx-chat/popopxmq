@@ -20,13 +20,13 @@ POPOPX follows the same Netscape-to-consortium evolution path, but with two ratc
 
 - **Licensing ratchet**: all contributed IP is licensed under AGPLv3 (software) and Creative Commons (documentation), perpetually and irrevocably. What is licensed cannot be unlicensed. If a Party transfers Licensed IP, the licensing obligations transfer with it.
 
-- **Governance ratchet**: power can be given to the POPOPX Network Consortium, but never taken back. The Consortium Agreement requires majority decision of all Governing Parties for changes to the agreement itself, IP policy, and admission or removal of parties.
+- **Governance ratchet**: power can be given to the SimpleX Network Consortium, but never taken back. The Consortium Agreement requires majority decision of all Governing Parties for changes to the agreement itself, IP policy, and admission or removal of parties.
 
 The ratcheted transition is historically proven to be necessary. It allows the company to continue driving rapid product innovation (as Netscape did for the web) while incrementally and irreversibly transferring governance to the consortium, without the abrupt handover that stalled web evolution or the centralization that later undermined it.
 
 ### Specification governance via the Consortium Agreement
 
-The POPOPX Network Consortium Agreement (being deployed in 2026) establishes two levels of intellectual property governance: **Licensed IP** (all contributed protocol specifications, software, and documentation, licensed perpetually and irrevocably) and **Core IP** (the subset essential to the network, requiring consortium governance to change). The distinction between these levels and how they map to the RFC process is described in [Standard vs Core specifications](#standard-vs-core-specifications) below.
+The SimpleX Network Consortium Agreement (being deployed in 2026) establishes two levels of intellectual property governance: **Licensed IP** (all contributed protocol specifications, software, and documentation, licensed perpetually and irrevocably) and **Core IP** (the subset essential to the network, requiring consortium governance to change). The distinction between these levels and how they map to the RFC process is described in [Standard vs Core specifications](#standard-vs-core-specifications) below.
 
 ## Specification change process: protocol specifications and RFCs
 
@@ -104,7 +104,7 @@ POPOPX Network follows the Netscape-to-W3C evolution path, with ratcheted rather
 |-------|--------|-----------|-------------------|
 | Protocol invented | 2020 | Two people | Prototype developed |
 | SimpleX Chat Ltd | 2022 | One company | Product-first: code leads, specs follow |
-| POPOPX Network Consortium | 2026 | Agreement of SimpleX Chat Ltd and non-profit entities | Product-first for standard; standards-first for core |
+| SimpleX Network Consortium | 2026 | Agreement of SimpleX Chat Ltd and non-profit entities | Product-first for standard; standards-first for core |
 | Decentralized governance | Future | TBD (DAO research ongoing) | Standards-first |
 
 ### Current: product-first development

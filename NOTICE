@@ -185,6 +185,25 @@ this repository records every modification; the material steps are:
   predates the sentence. The counts quoted now are measured against the pristine upstream
   snapshot and against git history, not remembered: this notice is the document a recipient
   is meant to rely on, and an inaccurate one is worse than a short one.
+- 2026-11-16, same day - 6 certificate files, a class no name substitution can reach: the test
+  fixtures tests/fixtures/{ca,ca2,server,server2}.crt and tests/fixtures/ed25519/{ca,server}.crt
+  were byte copies of upstream's, and upstream's organisation name was carried inside them in a
+  form only a decoder shows - nine `O=SimpleX` in the base64 of four subjects and two issuers.
+  Their generators had long since been swept: openssl_ca.conf:7 and the CA block that
+  `smp-server cert` writes (src/Popopx/Messaging/Server/CLI.hs:175) both say `O = POPOPX`, so
+  the shipped artifacts contradicted the instruction in their own directory README that the
+  two be kept consistent. They are re-issued with the same keys, the same serials, the same
+  signature algorithms and the same extensions, and only the distinguished name moved; proved
+  by comparing each new certificate's public key and extension set against the one it replaces,
+  by re-verifying every chain, and by re-running the negative case CryptoTests depends on
+  (server2.crt does not verify under ca). No file quotes a fixture fingerprint, in colon'd or
+  bare form, and every test reads one from the file with `loadFileFingerprint`, so nothing had
+  to move with the bytes. These are test inputs; no server of this distribution presents one.
+  One divergence is left as found, not hidden: the leaves carry subject and authority key
+  identifiers that openssl_server.conf does not declare, as upstream's did - the re-issue
+  preserved the artifacts rather than the conf, so that README's recipe still would not
+  reproduce the files byte for byte, which is a smaller claim than the one it makes about the
+  distinguished name.
 
 Modifications that change behaviour or interoperability, not just names:
 
