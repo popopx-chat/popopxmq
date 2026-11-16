@@ -231,8 +231,18 @@ this repository records every modification; the material steps are:
   point at `#donate-to-the-upstream-project`, checked against the rendered page of the pushed
   client master rather than against a heading assumed to carry that slug. This is named here
   because the target section is upstream's, not ours: the fork's own position - that it receives
-  none of that money - is stated in the section's first line, and the same routing is what
-  .github/FUNDING.yml still points at upstream's organisation for.
+  none of that money - is stated in the section's first line.
+- 2026-11-16, same day - 1 file deleted, .github/FUNDING.yml: it declared
+  `github: simplex-chat` and `open_collective: simplex-chat`, which placed upstream's funding
+  address on the front page of a repository that is not upstream's and whose README disclaims
+  any affiliation. Measured on the rendered repository page, GitHub was showing no sponsor
+  affordance from it ("showSponsorButton": false), so the file routed nothing - it only
+  asserted a relationship. It is removed rather than repointed, on the precedent this fork set
+  on 2026-11-13 when it deleted the AppStream `<url type="donation">` elements: a funding
+  entry has no slot to say whose funds they are, and this fork has no sponsor program to put
+  in that slot (the measured fallback for popopx-chat is its organization page, with no
+  tiers). Donating to the upstream project is still described - in words, with the recipient
+  named - in the client repository's README.
 
 Modifications that change behaviour or interoperability, not just names:
 
