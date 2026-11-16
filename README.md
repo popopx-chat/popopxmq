@@ -150,7 +150,7 @@ You can install and setup servers automatically using our script:
 
 ```sh
 curl --proto '=https' --tlsv1.2 -sSf https://raw.githubusercontent.com/popopx-chat/popopxmq/stable/install.sh -o popopx-server-install.sh &&\
-if echo '53fcdb4ceab324316e2c4cda7e84dbbb344f32550a65975a7895425e5a1be757 popopx-server-install.sh' | sha256sum -c; then
+if echo 'b19045d79f1703cd15e2b49d49101e1a85e3a65e512a1321778577445d0823d8 popopx-server-install.sh' | sha256sum -c; then
   chmod +x ./popopx-server-install.sh
   ./popopx-server-install.sh
   rm ./popopx-server-install.sh

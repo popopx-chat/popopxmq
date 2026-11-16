@@ -153,6 +153,23 @@ jobs:
         with:
           submodules: recursive
 
+      - name: Check the installer checksum recorded in README
+        if: matrix.should_run == true
+        run: |
+          documented="$(grep -o -E '[0-9a-f]{64} popopx-server-install.sh' README.md | head -1 | cut -d' ' -f1 || true)"
+          actual="$(sha256sum install.sh | cut -d' ' -f1)"
+          if [ -z "$documented" ]; then
+            echo "::error::README carries no install.sh checksum to verify against."
+            exit 1
+          fi
+          if [ "$documented" != "$actual" ]; then
+            echo "::error::README documents install.sh as $documented, the file hashes to $actual."
+            echo "install.sh is published from raw.githubusercontent.com by the branch README names,"
+            echo "so its checksum has to move in the same commit that changes the script."
+            exit 1
+          fi
+          echo "install.sh matches the checksum in README: $actual"
+
       - name: Set up Docker Buildx
         if: matrix.should_run == true
         uses: simplex-chat/docker-setup-buildx-action@v3

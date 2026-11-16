@@ -83,6 +83,10 @@ COPY --from=build /final /usr/local/bin/
 # (AGPL-3.0 sections 4 and 5(d)); the build stage copy is discarded with it.
 COPY LICENSE NOTICE /usr/share/doc/popopxmq/
 
+# The binary embeds the vendored C of blst and libbbs, both Apache-2.0, so their
+# texts travel with the image for the same reason they travel in the sdist.
+COPY cbits/LICENSE-blst cbits/LICENSE-libbbs /usr/share/doc/popopxmq/third-party/
+
 # Open app listening port
 ARG APP_PORT
 RUN if [ -z "$APP_PORT" ]; then printf "Please spcify \$APP_PORT build-arg.\n"; exit 1; fi

@@ -112,6 +112,13 @@ this repository records every modification; the material steps are:
   distributed as `cbits/LICENSE-blst` and `cbits/LICENSE-libbbs`, added to
   `extra-source-files` so a source distribution conveys them together with the sources
   they cover (see section 2).
+- 2026-11-16, same day - README.md carried the SHA-256 of `install.sh` as that script
+  stood at the snapshot commit (`53fcdb4c…`), but the branding change and the later
+  removal of cloud provisioning both rewrote the script, so anyone following the
+  documented one-liner failed its own checksum gate with "SHA-256 checksum is
+  incorrect!". The recorded value is now what `install.sh` hashes to at this commit, and
+  the build workflow gained a step that recomputes it and fails when README disagrees: a
+  checksum quoted in prose is the one end a script change cannot move by itself.
 
 Modifications that change behaviour or interoperability, not just names:
 
@@ -183,8 +190,9 @@ Where this offer is made from, as of 2026-11-16:
 - the static pages a relay serves - `index.html`, `link.html`, `file.html` - print
   the source address together with the commit the binary was built from;
 - an image built from ./Dockerfile carries ./LICENSE and ./NOTICE under
-  /usr/share/doc/popopxmq/ and sets `org.opencontainers.image.source` and
-  `org.opencontainers.image.licenses`;
+  /usr/share/doc/popopxmq/, the Apache-2.0 texts of the C it embeds under
+  /usr/share/doc/popopxmq/third-party/, and sets
+  `org.opencontainers.image.source` and `org.opencontainers.image.licenses`;
 - a GitHub release of this repository states the offer in its body.
 
 Closed the same day, in the same change: the dependency versions behind the shipped
