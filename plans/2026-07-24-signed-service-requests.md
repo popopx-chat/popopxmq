@@ -15,14 +15,14 @@ data RequestSignature = RequestSignature C.PublicKeyEd25519 (C.Signature 'C.Ed25
 ## Binding
 
 ```
-binding = sha3-256("POPOPXService" <> rcAD)
+binding = sha3-256("SimpleXService" <> rcAD)
 sig     = Ed25519.sign(sk, binding <> payload)
 ```
 The service recomputes `binding` from its own `rcAD` and verifies.
 
 - `rcAD` = the ratchet associated data (`Ratchet.rcAD`) — the shared connection security code: identical on both ratchets by construction (`pubKey(requester ephemeral) <> pubKey(service key)`), stable, and unique per request (fresh requester ephemeral). Already on the ratchet; nothing derived or stored.
 - sha3-256 here is not for uniformity or secrecy (both moot: the value is signed, not keyed, and only a ratchet holder can craft a valid request). It gives a canonical fixed-length, domain-tagged binding; the 32-byte fixed prefix also makes `binding <> payload` unambiguous.
-- Domain string `"POPOPXService"`: separates this signature from other uses of the signing key.
+- Domain string `"SimpleXService"`: separates this signature from other uses of the signing key.
 - Not covered: reply queues (the AEAD protects them in transit; addresses may use redundant queues).
 - Anti-relay: a signature bound to one session's rcAD does not verify under another's (both parties' keys differ). Replay of the encrypted blob is handled separately by transport dedup.
 

@@ -107,22 +107,22 @@ HKDF is `C.hkdf salt ikm info len` (HKDF-SHA512).
 
 | Info string | Salt | IKM | Output (split) | Function | Use |
 |---|---|---|---|---|---|
-| `"POPOPXX3DH"` | 64 zero bytes | `dh1 \|\| dh2 \|\| dh3 [\|\| kemShared]` | 96: `hk`, `nhk`, root key (32 each) | `CR.pqX3dh` | Ratchet initialization, added in E2E v2; KEM secret from E2E v3 (current minimum) |
-| `"POPOPXVerifyCode"` | 64 zero bytes | same as `POPOPXX3DH` | 32: `rcVCPQ` | `CR.pqX3dh` | Verification code covering all handshake keys, new ratchets |
-| `"POPOPXRootRatchet"` | root key | `dh [\|\| kemShared]` | 96: root key, chain key, next header key | `CR.rootKdf` | DH/PQ ratchet step |
-| `"POPOPXChainRatchet"` | empty | chain key | 96: chain key, message key (32 each), message IV (16), header IV (16) | `CR.chainKdf` | Per-message keys |
-| `"POPOPXSbChainInit"` | SMP session ID | X25519 session secret | 64: two 32-byte chain keys | `C.sbcInit` from `Transport.blockEncryption` | SMP transport block encryption, SMP v11+ |
-| `"POPOPXSbChainInit"` | empty | XRCP hybrid secret (below) | 64: two 32-byte chain keys | `C.sbcInit` in [RemoteControl/Client.hs](../src/Popopx/RemoteControl/Client.hs) | XRCP v1 session |
-| `"POPOPXSbChain"` | empty | chain key | 88: chain key (32), secretbox key (32), nonce (24) | `C.sbcHkdf` | Each SMP block and XRCP message |
-| `"POPOPXContactLink"` | empty | link key (32) | 56: link ID (24), secretbox key (32) | `SL.contactShortLinkKdf` | Contact short links, SMP v15+ |
-| `"POPOPXInvLink"` | empty | link key (32) | 32: secretbox key | `SL.invShortLinkKdf` | Invitation short links, SMP v15+ |
+| `"SimpleXX3DH"` | 64 zero bytes | `dh1 \|\| dh2 \|\| dh3 [\|\| kemShared]` | 96: `hk`, `nhk`, root key (32 each) | `CR.pqX3dh` | Ratchet initialization, added in E2E v2; KEM secret from E2E v3 (current minimum) |
+| `"SimpleXVerifyCode"` | 64 zero bytes | same as `SimpleXX3DH` | 32: `rcVCPQ` | `CR.pqX3dh` | Verification code covering all handshake keys, new ratchets |
+| `"SimpleXRootRatchet"` | root key | `dh [\|\| kemShared]` | 96: root key, chain key, next header key | `CR.rootKdf` | DH/PQ ratchet step |
+| `"SimpleXChainRatchet"` | empty | chain key | 96: chain key, message key (32 each), message IV (16), header IV (16) | `CR.chainKdf` | Per-message keys |
+| `"SimpleXSbChainInit"` | SMP session ID | X25519 session secret | 64: two 32-byte chain keys | `C.sbcInit` from `Transport.blockEncryption` | SMP transport block encryption, SMP v11+ |
+| `"SimpleXSbChainInit"` | empty | XRCP hybrid secret (below) | 64: two 32-byte chain keys | `C.sbcInit` in [RemoteControl/Client.hs](../src/Popopx/RemoteControl/Client.hs) | XRCP v1 session |
+| `"SimpleXSbChain"` | empty | chain key | 88: chain key (32), secretbox key (32), nonce (24) | `C.sbcHkdf` | Each SMP block and XRCP message |
+| `"SimpleXContactLink"` | empty | link key (32) | 56: link ID (24), secretbox key (32) | `SL.contactShortLinkKdf` | Contact short links, SMP v15+ |
+| `"SimpleXInvLink"` | empty | link key (32) | 32: secretbox key | `SL.invShortLinkKdf` | Invitation short links, SMP v15+ |
 
 Other derivations:
 
 | Value | Construction | Function | Use |
 |---|---|---|---|
-| Service request binding | `sha3_256("POPOPXService" \|\| rcAD)` | `serviceReqBinding` in [Agent.hs](../src/Popopx/Messaging/Agent.hs) | Agent RPC, agent v8 |
-| BBS header | `"POPOPX badges v1"` | `entitlementBBSHeader` | Badge credentials |
+| Service request binding | `sha3_256("SimpleXService" \|\| rcAD)` | `serviceReqBinding` in [Agent.hs](../src/Popopx/Messaging/Agent.hs) | Agent RPC, agent v8 |
+| BBS header | `"SimpleX badges v1"` | `entitlementBBSHeader` | Badge credentials |
 | XRCP hybrid secret | `sha3_256(x25519Dh \|\| kemShared)` | `KEM.kemHybridSecret` | XRCP v1 |
 | Short-link key | `sha3_256(smpEncode FixedLinkData)` | `SL.encodeSignFixedData`, checked in `SL.decryptLinkData` | SMP v15+ |
 | Sender ID | `take 24 (sha3_384 corrId)` | `prepareConnectionLink'`, `newRcvConnSrv` in Agent.hs; `createQueue` in [Server.hs](../src/Popopx/Messaging/Server.hs) | Client-supplied sender ID with link data, SMP v15+; the server rejects a mismatch to prevent an ID oracle |
@@ -132,7 +132,7 @@ Other derivations:
 | Command authenticator | `crypto_box(sha512(authorized))` | `C.cbAuthenticate` | SMP v7+ |
 | Queue IDs hash | `xor` of `md5(queueId)` | `Protocol.queueIdsHash` | Service subscriptions |
 
-`"POPOPXSbChainInit"` and `"POPOPXSbChain"` are shared by SMP block encryption and XRCP. Their outputs are separated only by the IKM (and the salt for `sbcInit`).
+`"SimpleXSbChainInit"` and `"SimpleXSbChain"` are shared by SMP block encryption and XRCP. Their outputs are separated only by the IKM (and the salt for `sbcInit`).
 
 ## Nonces and IVs
 

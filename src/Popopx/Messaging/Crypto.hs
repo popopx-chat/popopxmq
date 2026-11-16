@@ -1504,17 +1504,19 @@ randomSbKey gVar = SecretBoxKey <$> randomBytes 32 gVar
 newtype SbChainKey = SecretBoxChainKey {unSbChainKey :: ByteString}
   deriving (Eq, Show)
 
+-- the info string is fed to HKDF on the SMP server too, so it is a protocol constant rather than a label
 sbcInit :: ByteArrayAccess secret => ByteString -> secret -> (SbChainKey, SbChainKey)
 sbcInit salt secret = (SecretBoxChainKey ck1, SecretBoxChainKey ck2)
   where
-    (ck1, ck2) = B.splitAt 32 $ hkdf salt secret "POPOPXSbChainInit" 64
+    (ck1, ck2) = B.splitAt 32 $ hkdf salt secret "SimpleXSbChainInit" 64
 
 type SbKeyNonce = (SbKey, CbNonce)
 
+-- continues the chain from sbcInit, which the server advances with the same string
 sbcHkdf :: SbChainKey -> (SbKeyNonce, SbChainKey)
 sbcHkdf (SecretBoxChainKey ck) = ((SecretBoxKey sk, CryptoBoxNonce nonce), SecretBoxChainKey ck')
   where
-    out = hkdf "" ck "POPOPXSbChain" 88 -- = 32 (new chain key) + 32 (secret_box key) + 24 (nonce)
+    out = hkdf "" ck "SimpleXSbChain" 88 -- = 32 (new chain key) + 32 (secret_box key) + 24 (nonce)
     (ck', rest) = B.splitAt 32 out
     (sk, nonce) = B.splitAt 32 rest
 

@@ -45,13 +45,14 @@ fixedDataPaddedLength = 2008 -- 2048 - 24 (nonce) - 16 (auth tag)
 userDataPaddedLength :: Int
 userDataPaddedLength = 13784 -- 13824 - 24 - 16
 
+-- links already issued are decoded with these strings, so renaming them invalidates them
 contactShortLinkKdf :: LinkKey -> (LinkId, C.SbKey)
 contactShortLinkKdf (LinkKey k) =
-  let (lnkId, sbKey) = B.splitAt 24 $ C.hkdf "" k "POPOPXContactLink" 56
+  let (lnkId, sbKey) = B.splitAt 24 $ C.hkdf "" k "SimpleXContactLink" 56
    in (EntityId lnkId, C.unsafeSbKey sbKey)
 
 invShortLinkKdf :: LinkKey -> C.SbKey
-invShortLinkKdf (LinkKey k) = C.unsafeSbKey $ C.hkdf "" k "POPOPXInvLink" 32
+invShortLinkKdf (LinkKey k) = C.unsafeSbKey $ C.hkdf "" k "SimpleXInvLink" 32
 
 encodeSignLinkData :: forall c. ConnectionModeI c => C.KeyPairEd25519 -> VersionRangeSMPA -> ConnectionRequestUri c -> Maybe ByteString -> UserConnLinkData c -> (LinkKey, (ByteString, ByteString))
 encodeSignLinkData keys@(_, pk) agentVRange connReq linkEntityId userData =

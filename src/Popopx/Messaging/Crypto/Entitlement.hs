@@ -88,8 +88,9 @@ instance Encoding EntitlementProof where
     (issuerKeyIdx, entProof, entitlement) <- smpP
     pure EntitlementProof {issuerKeyIdx, entProof, entitlement}
 
+-- the issuer signs over this header, and our client still points at upstream's badge service
 entitlementBBSHeader :: BBSHeader
-entitlementBBSHeader = BBSHeader "POPOPX badges v1"
+entitlementBBSHeader = BBSHeader "SimpleX badges v1"
 
 entitlementMessageCount :: Int
 entitlementMessageCount = 4

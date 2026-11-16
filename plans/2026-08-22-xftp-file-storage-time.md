@@ -34,7 +34,7 @@ data EntitlementProof = EntitlementProof
 Functions and constants:
 
 - the disclosed-message encoding: the master key is message 0 and stays undisclosed; `expiresAt`, `entitlementName`, and `extraInfo` are messages 1 to 3 and are disclosed. The protocol encoding of `Entitlement` and its field order follow the same order
-- the BBS header string `"POPOPX badges v1"` (shared with chat's badges, which sign under it), the message count, and the disclosed indexes
+- the BBS header string `"SimpleX badges v1"` (shared with chat's badges, which sign under it), the message count, and the disclosed indexes
 - `generateEntitlementProof :: Map Word16 BBSPublicKey -> EntitlementCredential -> BBSPresHeader -> IO (Either String EntitlementProof)` (the issuer key is looked up by the credential's index; an absent index is `Left`)
 - `verifyEntitlement :: Map Word16 BBSPublicKey -> BBSPresHeader -> EntitlementProof -> IO EntitlementVerification`, where `data EntitlementVerification = EVValid | EVInvalid | EVUnknownIssuer` (the caller supplies the presentation header; the server reconstructs it, the proof never includes it)
 - the issuer public keys constant `Map Word16 BBSPublicKey`

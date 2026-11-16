@@ -498,6 +498,7 @@ pqX3dhRcv (rpk1, rpk2, rpKem_) (E2ERatchetParams _ sk1 sk2 sKem_) = do
         Nothing -> throwE CERatchetKEMState
       _ -> pure Nothing -- both parties can send "proposal" in case of ratchet renegotiation
 
+-- the peer runs this derivation with the same info strings, so neither can carry our brand
 pqX3dh :: DhAlgorithm a => (PublicKey a, PublicKey a) -> DhSecret a -> DhSecret a -> DhSecret a -> Maybe RatchetKEMAccepted -> RatchetInitParams
 pqX3dh (sk1, rk1) dh1 dh2 dh3 kemAccepted =
   RatchetInitParams {assocData, rcVerifyCodePQ = Str vcPQ, ratchetKey = RatchetKey sk, sndHK = Key hk, rcvNextHK = Key nhk, kemAccepted}
@@ -506,8 +507,8 @@ pqX3dh (sk1, rk1) dh1 dh2 dh3 kemAccepted =
     dhs = dhBytes' dh1 <> dhBytes' dh2 <> dhBytes' dh3 <> pq
     pq = maybe "" (\RatchetKEMAccepted {rcPQRss = KEMSharedKey ss} -> BA.convert ss) kemAccepted
     salt = B.replicate 64 '\0'
-    (hk, nhk, sk) = hkdf3 salt dhs "POPOPXX3DH"
-    vcPQ = hkdf salt dhs "POPOPXVerifyCode" 32
+    (hk, nhk, sk) = hkdf3 salt dhs "SimpleXX3DH"
+    vcPQ = hkdf salt dhs "SimpleXVerifyCode" 32
 
 type RatchetX448 = Ratchet 'X448
 
@@ -1149,18 +1150,19 @@ rcDecrypt g rc@Ratchet {rcRcv, rcAD = Str rcAD, rcVersion} rcMKSkipped msg' = do
       -- DECRYPT(mk, cipher-text, CONCAT(AD, enc_header))
       tryE $ decryptAEAD mk iv (rcAD <> emHeader) emBody emAuthTag
 
+-- both ratchets run these derivations, so the info strings are shared with the peer
 rootKdf :: (AlgorithmI a, DhAlgorithm a) => RatchetKey -> PublicKey a -> PrivateKey a -> Maybe KEMSharedKey -> (RatchetKey, RatchetKey, Key)
 rootKdf (RatchetKey rk) k pk kemSecret_ =
   let dhOut = dhBytes' (dh' k pk)
       ss = case kemSecret_ of
         Just (KEMSharedKey s) -> dhOut <> BA.convert s
         Nothing -> dhOut
-      (rk', ck, nhk) = hkdf3 rk ss "POPOPXRootRatchet"
+      (rk', ck, nhk) = hkdf3 rk ss "SimpleXRootRatchet"
    in (RatchetKey rk', RatchetKey ck, Key nhk)
 
 chainKdf :: RatchetKey -> (RatchetKey, Key, IV, IV)
 chainKdf (RatchetKey ck) =
-  let (ck', mk, ivs) = hkdf3 "" ck "POPOPXChainRatchet"
+  let (ck', mk, ivs) = hkdf3 "" ck "SimpleXChainRatchet"
       (iv1, iv2) = B.splitAt 16 ivs
    in (RatchetKey ck', Key mk, IV iv1, IV iv2)
 

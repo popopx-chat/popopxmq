@@ -280,8 +280,8 @@ To decrypt a multicast announcement, the host should try to decrypt it using the
 Once sessionSecret is agreed for the session, it is used to derive two chain keys, to receive and to send messages:
 
 ```
-controller: sndKey, rcvKey = HKDF(sessionSecret, "POPOPXSbChainInit", 64)
-host: rcvKey, sndKey = HKDF(sessionSecret, "POPOPXSbChainInit", 64)
+controller: sndKey, rcvKey = HKDF(sessionSecret, "SimpleXSbChainInit", 64)
+host: rcvKey, sndKey = HKDF(sessionSecret, "SimpleXSbChainInit", 64)
 ```
 
 where HKDF is based on SHA512, with empty salt.
@@ -289,8 +289,8 @@ where HKDF is based on SHA512, with empty salt.
 Actual keys and nonces to encrypt and decrypt messages are derived from these chain keys:
 
 ```
-to send: (sndKey', sk, nonce) = HKDF(sndKey, "POPOPXSbChain", 88)
-to receive: (rcvKey', sk, nonce) = HKDF(rcvKey, "POPOPXSbChain", 88)
+to send: (sndKey', sk, nonce) = HKDF(sndKey, "SimpleXSbChain", 88)
+to receive: (rcvKey', sk, nonce) = HKDF(rcvKey, "SimpleXSbChain", 88)
 ```
 
 ## Threat model

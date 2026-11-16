@@ -263,12 +263,16 @@ Modifications that change behaviour or interoperability, not just names:
 
 - Service URI scheme is `popopx:` instead of the upstream scheme
   (src/Popopx/Messaging/ServiceScheme.hs).
-- Key-derivation label strings were changed to `POPOPX*` - `POPOPXSbChainInit`,
-  `POPOPXSbChain`, `POPOPXX3DH`, `POPOPXVerifyCode`, `POPOPXRootRatchet`,
-  `POPOPXChainRatchet`, `POPOPXContactLink`, `POPOPXInvLink`, `POPOPXService` -
-  and the BBS badge header to `POPOPX badges v1`. These derivations do NOT
-  interoperate with upstream servers or agents, and data produced under the
-  upstream labels cannot be decrypted by this version, or the reverse.
+- Key-derivation label strings carry upstream's spelling, restored on 2026-11-17:
+  `SimpleXSbChainInit`, `SimpleXSbChain`, `SimpleXX3DH`, `SimpleXVerifyCode`,
+  `SimpleXRootRatchet`, `SimpleXChainRatchet`, `SimpleXContactLink`,
+  `SimpleXInvLink`, `SimpleXService` and the BBS badge header `SimpleX badges v1`.
+  These are HKDF and BBS domain separators that each peer derives on its own side of
+  the connection, so they are protocol constants and not labels: while this repository
+  carried `POPOPX` spellings for them, its builds could not exchange messages with
+  upstream servers or agents, and data produced under one spelling is unreadable under
+  the other. The authoritative list, with each derivation's inputs and outputs, is
+  protocol/crypto-registry.md.
 - Prometheus metric names are `popopx_smp_*`.
 - Preset server hostnames are NOT changed: `smp*.simplex.im`, `xftp*.simplex.im`
   and `ntf*.simplex.im`, together with the public keys and .onion addresses
