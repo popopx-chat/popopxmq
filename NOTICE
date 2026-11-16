@@ -243,6 +243,21 @@ this repository records every modification; the material steps are:
   in that slot (the measured fallback for popopx-chat is its organization page, with no
   tiers). Donating to the upstream project is still described - in words, with the recipient
   named - in the client repository's README.
+- 2026-11-16, same day - 4 lines in .github/workflows/build.yml: the Actions this workflow ran were
+  published under the upstream organization's own name - a release publisher and the two Docker
+  build/push helpers. They now come from the canonical publishers instead, at the versions those
+  forks were taken from, and each is pinned by full commit SHA in the style this workflow already
+  used for its Python setup step: `softprops/action-gh-release` v2.2.1,
+  `docker/setup-buildx-action` v3.10.0, `docker/build-push-action` v6.15.0. Nothing that executes
+  moved, and that is checkable rather than asserted: the published forks carried no patch, so each
+  SHA in a `uses:` line is the commit the publisher's own version tag names -
+  `git ls-remote https://github.com/<publisher>/<action>.git refs/tags/<version>` prints it. Why it
+  was worth doing: a fork freezes its tags, which is why those refs had been stable at all, but they
+  were stable on a repository this project neither controls nor claims any affiliation with - one
+  deletion there fails the release step and every build leg at `uses:` resolution. A pinned ref
+  receives no security updates, which was equally true before; the change makes the pin visible
+  instead of inherited. The release body this workflow writes keeps its sentence naming upstream's
+  project and licence - that is retained attribution under AGPL-3.0 section 4, not a dependency.
 
 Modifications that change behaviour or interoperability, not just names:
 
