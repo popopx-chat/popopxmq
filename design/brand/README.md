@@ -41,3 +41,15 @@ Re-running `render` reproduces every file byte for byte.
 `apple_store.svg`, `google_play.svg`, `f_droid.svg` (store badges, which their own usage terms
 require to be shown unaltered), `sun.svg`, `moon.svg` (theme glyphs) and the protocol diagrams -
 none of them carries the upstream brand.
+
+## Licence
+
+Every file in this directory is artwork this fork wrote, and it is conveyed under the same terms as
+the code: **AGPL-3.0-only, or at your option CC0-1.0**. A server of this distribution embeds the
+rendered results and owes their sources here under AGPL-3.0 section 13, so those sources carry no
+restriction that the work itself does not.
+
+What neither grant gives is a trade mark. The bytes may be copied, modified and shipped; presenting
+them as identifying your product as ours may still be actionable - the names are governed by
+`TRADEMARK-POPOPX.md` in the client repository, which is where the brand family originates and where
+`ASSETS_LICENSE-POPOPX.md` records the grant above.

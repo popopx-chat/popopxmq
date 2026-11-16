@@ -15,7 +15,16 @@ Upstream snapshot in this history: commit 839f1871abd10d693103243667f0e849d41ad7
 
 The license is AGPL-3.0-only and the license text in ./LICENSE is unmodified.
 No further restrictions are imposed on recipients of this work
-(AGPL-3.0 sections 10 and 12).
+(AGPL-3.0 sections 10 and 12). The sentence is worth spelling out for the parts of
+this work that are not code: the brand vectors in design/brand/ and every image
+rendered from them are artwork this fork wrote, and they are offered on the same
+terms as the code - AGPL-3.0-only, or at the recipient's option CC0-1.0 - which is
+what section 13 requires of source conveyed with a binary (see design/brand/README.md
+and, in the client repository where the brand family originates, ASSETS_LICENSE-POPOPX.md,
+from which the same ruling withdrew a restrictive grant we could not have kept). No
+grant in this repository extends a trade mark: the name POPOPX is
+governed by TRADEMARK-POPOPX.md in the client repository, and AGPL-3.0 never licensed
+a mark in any case.
 
 
 2. Notices retained
@@ -204,6 +213,17 @@ this repository records every modification; the material steps are:
   preserved the artifacts rather than the conf, so that README's recipe still would not
   reproduce the files byte for byte, which is a smaller claim than the one it makes about the
   distinguished name.
+- 2026-11-16, same day - 1 file besides this notice, the licence the artwork travels under:
+  design/brand/README.md now states what section 1 of this notice says. The brand family originates
+  in the client repository, whose ASSETS_LICENSE-POPOPX.md held those same drawings out of the free
+  grant - "proprietary, no redistribution without written permission" - and that position could not
+  survive this repository conveying the drawings as the corresponding source of images embedded in
+  the binaries: AGPL-3.0 section 10 forbids a further restriction, and section 12 does not permit
+  keeping one by disclosing it. The client-side grant was rewritten by the same ruling, so what a
+  recipient of THIS repository may do with its artwork no longer depends on reading a licence that
+  lives in another repository. Unchanged, and unchanged by that ruling: the marks, which are still
+  restricted, and the files measured byte-identical to upstream's artwork, which are upstream's to
+  licence and were never ours to grant.
 
 Modifications that change behaviour or interoperability, not just names:
 
@@ -269,7 +289,9 @@ xftp-web/dist-web/assets/ are copied into the bundle directory.
 
 The same holds for the brand images the pages serve: the wordmarks, the symbol, the favicon
 and the phone mockup in apps/common/Web/static/media/ are rendered, never hand-edited, from
-the vector sources in design/brand/ by the recipe in design/brand/README.md.
+the vector sources in design/brand/ by the recipe in design/brand/README.md. Those sources
+are part of the source owed here, and they carry no term that the code does not - section 1
+states the grant.
 
 Where this offer is made from, as of 2026-11-16:
 
