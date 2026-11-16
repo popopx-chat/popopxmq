@@ -148,6 +148,15 @@ this repository records every modification; the material steps are:
   Android icon), `testflight.png` (Apple's TestFlight icon), `apple_store.svg`,
   `google_play.svg` and `f_droid.svg` (store badges, whose own usage terms require they be
   shown unaltered), `sun.svg` and `moon.svg` (theme glyphs), and the protocol diagrams.
+- 2026-11-16, same day - the terminal-manual row of the three pages a relay serves (`index.html:457`,
+  `link.html:392`, `file.html:551`) moved from upstream's `blob/stable/docs/CLI.md` to
+  `popopx-chat/popopx-chat/blob/master/docs/CLI.md`, because that manual was re-imported into the
+  client repository and sanitized there (`fa6bd6d64`, the commit that made the target exist): 47
+  brand occurrences over 31 lines replaced, the values it asserts taken from this fork's producers
+  (`popopx-chat`, `~/.popopx`, `popopx_v1_chat.db` / `popopx_v1_agent.db`, the presets at
+  `src/Popopx/Chat/Terminal.hs:47`) and six links that were dead even upstream repointed. Only its
+  English text is republished; the file's `docs/lang/{fr,cs,pl}/CLI.md` row still points at
+  upstream, which is the only place those translations are kept.
 
 Modifications that change behaviour or interoperability, not just names:
 
