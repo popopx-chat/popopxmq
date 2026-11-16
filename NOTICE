@@ -243,11 +243,18 @@ longer gitignored; and the license terms of the vendored `cbits/blst` and
 `cbits/libbbs` sources travel with the package, as `cbits/LICENSE-blst` and
 `cbits/LICENSE-libbbs` (see section 2).
 
-One gap remains, and it is not a file change: `install.sh`, README.md and the
-`blob/stable/` links that the served pages and the generated configuration print all
-name a `stable` branch. A branch of that name now exists in this repository's history,
-but it reaches the outside world only once it is published; until then this offer is
-reachable through `master` and the release tags.
+The gap this paragraph used to record is closed: `install.sh`, README.md and the
+`blob/stable/` links that the served pages and the generated configuration print all name a
+`stable` branch, and that branch is published. It is held as a fast-forward of `master`, and
+as of 2026-11-16 the two point at the same commit, so this offer resolves identically through
+`stable`, through `master` and through the release tags. Two limits on what that proves, named
+because a sentence like the one above is exactly the kind that gets believed unchecked:
+`raw.githubusercontent.com` is unreachable from the machine this notice was written on, so the
+`install.sh:5` fetch of `stable/scripts/main` was verified at branch and blob level (`gh api`;
+the blob is the same object as on `master`) and never as a downloaded byte; and nothing keeps
+the two branches agreeing except `git ls-remote`, which is why `stable` is only ever
+fast-forwarded - a rewrite there would move the installer and the linked documents out from
+under every reader named in this section.
 
 
 5. Names
