@@ -224,6 +224,15 @@ this repository records every modification; the material steps are:
   lives in another repository. Unchanged, and unchanged by that ruling: the marks, which are still
   restricted, and the files measured byte-identical to upstream's artwork, which are upstream's to
   licence and were never ours to grant.
+- 2026-11-16, same day - 3 files, 8 lines, a link that never worked: the Donate buttons on
+  all three pages pointed at `popopx-chat#help-us-with-donations`, an anchor no README of ours
+  or of upstream has ever rendered (upstream's heading at the imported commit reads "Please
+  support us with your donations", ours reads "Donate to the upstream project"). They now
+  point at `#donate-to-the-upstream-project`, checked against the rendered page of the pushed
+  client master rather than against a heading assumed to carry that slug. This is named here
+  because the target section is upstream's, not ours: the fork's own position - that it receives
+  none of that money - is stated in the section's first line, and the same routing is what
+  .github/FUNDING.yml still points at upstream's organisation for.
 
 Modifications that change behaviour or interoperability, not just names:
 
