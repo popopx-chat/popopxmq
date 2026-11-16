@@ -213,7 +213,7 @@ informationIniContent InitOptions {sourceCode, serverInfo} =
        \\n\
        \# Server usage conditions and amendments.\n\
        \# It is recommended to use standard conditions with any amendments in a separate document.\n\
-       \# usage_conditions = https://github.com/simplex-chat/simplex-chat/blob/stable/PRIVACY.md\n\
+       \# usage_conditions = https://github.com/popopx-chat/popopx-chat/blob/master/PRIVACY.md\n\
        \# condition_amendments = link\n\
        \\n\
        \# Server location and operator.\n"

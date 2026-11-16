@@ -10,7 +10,7 @@ description:    This package includes <./docs/Popopx-Messaging-Server.html serve
                 * <https://github.com/popopx-chat/popopxmq/blob/master/protocol/popopx-messaging.md SMP protocol>
                 * <https://github.com/popopx-chat/popopxmq/blob/master/protocol/agent-protocol.md SMP agent protocol>
                 .
-                See <https://github.com/simplex-chat/simplex-chat terminal chat prototype> built with POPOPXMQ broker.
+                See <https://github.com/popopx-chat/popopx-chat terminal chat prototype> built with POPOPXMQ broker.
 category:       Chat, Network, Web, System, Cryptography
 homepage:       https://github.com/popopx-chat/popopxmq#readme
 author:         simplex.chat

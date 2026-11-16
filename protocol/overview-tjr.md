@@ -26,7 +26,7 @@ Evgeny Poberezkin
 
 #### What is POPOPX
 
-POPOPX as a whole is a platform upon which applications can be built. [POPOPX Chat](https://github.com/simplex-chat/simplex-chat) is one such application that also serves as an example and reference application.
+POPOPX as a whole is a platform upon which applications can be built. [POPOPX Chat](https://github.com/popopx-chat/popopx-chat) is one such application that also serves as an example and reference application.
 
  - [POPOPX Messaging Protocol](./popopx-messaging.md) (SMP) is a protocol to send messages in one direction to a recipient, relying on a router in-between. The messages are delivered via uni-directional queues created by recipients.
 

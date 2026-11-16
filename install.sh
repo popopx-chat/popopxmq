@@ -39,12 +39,11 @@ RED='\033[0;31m'
 NC='\033[0m'
 
 logo='
- ____  _                 _     __  __
-/ ___|(_)_ __ ___  _ __ | | ___\ \/ /
-\___ \| | '"'"'_ ` _ \| '"'"'_ \| |/ _ \\  / 
- ___) | | | | | | | |_) | |  __//  \ 
-|____/|_|_| |_| |_| .__/|_|\___/_/\_\
-                  |_|                            
+ ____     ___    ____     ___    ____   __  __
+|  _ \   / _ \  |  _ \   / _ \  |  _ \  \ \/ /
+| |_) | | | | | | |_) | | | | | | |_) |  \  / 
+|  __/  | |_| | |  __/  | |_| | |  __/   /  \ 
+|_|      \___/  |_|      \___/  |_|     /_/\_\
 '
 
 welcome="Welcome to SMP/XFTP installation script! Here's what we're going to do:
@@ -55,7 +54,7 @@ ${GRN}2.${NC} Create server directories:
     - smp: ${YLW}${path_conf_smp}${NC}
     - xftp: ${YLW}${path_conf_xftp}${NC}
 ${GRN}3.${NC} Setup user for server:
-    - xmp: ${YLW}${user_smp}${NC}
+    - smp: ${YLW}${user_smp}${NC}
     - xftp: ${YLW}${user_xftp}${NC}
 ${GRN}4.${NC} Create systemd services:
     - smp: ${YLW}${path_systemd_smp}${NC}
@@ -70,7 +69,7 @@ Press:
   
 Selection: "
 
-end="Installtion is complete!
+end="Installation is complete!
 
 Please checkout our server guides:
 - smp: ${GRN}https://popopx.chat/docs/server.html${NC}

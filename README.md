@@ -21,7 +21,7 @@ POPOPXMQ is implemented in Haskell - it benefits from robust software transactio
 
 - POPOPX service protocol and application template - to enable users building services and chat bots that work over POPOPX protocol stack. The first such service will be a notification service for a mobile app.
 - SMP queue redundancy and rotation in SMP agent connections.
-- SMP agents synchronization to share connections and messages between multiple agents (it would allow using multiple devices for [popopx-chat](https://github.com/simplex-chat/simplex-chat)).
+- SMP agents synchronization to share connections and messages between multiple agents (it would allow using multiple devices for [popopx-chat](https://github.com/popopx-chat/popopx-chat)).
 
 ## Components
 
@@ -74,7 +74,7 @@ Now `openssl version` should be saying "OpenSSL". You can now run `smp-server in
 
 Haskell type [ACommand](./src/Popopx/Messaging/Agent/Protocol.hs) represents SMP agent protocol to communicate via STM queues.
 
-See [popopx-chat](https://github.com/simplex-chat/simplex-chat) terminal UI for the example of integrating SMP agent into another application.
+See [popopx-chat](https://github.com/popopx-chat/popopx-chat) terminal UI for the example of integrating SMP agent into another application.
 
 [SMP agent executable](./apps/smp-agent/Main.hs) can be used to run a standalone SMP agent process that implements plaintext [SMP agent protocol](./protocol/agent-protocol.md) via TCP port 5224, so it can be used via telnet. It can be deployed in private networks to share access to the connections between multiple applications and services.
 
@@ -88,7 +88,7 @@ You can either run your own SMP server locally or deploy using [Linode StackScri
 
 `smp://PQUV2eL0t7OStZOoAsPEV2QYWt4-xilbakvGUGOItUo=@smp6.popopx.im`
 
-It's the easiest to try SMP agent via a prototype [popopx-chat](https://github.com/simplex-chat/simplex-chat) terminal UI.
+It's the easiest to try SMP agent via a prototype [popopx-chat](https://github.com/popopx-chat/popopx-chat) terminal UI.
 
 ## Deploy SMP/XFTP servers on Linux
 
@@ -150,7 +150,7 @@ You can install and setup servers automatically using our script:
 
 ```sh
 curl --proto '=https' --tlsv1.2 -sSf https://raw.githubusercontent.com/popopx-chat/popopxmq/stable/install.sh -o popopx-server-install.sh &&\
-if echo 'b19045d79f1703cd15e2b49d49101e1a85e3a65e512a1321778577445d0823d8 popopx-server-install.sh' | sha256sum -c; then
+if echo '8842a2b893a0d37a545373adce3af531b0203cda8473c45de529cc5aa6611728 popopx-server-install.sh' | sha256sum -c; then
   chmod +x ./popopx-server-install.sh
   ./popopx-server-install.sh
   rm ./popopx-server-install.sh
