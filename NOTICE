@@ -263,22 +263,26 @@ Modifications that change behaviour or interoperability, not just names:
 
 - Service URI scheme is `popopx:` instead of the upstream scheme
   (src/Popopx/Messaging/ServiceScheme.hs).
-- Key-derivation label strings carry upstream's spelling, restored on 2026-11-17:
-  `SimpleXSbChainInit`, `SimpleXSbChain`, `SimpleXX3DH`, `SimpleXVerifyCode`,
-  `SimpleXRootRatchet`, `SimpleXChainRatchet`, `SimpleXContactLink`,
-  `SimpleXInvLink`, `SimpleXService` and the BBS badge header `SimpleX badges v1`.
-  These are HKDF and BBS domain separators that each peer derives on its own side of
-  the connection, so they are protocol constants and not labels: while this repository
-  carried `POPOPX` spellings for them, its builds could not exchange messages with
-  upstream servers or agents, and data produced under one spelling is unreadable under
-  the other. The authoritative list, with each derivation's inputs and outputs, is
-  protocol/crypto-registry.md, whose policy line for new separators was rewritten the
-  same day to say what this paragraph asserts: it had ordered every new HKDF info
-  string or hash prefix to start with `POPOPX` while the same document registers 10
-  distinct separators under the `SimpleX` spelling, cited in 13 places, and none under
-  `POPOPX`, so as written it invited a reader to change exactly the values that cannot
-  be changed alone. It now names the compatibility rule and limits the `POPOPX` prefix
-  to derivations that neither cross a connection nor are persisted.
+- Key-derivation label strings were changed to `POPOPX*` - `POPOPXSbChainInit`,
+  `POPOPXSbChain`, `POPOPXX3DH`, `POPOPXVerifyCode`, `POPOPXRootRatchet`,
+  `POPOPXChainRatchet`, `POPOPXContactLink`, `POPOPXInvLink`, `POPOPXService` -
+  and the BBS badge header to `POPOPX badges v1`. These derivations do NOT
+  interoperate with upstream servers or agents, and data produced under the
+  upstream labels cannot be decrypted by this version, or the reverse.
+- That non-interoperability is the product of a decision, not an oversight, and it
+  moved twice on 2026-11-17: `25d7213d` introduced these `POPOPX` spellings,
+  `cb9e1aa3` restored the upstream spellings because at that point interoperating with
+  upstream relays and released clients was still treated as a requirement, and this
+  commit restores the `POPOPX` spellings under the ruling that POPOPX is a new system
+  that is not interoperable with SimpleX and is served by servers compiled from this
+  repository. Nothing had to be migrated for that ruling to be safe and it was checked
+  rather than assumed: the client application is unreleased, no deployment exists, and
+  the only stored value any of these derivations produces is inside an agent database
+  or an already-issued link, of which there are none. `protocol/crypto-registry.md` is
+  authoritative for each derivation's inputs and outputs, and its policy line now
+  agrees with its own table: that file names these strings 14 times on 13 lines, every
+  one of them spelled `POPOPX` and none spelled `SimpleX`, and the 10 occurrences in
+  `src/` match it.
 - Prometheus metric names are `popopx_smp_*`.
 - Preset server hostnames are NOT changed: `smp*.simplex.im`, `xftp*.simplex.im`
   and `ntf*.simplex.im`, together with the public keys and .onion addresses

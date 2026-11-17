@@ -1508,7 +1508,7 @@ newtype SbChainKey = SecretBoxChainKey {unSbChainKey :: ByteString}
 sbcInit :: ByteArrayAccess secret => ByteString -> secret -> (SbChainKey, SbChainKey)
 sbcInit salt secret = (SecretBoxChainKey ck1, SecretBoxChainKey ck2)
   where
-    (ck1, ck2) = B.splitAt 32 $ hkdf salt secret "SimpleXSbChainInit" 64
+    (ck1, ck2) = B.splitAt 32 $ hkdf salt secret "POPOPXSbChainInit" 64
 
 type SbKeyNonce = (SbKey, CbNonce)
 
@@ -1516,7 +1516,7 @@ type SbKeyNonce = (SbKey, CbNonce)
 sbcHkdf :: SbChainKey -> (SbKeyNonce, SbChainKey)
 sbcHkdf (SecretBoxChainKey ck) = ((SecretBoxKey sk, CryptoBoxNonce nonce), SecretBoxChainKey ck')
   where
-    out = hkdf "" ck "SimpleXSbChain" 88 -- = 32 (new chain key) + 32 (secret_box key) + 24 (nonce)
+    out = hkdf "" ck "POPOPXSbChain" 88 -- = 32 (new chain key) + 32 (secret_box key) + 24 (nonce)
     (ck', rest) = B.splitAt 32 out
     (sk, nonce) = B.splitAt 32 rest
 

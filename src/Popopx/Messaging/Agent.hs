@@ -1822,7 +1822,7 @@ prepareReply c userId Invitation {invitationId, connReq, serviceRequest, created
 
 -- the receiving agent recomputes this binding to verify the signature, so the string is shared
 serviceReqBinding :: CR.Ratchet a -> ByteString
-serviceReqBinding CR.Ratchet {rcAD = Str ad} = C.sha3_256 $ "SimpleXService" <> ad
+serviceReqBinding CR.Ratchet {rcAD = Str ad} = C.sha3_256 $ "POPOPXService" <> ad
 
 signServiceReq :: Maybe C.PrivateKeyEd25519 -> ByteString -> MsgBody -> Maybe RequestSignature
 signServiceReq signKey_ binding payload =

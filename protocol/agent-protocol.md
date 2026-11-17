@@ -451,14 +451,14 @@ The fixed link data includes:
 For contact links, the link ID and encryption key are derived from the link key using HKDF:
 
 ```
-(linkId, encryptionKey) = HKDF(info="SimpleXContactLink", key=linkKey, outputLen=56)
+(linkId, encryptionKey) = HKDF(info="POPOPXContactLink", key=linkKey, outputLen=56)
 ; linkId = first 24 bytes, encryptionKey = remaining 32 bytes
 ```
 
 For invitation links, the link ID is stored separately (usually included in the URI), and only the encryption key is derived:
 
 ```
-encryptionKey = HKDF(info="SimpleXInvLink", key=linkKey, outputLen=32)
+encryptionKey = HKDF(info="POPOPXInvLink", key=linkKey, outputLen=32)
 ```
 
 ### Link data encryption
