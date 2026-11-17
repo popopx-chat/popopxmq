@@ -117,6 +117,7 @@ HKDF is `C.hkdf salt ikm info len` (HKDF-SHA512).
 | `"POPOPXSbChain"` | empty | chain key | 88: chain key (32), secretbox key (32), nonce (24) | `C.sbcHkdf` | Each SMP block and XRCP message |
 | `"POPOPXContactLink"` | empty | link key (32) | 56: link ID (24), secretbox key (32) | `SL.contactShortLinkKdf` | Contact short links, SMP v15+ |
 | `"POPOPXInvLink"` | empty | link key (32) | 32: secretbox key | `SL.invShortLinkKdf` | Invitation short links, SMP v15+ |
+| `"POPOPXCallMediaKey"` | the call's `CallId` | X25519 shared secret of the two call peers | 32: media frame key (AES-256-GCM) | `callMediaKey` | Call media keys, negotiated `callVersion >= 3`. Produced by the client application (`popopx-chat`, `src/Popopx/Chat/Call.hs`), not by this repository - no call site here computes it |
 
 Other derivations:
 
