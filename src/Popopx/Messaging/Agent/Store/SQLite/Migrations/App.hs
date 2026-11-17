@@ -56,6 +56,7 @@ import Popopx.Messaging.Agent.Store.SQLite.Migrations.M20260929_ratchet_indexes
 import Popopx.Messaging.Agent.Store.SQLite.Migrations.M20261005_commands_autoincrement
 import Popopx.Messaging.Agent.Store.SQLite.Migrations.M20261008_rcv_switch_status
 import Popopx.Messaging.Agent.Store.SQLite.Migrations.M20261018_xftp_autoincrement
+import Popopx.Messaging.Agent.Store.SQLite.Migrations.M20261117_xor_udf_rename
 import Popopx.Messaging.Agent.Store.Shared (Migration (..))
 
 schemaMigrations :: [(String, Query, Maybe Query)]
@@ -111,7 +112,8 @@ schemaMigrations =
     ("m20260929_ratchet_indexes", m20260929_ratchet_indexes, Just down_m20260929_ratchet_indexes),
     ("m20261005_commands_autoincrement", m20261005_commands_autoincrement, Just down_m20261005_commands_autoincrement),
     ("m20261008_rcv_switch_status", m20261008_rcv_switch_status, Just down_m20261008_rcv_switch_status),
-    ("m20261018_xftp_autoincrement", m20261018_xftp_autoincrement, Just down_m20261018_xftp_autoincrement)
+    ("m20261018_xftp_autoincrement", m20261018_xftp_autoincrement, Just down_m20261018_xftp_autoincrement),
+    ("m20261117_xor_udf_rename", m20261117_xor_udf_rename, Just down_m20261117_xor_udf_rename)
   ]
 
 -- | The list of migrations in ascending order by date

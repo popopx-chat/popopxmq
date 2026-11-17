@@ -311,11 +311,17 @@ Modifications that change behaviour or interoperability, not just names:
 - Docker image organisation is `popopxchat`; installation paths are
   `/etc/popopx`, `/etc/popopx-xftp` and `/var/lib/popopx`, and the server
   management scripts are `popopx-servers-*`.
-
-Intentionally not changed: the SQLite user-defined function
-`simplex_xor_md5_combine` (src/Popopx/Messaging/Agent/Store/SQLite.hs). Its name
-is persisted inside existing database triggers, so renaming it would break
-databases that were already created.
+- The SQLite user-defined function `simplex_xor_md5_combine` is renamed
+  `popopx_xor_md5_combine` (src/Popopx/Messaging/Agent/Store/SQLite.hs). The old
+  name stays registered beside it until every database has been through
+  `Store/SQLite/Migrations/M20261117_xor_udf_rename.hs`, which drops and
+  recreates the four `rcv_queues` triggers with the new name: SQLite resolves a
+  trigger's functions when the statement is prepared, so while a trigger names
+  an unregistered function every INSERT, UPDATE and DELETE on that table fails
+  to compile - including the UPDATE in `m20261008_rcv_switch_status`, which runs
+  before the rename migration does. The recreation moves no other line of the
+  schema dump. What the function computes is untouched, so hashes already stored
+  stay correct and no wire format changes.
 
 
 4. Corresponding source (AGPL-3.0 section 13)
