@@ -87,7 +87,7 @@ ntfTestPort2 :: HasTestEnv => ServiceName
 ntfTestPort2 = testServerPort 4
 
 testKeyHash :: C.KeyHash
-testKeyHash = "LcJUMfVhwD8yxjAiSaDzzGF3-kLG4Uh0Fl_ZIjrRwjI="
+testKeyHash = "C--St4cFxDJgfKDPgeTBD-QwViZeiaPq8fe7aQmpK8s="
 
 testStoreLogFile :: HasTestEnv => FilePath
 testStoreLogFile = testPath "smp-server-store.log"

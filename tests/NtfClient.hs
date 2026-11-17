@@ -69,7 +69,7 @@ apnsTestPort :: HasTestEnv => ServiceName
 apnsTestPort = testServerPort 5
 
 testKeyHash :: C.KeyHash
-testKeyHash = "LcJUMfVhwD8yxjAiSaDzzGF3-kLG4Uh0Fl_ZIjrRwjI="
+testKeyHash = "C--St4cFxDJgfKDPgeTBD-QwViZeiaPq8fe7aQmpK8s="
 
 ntfTestStoreLogFile :: HasTestEnv => FilePath
 ntfTestStoreLogFile = testPath "ntf-server-store.log"
