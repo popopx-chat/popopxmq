@@ -280,7 +280,7 @@ Modifications that change behaviour or interoperability, not just names:
   the only stored value any of these derivations produces is inside an agent database
   or an already-issued link, of which there are none. `protocol/crypto-registry.md` is
   authoritative for each derivation's inputs and outputs, and its policy line now
-  agrees with its own table: that file names these strings 14 times on 13 lines, every
+  agrees with its own table: that file names these strings 14 times on 12 lines, every
   one of them spelled `POPOPX` and none spelled `SimpleX`, and the 10 occurrences in
   `src/` match it.
 - Prometheus metric names are `popopx_smp_*`.
