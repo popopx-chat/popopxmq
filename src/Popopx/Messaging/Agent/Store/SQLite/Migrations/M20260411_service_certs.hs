@@ -34,7 +34,7 @@ WHEN NEW.rcv_service_assoc != 0 AND NEW.deleted = 0
 BEGIN
   UPDATE client_services
   SET service_queue_count = service_queue_count + 1,
-      service_queue_ids_hash = simplex_xor_md5_combine(service_queue_ids_hash, NEW.rcv_id)
+      service_queue_ids_hash = popopx_xor_md5_combine(service_queue_ids_hash, NEW.rcv_id)
   WHERE user_id = (SELECT user_id FROM connections WHERE conn_id = NEW.conn_id)
     AND host = NEW.host AND port = NEW.port;
 END;
@@ -46,7 +46,7 @@ WHEN OLD.rcv_service_assoc != 0 AND OLD.deleted = 0
 BEGIN
   UPDATE client_services
   SET service_queue_count = service_queue_count - 1,
-      service_queue_ids_hash = simplex_xor_md5_combine(service_queue_ids_hash, OLD.rcv_id)
+      service_queue_ids_hash = popopx_xor_md5_combine(service_queue_ids_hash, OLD.rcv_id)
   WHERE user_id = (SELECT user_id FROM connections WHERE conn_id = OLD.conn_id)
     AND host = OLD.host AND port = OLD.port;
 END;
@@ -58,7 +58,7 @@ WHEN OLD.rcv_service_assoc != 0 AND OLD.deleted = 0 AND NOT (NEW.rcv_service_ass
 BEGIN
   UPDATE client_services
   SET service_queue_count = service_queue_count - 1,
-      service_queue_ids_hash = simplex_xor_md5_combine(service_queue_ids_hash, OLD.rcv_id)
+      service_queue_ids_hash = popopx_xor_md5_combine(service_queue_ids_hash, OLD.rcv_id)
   WHERE user_id = (SELECT user_id FROM connections WHERE conn_id = OLD.conn_id)
     AND host = OLD.host AND port = OLD.port;
 END;
@@ -70,7 +70,7 @@ WHEN NEW.rcv_service_assoc != 0 AND NEW.deleted = 0 AND NOT (OLD.rcv_service_ass
 BEGIN
   UPDATE client_services
   SET service_queue_count = service_queue_count + 1,
-      service_queue_ids_hash = simplex_xor_md5_combine(service_queue_ids_hash, NEW.rcv_id)
+      service_queue_ids_hash = popopx_xor_md5_combine(service_queue_ids_hash, NEW.rcv_id)
   WHERE user_id = (SELECT user_id FROM connections WHERE conn_id = NEW.conn_id)
     AND host = NEW.host AND port = NEW.port;
 END;

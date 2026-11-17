@@ -128,8 +128,7 @@ connectDB path functions key track = do
       mapM_ addFunction functions'
       where
         db' = SQL.connectionHandle $ DB.conn db
-        functions' = xorMd5Combine "popopx_xor_md5_combine" : xorMd5Combine "simplex_xor_md5_combine" : functions
-        xorMd5Combine funcName = SQLiteFuncDef funcName 2 (SQLiteFuncPtr True sqliteXorMd5CombinePtr)
+        functions' = SQLiteFuncDef "popopx_xor_md5_combine" 2 (SQLiteFuncPtr True sqliteXorMd5CombinePtr) : functions
         addFunction SQLiteFuncDef {funcName, argCount, funcPtrs} =
           either (throwIO . userError . show) pure =<< case funcPtrs of
             SQLiteFuncPtr isDet funcPtr -> createStaticFunction db' funcName argCount isDet funcPtr

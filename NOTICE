@@ -312,16 +312,17 @@ Modifications that change behaviour or interoperability, not just names:
   `/etc/popopx`, `/etc/popopx-xftp` and `/var/lib/popopx`, and the server
   management scripts are `popopx-servers-*`.
 - The SQLite user-defined function `simplex_xor_md5_combine` is renamed
-  `popopx_xor_md5_combine` (src/Popopx/Messaging/Agent/Store/SQLite.hs). The old
-  name stays registered beside it until every database has been through
-  `Store/SQLite/Migrations/M20261117_xor_udf_rename.hs`, which drops and
-  recreates the four `rcv_queues` triggers with the new name: SQLite resolves a
-  trigger's functions when the statement is prepared, so while a trigger names
-  an unregistered function every INSERT, UPDATE and DELETE on that table fails
-  to compile - including the UPDATE in `m20261008_rcv_switch_status`, which runs
-  before the rename migration does. The recreation moves no other line of the
-  schema dump. What the function computes is untouched, so hashes already stored
-  stay correct and no wire format changes.
+  `popopx_xor_md5_combine`, and the old name is not registered at all
+  (src/Popopx/Messaging/Agent/Store/SQLite.hs). The four `rcv_queues` triggers that call it
+  were rewritten in place in `Store/SQLite/Migrations/M20260411_service_certs.hs`, because
+  SQLite resolves a trigger's functions when the statement is prepared: while a trigger names
+  an unregistered function, every INSERT, UPDATE and DELETE on that table fails to compile.
+  `Store/SQLite/Migrations/agent_schema.sql` records the same four triggers with the new name.
+  No separate rename migration is kept: the chain cannot carry a step that leaves the schema
+  unchanged, because `tests/AgentTests/SchemaDump.hs` requires each migration it rolls back to
+  alter the schema dump. Rewriting a historical migration is safe only under this fork's
+  premise that no database and no released client predates it. What the function computes is
+  untouched, so hashes already stored stay correct and no wire format changes.
 
 
 4. Corresponding source (AGPL-3.0 section 13)
