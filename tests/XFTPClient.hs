@@ -172,10 +172,10 @@ testXFTPServer2 :: HasTestEnv => XFTPServer
 testXFTPServer2 = fromString testXFTPServerStr2
 
 testXFTPServerStr :: HasTestEnv => String
-testXFTPServerStr = "xftp://LcJUMfVhwD8yxjAiSaDzzGF3-kLG4Uh0Fl_ZIjrRwjI=@localhost:" <> xftpTestPort
+testXFTPServerStr = "xftp://C--St4cFxDJgfKDPgeTBD-QwViZeiaPq8fe7aQmpK8s=@localhost:" <> xftpTestPort
 
 testXFTPServerStr2 :: HasTestEnv => String
-testXFTPServerStr2 = "xftp://LcJUMfVhwD8yxjAiSaDzzGF3-kLG4Uh0Fl_ZIjrRwjI=@localhost:" <> xftpTestPort2
+testXFTPServerStr2 = "xftp://C--St4cFxDJgfKDPgeTBD-QwViZeiaPq8fe7aQmpK8s=@localhost:" <> xftpTestPort2
 
 xftpServerFiles :: HasTestEnv => FilePath
 xftpServerFiles = testPath "xftp-server-files"
