@@ -272,7 +272,13 @@ Modifications that change behaviour or interoperability, not just names:
   carried `POPOPX` spellings for them, its builds could not exchange messages with
   upstream servers or agents, and data produced under one spelling is unreadable under
   the other. The authoritative list, with each derivation's inputs and outputs, is
-  protocol/crypto-registry.md.
+  protocol/crypto-registry.md, whose policy line for new separators was rewritten the
+  same day to say what this paragraph asserts: it had ordered every new HKDF info
+  string or hash prefix to start with `POPOPX` while the same document registers 10
+  distinct separators under the `SimpleX` spelling, cited in 13 places, and none under
+  `POPOPX`, so as written it invited a reader to change exactly the values that cannot
+  be changed alone. It now names the compatibility rule and limits the `POPOPX` prefix
+  to derivations that neither cross a connection nor are persisted.
 - Prometheus metric names are `popopx_smp_*`.
 - Preset server hostnames are NOT changed: `smp*.simplex.im`, `xftp*.simplex.im`
   and `ntf*.simplex.im`, together with the public keys and .onion addresses

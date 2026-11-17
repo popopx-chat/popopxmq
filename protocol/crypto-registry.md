@@ -23,7 +23,7 @@ Module aliases follow the codebase: `C` = [Popopx.Messaging.Crypto](../src/Popop
 - New code uses the default primitive for its purpose from [Defaults for new code](#defaults-for-new-code).
 - Using any other primitive, or a primitive marked *restricted* outside its listed purpose, requires a written justification in the pull request and review by a maintainer responsible for cryptography.
 - *Legacy-only* primitives stay only for the existing wire formats and stored data listed below. Do not add call sites.
-- Every new HKDF info string or hash prefix must be unique, start with `POPOPX`, and be added to [Domain separation and KDF inputs](#domain-separation-and-kdf-inputs).
+- Every new HKDF info string or hash prefix must be unique and be added to [Domain separation and KDF inputs](#domain-separation-and-kdf-inputs). Each string registered there starts with `SimpleX`, because these are wire and stored values: every peer derives them on its own side of the connection, so a registered prefix is a compatibility value and not a label, and a build that changed one could not exchange messages with, or read data produced by, a build that did not. `POPOPX` is used for a new string only where the derivation neither crosses a connection nor is persisted.
 - Changing a primitive, key length, KDF input, info string or nonce construction changes the wire format. It requires a protocol version and an update of this registry and of the affected `protocol/` specification.
 
 Status values used below:
