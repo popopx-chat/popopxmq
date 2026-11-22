@@ -1,0 +1,454 @@
+POPOPXMQ notices
+================
+
+This repository is a modified version of the upstream project `simplexmq`,
+Copyright (c) simplex.chat, licensed under the GNU Affero General Public
+License version 3 only (AGPL-3.0-only).
+
+Upstream project: https://github.com/simplex-chat/simplexmq
+Upstream version at the point this fork was created: 7.1.0.17
+Upstream snapshot this fork was made from: commit
+839f1871abd10d693103243667f0e849d41ad7b8 ("Initial commit for secondary
+development", 2026-11-11).
+
+That snapshot, and every commit identifier quoted in section 3, is unreachable from
+this repository: it was republished on 2026-11-23 as the single initial commit it now
+is. Those identifiers say when a change was made, not what a recipient can check out
+here. What a recipient can check is this notice against the published tree, so the
+figures below are given with the command that prints them.
+
+
+1. License
+
+The license is AGPL-3.0-only and the license text in ./LICENSE is unmodified.
+No further restrictions are imposed on recipients of this work
+(AGPL-3.0 sections 10 and 12). The sentence is worth spelling out for the parts of
+this work that are not code: the brand vectors in design/brand/ and every image
+rendered from them are artwork this fork wrote, and they are offered on the same
+terms as the code - AGPL-3.0-only, or at the recipient's option CC0-1.0 - which is
+what section 13 requires of source conveyed with a binary (see design/brand/README.md
+and, in the client repository where the brand family originates, ASSETS_LICENSE-POPOPX.md,
+from which the same ruling withdrew a restrictive grant we could not have kept). No
+grant in this repository extends a trade mark: the name POPOPX is
+governed by TRADEMARK-POPOPX.md in the client repository, and AGPL-3.0 never licensed
+a mark in any case.
+
+
+2. Notices retained
+
+All copyright notices and legal notices of the upstream work are retained
+verbatim, as required by AGPL-3.0 section 5(d):
+
+- ./LICENSE - the unmodified AGPL-3.0 text.
+- popopxmq.cabal - the `author`, `maintainer` and `copyright` fields naming
+  simplex.chat are left as upstream wrote them.
+- Module headers `-- Copyright   : (c) simplex.chat` in:
+    src/Popopx/Messaging/Agent.hs
+    src/Popopx/Messaging/Agent/Protocol.hs
+    src/Popopx/Messaging/Client.hs
+    src/Popopx/Messaging/Crypto.hs
+    src/Popopx/Messaging/Protocol.hs
+    src/Popopx/Messaging/Server.hs
+    src/Popopx/Messaging/Transport.hs
+- Third-party notices kept in place, including the vendored Swiper assets
+  (apps/common/Web/static/media/swiper-bundle.min.js and .css - MIT,
+  Copyright 2014-2022 Vladimir Kharlampidi) and the terms of the pinned
+  dependencies in cabal.project.
+- The C sources of the two cbits submodules are conveyed by this package - they are
+  listed in `extra-source-files`, so a source distribution includes them - and their
+  own license texts are distributed beside them, copied byte for byte from the pinned
+  commit of each:
+    cbits/LICENSE-blst
+      Apache License 2.0, Copyright Supranational LLC.
+      cbits/blst @ db3defd0d501cc2bb1cdd59cb955d1a421821441
+      (https://github.com/supranational/blst), sha256 of the text
+      c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4.
+      Of the 142 files this package conveys from it, 42 carry
+      `SPDX-License-Identifier: Apache-2.0` and `Copyright Supranational LLC` in their
+      own header; the rest are covered by the project license above.
+    cbits/LICENSE-libbbs
+      Apache License 2.0. cbits/libbbs @ 59a0f4bf32e195cb6883de8374825c0f4764c717
+      (https://github.com/simplex-chat/libbbs), sha256 of the text
+      504a36ac204f0c6f712b994a6121305e976cf16de774e0f55ffb935c7ce2917a. The license
+      file names "Copyright 2020 SAS / Development"; the sources this package conveys
+      - all 23 of them - carry `SPDX-License-Identifier: Apache-2.0`, and one also
+      carries `(C) 2025 Fraunhofer AISEC`. Both attributions are reproduced here as
+      found.
+  Neither project ships a NOTICE file, so Apache-2.0 section 4(d) requires nothing
+  further, and no file of either project was modified, so section 4(b) does not apply.
+- Prose that records upstream history and authorship - CHANGELOG.md, README.md,
+  protocol/, rfcs/, contributing/ - keeps the events, the people and the
+  reasoning as upstream wrote them, but it is not verbatim: the brand substitution of
+  section 3 rewrote names inside it. How much is measurable two ways, and both recipes
+  are written out because the figures this sentence carried reproduced neither. Against
+  the pristine snapshot, `git diff --numstat 839f1871 HEAD -- <path>` with the two
+  columns summed gives 502 lines in protocol/, 320 in rfcs/, 50 in contributing/ and 28
+  in CHANGELOG.md; the 360 and 318 it used to quote are not what that command prints at
+  any revision of this notice, and the 352 it gave for plans/ went with plans/ itself,
+  removed on 2026-11-23 (section 3). That recipe needs the import commit, which is not
+  published here. The residue is measurable from this tree alone, by
+  `git grep -n -i simplex -- <path>`: 1 line in protocol/ (`crypto-registry.md:160`, a
+  link to upstream's libbbs), 10 lines in rfcs/, none in contributing/, 2 in
+  CHANGELOG.md, and 2 in README.md - the attribution section 5(d) requires. Two kinds of
+  text in it are not left bearing this fork's name. Links to
+  github.com/simplex-chat repositories name upstream work and stay upstream's. And the
+  name of upstream's company, which is the one string the sweep got wrong: `SimpleX Chat
+  Ltd` was swept to `POPOPX Chat Ltd` in 5 places on 2026-11-12 (rfcs/README.md:106,107,
+  114,116 and rfcs/standard/2026-03-10-server-metadata.md:68) and was restored on
+  2026-11-16, because that string is not the name of a product but the legal entity said
+  to have governed the protocol from 2022 and to hold its IP - leaving it swept would
+  have claimed upstream's authorship for this fork. Named here because the sentence this
+  replaces had it backwards: the governance bodies in those same sentences were restored
+  too, so `rfcs/README.md` names `SimpleX Network Consortium` at lines 23, 29 and 107,
+  and the string `POPOPX Network Consortium` now occurs nowhere in this tree except as the
+  quotation in this sentence: it was asserted here, never written into the document it
+  described. That consortium is upstream's and
+  this fork is not a party to it.
+
+
+3. Modifications (AGPL-3.0 section 5(b))
+
+This is a rebranded derivation named POPOPX. This repository has no change history to
+consult: it is published as one initial commit. This notice is therefore the record of
+the modifications, the dates below are the only evidence of their order, and the commit
+identifiers kept with them name where a change was made, not something a reader can
+resolve here. The material steps are:
+
+- 2026-11-11, commit e9ca9df6 - 241 paths renamed: source directories and
+  Haskell modules (`src/Simplex` to `src/Popopx`), protocol documents, scripts,
+  packaging files and the package name (`simplexmq` to `popopxmq`).
+- 2026-11-11, commit d1ae1af4 - 412 files, 4071 lines: brand strings replaced
+  (simplex -> popopx, Simplex -> Popopx, SimpleX -> POPOPX, SIMPLEX -> POPOPX),
+  excluding GitHub URLs to the upstream organisation, ./LICENSE and the notices
+  listed in section 2.
+- 2026-11-12 - 6 links into this repository's own renamed protocol documents repointed,
+  in two commits (af9953b2: 5 lines in 5 files; 374c4b5f: 1 line in 1 file); application
+  identifiers updated (apple-app-site-association appID, assetlinks
+  package name, APNs topic and team defaults, Play Store links, App Store
+  record ID); the xftp web bundle rebuilt from source; this notice added (c2c9c4da).
+  An earlier revision of this bullet said 23 links; 6 is what these two commits contain.
+- 2026-11-12, commit - 14 lines, 3 files: the preset SMP, XFTP and notification
+  server hostnames reverted to the upstream ones they were changed from, because
+  the keys embedded with them were never changed (see section 3).
+- 2026-11-12, commit - 19 lines, 6 files: the same revert extended past Haskell
+  to the non-Haskell holders of those pairs - xftp-web/web/servers.json (12
+  addresses, 6 in its `simplex` member and 6 in its `flux` member),
+  xftp-web/vite.config.ts (its one reader),
+  the four contact links served by a relay of this distribution, and the rebuilt
+  xftp web bundle (6). The previous revision of this notice claimed the bundle
+  "is generated from a source tree that is not in this repository": that is
+  wrong, servers.json is tracked and hand-editable, so the bundle was rebuilt
+  here with `npm run build && npm run build:prod`. The rebuild is otherwise
+  reproducible - the new file equals the old one with exactly those 6 hostnames
+  substituted, verified byte for byte.
+- 2026-11-16 - 15 files besides this notice, source delivery only, no protocol or wire
+  change: the
+  `xftp-server init` configuration template writes `source_code` uncommented, where it
+  shipped commented out and so a default XFTP relay conveyed no source in its handshake;
+  `generateSite` renders the link pages as it already rendered the index page, and
+  `link.html` and `file.html` gained a footer line naming the source repository of the
+  work they run from - the commit itself is printed only by `index.html`, in its version
+  row; the runtime Docker image carries ./LICENSE and ./NOTICE and sets the OCI
+  `source` and `licenses` labels; a GitHub release body states the corresponding-source
+  offer; the 7 module headers that read `License: AGPL-3` now add that this distribution
+  conveys the work under AGPL-3.0-only.
+- 2026-11-16, commit 5294add6 - 5 files besides this notice, source completeness: `xftp-web/.gitignore` no longer
+  ignores `package-lock.json`, which is now tracked, so the shipped xftp web bundle can
+  be resolved to the dependency versions that built it; the Apache-2.0 license texts of
+  the two vendored C trees were taken from the pinned commit of each submodule and are
+  distributed as `cbits/LICENSE-blst` and `cbits/LICENSE-libbbs`, added to
+  `extra-source-files` so a source distribution conveys them together with the sources
+  they cover (see section 2).
+- 2026-11-16, same day - README.md carried the SHA-256 of `install.sh` as that script
+  stood at the snapshot commit (`53fcdb4c…`), but the branding change and the later
+  removal of cloud provisioning both rewrote the script, so anyone following the
+  documented one-liner failed its own checksum gate with "SHA-256 checksum is
+  incorrect!". The recorded value is now what `install.sh` hashes to at this commit, and
+  the build workflow gained a step that recomputes it and fails when README disagrees: a
+  checksum quoted in prose is the one end a script change cannot move by itself.
+- 2026-11-16, same day - `install.sh` printed an ASCII-art wordmark of the upstream
+  name (the `logo` block, emitted by the banner `printf "%b"`). No name sweep could
+  reach it: the letters are spread over five rows of `_ / \ | ( )`, so the string
+  `simplex` never occurs anywhere in the file. It now spells POPOPX. The same script
+  announced the smp user as `xmp` and its completion message as `Installtion`; both
+  spellings are corrected here. Because `install.sh` is published by checksum, the
+  value recorded in README.md moved in this same commit - the workflow step described
+  above is what proves the two agree.
+- 2026-11-16, same day - the brand graphics, the same blind spot in pixels. Six files served
+  by the relay pages were byte-identical to upstream and to nothing else: `logo-light.png`
+  and `logo-dark.png` (the wordmark, which spells the upstream name as letterforms),
+  `logo-symbol-light.svg` and `logo-symbol-dark.svg` (upstream's double-X mark) and
+  `favicon.ico` (that mark at 16x16), plus `contact_page_mobile.png`, a phone mockup
+  showing upstream's splash screen. No text sweep can reach any of them, and no rename
+  could: the brand is drawn, not written. They now carry the POPOPX identity - a speech
+  bubble with a paper-plane P, and the POPOPX wordmark - taken from the brand family
+  maintained in the client repository (`popopx-chat/popopx-chat`: `media-logos/`,
+  `branding/source-svg/`, `branding/master-logo/`), so the pages and the app ship one logo
+  rather than two. The vectors live in design/brand/ and `render_brand.py` rasterizes them
+  at the exact pixel size of each file they replace (400x99, 401x101, 34x34, 34x35, 16x16,
+  1222x1149); `favicon.ico` is rebuilt with the container shape the previous one had, one
+  16x16 32bpp DIB plus its AND mask, 1150 bytes. The favicon is the app icon rather than the
+  symbol, because the symbol's bubble is `#FAF6FE` and disappears on a light browser tab.
+  design/brand/README.md records which source produced which file; re-running the render
+  reproduces every one of the six byte for byte.
+  Not touched, because none of them carries the upstream brand: `apk_icon.png` (a generic
+  Android icon), `testflight.png` (Apple's TestFlight icon), `apple_store.svg`,
+  `google_play.svg` and `f_droid.svg` (store badges, whose own usage terms require they be
+  shown unaltered), `sun.svg` and `moon.svg` (theme glyphs), and the protocol diagrams.
+- 2026-11-16, same day - the terminal-manual row of the three pages a relay serves (`index.html:457`,
+  `link.html:392`, `file.html:551`) moved from upstream's `blob/stable/docs/CLI.md` to
+  `popopx-chat/popopx-chat/blob/master/docs/CLI.md`, because that manual was re-imported into the
+  client repository and sanitized there (`fa6bd6d64`, the commit that made the target exist): 47
+  brand occurrences over 31 lines replaced, the values it asserts taken from this fork's producers
+  (`popopx-chat`, `~/.popopx`, `popopx_v1_chat.db` / `popopx_v1_agent.db`, the presets at
+  `src/Popopx/Chat/Terminal.hs:47`) and six links that were dead even upstream repointed. Only its
+  English text is republished; the file's `docs/lang/{fr,cs,pl}/CLI.md` row still points at
+  upstream, which is the only place those translations are kept.
+
+- 2026-11-16, same day - 5 lines in 2 files, authorship: upstream's company name restored, so
+  `SimpleX Chat Ltd` stands again in rfcs/README.md and in the recommended-policy example of
+  rfcs/standard/2026-03-10-server-metadata.md (see section 2 for why a name sweep must not
+  reach a legal entity). The same pass corrected six statements in this notice that had
+  overstated the fork: prose the sweep did change described as "kept as written"; a
+  link-repair count the two commits do not contain; a file count for the source-completeness
+  change; the name of a JSON member that is in fact an import alias; what each served page
+  prints; and the release-body offer written as delivered when the only published release
+  predates the sentence. The counts quoted now are measured against the pristine upstream
+  snapshot and against git history, not remembered: this notice is the document a recipient
+  is meant to rely on, and an inaccurate one is worse than a short one.
+- 2026-11-16, same day - 6 certificate files, a class no name substitution can reach: the test
+  fixtures tests/fixtures/{ca,ca2,server,server2}.crt and tests/fixtures/ed25519/{ca,server}.crt
+  were byte copies of upstream's, and upstream's organisation name was carried inside them in a
+  form only a decoder shows - nine `O=SimpleX` in the base64 of four subjects and two issuers.
+  Their generators had long since been swept: openssl_ca.conf:7 and the CA block that
+  `smp-server cert` writes (src/Popopx/Messaging/Server/CLI.hs:175) both say `O = POPOPX`, so
+  the shipped artifacts contradicted the instruction in their own directory README that the
+  two be kept consistent. They are re-issued with the same keys, the same serials, the same
+  signature algorithms and the same extensions, and only the distinguished name moved; proved
+  by comparing each new certificate's public key and extension set against the one it replaces,
+  by re-verifying every chain, and by re-running the negative case CryptoTests depends on
+  (server2.crt does not verify under ca). No file quotes a fixture fingerprint, in colon'd or
+  bare form, and every test reads one from the file with `loadFileFingerprint`, so nothing had
+  to move with the bytes. These are test inputs; no server of this distribution presents one.
+  One divergence is left as found, not hidden: the leaves carry subject and authority key
+  identifiers that openssl_server.conf does not declare, as upstream's did - the re-issue
+  preserved the artifacts rather than the conf, so that README's recipe still would not
+  reproduce the files byte for byte, which is a smaller claim than the one it makes about the
+  distinguished name.
+- 2026-11-16, same day - 1 file besides this notice, the licence the artwork travels under:
+  design/brand/README.md now states what section 1 of this notice says. The brand family originates
+  in the client repository, whose ASSETS_LICENSE-POPOPX.md held those same drawings out of the free
+  grant - "proprietary, no redistribution without written permission" - and that position could not
+  survive this repository conveying the drawings as the corresponding source of images embedded in
+  the binaries: AGPL-3.0 section 10 forbids a further restriction, and section 12 does not permit
+  keeping one by disclosing it. The client-side grant was rewritten by the same ruling, so what a
+  recipient of THIS repository may do with its artwork no longer depends on reading a licence that
+  lives in another repository. Unchanged, and unchanged by that ruling: the marks, which are still
+  restricted, and the files measured byte-identical to upstream's artwork, which are upstream's to
+  licence and were never ours to grant.
+- 2026-11-16, same day - 3 files, 8 lines, a link that never worked: the Donate buttons on
+  all three pages pointed at `popopx-chat#help-us-with-donations`, an anchor no README of ours
+  or of upstream has ever rendered (upstream's heading at the imported commit reads "Please
+  support us with your donations", ours reads "Donate to the upstream project"). They now
+  point at `#donate-to-the-upstream-project`, checked against the rendered page of the pushed
+  client master rather than against a heading assumed to carry that slug. This is named here
+  because the target section is upstream's, not ours: the fork's own position - that it receives
+  none of that money - is stated in the section's first line.
+- 2026-11-16, same day - 1 file deleted, .github/FUNDING.yml: it declared
+  `github: simplex-chat` and `open_collective: simplex-chat`, which placed upstream's funding
+  address on the front page of a repository that is not upstream's and whose README disclaims
+  any affiliation. Measured on the rendered repository page, GitHub was showing no sponsor
+  affordance from it ("showSponsorButton": false), so the file routed nothing - it only
+  asserted a relationship. It is removed rather than repointed, on the precedent this fork set
+  on 2026-11-13 when it deleted the AppStream `<url type="donation">` elements: a funding
+  entry has no slot to say whose funds they are, and this fork has no sponsor program to put
+  in that slot (the measured fallback for popopx-chat is its organization page, with no
+  tiers). Donating to the upstream project is still described - in words, with the recipient
+  named - in the client repository's README.
+- 2026-11-16, same day - 4 lines in .github/workflows/build.yml: the Actions this workflow ran were
+  published under the upstream organization's own name - a release publisher and the two Docker
+  build/push helpers. They now come from the canonical publishers instead, at the versions those
+  forks were taken from, and each is pinned by full commit SHA in the style this workflow already
+  used for its Python setup step: `softprops/action-gh-release` v2.2.1,
+  `docker/setup-buildx-action` v3.10.0, `docker/build-push-action` v6.15.0. Nothing that executes
+  moved, and that is checkable rather than asserted: the published forks carried no patch, so each
+  SHA in a `uses:` line is the commit the publisher's own version tag names -
+  `git ls-remote https://github.com/<publisher>/<action>.git refs/tags/<version>` prints it. Why it
+  was worth doing: a fork freezes its tags, which is why those refs had been stable at all, but they
+  were stable on a repository this project neither controls nor claims any affiliation with - one
+  deletion there fails the release step and every build leg at `uses:` resolution. A pinned ref
+  receives no security updates, which was equally true before; the change makes the pin visible
+  instead of inherited. The release body this workflow writes keeps its sentence naming upstream's
+  project and licence - that is retained attribution under AGPL-3.0 section 4, not a dependency.
+- 2026-11-23 - the publication was reset, and this is the change that turns several
+  statements above it into history rather than into the state of the repository. It was
+  republished as a single initial commit naming one author. `plans/` was deleted (23
+  files): nothing in `popopxmq.cabal`, `.github/workflows` or `tests/` referred to it, and
+  `cabal build exe:smp-server exe:xftp-server` still compiles and links both binaries.
+  README.md was rewritten in English, 269 lines to 188, dropping the roadmap, the pre-fork
+  announcement and the pull instructions for images that were never published, and keeping
+  the section 5(d) attribution and the section 13 offer. One CHANGELOG.md line went back to
+  upstream's own wording for the announcement it links. Nine fetchable URLs that named a
+  `stable` branch were repointed to `master` in seven files: `install.sh:5`; the links the
+  served pages print (`index.html:239,414`, `link.html:349`, `file.html:401,508`); the
+  LICENSE line of each generated configuration
+  (`src/Popopx/Messaging/Server/Main/Init.hs:207`,
+  `src/Popopx/FileTransfer/Server/Main.hs:131`); and the same line in the recommended
+  policy example (`rfcs/standard/2026-03-10-server-metadata.md:49`). Because `install.sh`
+  moved, the checksum recorded in README.md moved in this same commit - the step at
+  `.github/workflows/build.yml:156-171` fails the build when the two disagree.
+
+Modifications that change behaviour or interoperability, not just names:
+
+- Service URI scheme is `popopx:` instead of the upstream scheme
+  (src/Popopx/Messaging/ServiceScheme.hs).
+- Key-derivation label strings were changed to `POPOPX*` - `POPOPXSbChainInit`,
+  `POPOPXSbChain`, `POPOPXX3DH`, `POPOPXVerifyCode`, `POPOPXRootRatchet`,
+  `POPOPXChainRatchet`, `POPOPXContactLink`, `POPOPXInvLink`, `POPOPXService` -
+  and the BBS badge header to `POPOPX badges v1`. These derivations do NOT
+  interoperate with upstream servers or agents, and data produced under the
+  upstream labels cannot be decrypted by this version, or the reverse.
+- That non-interoperability is the product of a decision, not an oversight, and it
+  moved twice on 2026-11-17: `25d7213d` introduced these `POPOPX` spellings,
+  `cb9e1aa3` restored the upstream spellings because at that point interoperating with
+  upstream relays and released clients was still treated as a requirement, and this
+  commit restores the `POPOPX` spellings under the ruling that POPOPX is a new system
+  that is not interoperable with SimpleX and is served by servers compiled from this
+  repository. Nothing had to be migrated for that ruling to be safe and it was checked
+  rather than assumed: the client application is unreleased, no deployment exists, and
+  the only stored value any of these derivations produces is inside an agent database
+  or an already-issued link, of which there are none. `protocol/crypto-registry.md` is
+  authoritative for each derivation's inputs and outputs, and its policy line now
+  agrees with its own table: that file names these strings 14 times on 13 lines - 11
+  distinct values, every one of them spelled `POPOPX` and none spelled `SimpleX`. Ten
+  of the eleven are computed here: `git grep -o '"POPOPX[^"]*"' -- src
+  ':(exclude)src/Popopx/FileTransfer' | wc -l` gives 10 occurrences and the same 10
+  distinct values, the two occurrences left out by that exclusion being `--version`
+  labels rather than KDF inputs. The eleventh, the call media key, has no call site in
+  this repository at all - it is derived by the client application for a call
+  negotiated at `callVersion` 3 or above, and the client keeps the upstream spelling of
+  that one info string for calls negotiated below version 3, so a version-2 call and a
+  version-3 call derive different media keys from the same ratchet material.
+- Prometheus metric names are `popopx_smp_*`.
+- Preset server hostnames are NOT changed: `smp*.simplex.im`, `xftp*.simplex.im`
+  and `ntf*.simplex.im`, together with the public keys and .onion addresses
+  embedded with them, in every place those pairs appear. The Haskell half is
+  src/Popopx/FileTransfer/Client/Presets.hs,
+  src/Popopx/Messaging/Agent/Protocol.hs (`extraSMPServerHosts`) and the
+  m20220811 migration; the non-Haskell half of the same values is
+  xftp-web/web/servers.json - the `simplex` member, imported by
+  xftp-web/vite.config.ts as `presets` and read there as `presets.simplex` -
+  the build product
+  apps/xftp-server/static/xftp-web-bundle/index.js, and the four contact links
+  a server of this distribution serves in
+  apps/common/Web/static/{index,link}.html and
+  apps/xftp-server/static/file.html. In the last three, only the relay host
+  inside the address moved back: the `popopx.chat` link domain on the same lines
+  is this fork's own (see below).
+  This fork does not operate servers, and a hostname paired with a key that is
+  not that server's makes the preset unusable rather than neutral: file
+  transfers could not verify any XFTP server, and
+  `extraSMPServerHosts` plus the m20220811 migration, which are both keyed on
+  the host, stopped matching any stored row. The Flux list in servers.json is
+  reverted for a related reason: those servers belong to Flux, and taking over
+  their hostname routes Flux's service under this fork's name.
+  These values move only in the change that installs this fork's own server
+  keys.
+- Docker image organisation is `popopxchat`; installation paths are
+  `/etc/popopx`, `/etc/popopx-xftp` and `/var/lib/popopx`, and the server
+  management scripts are `popopx-servers-*`.
+- The SQLite user-defined function `simplex_xor_md5_combine` is renamed
+  `popopx_xor_md5_combine`, and the old name is not registered at all
+  (src/Popopx/Messaging/Agent/Store/SQLite.hs). The four `rcv_queues` triggers that call it
+  were rewritten in place in `Store/SQLite/Migrations/M20260411_service_certs.hs`, because
+  SQLite resolves a trigger's functions when the statement is prepared: while a trigger names
+  an unregistered function, every INSERT, UPDATE and DELETE on that table fails to compile.
+  `Store/SQLite/Migrations/agent_schema.sql` records the same four triggers with the new name.
+  No separate rename migration is kept: the chain cannot carry a step that leaves the schema
+  unchanged, because `tests/AgentTests/SchemaDump.hs` requires each migration it rolls back to
+  alter the schema dump. Rewriting a historical migration is safe only under this fork's
+  premise that no database and no released client predates it. What the function computes is
+  untouched, so hashes already stored stay correct and no wire format changes.
+
+
+4. Corresponding source (AGPL-3.0 section 13)
+
+Users who interact remotely with a modified server offered by this work are
+provided the complete corresponding source, which is this repository:
+
+  https://github.com/popopx-chat/popopxmq
+
+This includes the build scripts and the sources of generated artifacts that are
+distributed with the binaries. The xftp web bundle served by xftp-server
+(apps/xftp-server/static/xftp-web-bundle/) is generated, never hand-edited: it is
+produced from xftp-web/ with
+
+  npm install && npm run build && npm run build:prod
+
+and the files `index.js`, `crypto.worker.js` and `index.css` from
+xftp-web/dist-web/assets/ are copied into the bundle directory.
+
+The same holds for the brand images the pages serve: the wordmarks, the symbol, the favicon
+and the phone mockup in apps/common/Web/static/media/ are rendered, never hand-edited, from
+the vector sources in design/brand/ by the recipe in design/brand/README.md. Those sources
+are part of the source owed here, and they carry no term that the code does not - section 1
+states the grant.
+
+Where this offer is made from, as of 2026-11-16:
+
+- a server that has `source_code` in its `[INFORMATION]` section sends it in the
+  handshake, for SMP and for XFTP, when the negotiated protocol version carries
+  server information; both `smp-server init` and `xftp-server init` write that
+  field uncommented;
+- the static pages a relay serves name the source: `link.html` and `file.html` print the
+  repository URL in a footer, and `index.html` prints that URL together with the short
+  commit its binary was built from;
+- an image built from ./Dockerfile carries ./LICENSE and ./NOTICE under
+  /usr/share/doc/popopxmq/, the Apache-2.0 texts of the C it embeds under
+  /usr/share/doc/popopxmq/third-party/, and sets
+  `org.opencontainers.image.source` and `org.opencontainers.image.licenses` - as a recipe
+  only: no CI leg builds ./Dockerfile, and no container package is published for this
+  repository, so those labels have never been read off a distributed config;
+- the workflow that publishes a GitHub release writes the offer into the release body.
+  That sentence is still forward-looking, and now for a larger reason: the repository
+  publishes no releases at all, having been reset to a single initial commit on
+  2026-11-23 - the release that stood here, v7.1.0.17 cut from `606b98d7` on 2026-11-14,
+  went with the discarded history. `install.sh:86,90` take the binaries a user runs from
+  `releases/latest/download` and `releases/download/<tag>`, so the documented installer now
+  reaches its scripts and then has nothing to download. The source offer does not depend on
+  that: it is carried by the server handshake, by the served pages, by README.md and by
+  this notice. What is missing
+  is a published build, and the gap closes when a release is cut from a commit at or after
+  this one.
+
+Closed the same day, in the same change: the dependency versions behind the shipped
+xftp web bundle are now in the repository, because `xftp-web/package-lock.json` is no
+longer gitignored; and the license terms of the vendored `cbits/blst` and
+`cbits/libbbs` sources travel with the package, as `cbits/LICENSE-blst` and
+`cbits/LICENSE-libbbs` (see section 2).
+
+The state this offer resolves through, as of 2026-11-23: this repository publishes one
+branch, `master`, and nothing else - no `stable`, no tags, no releases, as the paragraph
+above and section 3 now both have to say. What the previous version of this paragraph
+recorded as closed is open again in the other direction: the `blob/stable/` links the
+served pages and the generated configuration print, and the `install.sh` fetch of
+`stable/scripts/main`, were repointed to `master` rather than left to resolve through a
+branch nobody publishes; the nine URLs are listed in section 3. Two limits on what that
+proves, named because a sentence like the one above is exactly the kind that gets believed
+unchecked: `raw.githubusercontent.com` is unreachable from the machine this notice is
+written on, so the new `install.sh:5` URL was verified at branch and blob level against
+`master` with `gh api` and never as a downloaded byte; and a reader who runs the documented
+installer today still stops at `install.sh:90`, because there is no release to download
+from. What is left of the two-branch arrangement is inert and deliberately untouched, so
+that the workflow and its own documentation keep describing the same thing:
+`.github/workflows/build.yml:7` still lists `stable` as a push trigger, the branch still
+appears in two conditionals there (`:124`, `:441`) where it can no longer match, and
+`scripts/ci/README.md:9,10` still describes runs on it.
+
+
+5. Names
+
+SimpleX, simplex.chat and simplexmq are the names of the upstream project and
+its authors. This modified version is not affiliated with, sponsored or endorsed
+by them, and they are not responsible for it. Nothing in this notice transfers
+any right to use the upstream names.

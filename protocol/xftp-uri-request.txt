@@ -1,0 +1,16 @@
+Scheme name: xftp
+
+Status: Provisional
+
+Applications/protocols that use this scheme name:
+This scheme is used for URIs of XFTP (POPOPX File Transfer Protocol) servers,
+a client-server protocol for asynchronous file transfer via relays,
+preserving file meta-data (including size and name) and content privacy.
+
+Contact: Evgeny Poberezkin <ep@popopx.chat>
+
+Change controller: Evgeny Poberezkin <ep@popopx.chat>
+
+References:
+The syntax for server URIs in the provisional specification for POPOPX File Transfer Protocol:
+https://github.com/popopx-chat/popopxmq/blob/master/protocol/xftp.md#xftp-router-uri

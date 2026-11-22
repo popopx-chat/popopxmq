@@ -1,0 +1,15 @@
+Scheme name: xrcp
+
+Status: Provisional
+
+Applications/protocols that use this scheme name:
+This scheme is used for URIs of controller sessions via POPOPX Remote Control protocol (XRCP),
+a protocol for remote access and management of hosts via insecure network.
+
+Contact: Evgeny Poberezkin <ep@popopx.chat>
+
+Change controller: Evgeny Poberezkin <ep@popopx.chat>
+
+References:
+The syntax for server URIs in the provisional specification for POPOPX File Transfer Protocol:
+https://github.com/popopx-chat/popopxmq/blob/master/protocol/xrcp.md#session-invitation

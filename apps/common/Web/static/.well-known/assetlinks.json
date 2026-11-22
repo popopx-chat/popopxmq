@@ -1,0 +1,14 @@
+[
+    {
+        "relation": [
+            "delegate_permission/common.handle_all_urls"
+        ],
+        "target": {
+            "namespace": "android_app",
+            "package_name": "com.popopxchat.popopx",
+            "sha256_cert_fingerprints": [
+                "3A:7F:67:1A:8F:21:D3:93:6D:46:78:DE:1D:4F:0E:29:C3:DF:9E:35:2A:CB:26:0D:02:6A:DD:0C:17:FA:4C:CB"
+            ]
+        }
+    }
+]
