@@ -74,6 +74,12 @@ Roles (each is a separate process with its own CA, directories and port):
   smp     popopx-smp.service    port 5223   /etc/opt/popopx            /var/opt/popopx
   xftp    popopx-xftp.service   port 8443   /etc/opt/popopx-xftp       /var/opt/popopx-xftp  (files /srv/xftp)
   ntf     popopx-ntf.service    port 5226   /etc/opt/popopx-notifications  /var/opt/popopx-notifications
+          Built with -fserver_postgres, so it has no SQLite fallback: this script
+          installs a local PostgreSQL when psql is missing and provisions the
+          database ntf_server_store with the schema ntf_server in it, then writes
+          [STORE_LOG] db_connection = postgresql:///ntf_server_store - the local
+          socket as the service user, which is why that user is also a database
+          role. It never touches an existing database or its data.
   relay   popopx-relay.service  port 5227   /etc/opt/popopx-relay      /var/opt/popopx-relay
           A second smp-server process, so group queues can be relayed by a
           different identity than direct ones. It selects its own directories
@@ -486,6 +492,12 @@ configure_ini() {
     if [ "$WITH_CADDY" = "1" ] && role_web_port "$role" >/dev/null 2>&1; then
       printf '    [dry-run] set [WEB] http = %s in %s\n' "$(role_web_port "$role")" "$ini"
     fi
+    if [ "$role" = "ntf" ]; then
+      printf '    [dry-run] set [STORE_LOG] db_connection = postgresql:///ntf_server_store in %s\n' "$ini"
+      if [ "$WITH_TOR" = "1" ]; then
+        printf '    [dry-run] set [SUBSCRIBER] socks_proxy = localhost:9050 in %s\n' "$ini"
+      fi
+    fi
     return 0
   fi
   [ -f "$ini" ] || die "${ini} is missing after init"
@@ -518,7 +530,91 @@ configure_ini() {
       sed -i "s|^path = .*|path = ${XFTP_PATH}|" "$ini"
       sed -i "s|^storage_quota = .*|storage_quota = ${XFTP_QUOTA}|" "$ini"
       ;;
+    ntf)
+      # init writes the [STORE_LOG] keys commented while they still hold the
+      # binary's own defaults (Server/Main/Init.hs:253-254), so this line is what
+      # points the store at the socket database ensure_ntf_db provisioned. Only
+      # the commented form is rewritten: an operator's own db_connection may carry
+      # a host and a password this script cannot know, and it is left alone - the
+      # same rule the source_code edit follows above.
+      sed -i 's|^# *db_connection = .*|db_connection = postgresql:///ntf_server_store|' "$ini"
+      # The notification server reaches onion-only SMP relays through the local
+      # SOCKS proxy. install_tor applies this for smp and relay from the onion it
+      # just read; here the value does not depend on it, so ntf is configured
+      # before its first start instead of being edited and restarted afterwards.
+      if [ "$WITH_TOR" = "1" ]; then
+        sed -i 's|^#\? *socks_proxy = .*|socks_proxy = localhost:9050|' "$ini"
+      fi
+      ;;
   esac
+}
+
+# ---- PostgreSQL for the ntf role -------------------------------------------
+
+# ntf-server is released built with -fserver_postgres, and popopxmq.cabal marks
+# that executable buildable: False without the flag, so it has no SQLite fallback:
+# it connects on start and exits 1 if the database is not there. Five things have
+# to exist before the first start, each measured from this package:
+#   * the PostgreSQL role matching the service user - configure_ini uncomments
+#     db_connection as postgresql:///ntf_server_store, and an empty host means the
+#     local socket with the connecting OS user, which Ubuntu's pg_hba.conf admits
+#     by peer auth. The role name below is interpolated from RUN_USER, so the two
+#     cannot drift apart.
+#   * the role ntf, for the binary's own default connstr
+#     (postgresql://ntf@/ntf_server_store, Notifications/Server/Main.hs:252).
+#   * the database ntf_server_store, the defaultNtfDBOpts name.
+#   * the schema ntf_server inside it. iniDBOptions hardcodes createSchema = False
+#     (Server/CLI.hs:435) and connectDB logs "schema ... does not exist" and calls
+#     exitFailure (Agent/Store/Postgres.hs:89-96), so an empty database is not
+#     enough. The tables are created afterwards by the migrations, which the
+#     server runs unasked (confirmMigrations = MCYesUp, Notifications/Server/Main.hs:165).
+#   * the pgcrypto extension in that database, because the aggregate functions
+#     call public.digest (Store/ntf_server_schema.sql:76,91); the tests install it
+#     the same way in Agent/Store/Postgres/Util.hs:43.
+ensure_ntf_db() {
+  if ! command -v psql >/dev/null 2>&1; then
+    log "ntf-server needs PostgreSQL; installing postgresql"
+    run_sh "apt-get update -qq && apt-get install -y postgresql" || die "could not install postgresql"
+  fi
+  local roles_sql="${TMP_DIR}/ntf_roles.sql" store_sql="${TMP_DIR}/ntf_store.sql"
+  cat >"$roles_sql" <<SQL
+-- Each statement builds itself only when the object is missing, so a re-run is a
+-- no-op and an existing ntf_server_store keeps its data and its owner.
+SELECT 'CREATE ROLE ntf LOGIN'
+ WHERE NOT EXISTS (SELECT FROM pg_roles WHERE rolname = 'ntf')\gexec
+SELECT 'CREATE ROLE ${RUN_USER} LOGIN'
+ WHERE NOT EXISTS (SELECT FROM pg_roles WHERE rolname = '${RUN_USER}')\gexec
+SELECT 'CREATE DATABASE ntf_server_store OWNER ${RUN_USER}'
+ WHERE NOT EXISTS (SELECT FROM pg_database WHERE datname = 'ntf_server_store')\gexec
+SQL
+  cat >"$store_sql" <<SQL
+CREATE EXTENSION IF NOT EXISTS pgcrypto;
+CREATE SCHEMA IF NOT EXISTS ntf_server AUTHORIZATION ${RUN_USER};
+GRANT ALL ON SCHEMA ntf_server TO ntf;
+SQL
+  if [ "$DRY_RUN" = "1" ]; then
+    printf '    [dry-run] systemctl start postgresql, wait until pg_isready\n'
+    printf '    [dry-run] su postgres -c "psql -d postgres -f -" < %s  (roles ntf/%s, database ntf_server_store)\n' "$roles_sql" "$RUN_USER"
+    printf '    [dry-run] su postgres -c "psql -d ntf_server_store -f -" < %s  (pgcrypto, schema ntf_server)\n' "$store_sql"
+    return 0
+  fi
+  command -v pg_isready >/dev/null 2>&1 || die "psql is installed but pg_isready is not - the server package is missing, only the client?"
+  id postgres >/dev/null 2>&1 || die "there is no postgres system user; this script provisions the cluster through 'su postgres -c psql'"
+  run systemctl start postgresql || warn "systemctl start postgresql failed - a non-systemd cluster manager (pg_ctlcluster) may already have it running"
+  log "waiting for PostgreSQL to accept connections"
+  local waited=0
+  until pg_isready -q -t 5 >/dev/null 2>&1; do
+    [ "$waited" -lt 30 ] || die "PostgreSQL is not accepting connections; check 'systemctl status postgresql' and 'pg_lsclusters'"
+    sleep 1
+    waited=$((waited + 1))
+  done
+  # -f - reads the script on stdin, which root opened, so the cluster user never
+  # needs to reach into TMP_DIR (mode 0700 from mktemp).
+  su postgres -c 'psql -q -v ON_ERROR_STOP=1 -d postgres -f -' <"$roles_sql" \
+    || die "could not create the ntf PostgreSQL roles or the ntf_server_store database"
+  su postgres -c 'psql -q -v ON_ERROR_STOP=1 -d ntf_server_store -f -' <"$store_sql" \
+    || die "could not create pgcrypto and the ntf_server schema in ntf_server_store"
+  log "PostgreSQL store for ntf is ready: ntf_server_store, schema ntf_server"
 }
 
 install_role() {
@@ -539,6 +635,7 @@ install_role() {
       log "ntf-server requires libpq.so.5; installing libpq5"
       run_sh "apt-get update -qq && apt-get install -y libpq5" || die "could not install libpq5"
     fi
+    ensure_ntf_db
   fi
 
   before="$(identity_snapshot "$cfg")"
@@ -745,7 +842,7 @@ HiddenServicePort $(role_port "$r") 127.0.0.1:$(role_port "$r")
     printf '        # END popopx\n'
     printf '    [dry-run] systemctl enable --now tor; systemctl restart tor\n'
     printf '    [dry-run] read /var/lib/tor/popopx-<role>/hostname, set [TRANSPORT] host = <fqdn>,<onion>\n'
-    printf '    [dry-run] and socks_proxy = localhost:9050 for smp/relay, then restart only those services\n'
+    printf '    [dry-run] and socks_proxy = localhost:9050 for smp/relay (ntf gets it from configure_ini), then restart only those services\n'
     for r in $roles; do set_onion "$r" "<${r}-onion>.onion"; done
     return 0
   fi
