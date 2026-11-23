@@ -393,8 +393,10 @@ Modifications that change behaviour or interoperability, not just names:
   and the .onion hosts are left out, because a browser with no Tor SOCKS proxy
   cannot reach them and the CSP would then name an origin the page can never
   use. That list is regenerated, not hand-edited: `cd xftp-web && npm run
-  build:prod`, then the three files in `dist-web/assets/` replace
-  `xftp-web-bundle/`.
+  build:prod`, then the bundle's three files (`index.js`, `index.css`,
+  `crypto.worker.js`) are replaced from `dist-web/assets/` - the
+  `__vite-browser-external*.js` stubs that build also emits are not part of the
+  committed bundle, and were not added by this change.
   Two sets of upstream addresses are kept on purpose. The m20220811 migration
   keeps both of its `ntf2.simplex.im` strings, because its `WHERE` clause has to
   match what an older database really stored, and rewriting the value it selects
