@@ -70,7 +70,10 @@ jobs:
             https://github.com/popopx-chat/popopxmq - this repository at this release tag,
             including the build scripts and the sources of the generated artifacts. NOTICE
             records the retained upstream notices and every modification applied here.
-          prerelease: true
+          # Not a prerelease on purpose: GitHub excludes prereleases from
+          # /releases/latest, which is the endpoint install.sh:87 and
+          # deploy_ubuntu22.sh resolve their default version through.
+          prerelease: false
           files: |
             LICENSE
           fail_on_unmatched_files: true
@@ -370,19 +373,99 @@ jobs:
           cat bins.output >> "$GITHUB_OUTPUT"
           cat hashes.output >> "$GITHUB_OUTPUT"
 
+      - name: Pack the release bundle
+        id: prepare-bundle
+        if: startsWith(github.ref, 'refs/tags/v') && matrix.os_underscore == '22_04' && matrix.should_run == true
+        shell: bash
+        env:
+          # Event and matrix values go in as environment variables rather than
+          # being interpolated into the script, and the tag is checked before it
+          # reaches a file name.
+          BUNDLE_TAG: ${{ github.ref_name }}
+          BUNDLE_SHA: ${{ github.sha }}
+          BUNDLE_ARCH: ${{ matrix.arch }}
+          BUNDLE_OS: ${{ matrix.os }}
+          BUNDLE_OS_UNDERSCORE: ${{ matrix.os_underscore }}
+          BUNDLE_GHC: ${{ matrix.ghc }}
+        run: |
+          # This archive is what scripts/ubuntu/build_release_bundle.sh produces and
+          # what scripts/ubuntu/deploy_ubuntu22.sh downloads, so the name has to match
+          # what that installer builds from `uname -m`. The matrix spells the Intel
+          # arch "x86-64" for the per-binary assets; here it would 404.
+          case "$BUNDLE_TAG" in
+            *[!A-Za-z0-9._-]*) echo "::error::refusing a tag name with other characters: $BUNDLE_TAG"; exit 1 ;;
+          esac
+
+          bundle_arch="$BUNDLE_ARCH"
+          if [ "$bundle_arch" = "x86-64" ]; then bundle_arch="x86_64"; fi
+          base="popopxmq-linux-${bundle_arch}-${BUNDLE_TAG}"
+          stage="dist/${base}"
+          built_arch="${BUNDLE_OS_UNDERSCORE}-${BUNDLE_ARCH}"
+
+          mkdir -p "${stage}/bin" "${stage}/scripts/ubuntu"
+          for i in smp-server xftp-server ntf-server; do
+            src="${i}-ubuntu-${built_arch}"
+            test -f "$src" || { echo "::error::the bundle needs $src, prepared by the steps above"; exit 1; }
+            install -m 0755 "$src" "${stage}/bin/$i"
+          done
+          cp LICENSE NOTICE README.md "${stage}/"
+          cp scripts/ubuntu/deploy_ubuntu22.sh "${stage}/scripts/ubuntu/"
+          chmod +x "${stage}/scripts/ubuntu/deploy_ubuntu22.sh"
+
+          {
+            printf 'POPOPXMQ release bundle\n\n'
+            printf '  tag:            %s\n' "$BUNDLE_TAG"
+            printf '  package:        popopxmq %s\n' "$(awk '/^version:/{print $2; exit}' popopxmq.cabal)"
+            printf '  source:         https://github.com/popopx-chat/popopxmq\n'
+            printf '  revision:       %s\n' "$BUNDLE_SHA"
+            printf '  built:          %s\n' "$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+            printf '  host:           Ubuntu %s / %s\n' "$BUNDLE_OS" "$bundle_arch"
+            printf '  toolchain:      GHC %s in the build container\n' "$BUNDLE_GHC"
+            printf '  strip:          yes (applied in the build container)\n'
+            printf '\nBUILT BINARIES\n'
+            printf '  smp-server, xftp-server  package default flags\n'
+            printf '  ntf-server               -fserver_postgres; popopxmq.cabal marks it\n'
+            printf '                           buildable: False without that flag, so it needs\n'
+            printf '                           libpq5 present at runtime\n'
+            printf '\nBINARIES\n'
+            (cd "${stage}/bin" && sha256sum -- *)
+            printf '\nEvery file in this bundle is AGPL-3.0-only; LICENSE is included and NOTICE\n'
+            printf 'records the retained upstream notices and every modification applied here. The\n'
+            printf 'complete corresponding source for this build is the revision named above.\n'
+          } > "${stage}/VERSIONS.txt"
+
+          tar --owner=0 --group=0 --numeric-owner -czf "dist/${base}.tar.gz" -C dist "${base}"
+          (cd dist && sha256sum -- "${base}.tar.gz" > "${base}.tar.gz.sha256")
+          # Verify the checksum file the way a node will, on the host that made it.
+          (cd dist && sha256sum -c "${base}.tar.gz.sha256")
+
+          printf 'bins<<EOF\n' > bins.output
+          printf 'hashes<<EOF\n' > hashes.output
+          printf '%s\n' "${GITHUB_WORKSPACE}/dist/${base}.tar.gz" "${GITHUB_WORKSPACE}/dist/${base}.tar.gz.sha256" >> bins.output
+          printf 'SHA2-256(%s.tar.gz)= %s\n\n' "${base}" "$(cut -d' ' -f1 "dist/${base}.tar.gz.sha256")" >> hashes.output
+          printf 'EOF\n' >> bins.output
+          printf 'EOF\n' >> hashes.output
+          cat bins.output >> "$GITHUB_OUTPUT"
+          cat hashes.output >> "$GITHUB_OUTPUT"
+
       - name: Upload binaries
         if: startsWith(github.ref, 'refs/tags/v') && matrix.should_run == true
         uses: softprops/action-gh-release@c95fe1489396fe8a9eb87c0abf8aa5b2ef267fda # v2.2.1
         with:
           append_body: true
-          prerelease: true
+          # Same reason as the release step above: prereleases are invisible to
+          # /releases/latest, and the bundle in particular is fetched by tag only
+          # when the caller passes --version.
+          prerelease: false
           fail_on_unmatched_files: true
           body: |
             ${{ steps.prepare-regular.outputs.hashes }}
             ${{ steps.prepare-postgres.outputs.hashes }}
+            ${{ steps.prepare-bundle.outputs.hashes }}
           files: |
             ${{ steps.prepare-regular.outputs.bins }}
             ${{ steps.prepare-postgres.outputs.bins }}
+            ${{ steps.prepare-bundle.outputs.bins }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 

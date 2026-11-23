@@ -156,7 +156,13 @@ produces a release asset that also carries the notification server, and
 [`scripts/ubuntu/deploy_ubuntu22.sh`](./scripts/ubuntu/deploy_ubuntu22.sh) installs that bundle on any
 number of nodes as one systemd service per role.
 
-Build the bundle on an Ubuntu 22.04 host with this repository checked out:
+Every `v*` tag is published with this bundle: the Ubuntu 22.04 legs of
+[`.github/workflows/build.yml`](./.github/workflows/build.yml) pack the binaries they built into
+`popopxmq-linux-<arch>-<tag>.tar.gz` with its `.sha256` and attach both to the release, next to the
+single-binary assets `install.sh` downloads. Releases are not marked as prereleases, so
+`/releases/latest` resolves to the newest tag and neither installer needs `--version`.
+
+To build the same bundle yourself, on an Ubuntu 22.04 host with this repository checked out:
 
 ```sh
 scripts/ubuntu/build_release_bundle.sh --tag v1.0.0

@@ -312,7 +312,7 @@ resolve here. The material steps are:
   `src/Popopx/FileTransfer/Server/Main.hs:131`); and the same line in the recommended
   policy example (`rfcs/standard/2026-03-10-server-metadata.md:49`). Because `install.sh`
   moved, the checksum recorded in README.md moved in this same commit - the step at
-  `.github/workflows/build.yml:156-171` fails the build when the two disagree.
+  `.github/workflows/build.yml:159-174` fails the build when the two disagree.
 - 2026-11-23 - a broken URL in a source comment was repaired: `Client.hs:904` pointed at
   `github.covm`, a misspelling carried in from the upstream snapshot; `git grep -c covm -- src/`
   now prints nothing, and the only occurrences left in the repository are the two written in this
@@ -327,7 +327,7 @@ resolve here. The material steps are:
   clears its configuration directory and the `ca.key` inside it is the relay's identity:
   every queue and file reference on that host is keyed to the fingerprint of the
   certificate that key signed. README.md gained a section "Ubuntu 22.04 hosts" describing
-  both scripts - 259 lines now, against the 188 the republished commit carried, which is
+  both scripts - 265 lines now, against the 188 the republished commit carried, which is
   the figure in the entry above.
 
 Modifications that change behaviour or interoperability, not just names:
@@ -401,6 +401,22 @@ Modifications that change behaviour or interoperability, not just names:
   alter the schema dump. Rewriting a historical migration is safe only under this fork's
   premise that no database and no released client predates it. What the function computes is
   untouched, so hashes already stored stay correct and no wire format changes.
+- 2026-11-23 - the release workflow changed so that an official tag publishes what the Ubuntu
+  scripts consume. `prerelease:` is `false` in both release steps
+  (`.github/workflows/build.yml:76`, `:459`): GitHub keeps a prerelease out of
+  `/releases/latest`, which is the endpoint `install.sh:87` queries and the first one
+  `scripts/ubuntu/deploy_ubuntu22.sh` tries. The build job also gained a `Pack the release
+  bundle` step (`:376`), gated on a `v*` tag and on the `22_04` matrix entries, that stages the
+  three binaries the preceding steps already prepared - `smp-server`, `xftp-server`,
+  `ntf-server`, each checked for existence before it is copied - with `LICENSE`, `NOTICE`,
+  `README.md`, this repository's `scripts/ubuntu/deploy_ubuntu22.sh` and a `VERSIONS.txt` naming
+  the revision and the digest of every binary, and packs them as
+  `popopxmq-linux-<arch>-<tag>.tar.gz` plus its `.sha256`; the checksum file is verified with
+  `sha256sum -c` from inside the directory, the way a node verifies it, and both files are
+  appended to the release's asset list. The per-binary assets are unchanged and still upload, so
+  a node can use either route: the single files for `install.sh`, the bundle for the cluster
+  script. `scripts/ubuntu/build_release_bundle.sh` is untouched and still builds the same layout
+  on a host of your own, printing the `gh release create` command for what it built.
 
 
 4. Corresponding source (AGPL-3.0 section 13)
@@ -460,8 +476,8 @@ longer gitignored; and the license terms of the vendored `cbits/blst` and
 `cbits/LICENSE-libbbs` (see section 2).
 
 The state this offer resolves through, as of 2026-11-23: this repository publishes one
-branch, `master`, and nothing else - no `stable`, no tags, no releases, as the paragraph
-above and section 3 now both have to say. What the previous version of this paragraph
+branch, `master`, and one release tag, `v1.0.0`, cut for the Ubuntu deployment work of
+section 3; there is still no `stable`. What the previous version of this paragraph
 recorded as closed is open again in the other direction: the `blob/stable/` links the
 served pages and the generated configuration print, and the `install.sh` fetch of
 `stable/scripts/main`, were repointed to `master` rather than left to resolve through a
@@ -477,20 +493,31 @@ checked too even though nothing in the script uses those two variables. The dige
 name that is not there returns 404 and a non-zero exit, so a match is not two empty streams
 agreeing.
 The recipe is `curl -fsS $base/<path> | shasum -a 256` against `shasum -a 256 <path>`, with
-`$base` the first line of `install.sh`'s URL block. The second limit stands: a reader who
-runs the documented installer today stops at `install.sh:86` or `:90`, because the binaries
-come from a release and this repository publishes none - and `install.sh:87` asks
-`api.github.com/.../releases/latest`, which does not report prereleases at all, so a release
-published the way `.github/workflows/build.yml` publishes one (with `prerelease: true`)
-would not be found by that line either. `scripts/ubuntu/build_release_bundle.sh` builds the
-bundle that a release needs on an Ubuntu 22.04 host, and `scripts/ubuntu/deploy_ubuntu22.sh`
-installs or upgrades it per role as systemd services, resolving the tag the way `install.sh`
-cannot; both are added with this change, and what they do not do is publish anything, so the
-gap closes when a tag at or after this commit is released and marked not a prerelease. What
+`$base` the first line of `install.sh`'s URL block. The second limit was a publication
+problem rather than a reachability one, and it is repaired in the workflow, not in the two
+scripts. Until this commit `.github/workflows/build.yml` marked every release
+`prerelease: true`, and GitHub keeps prereleases out of `/releases/latest` - which is the
+endpoint `install.sh:87` asks and the one `deploy_ubuntu22.sh` tries first. Measured on the
+release cut from the commit before this one: `releases/latest/download/LICENSE` answered 404
+while `releases/download/v1.0.0/LICENSE`, the same file addressed by tag, answered 200; that
+asymmetry is the whole defect, and the second arm is quoted because a bare 200 proves nothing
+on its own. Both workflow steps now write `prerelease: false`, and the two Ubuntu 22.04 legs
+pack `popopxmq-linux-<uname -m>-<tag>.tar.gz` with its `.sha256` from the binaries they have
+already built, so the archive `deploy_ubuntu22.sh` downloads exists without anyone running
+the bundler by hand. The per-binary assets are untouched and keep uploading under the names
+the matrix writes (`<app>-ubuntu-22_04-x86-64`, `build.yml:360` from `:124`), which is what
+`install.sh:114,115` asks for; the bundle uses the `uname -m` spelling instead, because that
+is how the installer names it, and the step maps between the two rather than trusting either.
+`scripts/ubuntu/build_release_bundle.sh` stays as the way to produce the same layout on a host
+of your own, printing the `gh release create` command for what it built. Whether
+`/releases/latest` resolves is a property of the published release and not of this file, so it
+is to be checked there: that endpoint must answer with a `tag_name` of this release or later,
+and `releases/latest/download/smp-server-ubuntu-22_04-x86-64` must answer 200 for the
+documented installer to work with no arguments. What
 is left of the two-branch arrangement is inert and deliberately untouched, so
 that the workflow and its own documentation keep describing the same thing:
 `.github/workflows/build.yml:7` still lists `stable` as a push trigger, the branch still
-appears in two conditionals there (`:124`, `:441`) where it can no longer match, and
+appears in three conditionals there (`:101`, `:127`, `:524`) where it can no longer match, and
 `scripts/ci/README.md:9,10` still describes runs on it.
 
 
