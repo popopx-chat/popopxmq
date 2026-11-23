@@ -148,6 +148,77 @@ else
 fi
 ```
 
+## Ubuntu 22.04 hosts
+
+`install.sh` above is the single-host path: it installs the two relays from the release assets and
+nothing else. For a cluster, [`scripts/ubuntu/build_release_bundle.sh`](./scripts/ubuntu/build_release_bundle.sh)
+produces a release asset that also carries the notification server, and
+[`scripts/ubuntu/deploy_ubuntu22.sh`](./scripts/ubuntu/deploy_ubuntu22.sh) installs that bundle on any
+number of nodes as one systemd service per role.
+
+Build the bundle on an Ubuntu 22.04 host with this repository checked out:
+
+```sh
+scripts/ubuntu/build_release_bundle.sh --tag v1.0.0
+# dist/popopxmq-linux-x86_64-v1.0.0.tar.gz
+# dist/popopxmq-linux-x86_64-v1.0.0.tar.gz.sha256
+```
+
+It installs GHC 9.6.3 when the host has none, builds `smp-server` and `xftp-server` with the package
+defaults and `ntf-server` with `-fserver_postgres` — that target is not buildable without the flag —
+strips the three binaries, and writes a `VERSIONS.txt` naming the commit, the toolchain and the
+digest of every binary. The `gh release create` command that publishes the result is printed at the
+end.
+
+On each node:
+
+```sh
+scripts/ubuntu/deploy_ubuntu22.sh --fqdn relay.example.com --roles smp,xftp
+```
+
+| Role | Service | Port | Configuration | Contents |
+| --- | --- | --- | --- | --- |
+| `smp` | `popopx-smp.service` | 5223 | `/etc/opt/popopx` | direct queues, store log in `/var/opt/popopx` |
+| `xftp` | `popopx-xftp.service` | 8443 | `/etc/opt/popopx-xftp` | chunks in `/srv/xftp`, quota `100gb` by default |
+| `ntf` | `popopx-ntf.service` | 5226 | `/etc/opt/popopx-notifications` | push wake-ups for mobile clients |
+| `relay` | `popopx-relay.service` | 5227 | `/etc/opt/popopx-relay` | a second `smp-server` process, with its own CA, store and directories |
+
+`--roles` takes any subset; `all` is the default. The `relay` role is the same binary pointed at
+different directories through `SMP_SERVER_CFG_PATH` and `SMP_SERVER_LOG_PATH`, which is what keeps
+group traffic on a separate identity and a separate process from direct queues. The ports listed are
+what this script configures: the binaries themselves default to `5223,443` for SMP and `443` for XFTP
+and NTF. The control port is a different setting, `5224` in every generated file, and it stays
+commented out; if you enable it, enable it for only one `smp-server` role on a host, because two
+would collide on it.
+
+The same command is the upgrade. A role it finds already initialised is never re-initialised, because
+`init` clears its configuration directory before writing it: the upgrade stops the service, replaces
+the binary in `/usr/local/bin`, rewrites the unit, restarts, and then compares the digest of `ca.key`,
+`ca.crt` and `fingerprint` against the values read before it began — if any of them moved it aborts,
+because the fingerprint inside a published address is the trust anchor of every queue and file already
+on that relay. Kernel tuning and UFW rules are applied on every run; `--no-caddy`, `--no-ufw` and
+`--no-sysctl` switch each off.
+
+The download is verified against the bundle's own `.sha256` before anything is installed, and
+`--sha256 <hex>` pins a specific build on top of that. `--version v1.0.0` installs a chosen release,
+`--from-source` builds on the node instead, `--dry-run` prints the whole plan without touching the
+host, and `--with-tor` additionally publishes each enabled `smp`, `relay` or `xftp` role as a Tor V3
+hidden service (the notification server gets none) and routes onion-destination traffic through the
+local SOCKS proxy.
+
+With Caddy, which is installed by default, Caddy owns ports 80 and 443 and serves the information
+site from the relay's loopback web port; the relay keeps its own pinned-fingerprint TLS on the port
+above and its embedded HTTPS listener stays commented out. This is the same arrangement as
+`docker-compose-smp-complete.yml`, and it is why the script rewrites `port =` to a single value
+rather than leaving `5223,443`.
+
+The summary both modes end with is what to publish: an address per role, each carrying the real
+fingerprint of the CA that node generated. With `--with-tor` the addresses carry the `.onion` name as
+a second host, exactly as the servers print them and with the same rule for eliding a port that
+matches the protocol default — `smp://<fingerprint>@relay.example.com,<onion>.onion` for the SMP role,
+`xftp://<fingerprint>@relay.example.com,<onion>.onion:8443` for the file role. `--json-out FILE`
+writes the same data as JSON.
+
 ## Protocol specifications
 
 - [SMP protocol](./protocol/popopx-messaging.md) — queues, credentials, command and response grammar.

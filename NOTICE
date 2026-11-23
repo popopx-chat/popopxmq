@@ -7,15 +7,31 @@ License version 3 only (AGPL-3.0-only).
 
 Upstream project: https://github.com/simplex-chat/simplexmq
 Upstream version at the point this fork was created: 7.1.0.17
-Upstream snapshot this fork was made from: commit
-839f1871abd10d693103243667f0e849d41ad7b8 ("Initial commit for secondary
-development", 2026-11-11).
+Upstream commit this fork was taken from:
+71179c4d4e96893fbddc25770d279a0f52fc41f7 ("servers: read one message per
+queue in SUB, omit DB connection string (#2007)", 2026-11-10).
 
-That snapshot, and every commit identifier quoted in section 3, is unreachable from
-this repository: it was republished on 2026-11-23 as the single initial commit it now
-is. Those identifiers say when a change was made, not what a recipient can check out
-here. What a recipient can check is this notice against the published tree, so the
-figures below are given with the command that prints them.
+This base is stated as a correction. An earlier revision of this notice named
+839f1871abd10d693103243667f0e849d41ad7b8 ("Initial commit for secondary
+development", 2026-11-11) here, as the upstream snapshot. That commit is not a
+simplexmq object at all - `gh api repos/simplex-chat/simplexmq/commits/839f1871`
+answers "No commit found for SHA" - it is this repository's own import commit,
+one of the history that was squashed away on 2026-11-23. What a fork derives
+from has to be resolvable in the project it derives from, which is why the base
+is now named by an object a reader can fetch. It is measured, not remembered:
+of the files this tree shares with upstream at that commit, 155 hash identically
+(`gh api "repos/simplex-chat/simplexmq/git/trees/71179c4d?recursive=1"` against
+`git ls-tree -r HEAD`), six of those are files upstream has since changed, so a
+newer base is excluded, and no shared file matches upstream's current revision
+while failing to match this one. The remaining differences are this fork's own
+edits and the src/SimpleX to src/Popopx rename, itemised in section 3.
+
+Neither commit is reachable from this repository, which was republished on
+2026-11-23 as the single initial commit it now is; the upstream one is reachable
+in upstream's repository, which is the point of naming it. The identifiers kept
+in section 3 say when a change was made, not what a recipient can check out
+here. What a recipient can check is this notice against the published tree, so
+the figures below are given with the command that prints them.
 
 
 1. License
@@ -81,7 +97,7 @@ verbatim, as required by AGPL-3.0 section 5(d):
   reasoning as upstream wrote them, but it is not verbatim: the brand substitution of
   section 3 rewrote names inside it. How much is measurable two ways, and both recipes
   are written out because the figures this sentence carried reproduced neither. Against
-  the pristine snapshot, `git diff --numstat 839f1871 HEAD -- <path>` with the two
+  the pre-squash import commit, `git diff --numstat 839f1871 HEAD -- <path>` with the two
   columns summed gives 502 lines in protocol/, 320 in rfcs/, 50 in contributing/ and 28
   in CHANGELOG.md; the 360 and 318 it used to quote are not what that command prints at
   any revision of this notice, and the 352 it gave for plans/ went with plans/ itself,
@@ -297,6 +313,22 @@ resolve here. The material steps are:
   policy example (`rfcs/standard/2026-03-10-server-metadata.md:49`). Because `install.sh`
   moved, the checksum recorded in README.md moved in this same commit - the step at
   `.github/workflows/build.yml:156-171` fails the build when the two disagree.
+- 2026-11-23 - a broken URL in a source comment was repaired: `Client.hs:904` pointed at
+  `github.covm`, a misspelling carried in from the upstream snapshot; `git grep -c covm -- src/`
+  now prints nothing, and the only occurrences left in the repository are the two written in this
+  entry. Two Ubuntu deployment scripts were added, as new files rather than as modifications:
+  `scripts/ubuntu/build_release_bundle.sh` compiles
+  smp-server, xftp-server and ntf-server on an Ubuntu 22.04 host and packs them with
+  LICENSE, NOTICE and a VERSIONS.txt naming the revision they came from, and
+  `scripts/ubuntu/deploy_ubuntu22.sh` installs or upgrades that bundle per role as systemd
+  services and prints the resulting addresses. Neither touches a protocol constant, a
+  key-derivation label or a stored format, and neither is generated from upstream. The
+  installer never runs `init` for a role it finds already initialised, because `init`
+  clears its configuration directory and the `ca.key` inside it is the relay's identity:
+  every queue and file reference on that host is keyed to the fingerprint of the
+  certificate that key signed. README.md gained a section "Ubuntu 22.04 hosts" describing
+  both scripts - 259 lines now, against the 188 the republished commit carried, which is
+  the figure in the entry above.
 
 Modifications that change behaviour or interoperability, not just names:
 
@@ -435,11 +467,27 @@ served pages and the generated configuration print, and the `install.sh` fetch o
 `stable/scripts/main`, were repointed to `master` rather than left to resolve through a
 branch nobody publishes; the nine URLs are listed in section 3. Two limits on what that
 proves, named because a sentence like the one above is exactly the kind that gets believed
-unchecked: `raw.githubusercontent.com` is unreachable from the machine this notice is
-written on, so the new `install.sh:5` URL was verified at branch and blob level against
-`master` with `gh api` and never as a downloaded byte; and a reader who runs the documented
-installer today still stops at `install.sh:90`, because there is no release to download
-from. What is left of the two-branch arrangement is inert and deliberately untouched, so
+unchecked. The first is now closed: `raw.githubusercontent.com` answers from the machine
+this notice is written on, so the `install.sh:5` URL was re-checked as downloaded bytes
+rather than as a branch and a blob. Each of `install.sh` and the five paths it names under
+`scripts/main/` hashes the same as the file in this tree - three of them are what
+`setup_scripts` (`install.sh:158-160`) downloads, and the two unit files named at `:6,7` are
+checked too even though nothing in the script uses those two variables. The digest
+`README.md` publishes is the hash of the downloaded `install.sh`; a deliberate request for a
+name that is not there returns 404 and a non-zero exit, so a match is not two empty streams
+agreeing.
+The recipe is `curl -fsS $base/<path> | shasum -a 256` against `shasum -a 256 <path>`, with
+`$base` the first line of `install.sh`'s URL block. The second limit stands: a reader who
+runs the documented installer today stops at `install.sh:86` or `:90`, because the binaries
+come from a release and this repository publishes none - and `install.sh:87` asks
+`api.github.com/.../releases/latest`, which does not report prereleases at all, so a release
+published the way `.github/workflows/build.yml` publishes one (with `prerelease: true`)
+would not be found by that line either. `scripts/ubuntu/build_release_bundle.sh` builds the
+bundle that a release needs on an Ubuntu 22.04 host, and `scripts/ubuntu/deploy_ubuntu22.sh`
+installs or upgrades it per role as systemd services, resolving the tag the way `install.sh`
+cannot; both are added with this change, and what they do not do is publish anything, so the
+gap closes when a tag at or after this commit is released and marked not a prerelease. What
+is left of the two-branch arrangement is inert and deliberately untouched, so
 that the workflow and its own documentation keep describing the same thing:
 `.github/workflows/build.yml:7` still lists `stable` as a push trigger, the branch still
 appears in two conditionals there (`:124`, `:441`) where it can no longer match, and

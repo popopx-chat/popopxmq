@@ -901,7 +901,7 @@ serverTransmission ProtocolClient {thParams, client_ = PClient {transportSession
 
 -- | Get message from SMP queue. The server returns ERR PROHIBITED if a client uses SUB and GET via the same transport connection for the same queue
 --
--- https://github.covm/popopx-chat/popopxmq/blob/master/protocol/popopx-messaging.md#receive-a-message-from-the-queue
+-- https://github.com/popopx-chat/popopxmq/blob/master/protocol/popopx-messaging.md#receive-a-message-from-the-queue
 -- This command is always sent in interactive request mode, as NSE has limited time
 getSMPMessage :: SMPClient -> RcvPrivateAuthKey -> RecipientId -> ExceptT SMPClientError IO (Maybe RcvMessage)
 getSMPMessage c rpKey rId =
