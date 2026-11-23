@@ -362,30 +362,62 @@ Modifications that change behaviour or interoperability, not just names:
   that one info string for calls negotiated below version 3, so a version-2 call and a
   version-3 call derive different media keys from the same ratchet material.
 - Prometheus metric names are `popopx_smp_*`.
-- Preset server hostnames are NOT changed: `smp*.simplex.im`, `xftp*.simplex.im`
-  and `ntf*.simplex.im`, together with the public keys and .onion addresses
-  embedded with them, in every place those pairs appear. The Haskell half is
-  src/Popopx/FileTransfer/Client/Presets.hs,
-  src/Popopx/Messaging/Agent/Protocol.hs (`extraSMPServerHosts`) and the
-  m20220811 migration; the non-Haskell half of the same values is
-  xftp-web/web/servers.json - the `simplex` member, imported by
-  xftp-web/vite.config.ts as `presets` and read there as `presets.simplex` -
-  the build product
-  apps/xftp-server/static/xftp-web-bundle/index.js, and the four contact links
-  a server of this distribution serves in
+- Preset server addresses are this fork's own cluster, published as dual-stack
+  addresses: a public hostname and a V3 .onion host for every relay. The
+  published set is fifteen relays - eight SMP (`smp1..8.popopx.im`, no port,
+  because 5223 is the protocol default), one chat relay (`relay1.popopx.im`,
+  `:5227`), three file relays (`xftp1/6/8.popopx.im`, `:8443`) and three
+  notification relays (`ntf1..3.popopx.im`, `:5226`); in each published address
+  the port is written once, after the .onion host, and it applies to both hosts.
+  Those are the ports scripts/ubuntu/deploy_ubuntu22.sh configures per role.
+  Two of the four groups
+  have a home in this repository: the nine SMP and chat-relay host-to-onion
+  pairs in src/Popopx/Messaging/Agent/Protocol.hs (`extraSMPServerHosts`),
+  where `git grep -o '\.popopx\.im' --
+  src/Popopx/Messaging/Agent/Protocol.hs | wc -l` gives 9, and the three keyed
+  file relays in src/Popopx/FileTransfer/Client/Presets.hs, repeated as the web
+  list so that `git grep -o -E '@xftp[168]\.popopx\.im' -- src xftp-web | wc -l`
+  gives 6. `extraSMPServerHosts` carries hosts and no keys, because the key is
+  already in the address it completes: it appends the .onion host to an address
+  that carries only the public one, which is why `relay1` belongs there even
+  though no port ever does.
+  The web list is xftp-web/web/servers.json - the `popopx` member, imported by
+  xftp-web/vite.config.ts as `presets` and read there as `presets.popopx` -
+  together with its build product
+  apps/xftp-server/static/xftp-web-bundle/index.js. It differs from the Haskell
+  preset in two ways, both forced by how a browser resolves these addresses:
+  the parser reads only the first host and defaults it to 443
+  (xftp-web/src/protocol/address.ts, and `parseHost` in vite.config.ts for the
+  CSP origins), so the public host carries `:8443` explicitly, because port 443
+  on these relays is Caddy's information site rather than the file protocol;
+  and the .onion hosts are left out, because a browser with no Tor SOCKS proxy
+  cannot reach them and the CSP would then name an origin the page can never
+  use. That list is regenerated, not hand-edited: `cd xftp-web && npm run
+  build:prod`, then the three files in `dist-web/assets/` replace
+  `xftp-web-bundle/`.
+  Two sets of upstream addresses are kept on purpose. The m20220811 migration
+  keeps both of its `ntf2.simplex.im` strings, because its `WHERE` clause has to
+  match what an older database really stored, and rewriting the value it selects
+  would leave the statement matching nothing. And four contact links that a
+  server of this distribution serves keep upstream's addresses whole, in
   apps/common/Web/static/{index,link}.html and
-  apps/xftp-server/static/file.html. In the last three, only the relay host
-  inside the address moved back: the `popopx.chat` link domain on the same lines
-  is this fork's own (see below).
-  This fork does not operate servers, and a hostname paired with a key that is
-  not that server's makes the preset unusable rather than neutral: file
-  transfers could not verify any XFTP server, and
-  `extraSMPServerHosts` plus the m20220811 migration, which are both keyed on
-  the host, stopped matching any stored row. The Flux list in servers.json is
-  reverted for a related reason: those servers belong to Flux, and taking over
-  their hostname routes Flux's service under this fork's name.
-  These values move only in the change that installs this fork's own server
-  keys.
+  apps/xftp-server/static/file.html: each carries upstream's key, queue id and
+  ratchet together with `smp6.simplex.im` or `smp17.simplex.im`, so moving only
+  the hostname would aim the link at a relay of ours for a queue it does not
+  hold. Those four move with a contact created on this fork's own relay, not
+  with an edit of the host; the link domain on those same lines is already this
+  fork's own (`popopx.chat`, and `popopx:` for the app-scheme link in
+  link.html), so the relay address inside the fragment is the only upstream
+  part left.
+  The Flux list in servers.json is kept for a third
+  reason: those servers belong to Flux, and taking over their hostname routes
+  Flux's service under this fork's name.
+  Re-check the residue with `git grep -o -i 'simplex\.im' -- . | grep -v
+  '^NOTICE' | wc -l`, which gives 6 occurrences on 4 files: exactly the
+  migration pair and the four contact links above. There is no SMP or
+  notification preset carrying keys in this repository, and no STUN or TURN
+  setting at all, so the other twelve published fingerprints have no home here -
+  they belong to the client application, which is where they are consumed.
 - Docker image organisation is `popopxchat`; installation paths are
   `/etc/popopx`, `/etc/popopx-xftp` and `/var/lib/popopx`, and the server
   management scripts are `popopx-servers-*`.

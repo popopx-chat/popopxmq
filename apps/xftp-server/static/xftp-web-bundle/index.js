@@ -696,7 +696,7 @@ function serverOrigin(server) {
   return server.port === "443" ? `https://${server.host}` : `https://${server.host}:${server.port}`;
 }
 
-var define_XFTP_SERVERS_default = ["xftp://da1aH3nOT-9G8lV7bWamhxpDYdJ1xmW7j3JpGaDR5Ug=@xftp1.simplex.im", "xftp://5vog2Imy1ExJB_7zDZrkV1KDWi96jYFyy9CL6fndBVw=@xftp2.simplex.im", "xftp://PYa32DdYNFWi0uZZOprWQoQpIk5qyjRJ3EF7bVpbsn8=@xftp3.simplex.im", "xftp://k_GgQl40UZVV0Y4BX9ZTyMVqX5ZewcLW0waQIl7AYDE=@xftp4.simplex.im", "xftp://-bIo6o8wuVc4wpZkZD3tH-rCeYaeER_0lz1ffQcSJDs=@xftp5.simplex.im", "xftp://6nSvtY9pJn6PXWTAIMNl95E1Kk1vD7FM2TeOA64CFLg=@xftp6.simplex.im"];
+var define_XFTP_SERVERS_default = ["xftp://OtONXJLyqB9g3QFSuOSfvBBoH5AdgccTbNbKCdaSWtw=@xftp1.popopx.im:8443", "xftp://B4WH5g5SRl7ioZx3gK9ruwkgv3lJGSQJ6QKIoV1JZMk=@xftp6.popopx.im:8443", "xftp://4GSglxXYIJswF-ysVo5RCycQ7vHF-85zTodA2wZCIQ8=@xftp8.popopx.im:8443"];
 const serverAddresses = define_XFTP_SERVERS_default;
 function getServers() {
   const addrs = window.__XFTP_SERVERS__ ?? serverAddresses;

@@ -10,10 +10,7 @@ import Popopx.Messaging.Protocol (XFTPServerWithAuth)
 
 defaultXFTPServers :: NonEmpty XFTPServerWithAuth
 defaultXFTPServers =
-  [ "xftp://da1aH3nOT-9G8lV7bWamhxpDYdJ1xmW7j3JpGaDR5Ug=@xftp1.simplex.im,blisztokwh6alt5oem45f2eksm2xdowxszmhjesntcyolmhutoon7sid.onion",
-    "xftp://5vog2Imy1ExJB_7zDZrkV1KDWi96jYFyy9CL6fndBVw=@xftp2.simplex.im,jk6jybnel5hin2am5omd7g3hyvb4tfkyl7ea4vx5ldi7gpvz5ogqtcqd.onion",
-    "xftp://PYa32DdYNFWi0uZZOprWQoQpIk5qyjRJ3EF7bVpbsn8=@xftp3.simplex.im,pqhchr4bpkzef5wra4hnmzvppn5j5mjrpzkh5ixx6mhylnxxd6lmwnad.onion",
-    "xftp://k_GgQl40UZVV0Y4BX9ZTyMVqX5ZewcLW0waQIl7AYDE=@xftp4.simplex.im,q2lrjgiyo2efyweksavwxh3dlsrxetaxjztde2x5nateugrtrwzvmdid.onion",
-    "xftp://-bIo6o8wuVc4wpZkZD3tH-rCeYaeER_0lz1ffQcSJDs=@xftp5.simplex.im,2kikdbdhlrluburwt6q6rnoxvezcm2ifx2hj463jlunkeftlzm7hf3qd.onion",
-    "xftp://6nSvtY9pJn6PXWTAIMNl95E1Kk1vD7FM2TeOA64CFLg=@xftp6.simplex.im,tg3fmu6houq7vfqlsipm2qqzhtpgxesnuydqozx3khojxydhs53sbbyd.onion"
+  [ "xftp://OtONXJLyqB9g3QFSuOSfvBBoH5AdgccTbNbKCdaSWtw=@xftp1.popopx.im,im6alhiruuj3m2zhwnl3bzuujzpcg7hqgfljp3wmcgh3rrg3uysd7eqd.onion:8443",
+    "xftp://B4WH5g5SRl7ioZx3gK9ruwkgv3lJGSQJ6QKIoV1JZMk=@xftp6.popopx.im,65fhxyz3yphhts4xy2vf2symvj2e4peb6zypry7ryg7qz7wbcxqyvxqd.onion:8443",
+    "xftp://4GSglxXYIJswF-ysVo5RCycQ7vHF-85zTodA2wZCIQ8=@xftp8.popopx.im,wa47g3vf4xxfa246le62t6cwqjvww2eugecysqoznpgqt5we5kf2owyd.onion:8443"
   ]

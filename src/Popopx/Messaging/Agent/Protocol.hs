@@ -1405,12 +1405,15 @@ data ContactRequestBinding = CRBRatchet ConnVerifyCodes | CRBRequest ByteString
 extraSMPServerHosts :: Map TransportHost TransportHost
 extraSMPServerHosts =
   M.fromList
-    [ ("smp4.simplex.im", "o5vmywmrnaxalvz6wi3zicyftgio6psuvyniis6gco6bp6ekl4cqj4id.onion"),
-      ("smp5.simplex.im", "jjbyvoemxysm7qxap7m5d5m35jzv5qq6gnlv7s4rsn7tdwwmuqciwpid.onion"),
-      ("smp6.simplex.im", "bylepyau3ty4czmn77q4fglvperknl4bi2eb2fdy2bh4jxtf32kf73yd.onion"),
-      ("smp8.simplex.im", "beccx4yfxxbvyhqypaavemqurytl6hozr47wfc7uuecacjqdvwpw2xid.onion"),
-      ("smp9.simplex.im", "jssqzccmrcws6bhmn77vgmhfjmhwlyr3u7puw4erkyoosywgl67slqqd.onion"),
-      ("smp10.simplex.im", "rb2pbttocvnbrngnwziclp2f4ckjq65kebafws6g4hy22cdaiv5dwjqd.onion")
+    [ ("smp1.popopx.im", "quheabd5hdghpztkw53fho6fki722npoytgvkutnbh3gtpgrlna5ukad.onion"),
+      ("smp2.popopx.im", "e2ox73tvq54iv6z46c2rsxo7qc3ngrb26rx54qctuxoornn6w4l2uxyd.onion"),
+      ("smp3.popopx.im", "7vlsoq342gvphpdpb74vhqtb5ohe25ymvck2uhta4sxo6nvyowu3fuad.onion"),
+      ("smp4.popopx.im", "mwanxalavtfkr4536re33hax5yrifuewftqu3r6edn4c6ewonfqgcmad.onion"),
+      ("smp5.popopx.im", "mmjxftmk36uzbmd3lfaw55cqr6fwxzzvdtedajpohfyicm32q3uosnqd.onion"),
+      ("smp6.popopx.im", "vby2g42jivku4xcd24z56tmwxm5uxfm3t56ou7itulps4lfhdnr3zwid.onion"),
+      ("smp7.popopx.im", "yjk4l3ip5ky4nypzcusx6qeafk42nud6lcdpjbvzrtfjpfogncfo45id.onion"),
+      ("smp8.popopx.im", "xvzne6jxj7qza6yaptsyv5ffchdv7kikcnnhotfpjkgsm32xsxh6vzid.onion"),
+      ("relay1.popopx.im", "5ui7syydfqzvyjy6vwuy726rwxdsa5ow4esnfln2lhevduyuamcdvqqd.onion")
     ]
 
 updateSMPServerHosts :: SMPServer -> SMPServer
