@@ -103,7 +103,7 @@ Options:
                          traffic through the local SOCKS proxy. Default: off.
   --no-caddy             Do not install or configure Caddy. The relay then keeps
                          port 443 itself and its HTTPS mini-site stays disabled.
-  --no-ufw               Do not add firewall rules.
+  --no-ufw               Do not add firewall rules and do not enable ufw.
   --no-sysctl            Do not write the kernel tuning drop-in.
   --json-out PATH        Also write the printed summary as JSON.
   --arch NAME            Override uname -m for the asset name. Only for planning
@@ -497,6 +497,10 @@ configure_ini() {
 
   case "$role" in
     smp | relay)
+      # init's --source-code takes no value, so the scripted ini has this line
+      # commented ("# source_code = URI"); AGPL-3.0 needs a real URI here. An
+      # operator's own uncommented value is left alone.
+      sed -i "s|^# *source_code = .*|source_code = ${SOURCE_URI}|" "$ini"
       if [ "$WITH_CADDY" = "1" ]; then
         sed -i "s|^# *http = .*|http = $(role_web_port "$role")|" "$ini"
         # Caddy terminates TLS for the site, so the embedded HTTPS listener must
@@ -552,7 +556,7 @@ install_role() {
     local -a init_cmd
     case "$role" in
       smp | relay)
-        init_cmd=("$BIN_DIR/$bin" init --yes --daily-stats --source-code "$SOURCE_URI" --fqdn "$FQDN" --sign-algorithm "$SIGN_ALGORITHM")
+        init_cmd=("$BIN_DIR/$bin" init --yes --daily-stats --fqdn "$FQDN" --sign-algorithm "$SIGN_ALGORITHM")
         if [ -n "$SMP_PASSWORD" ]; then
           init_cmd+=(--password "$SMP_PASSWORD")
         else
@@ -612,12 +616,28 @@ done
 
 install_caddy() {
   local cf="/etc/caddy/Caddyfile" block
+  local key_url="https://dl.cloudsmith.io/public/caddy/stable/gpg.key"
+  local list_url="https://dl.cloudsmith.io/public/caddy/stable/debian.deb.txt"
+  local keyring="/usr/share/keyrings/caddy-stable-archive-keyring.gpg"
+  local list="/etc/apt/sources.list.d/caddy-stable.list"
   if [ "$WITH_CADDY" != "1" ]; then
     log "Caddy skipped (--no-caddy): the relays keep port 443 for their own TLS"
     return 0
   fi
   if ! command -v caddy >/dev/null 2>&1 && [ "$DRY_RUN" != "1" ]; then
     log "installing caddy"
+    # Ubuntu 22.04 has no caddy in its own archives, so the official Cloudsmith
+    # repository is the only source that carries its security updates.
+    run_sh "apt-get update -qq && apt-get install -y ca-certificates curl gnupg" || {
+      warn "could not install ca-certificates/curl/gnupg, so the Caddy repository cannot be added."
+      warn "The relays still work; only the ACME certificate and the site reverse proxy are missing."
+      return 0
+    }
+    run_sh "set -o pipefail; install -d -m 0755 /usr/share/keyrings && curl -1sLf '${key_url}' | gpg --yes --dearmor -o '${keyring}' && curl -1sLf '${list_url}' >'${list}'" || {
+      warn "could not add the Caddy apt repository from dl.cloudsmith.io (check this host's network)."
+      warn "The relays still work; only the ACME certificate and the site reverse proxy are missing."
+      return 0
+    }
     run_sh "apt-get update -qq && apt-get install -y caddy" || {
       warn "caddy is not installable from this host's apt sources; the relays still work, only the"
       warn "ACME certificate and the site reverse proxy are missing. Re-run with --no-caddy to silence this."
@@ -763,6 +783,24 @@ install_tor
 
 # ---- firewall and kernel ---------------------------------------------------
 
+# Ports that must stay reachable while the firewall comes up. SSH_CONNECTION is
+# "<client ip> <client port> <server ip> <server port>", so its last field is the
+# port this session is actually served on; a root login shell (sudo -i) has none,
+# so fall back to the sockets sshd is listening on. No output means neither was
+# available, and the script then adds nothing beyond the plain 22/tcp rule.
+ssh_listen_ports() {
+  local p=""
+  if [ -n "${SSH_CONNECTION:-}" ]; then
+    p="${SSH_CONNECTION##* }"
+    if [[ "$p" =~ ^[0-9]+$ ]]; then
+      printf '%s\n' "$p"
+      return 0
+    fi
+  fi
+  command -v ss >/dev/null 2>&1 || return 0
+  ss -Htlnp 2>/dev/null | awk '/sshd/ { n = split($4, a, ":"); if (a[n] ~ /^[0-9]+$/) print a[n] }' | sort -un
+}
+
 install_ufw() {
   if [ "$WITH_UFW" != "1" ]; then
     log "firewall rules skipped (--no-ufw)"
@@ -772,21 +810,39 @@ install_ufw() {
     warn "ufw is not installed; add rules for ports $(for r in "${ROLES[@]}"; do printf '%s ' "$(role_port "$r")"; done)80 443 yourself"
     return 0
   fi
-  local r
+  local r p was_active
+  # SSH is allowed before anything else, because ufw enable below switches the
+  # inbound policy to deny and would otherwise cut the session this script runs in.
+  run ufw allow 22/tcp comment "ssh"
+  # shellcheck disable=SC2046  # ssh_listen_ports prints one bare port per line
+  for p in $(ssh_listen_ports); do
+    if [ "$p" != "22" ]; then
+      log "sshd also answers on port ${p}, allowing it before the firewall goes active"
+      run ufw allow "${p}/tcp" comment "ssh (${p})"
+    fi
+  done
   for r in "${ROLES[@]}"; do
     run ufw allow "$(role_port "$r")/tcp" comment "popopx ${r}"
   done
-  [ "$WITH_CADDY" = "1" ] && run ufw allow 80/tcp comment "popopx acme" && run ufw allow 443/tcp comment "popopx site"
+  if [ "$WITH_CADDY" = "1" ]; then
+    run ufw allow 80/tcp comment "popopx acme"
+    run ufw allow 443/tcp comment "popopx site"
+  fi
   if [ "$DRY_RUN" = "1" ]; then
-    printf '    [dry-run] ufw --enable would NOT be run; see the note at the end\n'
+    printf '    [dry-run] ufw --force enable; the rules above are what goes active\n'
     return 0
   fi
-  if ufw status | grep -q 'Status: active'; then
-    log "firewall rules added to the active profile"
+  was_active=0
+  if ufw status | grep -q 'Status: active'; then was_active=1; fi
+  if ufw --force enable; then
+    log "firewall enabled with the rules above"
+    if [ "$was_active" != "1" ]; then
+      warn "ufw was inactive, so inbound deny now applies to every port not allowed above - a TURN"
+      warn "relay port range, a database, a monitoring agent: add those rules yourself."
+    fi
   else
-    warn "ufw is installed but inactive, so no rules are in force yet."
-    warn "Not enabling it from here: a firewall started over SSH can lock the session out."
-    warn "When the rules above are what you want, run: ufw allow 22/tcp && ufw enable"
+    warn "'ufw --force enable' failed, so the rules above are stored but NOT in force."
+    warn "The relays still work. Investigate with: ufw status verbose"
   fi
 }
 

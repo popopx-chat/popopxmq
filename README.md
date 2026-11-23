@@ -261,5 +261,5 @@ conveys.
 Under AGPL-3.0 section 13, anyone running a modified server for others over a network owes those
 users the complete corresponding source, which is this repository:
 <https://github.com/popopx-chat/popopxmq>. A relay can also publish that address to its clients
-through the `[INFORMATION]` section of the SMP protocol; `smp-server init` sets it from
-`--source-code`, defaulting to the same URL.
+through the `source_code` key of the `[INFORMATION]` section of its SMP configuration; `init`'s
+`--source-code` flag takes no value, so `deploy_ubuntu22.sh` writes that key into the `.ini` itself.
