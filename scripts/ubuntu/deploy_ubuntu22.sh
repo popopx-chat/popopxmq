@@ -534,6 +534,13 @@ install_role() {
     return 0
   fi
 
+  if [ "$role" = "ntf" ]; then
+    if ! ldconfig -p 2>/dev/null | grep -q 'libpq\.so\.5'; then
+      log "ntf-server requires libpq.so.5; installing libpq5"
+      run_sh "apt-get update -qq && apt-get install -y libpq5" || die "could not install libpq5"
+    fi
+  fi
+
   before="$(identity_snapshot "$cfg")"
   local upgraded=0
   [ -n "$before" ] && upgraded=1
@@ -710,7 +717,7 @@ install_tor() {
   tor_on || return 0
   local roles="" r
   for r in "${ROLES[@]}"; do
-    case "$r" in (smp | relay | xftp) roles+=" $r" ;; esac
+    case "$r" in (smp | relay | xftp | ntf) roles+=" $r" ;; esac
   done
   [ -n "$roles" ] || { warn "--with-tor given but no role publishes a hidden service"; return 0; }
 
