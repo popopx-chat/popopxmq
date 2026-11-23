@@ -570,6 +570,16 @@ install_role() {
         init_cmd=("$BIN_DIR/$bin" init --fqdn "$FQDN" --sign-algorithm "$SIGN_ALGORITHM")
         ;;
     esac
+    # init must see the same variables the unit will get, or it writes the .ini
+    # and ca.key into the binary's default directories (for relay that is the smp
+    # role's /etc/opt/popopx) and the check below fails. The pairs are taken from
+    # role_env so the two can never drift apart.
+    local -a init_env=()
+    local kv
+    while IFS= read -r kv; do
+      init_env+=("${kv#Environment=}")
+    done < <(role_env "$role")
+    init_cmd=(env "${init_env[@]}" "${init_cmd[@]}")
     if [ "$DRY_RUN" = "1" ]; then
       printf '    [dry-run] %s\n' "${init_cmd[*]}"
     else
