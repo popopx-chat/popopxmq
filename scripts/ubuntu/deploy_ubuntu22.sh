@@ -106,7 +106,10 @@ Options:
                          Override a role's port.
   --with-tor             Publishes each enabled role (smp, relay, xftp, ntf) as a
                          Tor V3 hidden service and routes onion-destination
-                         traffic through the local SOCKS proxy. Default: off.
+                         traffic through the local SOCKS proxy - written as
+                         socks_proxy = 127.0.0.1:9050, because the parser accepts
+                         a numeric host only. xftp-server has no such setting: it
+                         never connects onward. Default: off.
   --no-caddy             Do not install or configure Caddy. The relay then keeps
                          port 443 itself and its HTTPS mini-site stays disabled.
   --no-ufw               Do not add firewall rules and do not enable ufw.
@@ -542,10 +545,10 @@ configure_ini() {
       # SOCKS proxy. install_tor applies this for smp and relay from the onion it
       # just read; here the value does not depend on it, so ntf is configured
       # before its first start instead of being edited and restarted afterwards.
-      # The host must be a numeric literal: SocksProxy's parser accepts only
-      # THIPv4 and THIPv6 (Transport/Client.hs:256-263), so the "localhost:9050"
-      # the generated template suggests fails with "SOCKS5 host should be IPv4 or
-      # IPv6 address" and the server exits before it listens.
+      # The host must be a numeric literal: SocksProxy accepts only THIPv4 and
+      # THIPv6 (Transport/Client.hs:256-263), so the hostname the generated
+      # template suggests makes either error abort the process with "SOCKS5 host
+      # should be IPv4 or IPv6 address" before the server listens.
       if [ "$WITH_TOR" = "1" ]; then
         sed -i 's|^#\? *socks_proxy = .*|socks_proxy = 127.0.0.1:9050|' "$ini"
       fi
@@ -846,7 +849,7 @@ HiddenServicePort $(role_port "$r") 127.0.0.1:$(role_port "$r")
     printf '        # END popopx\n'
     printf '    [dry-run] systemctl enable --now tor; systemctl restart tor\n'
     printf '    [dry-run] read /var/lib/tor/popopx-<role>/hostname, set [TRANSPORT] host = <fqdn>,<onion>\n'
-    printf '    [dry-run] and socks_proxy = localhost:9050 for smp/relay (ntf gets it from configure_ini), then restart only those services\n'
+    printf '    [dry-run] and socks_proxy = 127.0.0.1:9050 for smp/relay (ntf gets it from configure_ini), then restart only those services\n'
     for r in $roles; do set_onion "$r" "<${r}-onion>.onion"; done
     return 0
   fi
@@ -885,8 +888,17 @@ HiddenServicePort $(role_port "$r") 127.0.0.1:$(role_port "$r")
     [ -n "$onion" ] || continue
     ini_path="$(role_cfg "$r")/$(role_ini "$r")"
     sed -i "s|^host = .*|host = ${FQDN},${onion}|" "$ini_path"
+    # The proxy host is written as a number, not a name, because that is all the
+    # parser accepts: SocksProxy takes THIPv4 or THIPv6 only
+    # (Transport/Client.hs:256-263), and smp-server decodes [PROXY] socks_proxy
+    # with either error (Server/Main.hs:520), so a hostname aborts the process
+    # before it listens - and here the role is already serving, because
+    # install_tor runs after install_role and restarts whatever it edits. xftp is
+    # not given the key: its generated ini has no [PROXY] section
+    # (FileTransfer/Server/Main.hs:148-208) and nothing under
+    # FileTransfer/Server connects onward to another server.
     case "$r" in
-      smp | relay) sed -i "s|^#\? *socks_proxy = .*|socks_proxy = localhost:9050|" "$ini_path" ;;
+      smp | relay) sed -i "s|^#\? *socks_proxy = .*|socks_proxy = 127.0.0.1:9050|" "$ini_path" ;;
     esac
     changed+=" $(role_service "$r")"
   done
