@@ -104,8 +104,8 @@ Options:
   --sign-algorithm ALG   ED448 or ED25519 for the TLS certificates. Default: ED448.
   --smp-port/--xftp-port/--ntf-port/--relay-port N
                          Override a role's port.
-  --with-tor             Publish each enabled smp, relay or xftp role as a Tor V3
-                         hidden service (ntf gets none) and route onion-destination
+  --with-tor             Publishes each enabled role (smp, relay, xftp, ntf) as a
+                         Tor V3 hidden service and routes onion-destination
                          traffic through the local SOCKS proxy. Default: off.
   --no-caddy             Do not install or configure Caddy. The relay then keeps
                          port 443 itself and its HTTPS mini-site stays disabled.
@@ -495,7 +495,7 @@ configure_ini() {
     if [ "$role" = "ntf" ]; then
       printf '    [dry-run] set [STORE_LOG] db_connection = postgresql:///ntf_server_store in %s\n' "$ini"
       if [ "$WITH_TOR" = "1" ]; then
-        printf '    [dry-run] set [SUBSCRIBER] socks_proxy = localhost:9050 in %s\n' "$ini"
+        printf '    [dry-run] set [SUBSCRIBER] socks_proxy = 127.0.0.1:9050 in %s\n' "$ini"
       fi
     fi
     return 0
@@ -542,8 +542,12 @@ configure_ini() {
       # SOCKS proxy. install_tor applies this for smp and relay from the onion it
       # just read; here the value does not depend on it, so ntf is configured
       # before its first start instead of being edited and restarted afterwards.
+      # The host must be a numeric literal: SocksProxy's parser accepts only
+      # THIPv4 and THIPv6 (Transport/Client.hs:256-263), so the "localhost:9050"
+      # the generated template suggests fails with "SOCKS5 host should be IPv4 or
+      # IPv6 address" and the server exits before it listens.
       if [ "$WITH_TOR" = "1" ]; then
-        sed -i 's|^#\? *socks_proxy = .*|socks_proxy = localhost:9050|' "$ini"
+        sed -i 's|^#\? *socks_proxy = .*|socks_proxy = 127.0.0.1:9050|' "$ini"
       fi
       ;;
   esac
